@@ -10,618 +10,600 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,serif;min-height:100vh;overflow-x:hidden}
 .bg{position:fixed;inset:0;background:radial-gradient(ellipse 100% 55% at 50% -5%,rgba(200,10,10,.32) 0%,transparent 65%),radial-gradient(ellipse 50% 50% at 10% 90%,rgba(130,0,60,.22) 0%,transparent 55%),linear-gradient(180deg,#04000a 0%,#090010 40%,#06000d 100%);z-index:0}
+.particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.p{position:absolute;bottom:-10px;border-radius:50%;background:radial-gradient(circle,#ff6030,#cc0020);box-shadow:0 0 8px 2px rgba(255,50,20,.6);animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) scale(1);opacity:0}8%{opacity:1}92%{opacity:.5}100%{transform:translateY(-105vh) scale(.2);opacity:0}}
 .app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 20px}
 .screen{display:none;width:100%;max-width:600px;flex-direction:column;align-items:center}
 .screen.active{display:flex}
-.card{width:100%;background:linear-gradient(160deg,rgba(18,2,10,.97),rgba(10,0,18,.97));border:1px solid rgba(180,30,60,.35);border-radius:4px;padding:28px 30px;box-shadow:0 0 40px rgba(150,0,0,.2),0 20px 60px rgba(0,0,0,.7);position:relative;overflow:hidden}
+.card{width:100%;background:linear-gradient(160deg,rgba(18,2,10,.97),rgba(10,0,18,.97));border:1px solid rgba(180,30,60,.35);border-radius:4px;padding:28px 30px;box-shadow:0 0 40px rgba(150,0,0,.2),0 20px 60px rgba(0,0,0,.7);position:relative;overflow:hidden;animation:cardIn .35s ease}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,60,80,.7),transparent)}
-.mk{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.4rem,5vw,2.4rem);letter-spacing:.18em;background:linear-gradient(180deg,#fff5e0,#ffaa40,#ff4400,#990000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(255,100,0,.8));animation:flame 2s infinite;margin-bottom:4px;text-align:center}
+.mk{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.3rem,4.5vw,2.2rem);letter-spacing:.18em;background:linear-gradient(180deg,#fff5e0,#ffaa40,#ff4400,#990000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(255,100,0,.8));animation:flame 2s infinite;margin-bottom:4px;text-align:center}
 @keyframes flame{0%,100%{filter:drop-shadow(0 0 12px rgba(255,100,0,.7))}50%{filter:drop-shadow(0 0 28px rgba(255,180,0,1))}}
-.globe{font-size:5rem;filter:drop-shadow(0 0 24px rgba(255,40,0,.8));animation:flt 3s ease-in-out infinite;margin:8px 0}
+.globe{font-size:4.5rem;filter:drop-shadow(0 0 24px rgba(255,40,0,.8));animation:flt 3s ease-in-out infinite;margin:8px 0;text-align:center}
 @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.title{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.4rem,5vw,2.2rem);color:#ffc8a0;text-shadow:0 0 24px rgba(255,80,30,.5);text-align:center;margin:8px 0}
-.subtitle{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(.9rem,3vw,1.2rem);color:#ff6633;text-shadow:0 0 16px rgba(255,80,30,.7);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:20px}
-.flags{font-size:2rem;letter-spacing:.5rem;margin:10px 0 24px;animation:flt 4s ease-in-out infinite;text-align:center}
-.btn{width:100%;padding:14px;border-radius:3px;font-family:'Cinzel',serif;font-weight:700;font-size:.85rem;letter-spacing:.12em;cursor:pointer;border:none;text-transform:uppercase;margin-bottom:10px;transition:all .2s}
-.btn-primary{background:linear-gradient(135deg,#4a0000,#8b0000,#b01500,#5c0000);color:#ffe5cc;box-shadow:0 0 20px rgba(160,0,0,.4)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(200,0,0,.5)}
-.btn-outline{background:transparent;color:rgba(240,180,150,.5);border:1px solid rgba(180,40,40,.3);font-family:'IM Fell English',serif;font-style:italic;text-transform:none;font-size:.92rem;letter-spacing:.02em}
-.section-title{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.2em;color:#ff7755;text-transform:uppercase;margin-bottom:12px}
-.player-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-.player-box{border:1px solid rgba(180,30,30,.3);border-radius:3px;padding:14px;background:rgba(12,0,5,.7)}
-.player-flag{font-size:1.8rem;margin-bottom:6px}
-.player-lang{font-size:.72rem;color:rgba(200,130,110,.4);font-style:italic;margin-bottom:8px}
-.inp{width:100%;padding:9px 11px;background:rgba(30,5,8,.9);border:1px solid rgba(200,60,60,.35);border-radius:3px;color:#fff;font-family:'IM Fell English',serif;font-size:.95rem;outline:none}
+.title{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.2rem,4.5vw,2rem);color:#ffc8a0;text-shadow:0 0 24px rgba(255,80,30,.5);text-align:center;margin:8px 0}
+.subtitle{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(.85rem,3vw,1.1rem);color:#ff6633;text-shadow:0 0 16px rgba(255,80,30,.7);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:20px}
+.flags{font-size:1.8rem;letter-spacing:.4rem;margin:8px 0 22px;animation:flt 4s ease-in-out infinite;text-align:center}
+.btn{width:100%;padding:13px;border-radius:3px;font-family:'Cinzel',serif;font-weight:700;font-size:.82rem;letter-spacing:.12em;cursor:pointer;border:none;text-transform:uppercase;margin-bottom:10px;transition:all .2s}
+.btn-p{background:linear-gradient(135deg,#4a0000,#8b0000,#b01500,#5c0000);color:#ffe5cc;box-shadow:0 0 20px rgba(160,0,0,.4)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(200,0,0,.5)}
+.btn-o{background:transparent;color:rgba(240,180,150,.5);border:1px solid rgba(180,40,40,.3);font-family:'IM Fell English',serif;font-style:italic;text-transform:none;font-size:.9rem;letter-spacing:.02em}
+.sec{font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.2em;color:#ff7755;text-transform:uppercase;margin-bottom:12px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.pbox{border:1px solid rgba(180,30,30,.3);border-radius:3px;padding:13px;background:rgba(12,0,5,.7)}
+.inp{width:100%;padding:9px 11px;background:rgba(30,5,8,.9);border:1px solid rgba(200,60,60,.35);border-radius:3px;color:#fff;font-family:'IM Fell English',serif;font-size:.95rem;outline:none;margin-bottom:7px}
 .inp:focus{border-color:rgba(255,100,80,.7)}
-.flag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.fbtn{padding:6px 10px;font-size:1.2rem;background:rgba(10,0,4,.8);border:2px solid rgba(120,20,20,.2);border-radius:3px;cursor:pointer;transition:all .15s}
-.fbtn.selected{border-color:#cc2200;transform:scale(1.1);box-shadow:0 0 10px rgba(200,20,0,.3)}
-.fbtn.taken{opacity:.15;cursor:not-allowed}
-.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.cat-btn{display:flex;align-items:center;gap:8px;padding:11px 13px;background:rgba(12,0,5,.85);border:1px solid rgba(140,20,20,.2);border-radius:3px;color:rgba(240,180,150,.35);font-family:'IM Fell English',serif;font-size:.9rem;cursor:pointer;transition:all .15s}
-.cat-btn.on{border-color:rgba(220,50,30,.6);color:#ffcca0;background:rgba(40,2,4,.8)}
-.steps{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
-.step{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);transition:all .3s}
-.step.on{background:rgba(255,60,40,.85);box-shadow:0 0 8px rgba(255,60,40,.6)}
-.loading-globe{font-size:4rem;filter:drop-shadow(0 0 18px rgba(255,40,0,.8));animation:spin 2s linear infinite}
+.frow{display:flex;gap:6px;flex-wrap:wrap}
+.fb{padding:5px 9px;font-size:1.15rem;background:rgba(10,0,4,.8);border:2px solid rgba(120,20,20,.2);border-radius:3px;cursor:pointer;transition:all .15s}
+.fb.sel{border-color:#cc2200;transform:scale(1.1)}
+.fb.tk{opacity:.15;cursor:not-allowed}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.cb{display:flex;align-items:center;gap:8px;padding:11px 12px;background:rgba(12,0,5,.85);border:1px solid rgba(140,20,20,.2);border-radius:3px;color:rgba(240,180,150,.35);font-family:'IM Fell English',serif;font-size:.88rem;cursor:pointer;transition:all .15s}
+.cb.on{border-color:rgba(220,50,30,.6);color:#ffcca0;background:rgba(40,2,4,.8)}
+.steps{display:flex;gap:8px;justify-content:center;margin-bottom:18px}
+.sd{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);transition:all .3s}
+.sd.on{background:rgba(255,60,40,.85);box-shadow:0 0 8px rgba(255,60,40,.6)}
+.lg{font-size:3.5rem;filter:drop-shadow(0 0 18px rgba(255,40,0,.8));animation:spin 2s linear infinite;text-align:center}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.load-title{font-family:'Cinzel',serif;font-size:1.5rem;color:#ff8855;text-shadow:0 0 16px rgba(255,80,30,.4);margin:12px 0 4px;text-align:center}
-.load-sub{color:rgba(255,180,130,.35);font-size:.88rem;font-style:italic;text-align:center;margin-bottom:20px}
-.load-row{display:flex;justify-content:space-between;align-items:center;padding:8px 20px;background:rgba(12,0,5,.9);border:1px solid rgba(140,20,20,.2);border-radius:3px;font-size:.9rem;color:rgba(240,180,150,.45);margin-bottom:8px;min-width:220px}
-.load-row.done{border-color:rgba(80,200,100,.3);color:#86efac}
-.turn-flag{font-size:5rem;filter:drop-shadow(0 0 18px rgba(255,40,0,.4));animation:flt 3s ease-in-out infinite;display:block;text-align:center;margin-bottom:12px}
-.turn-name{font-family:'Cinzel',serif;font-size:2rem;font-weight:900;text-align:center;margin-bottom:8px}
-.turn-sub{color:rgba(255,180,140,.4);font-size:.9rem;font-style:italic;text-align:center;margin-bottom:20px}
-.score-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
-.score-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid rgba(140,20,20,.2);border-radius:3px;font-size:.82rem;color:rgba(240,180,150,.3);background:rgba(10,0,5,.75);transition:all .2s}
-.score-chip.active{background:rgba(28,2,6,.95)}
-.score-num{font-family:'Cinzel',serif;font-weight:700}
-.timer-track{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:12px}
-.timer-fill{height:100%;border-radius:2px;transition:width 1s linear,background .3s}
-.timer-row{display:flex;justify-content:space-between;margin-bottom:16px}
-.q-label{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,180,150,.3);font-family:'Cinzel',serif}
-.timer-num{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:700}
-.q-text{font-size:clamp(1rem,2.5vw,1.12rem);line-height:1.7;color:#f0d8c0;margin-bottom:18px;min-height:48px}
-.opts{display:grid;gap:8px;margin-bottom:6px}
-.opt-btn{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(12,0,6,.82);border:1px solid rgba(140,20,30,.22);border-radius:3px;color:rgba(240,200,180,.45);font-family:'IM Fell English',serif;font-size:.95rem;cursor:pointer;text-align:left;line-height:1.4;transition:all .15s;width:100%}
-.opt-btn:hover{border-color:rgba(200,40,40,.5);color:#f0d8c0;background:rgba(30,2,6,.95);padding-left:18px}
-.opt-btn.correct{border-color:rgba(80,200,110,.6);color:#86efac;background:rgba(0,24,6,.75)}
-.opt-btn.wrong{border-color:rgba(220,40,40,.6);color:#fca5a5;background:rgba(30,0,0,.75)}
-.opt-key{min-width:22px;height:22px;border:1px solid currentColor;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:bold;opacity:.5;flex-shrink:0;font-family:'Cinzel',serif}
-.expl{padding:11px 14px;border-radius:3px;font-size:.88rem;line-height:1.65;margin:12px 0;font-style:italic}
-.expl.c{border-left:3px solid rgba(80,200,110,.55);background:rgba(0,22,6,.7);color:#a7f3d0}
-.expl.w{border-left:3px solid rgba(220,40,40,.55);background:rgba(28,0,0,.7);color:#fca5a5}
-.expl.t{border-left:3px solid rgba(250,120,0,.55);background:rgba(28,6,0,.7);color:#fdba74}
-.result-title{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:900;text-align:center;background:linear-gradient(135deg,#ffcc80,#ff6633,#cc0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px}
-.podium{display:flex;flex-direction:column;gap:9px;margin-bottom:16px}
-.podium-row{display:flex;align-items:center;gap:9px;padding:11px 13px;border:1px solid rgba(140,20,20,.18);border-radius:3px;background:rgba(10,0,5,.75)}
-.podium-row.first{border-color:rgba(255,150,50,.35)!important;background:rgba(30,5,0,.8);box-shadow:0 0 16px rgba(200,70,0,.12)}
-.pod-medal{font-size:1.3rem;min-width:28px}
-.pod-flag{font-size:1.2rem}
-.pod-name{flex:1;font-size:.95rem}
-.pod-score{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:700}
-.pod-pct{font-size:.75rem;color:rgba(240,180,140,.4);min-width:36px;text-align:right}
-.winner-msg{text-align:center;font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;padding:15px;margin-bottom:16px;border:1px solid rgba(180,40,20,.3);border-radius:3px;background:rgba(38,4,4,.6);color:#ffaa70;text-shadow:0 0 14px rgba(255,80,20,.35);letter-spacing:.06em}
-.hs-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid rgba(140,20,20,.15);border-radius:3px;font-size:.88rem;background:rgba(10,0,5,.65);margin-bottom:7px}
-.hs-rank{color:rgba(255,180,130,.25);min-width:22px;font-size:.78rem;font-family:'Cinzel',serif}
-.hs-name{flex:1}
-.hs-score{font-family:'Cinzel',serif;font-weight:700;color:#ff9960}
-.hs-pct{color:rgba(240,180,130,.4);min-width:34px;text-align:right}
-.hs-date{color:rgba(240,180,130,.2);font-size:.72rem}
-.empty{text-align:center;color:rgba(255,180,130,.25);padding:30px;font-style:italic}
-.divider{height:1px;background:rgba(180,20,20,.12);margin:16px 0}
-.warn{color:#fb923c;font-size:.82rem;margin-top:6px;font-style:italic}
-.err{color:#fca5a5;font-size:.82rem;margin-top:10px;padding:10px;border:1px solid rgba(200,40,40,.25);border-radius:3px;background:rgba(30,0,0,.6)}
+.lr{display:flex;justify-content:space-between;align-items:center;padding:8px 18px;background:rgba(12,0,5,.9);border:1px solid rgba(140,20,20,.2);border-radius:3px;font-size:.88rem;color:rgba(240,180,150,.45);margin-bottom:7px}
+.lr.done{border-color:rgba(80,200,100,.3);color:#86efac}
+.tf{font-size:4.5rem;filter:drop-shadow(0 0 18px rgba(255,40,0,.4));animation:flt 3s ease-in-out infinite;display:block;text-align:center;margin-bottom:10px}
+.tn{font-family:'Cinzel',serif;font-size:1.9rem;font-weight:900;text-align:center;margin-bottom:8px}
+.ts{color:rgba(255,180,140,.4);font-size:.88rem;font-style:italic;text-align:center;margin-bottom:16px}
+.sb{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.sc{display:flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid rgba(140,20,20,.2);border-radius:3px;font-size:.8rem;color:rgba(240,180,150,.3);background:rgba(10,0,5,.75);transition:all .2s}
+.sc.act{background:rgba(28,2,6,.95)}
+.sn{font-family:'Cinzel',serif;font-weight:700}
+.tt{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.tf2{height:100%;border-radius:2px;transition:width 1s linear,background .3s}
+.tr{display:flex;justify-content:space-between;margin-bottom:14px}
+.ql{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,180,150,.3);font-family:'Cinzel',serif}
+.tnum{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700}
+.qt{font-size:clamp(.95rem,2.4vw,1.1rem);line-height:1.7;color:#f0d8c0;margin-bottom:16px;min-height:44px}
+.opts{display:grid;gap:7px;margin-bottom:4px}
+.ob{display:flex;align-items:center;gap:10px;padding:11px 13px;background:rgba(12,0,6,.82);border:1px solid rgba(140,20,30,.22);border-radius:3px;color:rgba(240,200,180,.45);font-family:'IM Fell English',serif;font-size:.93rem;cursor:pointer;text-align:left;line-height:1.4;transition:all .15s;width:100%}
+.ob:hover:not([disabled]){border-color:rgba(200,40,40,.5);color:#f0d8c0;background:rgba(30,2,6,.95);padding-left:17px}
+.ob.cor{border-color:rgba(80,200,110,.6);color:#86efac;background:rgba(0,24,6,.75)}
+.ob.wrg{border-color:rgba(220,40,40,.6);color:#fca5a5;background:rgba(30,0,0,.75)}
+.ok{min-width:21px;height:21px;border:1px solid currentColor;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:bold;opacity:.5;flex-shrink:0;font-family:'Cinzel',serif}
+.ex{padding:10px 13px;border-radius:3px;font-size:.86rem;line-height:1.6;margin:10px 0;font-style:italic}
+.ex.c{border-left:3px solid rgba(80,200,110,.55);background:rgba(0,22,6,.7);color:#a7f3d0}
+.ex.w{border-left:3px solid rgba(220,40,40,.55);background:rgba(28,0,0,.7);color:#fca5a5}
+.ex.t{border-left:3px solid rgba(250,120,0,.55);background:rgba(28,6,0,.7);color:#fdba74}
+.rt{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:900;text-align:center;background:linear-gradient(135deg,#ffcc80,#ff6633,#cc0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:18px}
+.pod{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.pr{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid rgba(140,20,20,.18);border-radius:3px;background:rgba(10,0,5,.75)}
+.pr.f1{border-color:rgba(255,150,50,.35)!important;background:rgba(30,5,0,.8);box-shadow:0 0 14px rgba(200,70,0,.12)}
+.wm{text-align:center;font-family:'Cinzel',serif;font-size:1.05rem;font-weight:700;padding:13px;margin-bottom:14px;border:1px solid rgba(180,40,20,.3);border-radius:3px;background:rgba(38,4,4,.6);color:#ffaa70;letter-spacing:.05em}
+.hr{display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(140,20,20,.15);border-radius:3px;font-size:.86rem;background:rgba(10,0,5,.65);margin-bottom:6px}
+.div{height:1px;background:rgba(180,20,20,.12);margin:14px 0}
+.warn{color:#fb923c;font-size:.8rem;margin-top:5px;font-style:italic}
 .footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:8px;z-index:10;pointer-events:none}
-.footer p{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75);text-shadow:0 0 8px rgba(255,255,255,.15)}
-.hidden{display:none}
+.footer p{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.h{display:none}
+.r2{display:flex;gap:8px}
 </style>
 </head>
 <body>
 <div class="bg"></div>
+<div class="particles" id="particles"></div>
 
 <div class="app">
 
 <!-- HOME -->
 
-<div id="screen-home" class="screen active">
+<div id="s-home" class="screen active">
   <div class="mk">MORTAL KOMBAT</div>
   <div class="globe">🌍</div>
   <div class="title">❤️ Best World Quiz ❤️</div>
   <div class="subtitle">Oder Angst? 😅</div>
   <div class="flags">🇩🇪 🇷🇺 🇺🇦 🇹🇷 🇫🇷</div>
-  <div style="width:100%;max-width:320px">
-    <button class="btn btn-primary" onclick="showScreen('setup')">🎮 Neues Spiel · Новая игра</button>
-    <button class="btn btn-outline" onclick="showScreen('hs')">🏆 Bestenliste · Рейтинг</button>
+  <div style="width:100%;max-width:300px">
+    <button class="btn btn-p" onclick="go('setup')">🎮 Neues Spiel · Новая игра</button>
+    <button class="btn btn-o" onclick="go('hs')">🏆 Bestenliste · Рейтинг</button>
   </div>
 </div>
 
 <!-- SETUP -->
 
-<div id="screen-setup" class="screen">
-  <div class="steps">
-    <div class="step on" id="step1"></div>
-    <div class="step" id="step2"></div>
-    <div class="step" id="step3"></div>
-  </div>
-
-  <!-- Step 1: Player count -->
-
-  <div id="setup-step1" class="card">
-    <div class="section-title">⚔️ Wie viele Kämpfer?</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
-      <button class="btn btn-primary" onclick="setPlayerCount(2)" id="pc2">2</button>
-      <button class="btn btn-outline" onclick="setPlayerCount(3)" id="pc3">3</button>
-      <button class="btn btn-outline" onclick="setPlayerCount(4)" id="pc4">4</button>
+<div id="s-setup" class="screen">
+  <div class="steps"><div class="sd on" id="d1"></div><div class="sd" id="d2"></div><div class="sd" id="d3"></div></div>
+  <div id="ss1" class="card">
+    <div class="sec">⚔️ Wie viele Kämpfer?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px">
+      <button class="btn btn-p" id="b2" onclick="setPc(2)" style="font-size:1.8rem;padding:18px 0;font-family:Cinzel,serif">2</button>
+      <button class="btn btn-o" id="b3" onclick="setPc(3)" style="font-size:1.8rem;padding:18px 0;font-family:Cinzel,serif">3</button>
+      <button class="btn btn-o" id="b4" onclick="setPc(4)" style="font-size:1.8rem;padding:18px 0;font-family:Cinzel,serif">4</button>
     </div>
-    <button class="btn btn-primary" onclick="goSetupStep(2)">Weiter →</button>
-    <button class="btn btn-outline" onclick="showScreen('home')">← Zurück</button>
+    <button class="btn btn-p" onclick="stp(2)">Weiter →</button>
+    <button class="btn btn-o" onclick="go('home')">← Zurück</button>
   </div>
-
-  <!-- Step 2: Players -->
-
-  <div id="setup-step2" class="card hidden">
-    <div class="section-title">🩸 Kämpfer wählen</div>
-    <div id="player-list"></div>
-    <div style="display:flex;gap:9px;margin-top:4px">
-      <button class="btn btn-outline" style="flex:1;margin-bottom:0" onclick="goSetupStep(1)">← Zurück</button>
-      <button class="btn btn-primary" style="flex:2;margin-bottom:0" onclick="goSetupStep(3)" id="step2-next">Weiter →</button>
-    </div>
+  <div id="ss2" class="card h">
+    <div class="sec">🩸 Kämpfer wählen</div>
+    <div id="plist"></div>
+    <div class="r2"><button class="btn btn-o" style="flex:1;margin:0" onclick="stp(1)">← Zurück</button><button class="btn btn-p" style="flex:2;margin:0" onclick="stp(3)">Weiter →</button></div>
   </div>
-
-  <!-- Step 3: Categories -->
-
-  <div id="setup-step3" class="card hidden">
-    <div class="section-title">📜 Kategorien wählen</div>
-    <div class="cat-grid" id="cat-grid"></div>
-    <div id="cat-warn" class="warn hidden">⚠ Mindestens 1 Kategorie!</div>
-    <div style="display:flex;gap:9px;margin-top:8px">
-      <button class="btn btn-outline" style="flex:1;margin-bottom:0" onclick="goSetupStep(2)">← Zurück</button>
-      <button class="btn btn-primary" style="flex:2;margin-bottom:0" onclick="startGame()">🔥 Los geht's!</button>
-    </div>
-    <div id="setup-err" class="err hidden"></div>
+  <div id="ss3" class="card h">
+    <div class="sec">📜 Kategorien</div>
+    <div class="cgrid" id="cgrid"></div>
+    <div id="cwarn" class="warn h">⚠ Mindestens 1 Kategorie!</div>
+    <div class="r2" style="margin-top:8px"><button class="btn btn-o" style="flex:1;margin:0" onclick="stp(2)">← Zurück</button><button class="btn btn-p" style="flex:2;margin:0" onclick="startGame()">🔥 Los geht's!</button></div>
   </div>
 </div>
 
 <!-- LOADING -->
 
-<div id="screen-loading" class="screen">
-  <div class="loading-globe">🌍</div>
-  <div class="load-title">KI erstellt Fragen…</div>
-  <div class="load-sub">ИИ создаёт вопросы…</div>
-  <div id="load-rows"></div>
+<div id="s-loading" class="screen">
+  <div class="lg">🌍</div>
+  <div style="font-family:Cinzel,serif;font-size:1.4rem;color:#ff8855;text-align:center;margin:12px 0 4px">Bereite Fragen vor…</div>
+  <div style="color:rgba(255,180,130,.35);font-size:.86rem;font-style:italic;text-align:center;margin-bottom:18px">Готовлю вопросы…</div>
+  <div id="lrows"></div>
 </div>
 
-<!-- TURN INTRO -->
+<!-- TURN -->
 
-<div id="screen-turn" class="screen">
-  <div class="card" style="text-align:center;max-width:380px">
-    <span class="turn-flag" id="turn-flag"></span>
-    <div class="turn-name" id="turn-name"></div>
-    <div class="turn-sub" id="turn-sub"></div>
-    <div id="turn-prev" style="font-size:.82rem;color:rgba(255,180,140,.35);margin-bottom:16px"></div>
-    <button class="btn btn-primary" onclick="startQuiz()">⚔️ Bereit! →</button>
+<div id="s-turn" class="screen">
+  <div class="card" style="text-align:center;max-width:360px">
+    <span class="tf" id="tfl"></span>
+    <div class="tn" id="tnm"></div>
+    <div class="ts" id="tsb"></div>
+    <div id="tpv" style="font-size:.8rem;color:rgba(255,180,140,.32);margin-bottom:16px"></div>
+    <button class="btn btn-p" onclick="startQuiz()">⚔️ Bereit! →</button>
   </div>
 </div>
 
 <!-- QUIZ -->
 
-<div id="screen-quiz" class="screen">
-  <div class="score-bar" id="score-bar"></div>
+<div id="s-quiz" class="screen">
+  <div class="sb" id="sbar"></div>
   <div class="card" style="width:100%;max-width:600px">
-    <div class="timer-track"><div class="timer-fill" id="timer-fill"></div></div>
-    <div class="timer-row">
-      <span class="q-label" id="q-label"></span>
-      <span class="timer-num" id="timer-num">25</span>
-    </div>
-    <div class="q-text" id="q-text"></div>
+    <div class="tt"><div class="tf2" id="tfill"></div></div>
+    <div class="tr"><span class="ql" id="qlbl"></span><span class="tnum" id="tnum">25s</span></div>
+    <div class="qt" id="qtext"></div>
     <div class="opts" id="opts"></div>
-    <div id="expl" class="hidden"></div>
-    <button class="btn btn-primary hidden" id="next-btn" onclick="nextQuestion()">Weiter →</button>
+    <div id="expl" class="h"></div>
+    <button class="btn btn-p h" id="nxtbtn" onclick="nextQ()">Weiter →</button>
   </div>
 </div>
 
 <!-- RESULT -->
 
-<div id="screen-result" class="screen">
+<div id="s-result" class="screen">
   <div class="card">
-    <div class="result-title">⚔️ Ergebnis · Результат</div>
-    <div class="podium" id="podium"></div>
-    <div class="winner-msg" id="winner-msg"></div>
-    <div class="divider"></div>
-    <button class="btn btn-primary" id="save-btn" onclick="saveHS()" style="margin-bottom:9px">💾 Punkte speichern</button>
-    <button class="btn btn-primary" onclick="startGame()" style="margin-bottom:9px">🔄 Nochmal spielen</button>
-    <button class="btn btn-outline" onclick="showScreen('home')">🏠 Hauptmenü</button>
+    <div class="rt">⚔️ Ergebnis · Результат</div>
+    <div class="pod" id="pod"></div>
+    <div class="wm" id="wmsg"></div>
+    <div class="div"></div>
+    <button class="btn btn-p" id="savebtn" onclick="saveHS()" style="margin-bottom:8px">💾 Punkte speichern</button>
+    <button class="btn btn-p" onclick="startGame()" style="margin-bottom:8px">🔄 Nochmal spielen</button>
+    <button class="btn btn-o" onclick="go('home')">🏠 Hauptmenü</button>
   </div>
 </div>
 
-<!-- HIGHSCORES -->
+<!-- HS -->
 
-<div id="screen-hs" class="screen">
+<div id="s-hs" class="screen">
   <div class="card">
-    <div class="section-title">🏆 Bestenliste · Рейтинг</div>
-    <div id="hs-list"></div>
-    <button class="btn btn-outline" style="margin-top:16px" onclick="showScreen('home')">← Zurück</button>
+    <div class="sec">🏆 Bestenliste · Рейтинг</div>
+    <div id="hslist"></div>
+    <button class="btn btn-o" style="margin-top:14px" onclick="go('home')">← Zurück</button>
   </div>
 </div>
 
 </div>
-
 <div class="footer"><p>Produziert von Wowa &amp; Amiar Kempf</p></div>
 
 <script>
-const COUNTRIES = [
-  {id:'de',flag:'🇩🇪',name:'Deutschland',lang:'Deutsch',langEN:'German',color:'#F5C518'},
-  {id:'ru',flag:'🇷🇺',name:'Россия',lang:'Русский',langEN:'Russian',color:'#e03030'},
-  {id:'ua',flag:'🇺🇦',name:'Україна',lang:'Українська',langEN:'Ukrainian',color:'#3B82F6'},
-  {id:'tr',flag:'🇹🇷',name:'Türkiye',lang:'Türkçe',langEN:'Turkish',color:'#EF4444'},
-  {id:'fr',flag:'🇫🇷',name:'France',lang:'Français',langEN:'French',color:'#818CF8'},
-];
-const CATEGORIES = [
-  {id:'history',emoji:'🏛️',label:'Geschichte · History'},
-  {id:'geography',emoji:'🌍',label:'Geografie · Geography'},
-  {id:'culture',emoji:'🎭',label:'Kultur · Culture'},
-  {id:'food',emoji:'🍽️',label:'Essen · Food'},
-  {id:'sport',emoji:'⚽',label:'Sport'},
-  {id:'language',emoji:'💬',label:'Sprache · Language'},
-];
-const MEDALS = ['🥇','🥈','🥉','4.'];
-const TIMER_SECS = 25;
-const Q_COUNT = 6;
+// ── PARTICLES ──
+const pc = document.getElementById('particles');
+for(let i=0;i<22;i++){
+  const d=document.createElement('div');
+  d.className='p';
+  d.style.cssText=`left:${(i*4.6)%100}%;width:${2+(i*.15)%3}px;height:${2+(i*.15)%3}px;animation-delay:${(i*.38)%8}s;animation-duration:${7+(i*.45)%9}s;opacity:${.2+(i*.03)%.5}`;
+  pc.appendChild(d);
+}
 
-let playerCount = 2;
-let players = [{id:0,name:'',countryId:'de'},{id:1,name:'',countryId:'ru'},{id:2,name:'',countryId:'ua'},{id:3,name:'',countryId:'fr'}];
-let selectedCats = ['history','geography','culture','food'];
-let questions = {};
-let scores = {};
-let currentPlayerIdx = 0;
-let currentQIdx = 0;
-let timerInterval = null;
-let timeLeft = TIMER_SECS;
-let answered = false;
+// ── DATA ──
+const COUNTRIES=[
+  {id:'de',flag:'🇩🇪',name:'Deutschland',lang:'Deutsch',color:'#F5C518'},
+  {id:'ru',flag:'🇷🇺',name:'Россия',lang:'Русский',color:'#e03030'},
+  {id:'ua',flag:'🇺🇦',name:'Україна',lang:'Українська',color:'#3B82F6'},
+  {id:'tr',flag:'🇹🇷',name:'Türkiye',lang:'Türkçe',color:'#EF4444'},
+  {id:'fr',flag:'🇫🇷',name:'France',lang:'Français',color:'#818CF8'},
+];
+const CATS=[
+  {id:'history',e:'🏛️',l:'Geschichte'},
+  {id:'geo',e:'🌍',l:'Geografie'},
+  {id:'culture',e:'🎭',l:'Kultur'},
+  {id:'food',e:'🍽️',l:'Essen'},
+  {id:'sport',e:'⚽',l:'Sport'},
+  {id:'lang',e:'💬',l:'Sprache'},
+];
+const MEDALS=['🥇','🥈','🥉','4.'];
+const TSECS=25;
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-'+id).classList.add('active');
+// ── QUESTIONS DATABASE ──
+// Format: {q, o:[4 options], c: correctIndex, e: explanation}
+const QDB = {
+  de: [ // German player asks about other countries
+    {q:"Was ist die Hauptstadt von Russland?",o:["Moskau","St. Petersburg","Kiew","Minsk"],c:0,e:"Moskau ist seit Jahrhunderten die Hauptstadt Russlands."},
+    {q:"Welcher Fluss fließt durch Moskau?",o:["Donau","Wolga","Moskwa","Dnjepr"],c:2,e:"Die Moskwa ist der Fluss, der durch die russische Hauptstadt fließt."},
+    {q:"Welches Bauwerk steht auf dem Roten Platz in Moskau?",o:["Kreml","Eremitage","Bolschoi-Theater","Tretjakow-Galerie"],c:0,e:"Der Kreml ist der bekannteste Komplex am Roten Platz in Moskau."},
+    {q:"Was ist das Nationalgericht der Türkei?",o:["Kebab","Pizza","Sushi","Schnitzel"],c:0,e:"Kebab ist eines der bekanntesten türkischen Gerichte weltweit."},
+    {q:"In welchem Land liegt der Bosporus?",o:["Griechenland","Bulgarien","Türkei","Ukraine"],c:2,e:"Der Bosporus ist eine Meerenge in der Türkei, die Europa und Asien verbindet."},
+    {q:"Was ist die Hauptstadt der Ukraine?",o:["Lwiw","Charkiw","Odessa","Kiew"],c:3,e:"Kiew (Kyjiw) ist die Hauptstadt und größte Stadt der Ukraine."},
+    {q:"Welches Land liegt am Schwarzen Meer, der Krim und dem Asowschen Meer?",o:["Russland","Ukraine","Türkei","Rumänien"],c:1,e:"Die Ukraine hat Zugang zum Schwarzen Meer und dem Asowschen Meer."},
+    {q:"Was ist das bekannteste Gericht der ukrainischen Küche?",o:["Gulasch","Borschtsch","Piroschki","Wareniki"],c:1,e:"Borschtsch ist eine rote Suppe aus Rüben und gilt als ukrainisches Nationalgericht."},
+    {q:"Wie heißt der berühmte Eiffelturm auf Französisch?",o:["Tour Eiffel","La Grande Tour","Palais Eiffel","Monument Paris"],c:0,e:"Der Eiffelturm heißt auf Französisch 'Tour Eiffel' und wurde 1889 erbaut."},
+    {q:"Was ist die Währung Frankreichs?",o:["Franc","Pfund","Euro","Lira"],c:2,e:"Frankreich ist Mitglied der Eurozone und verwendet den Euro seit 2002."},
+    {q:"Welches Getränk ist typisch für Russland?",o:["Wodka","Whisky","Rum","Gin"],c:0,e:"Wodka ist das bekannteste alkoholische Getränk aus Russland."},
+    {q:"In welcher Stadt findet das Oktoberfest statt?",o:["Wien","Berlin","München","Hamburg"],c:2,e:"Das Oktoberfest findet jährlich in München statt und ist das größte Volksfest der Welt."},
+    {q:"Welcher türkische Held gründete die moderne Türkei?",o:["Suleiman I.","Atatürk","Erdoğan","Mehmed II."],c:1,e:"Mustafa Kemal Atatürk gründete 1923 die moderne Republik Türkei."},
+    {q:"Was ist die größte Stadt Frankreichs?",o:["Lyon","Marseille","Paris","Bordeaux"],c:2,e:"Paris ist mit über 2 Millionen Einwohnern die größte Stadt Frankreichs."},
+    {q:"Welches Meer liegt südlich der Ukraine?",o:["Nordsee","Mittelmeer","Schwarzes Meer","Rotes Meer"],c:2,e:"Das Schwarze Meer liegt im Süden der Ukraine."},
+  ],
+  ru: [ // Russian player asks about other countries (in Russian)
+    {q:"Какова столица Германии?",o:["Мюнхен","Берлин","Гамбург","Франкфурт"],c:1,e:"Берлин — столица и крупнейший город Германии."},
+    {q:"Какой автомобильный бренд родом из Германии?",o:["Volvo","Toyota","BMW","Fiat"],c:2,e:"BMW (Bayerische Motoren Werke) — известный немецкий производитель автомобилей."},
+    {q:"Какое национальное блюдо Германии?",o:["Суши","Брецель","Пицца","Тако"],c:1,e:"Брецель — традиционная немецкая выпечка, популярная по всей Германии."},
+    {q:"Какая река протекает через Париж?",o:["Рейн","Темза","Сена","Дунай"],c:2,e:"Сена — главная река Парижа, длиной около 775 километров."},
+    {q:"Какое блюдо считается символом французской кухни?",o:["Шаурма","Круассан","Хот-дог","Тортилья"],c:1,e:"Круассан — символ французской выпечки, известный во всём мире."},
+    {q:"Что означает слово «Украина»?",o:["Горная страна","Пограничье","Лесная земля","Речная долина"],c:1,e:"Слово «Украина» означает «пограничье» или «окраина»."},
+    {q:"Какой язык является официальным в Украине?",o:["Русский","Польский","Украинский","Белорусский"],c:2,e:"Украинский язык — единственный официальный язык Украины."},
+    {q:"Как называется знаменитый турецкий кофе?",o:["Эспрессо","Американо","Турецкий кофе","Капучино"],c:2,e:"Турецкий кофе — один из старейших способов приготовления кофе в мире."},
+    {q:"Какой город является крупнейшим в Турции?",o:["Анкара","Измир","Стамбул","Бурса"],c:2,e:"Стамбул — крупнейший город Турции, хотя столица — Анкара."},
+    {q:"Какая башня является символом Парижа?",o:["Биг-Бен","Эйфелева башня","Колизей","Пизанская башня"],c:1,e:"Эйфелева башня была построена в 1889 году и стала символом Парижа."},
+    {q:"Сколько земель (Bundesländer) в Германии?",o:["10","14","16","18"],c:2,e:"Германия состоит из 16 федеральных земель (Bundesländer)."},
+    {q:"Как называется украинский борщ?",o:["Щи","Окрошка","Борщ","Рассольник"],c:2,e:"Борщ — традиционный украинский суп из свёклы, капусты и других овощей."},
+    {q:"В какой стране находится Акрополь?",o:["Италии","Турции","Франции","Греции"],c:3,e:"Афинский Акрополь находится в Греции и является одним из главных памятников древности."},
+    {q:"Какая валюта используется в Германии?",o:["Марка","Фунт","Евро","Крона"],c:2,e:"Германия входит в еврозону и использует евро с 2002 года."},
+    {q:"Как называется французский национальный праздник?",o:["День Победы","День взятия Бастилии","Рождество","День Республики"],c:1,e:"День взятия Бастилии 14 июля — главный национальный праздник Франции."},
+  ],
+  ua: [ // Ukrainian player (in Ukrainian)
+    {q:"Яка столиця Німеччини?",o:["Мюнхен","Берлін","Гамбург","Дрезден"],c:1,e:"Берлін — столиця та найбільше місто Німеччини."},
+    {q:"Яка річка тече через Берлін?",o:["Рейн","Дунай","Шпрее","Ельба"],c:2,e:"Річка Шпрее протікає через центр Берліна."},
+    {q:"Яка столиця Франції?",o:["Ліон","Марсель","Бордо","Париж"],c:3,e:"Париж — столиця та найбільше місто Франції."},
+    {q:"Яка мова є офіційною в Туреччині?",o:["Арабська","Перська","Турецька","Курдська"],c:2,e:"Турецька мова є єдиною офіційною мовою Туреччини."},
+    {q:"В якому місті знаходиться Ейфелева вежа?",o:["Лондон","Рим","Мадрид","Париж"],c:3,e:"Ейфелева вежа знаходиться в Парижі та є символом Франції."},
+    {q:"Яке море омиває береги Туреччини на заході?",o:["Чорне море","Середземне море","Егейське море","Каспійське море"],c:2,e:"Егейське море омиває західне узбережжя Туреччини."},
+    {q:"Який напій є символом Німеччини?",o:["Вино","Пиво","Горілка","Ром"],c:1,e:"Пиво — найвідоміший алкогольний напій Німеччини, країна є одним з найбільших виробників пива."},
+    {q:"Яка валюта Франції?",o:["Франк","Фунт","Євро","Ліра"],c:2,e:"Франція є членом єврозони і використовує євро з 2002 року."},
+    {q:"Яке місто є столицею Туреччини?",o:["Стамбул","Ізмір","Анкара","Бурса"],c:2,e:"Анкара — столиця Туреччини, хоча Стамбул є найбільшим містом."},
+    {q:"Як називається відомий французький сир?",o:["Гауда","Камамбер","Пармезан","Чеддер"],c:1,e:"Камамбер — один з найвідоміших французьких сирів, виготовляється в Нормандії."},
+    {q:"Що символізує прапор Росії?",o:["Три кольори: чорний, жовтий, білий","Три смуги: білий, синій, червоний","Зірка на червоному тлі","Орел та корона"],c:1,e:"Прапор Росії складається з трьох горизонтальних смуг: білої, синьої та червоної."},
+    {q:"Яке місто Росії є культурною столицею?",o:["Москва","Новосибірськ","Санкт-Петербург","Казань"],c:2,e:"Санкт-Петербург називають культурною столицею Росії завдяки численним музеям та театрам."},
+    {q:"Яка найдовша річка Франції?",o:["Рона","Луара","Гаронна","Сена"],c:1,e:"Луара є найдовшою річкою Франції, її довжина складає 1006 км."},
+    {q:"Яке море є на півдні Туреччини?",o:["Азовське","Чорне","Червоне","Середземне"],c:3,e:"Середземне море омиває південне узбережжя Туреччини."},
+    {q:"Коли була заснована Берлінська стіна?",o:["1945","1955","1961","1968"],c:2,e:"Берлінська стіна була побудована у 1961 році і розділяла місто до 1989 року."},
+  ],
+  tr: [ // Turkish player (in Turkish)
+    {q:"Almanya'nın başkenti neresidir?",o:["Münih","Frankfurt","Hamburg","Berlin"],c:3,e:"Berlin, Almanya'nın başkenti ve en büyük şehridir."},
+    {q:"Fransa'nın ulusal sembolü nedir?",o:["Kartal","Horoz","Aslan","Gül"],c:1,e:"Horoz, Fransa'nın gayri resmi ulusal sembolüdür."},
+    {q:"Ukrayna'nın başkenti neresidir?",o:["Lviv","Odessa","Kiev","Harkov"],c:2,e:"Kiev (Kyiv), Ukrayna'nın başkenti ve en büyük şehridir."},
+    {q:"Rusya'nın en ünlü içkisi nedir?",o:["Viski","Votka","Rom","Cin"],c:1,e:"Votka, Rusya'nın en ünlü geleneksel içkisidir."},
+    {q:"Almanya hangi kıtadadır?",o:["Asya","Afrika","Amerika","Avrupa"],c:3,e:"Almanya, Avrupa kıtasında yer alan bir ülkedir."},
+    {q:"Paris'in ünlü kulesi hangisidir?",o:["Big Ben","Eyfel Kulesi","Pisa Kulesi","Kolizey"],c:1,e:"Eyfel Kulesi 1889'da inşa edilmiş ve Paris'in simgesi haline gelmiştir."},
+    {q:"Ukrayna'nın ulusal çorbası nedir?",o:["Çorba","Borş","Solyanka","Rassolnik"],c:1,e:"Borş, pancardan yapılan geleneksel bir Ukrayna çorbasıdır."},
+    {q:"Hangi Alman şehri BMW'nin merkezidir?",o:["Berlin","Hamburg","Münih","Köln"],c:2,e:"BMW, Münih'te kurulmuş ve merkezi hâlâ bu şehirde bulunan bir Alman otomobil markasıdır."},
+    {q:"Fransa'nın para birimi nedir?",o:["Frank","Pound","Dolar","Euro"],c:3,e:"Fransa, 2002'den beri Avro bölgesinin üyesidir ve Euro kullanmaktadır."},
+    {q:"Rus matryoshka bebekleri ne anlam taşır?",o:["Uğur","İç içe geçmiş aile","Koruyucu ruh","Neşe"],c:1,e:"Matryoshka bebekler, iç içe geçmiş aile anlayışını ve Rus kültürünü simgeler."},
+    {q:"Fransa kaç saatlik zaman dilimiyle çalışır?",o:["GMT+0","GMT+1","GMT+2","GMT-1"],c:1,e:"Fransa, standart zaman olarak UTC+1 kullanmaktadır."},
+    {q:"Ukrayna hangi denize kıyısı vardır?",o:["Ege Denizi","Akdeniz","Karadeniz","Kızıldeniz"],c:2,e:"Ukrayna, güneyinde Karadeniz ve Azak Denizi'ne kıyısı olan bir ülkedir."},
+    {q:"Berlin Duvarı hangi yıl yıkıldı?",o:["1985","1987","1989","1991"],c:2,e:"Berlin Duvarı, 9 Kasım 1989'da yıkılmış ve Almanya'nın yeniden birleşmesine zemin hazırlamıştır."},
+    {q:"Moskova Kremlin nedir?",o:["Bir müze","Rus hükümeti binası","Bir kilise","Bir saray"],c:1,e:"Kremlin, Moskova'da bulunan ve Rus hükümetinin merkezi olarak kullanılan tarihi bir yapı kompleksidir."},
+    {q:"Fransız mutfağının en ünlü tatlısı nedir?",o:["Tiramisu","Cheesecake","Crème brûlée","Baklava"],c:2,e:"Crème brûlée, karamelize şeker kaplamalı meşhur bir Fransız tatlısıdır."},
+  ],
+  fr: [ // French player (in French)
+    {q:"Quelle est la capitale de l'Allemagne?",o:["Munich","Hambourg","Berlin","Francfort"],c:2,e:"Berlin est la capitale et la plus grande ville d'Allemagne."},
+    {q:"Quelle est la capitale de la Russie?",o:["Saint-Pétersbourg","Moscou","Kazan","Novossibirsk"],c:1,e:"Moscou est la capitale de la Russie depuis des siècles."},
+    {q:"Quelle est la capitale de l'Ukraine?",o:["Lviv","Odessa","Kharkiv","Kiev"],c:3,e:"Kiev (Kyiv) est la capitale et la plus grande ville d'Ukraine."},
+    {q:"Quel est le plat national turc?",o:["Pizza","Kebab","Sushi","Tacos"],c:1,e:"Le kebab est l'un des plats turcs les plus connus dans le monde entier."},
+    {q:"Quel fleuve traverse Berlin?",o:["Rhin","Danube","Sprée","Elbe"],c:2,e:"La Sprée est le fleuve qui traverse le centre de Berlin."},
+    {q:"Quel est l'animal symbole de l'Allemagne?",o:["Lion","Loup","Aigle","Ours"],c:2,e:"L'aigle est le symbole national de l'Allemagne, représenté sur les armoiries du pays."},
+    {q:"Quelle mer borde le sud de la Turquie?",o:["Mer Noire","Mer Rouge","Mer Caspienne","Mer Méditerranée"],c:3,e:"La mer Méditerranée borde le sud de la Turquie."},
+    {q:"Quelle est la boisson nationale russe?",o:["Whisky","Rhum","Vodka","Gin"],c:2,e:"La vodka est la boisson alcoolisée la plus connue de Russie."},
+    {q:"Comment s'appelle la soupe traditionnelle ukrainienne?",o:["Gaspacho","Bortsch","Solianka","Okrochka"],c:1,e:"Le bortsch est une soupe à base de betterave, emblème de la cuisine ukrainienne."},
+    {q:"En quelle année le mur de Berlin est-il tombé?",o:["1985","1987","1989","1991"],c:2,e:"Le mur de Berlin est tombé le 9 novembre 1989, menant à la réunification allemande."},
+    {q:"Quelle est la monnaie de la Turquie?",o:["Euro","Drachme","Lire turque","Dollar"],c:2,e:"La lire turque (TRY) est la monnaie officielle de la Turquie."},
+    {q:"Quel est le lac le plus grand de Russie?",o:["Lac Baïkal","Lac Ladoga","Mer Caspienne","Lac Onega"],c:0,e:"Le lac Baïkal est le plus grand lac d'eau douce du monde par son volume."},
+    {q:"Quelle ville ukrainienne est connue pour sa Place de l'Indépendance?",o:["Lviv","Odessa","Kiev","Kharkiv"],c:2,e:"La Place de l'Indépendance (Maïdan) à Kiev est le symbole des révolutions ukrainiennes."},
+    {q:"Quelle est la plus haute montagne de Turquie?",o:["Mont Olympe","Mont Ararat","Mont Taurus","Mont Erciyas"],c:1,e:"Le mont Ararat (5137 m) est le point culminant de la Turquie."},
+    {q:"Quel est le nom du parlement allemand?",o:["Sénat","Bundestag","Riksdag","Duma"],c:1,e:"Le Bundestag est le parlement fédéral allemand, situé à Berlin."},
+  ]
+};
+
+// ── STATE ──
+let pc2=2, players=[
+  {id:0,name:'',cid:'de'},
+  {id:1,name:'',cid:'ru'},
+  {id:2,name:'',cid:'ua'},
+  {id:3,name:'',cid:'fr'},
+];
+let selCats=['history','geo','culture','food'];
+let questions={}, scores={};
+let cpIdx=0, qIdx=0;
+let timerInt=null, tLeft=TSECS, answered=false;
+const Q_COUNT=8;
+
+// ── HELPERS ──
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
   if(id==='hs') renderHS();
 }
+function show(el){el.classList.remove('h')}
+function hide(el){el.classList.add('h')}
+function C(id){return COUNTRIES.find(c=>c.id===id)}
+function active(){return players.slice(0,pc2)}
 
-function setPlayerCount(n) {
-  playerCount = n;
-  [2,3,4].forEach(i => {
-    const b = document.getElementById('pc'+i);
-    b.className = i===n ? 'btn btn-primary' : 'btn btn-outline';
+// ── SETUP ──
+function setPc(n){
+  pc2=n;
+  [2,3,4].forEach(i=>{
+    const b=document.getElementById('b'+i);
+    b.className=i===n?'btn btn-p':'btn btn-o';
+    b.style.cssText='font-size:1.8rem;padding:18px 0;font-family:Cinzel,serif';
   });
 }
 
-function goSetupStep(step) {
-  document.getElementById('setup-step1').classList.add('hidden');
-  document.getElementById('setup-step2').classList.add('hidden');
-  document.getElementById('setup-step3').classList.add('hidden');
-  document.getElementById('setup-step'+step).classList.remove('hidden');
-  [1,2,3].forEach(i => {
-    document.getElementById('step'+i).className = 'step'+(i<=step?' on':'');
+function stp(n){
+  [1,2,3].forEach(i=>{
+    document.getElementById('ss'+i).classList.add('h');
+    document.getElementById('d'+i).className='sd'+(i<=n?' on':'');
   });
-  if(step===2) renderPlayerList();
-  if(step===3) renderCatGrid();
+  document.getElementById('ss'+n).classList.remove('h');
+  if(n===2) renderPlist();
+  if(n===3) renderCats();
 }
 
-function renderPlayerList() {
-  const active = players.slice(0, playerCount);
-  let html = '';
-  active.forEach((p,idx) => {
-    const c = COUNTRIES.find(c=>c.id===p.countryId);
-    const takenIds = active.filter((_,i)=>i!==idx).map(p=>p.countryId);
-    const flagBtns = COUNTRIES.map(ct => {
-      const taken = takenIds.includes(ct.id);
-      return `<button class="fbtn${p.countryId===ct.id?' selected':''}${taken?' taken':''}" onclick="selectCountry(${p.id},'${ct.id}')" title="${ct.name}">${ct.flag}</button>`;
+function renderPlist(){
+  const act=active();
+  let h='';
+  act.forEach((p,i)=>{
+    const c=C(p.cid);
+    const takenIds=act.filter((_,j)=>j!==i).map(x=>x.cid);
+    const fbtns=COUNTRIES.map(ct=>{
+      const tk=takenIds.includes(ct.id);
+      return `<button class="fb${p.cid===ct.id?' sel':''}${tk?' tk':''}" onclick="selC(${p.id},'${ct.id}')" title="${ct.name}">${ct.flag}</button>`;
     }).join('');
-    html += `<div style="margin-bottom:12px;padding:13px;border:1px solid rgba(200,60,60,.3);border-left:3px solid ${c.color};border-radius:3px;background:rgba(12,0,5,.7)">
-      <div style="display:flex;gap:10px;align-items:flex-start">
-        <div style="font-family:Cinzel,serif;font-size:1.4rem;font-weight:900;color:#fff;min-width:22px;padding-top:4px">${idx+1}</div>
+    h+=`<div style="margin-bottom:10px;padding:12px;border:1px solid rgba(200,60,60,.3);border-left:3px solid ${c.color};border-radius:3px;background:rgba(12,0,5,.7)">
+      <div style="display:flex;gap:9px;align-items:flex-start">
+        <div style="font-family:Cinzel,serif;font-size:1.3rem;font-weight:900;color:#fff;min-width:20px;padding-top:4px">${i+1}</div>
         <div style="flex:1">
-          <input class="inp" placeholder="Name ${idx+1}" value="${p.name}" oninput="setName(${p.id},this.value)" maxlength="20" style="margin-bottom:7px"/>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">${flagBtns}</div>
-          <div style="font-size:.72rem;color:rgba(200,120,90,.35);font-style:italic;margin-top:4px">${c.flag} ${c.lang}</div>
+          <input class="inp" placeholder="Name ${i+1}" value="${p.name}" oninput="setN(${p.id},this.value)" maxlength="20"/>
+          <div class="frow">${fbtns}</div>
+          <div style="font-size:.7rem;color:rgba(200,120,90,.3);font-style:italic;margin-top:4px">${c.flag} ${c.lang}</div>
         </div>
       </div>
     </div>`;
   });
-  document.getElementById('player-list').innerHTML = html;
+  document.getElementById('plist').innerHTML=h;
 }
 
-function setName(id, val) {
-  players[id].name = val;
+function setN(id,v){players[id].name=v}
+function selC(pid,cid){
+  const act=active();
+  if(act.some(p=>p.id!==pid&&p.cid===cid))return;
+  players[pid].cid=cid;
+  renderPlist();
 }
 
-function selectCountry(playerId, countryId) {
-  const active = players.slice(0, playerCount);
-  const taken = active.some(p => p.id !== playerId && p.countryId === countryId);
-  if(taken) return;
-  players[playerId].countryId = countryId;
-  renderPlayerList();
+function renderCats(){
+  document.getElementById('cgrid').innerHTML=CATS.map(cat=>{
+    const on=selCats.includes(cat.id);
+    return `<button class="cb${on?' on':''}" onclick="togCat('${cat.id}')">${cat.e} ${cat.l}</button>`;
+  }).join('');
 }
 
-function renderCatGrid() {
-  let html = '';
-  CATEGORIES.forEach(cat => {
-    const on = selectedCats.includes(cat.id);
-    html += `<button class="cat-btn${on?' on':''}" onclick="toggleCat('${cat.id}')">
-      <span>${cat.emoji}</span><span>${cat.label}</span>
-    </button>`;
-  });
-  document.getElementById('cat-grid').innerHTML = html;
+function togCat(id){
+  if(selCats.includes(id)){if(selCats.length>1)selCats=selCats.filter(c=>c!==id);}
+  else selCats.push(id);
+  renderCats();
 }
 
-function toggleCat(id) {
-  if(selectedCats.includes(id)) {
-    if(selectedCats.length > 1) selectedCats = selectedCats.filter(c=>c!==id);
-  } else {
-    selectedCats.push(id);
-  }
-  renderCatGrid();
-}
+// ── GAME ──
+function startGame(){
+  const act=active();
+  if(act.some(p=>!p.name.trim())){alert('Bitte alle Namen eingeben!');return;}
+  go('loading');
+  scores={};
+  questions={};
+  act.forEach(p=>scores[p.id]=0);
 
-async function generateQs(player, others) {
-  const lang = player.langEN || 'English';
-  const targets = others.map(c=>c.name).join(', ');
-  const cats = selectedCats.join(', ');
-  const prompt = `Generate ${Q_COUNT} quiz questions in ${lang} about these countries: ${targets}.
-Categories to cover: ${cats}.
-ALL text must be in ${lang} only.
-Respond ONLY with a raw JSON array, no markdown:
-[{"question":"...","options":["...","...","...","..."],"correctIndex":0,"explanation":"..."}]
-Rules: exactly 4 options, vary correctIndex 0-3, short explanations.`;
-
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      model:'claude-sonnet-4-20250514',
-      max_tokens:1200,
-      messages:[{role:'user',content:prompt}]
-    })
-  });
-  const data = await res.json();
-  const text = data.content.map(b=>b.text||'').join('');
-  return JSON.parse(text.replace(/```json|```/g,'').trim());
-}
-
-async function startGame() {
-  const active = players.slice(0, playerCount);
-  if(active.some(p=>!p.name.trim())) {
-    const err = document.getElementById('setup-err');
-    err.textContent='⚠ Bitte alle Namen eingeben!';
-    err.classList.remove('hidden');
-    return;
-  }
-  document.getElementById('setup-err').classList.add('hidden');
-  showScreen('loading');
-  scores = {};
-  questions = {};
-  active.forEach(p => scores[p.id] = 0);
-
-  const loadRows = document.getElementById('load-rows');
-  loadRows.innerHTML = active.map(p => {
-    const c = COUNTRIES.find(ct=>ct.id===p.countryId);
-    return `<div class="load-row" id="load-${p.id}">${c.flag} ${p.name} <span>⟳</span></div>`;
+  document.getElementById('lrows').innerHTML=act.map(p=>{
+    const c=C(p.cid);
+    return `<div class="lr" id="lr${p.id}">${c.flag} ${p.name} <span>⟳</span></div>`;
   }).join('');
 
-  try {
-    for(const player of active) {
-      const c = COUNTRIES.find(ct=>ct.id===player.countryId);
-      const others = active.filter(p=>p.id!==player.id).map(p=>COUNTRIES.find(ct=>ct.id===p.countryId)).filter(Boolean);
-      const qs = await generateQs({...player, langEN: c.langEN}, others);
-      questions[player.id] = qs;
-      const row = document.getElementById('load-'+player.id);
-      row.classList.add('done');
-      row.innerHTML = `${c.flag} ${player.name} <span>✓</span>`;
-    }
-    currentPlayerIdx = 0;
-    currentQIdx = 0;
-    showTurnIntro();
-  } catch(e) {
-    showScreen('setup');
-    goSetupStep(3);
-    const err = document.getElementById('setup-err');
-    err.textContent = '⚠ Fehler: '+e.message;
-    err.classList.remove('hidden');
-  }
+  // Load questions from database with slight delay for UX
+  setTimeout(()=>{
+    act.forEach(p=>{
+      const pool = QDB[p.cid] || QDB.de;
+      // Shuffle and take Q_COUNT questions
+      const shuffled = [...pool].sort(()=>Math.random()-.5);
+      questions[p.id] = shuffled.slice(0, Q_COUNT);
+      const row=document.getElementById('lr'+p.id);
+      if(row){row.classList.add('done');row.innerHTML=`${C(p.cid).flag} ${p.name} <span>✓</span>`;}
+    });
+    setTimeout(()=>{
+      cpIdx=0;qIdx=0;
+      showTurn();
+    },800);
+  },1200);
 }
 
-function showTurnIntro() {
-  const active = players.slice(0, playerCount);
-  const cp = active[currentPlayerIdx];
-  const c = COUNTRIES.find(ct=>ct.id===cp.countryId);
-  document.getElementById('turn-flag').textContent = c.flag;
-  document.getElementById('turn-name').textContent = cp.name || 'Spieler '+(currentPlayerIdx+1);
-  document.getElementById('turn-name').style.color = c.color;
-  document.getElementById('turn-sub').textContent = `${Q_COUNT} Fragen über andere Länder · auf ${c.lang}`;
-
-  let prev = '';
-  if(currentPlayerIdx > 0) {
-    prev = active.slice(0,currentPlayerIdx).map(p=>{
-      const pc = COUNTRIES.find(ct=>ct.id===p.countryId);
-      return `${pc.flag} ${p.name}: ${scores[p.id]}/${Q_COUNT}`;
-    }).join(' · ');
-  }
-  document.getElementById('turn-prev').textContent = prev;
-  showScreen('turn');
+function showTurn(){
+  const act=active();
+  const cp=act[cpIdx];
+  const c=C(cp.cid);
+  document.getElementById('tfl').textContent=c.flag;
+  document.getElementById('tnm').textContent=cp.name||'Spieler '+(cpIdx+1);
+  document.getElementById('tnm').style.color=c.color;
+  document.getElementById('tsb').textContent=`${Q_COUNT} Fragen · auf ${c.lang}`;
+  let prev='';
+  if(cpIdx>0) prev=act.slice(0,cpIdx).map(p=>`${C(p.cid).flag} ${p.name}: ${scores[p.id]}/${Q_COUNT}`).join(' · ');
+  document.getElementById('tpv').textContent=prev;
+  go('turn');
 }
 
-function startQuiz() {
-  answered = false;
-  showScreen('quiz');
-  renderQuiz();
+function startQuiz(){
+  answered=false;
+  go('quiz');
+  renderQ();
 }
 
-function renderQuiz() {
-  const active = players.slice(0, playerCount);
-  const cp = active[currentPlayerIdx];
-  const c = COUNTRIES.find(ct=>ct.id===cp.countryId);
-  const qs = questions[cp.id] || [];
-  const q = qs[currentQIdx];
+function renderQ(){
+  const act=active();
+  const cp=act[cpIdx];
+  const c=C(cp.cid);
+  const qs=questions[cp.id]||[];
+  const q=qs[qIdx];
 
   // Score bar
-  document.getElementById('score-bar').innerHTML = active.map((p,i) => {
-    const pc = COUNTRIES.find(ct=>ct.id===p.countryId);
-    const isAct = i===currentPlayerIdx;
-    return `<div class="score-chip${isAct?' active':''}" style="${isAct?'border-color:'+pc.color+'55;color:'+pc.color+';box-shadow:0 0 10px '+pc.color+'22':''}">
-      ${pc.flag} <span class="score-num">${i<=currentPlayerIdx?(scores[p.id]||0):'—'}</span>
+  document.getElementById('sbar').innerHTML=act.map((p,i)=>{
+    const pc=C(p.cid);
+    const isAct=i===cpIdx;
+    return `<div class="sc${isAct?' act':''}" style="${isAct?'border-color:'+pc.color+'55;color:'+pc.color:''}">
+      ${pc.flag} <span class="sn">${i<=cpIdx?(scores[p.id]||0):'—'}</span>
     </div>`;
   }).join('');
 
-  document.getElementById('q-label').textContent = `${c.flag} Frage ${currentQIdx+1} / ${Q_COUNT}`;
-  document.getElementById('q-text').textContent = q ? q.question : '';
-  document.getElementById('expl').className = 'hidden';
-  document.getElementById('next-btn').className = 'btn btn-primary hidden';
+  document.getElementById('qlbl').textContent=`${c.flag} Frage ${qIdx+1} / ${Q_COUNT}`;
+  document.getElementById('qtext').textContent=q?q.q:'';
+  document.getElementById('expl').className='h';
+  hide(document.getElementById('nxtbtn'));
 
-  const opts = document.getElementById('opts');
-  opts.innerHTML = ['A','B','C','D'].map((k,i) => 
-    `<button class="opt-btn" onclick="answer(${i})" id="opt-${i}">
-      <span class="opt-key">${k}</span>
-      <span>${q ? q.options[i] : ''}</span>
+  document.getElementById('opts').innerHTML=['A','B','C','D'].map((k,i)=>
+    `<button class="ob" onclick="ans(${i})" id="ob${i}">
+      <span class="ok">${k}</span><span>${q?q.o[i]:''}</span>
     </button>`
   ).join('');
 
   startTimer(c.color);
 }
 
-function startTimer(color) {
-  clearInterval(timerInterval);
-  timeLeft = TIMER_SECS;
-  answered = false;
-  updateTimer(color);
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    updateTimer(color);
-    if(timeLeft <= 0) {
-      clearInterval(timerInterval);
-      timeOut();
-    }
-  }, 1000);
+function startTimer(col){
+  clearInterval(timerInt);
+  tLeft=TSECS;answered=false;
+  updTimer(col);
+  timerInt=setInterval(()=>{
+    tLeft--;updTimer(col);
+    if(tLeft<=0){clearInterval(timerInt);timeOut();}
+  },1000);
 }
 
-function updateTimer(color) {
-  const pct = (timeLeft/TIMER_SECS)*100;
-  const clr = timeLeft<=5 ? '#f87171' : timeLeft<=10 ? '#fb923c' : color;
-  document.getElementById('timer-fill').style.cssText = `width:${pct}%;background:${clr};box-shadow:0 0 8px ${clr}`;
-  document.getElementById('timer-num').style.color = clr;
-  document.getElementById('timer-num').textContent = timeLeft+'s';
+function updTimer(col){
+  const pct=(tLeft/TSECS)*100;
+  const clr=tLeft<=5?'#f87171':tLeft<=10?'#fb923c':col;
+  document.getElementById('tfill').style.cssText=`width:${pct}%;background:${clr};box-shadow:0 0 8px ${clr}`;
+  document.getElementById('tnum').style.color=clr;
+  document.getElementById('tnum').textContent=tLeft+'s';
 }
 
-function answer(idx) {
-  if(answered) return;
-  answered = true;
-  clearInterval(timerInterval);
-  const active = players.slice(0, playerCount);
-  const cp = active[currentPlayerIdx];
-  const q = questions[cp.id][currentQIdx];
-  if(idx === q.correctIndex) scores[cp.id]++;
-
-  ['0','1','2','3'].forEach(i => {
-    const btn = document.getElementById('opt-'+i);
-    if(parseInt(i)===q.correctIndex) btn.classList.add('correct');
-    else if(parseInt(i)===idx) btn.classList.add('wrong');
-    btn.disabled = true;
+function ans(idx){
+  if(answered)return;
+  answered=true;
+  clearInterval(timerInt);
+  const act=active();
+  const cp=act[cpIdx];
+  const q=questions[cp.id][qIdx];
+  if(idx===q.c)scores[cp.id]++;
+  ['0','1','2','3'].forEach(i=>{
+    const b=document.getElementById('ob'+i);
+    if(parseInt(i)===q.c)b.classList.add('cor');
+    else if(parseInt(i)===idx)b.classList.add('wrg');
+    b.disabled=true;
   });
-
-  showExpl(idx===q.correctIndex ? 'c' : 'w', q.explanation);
-  document.getElementById('next-btn').className = 'btn btn-primary';
-  const isLast = currentQIdx+1 >= (questions[cp.id]||[]).length;
-  const isLastPlayer = currentPlayerIdx+1 >= active.length;
-  document.getElementById('next-btn').textContent = 
-    isLast ? (isLastPlayer ? '⚔️ Ergebnis →' : 'Nächster Kämpfer →') : 'Weiter · Далее →';
+  showExpl(idx===q.c?'c':'w',q.e);
+  const nxt=document.getElementById('nxtbtn');
+  show(nxt);
+  const isLast=qIdx+1>=(questions[cp.id]||[]).length;
+  const isLastP=cpIdx+1>=act.length;
+  nxt.textContent=isLast?(isLastP?'⚔️ Ergebnis →':'Nächster Kämpfer →'):'Weiter →';
 }
 
-function timeOut() {
-  if(answered) return;
-  answered = true;
-  const active = players.slice(0, playerCount);
-  const cp = active[currentPlayerIdx];
-  const q = questions[cp.id][currentQIdx];
-  document.getElementById('opt-'+q.correctIndex).classList.add('correct');
-  ['0','1','2','3'].forEach(i => document.getElementById('opt-'+i).disabled = true);
-  showExpl('t', `⏰ Zeit! Richtig: ${q.options[q.correctIndex]}`);
-  document.getElementById('next-btn').className = 'btn btn-primary';
-  const isLast = currentQIdx+1 >= (questions[cp.id]||[]).length;
-  const isLastPlayer = currentPlayerIdx+1 >= active.length;
-  document.getElementById('next-btn').textContent = 
-    isLast ? (isLastPlayer ? '⚔️ Ergebnis →' : 'Nächster Kämpfer →') : 'Weiter →';
+function timeOut(){
+  if(answered)return;
+  answered=true;
+  const act=active();
+  const cp=act[cpIdx];
+  const q=questions[cp.id][qIdx];
+  document.getElementById('ob'+q.c).classList.add('cor');
+  ['0','1','2','3'].forEach(i=>document.getElementById('ob'+i).disabled=true);
+  showExpl('t','⏰ Zeit! Richtig: '+q.o[q.c]);
+  const nxt=document.getElementById('nxtbtn');
+  show(nxt);
+  const isLast=qIdx+1>=(questions[cp.id]||[]).length;
+  const isLastP=cpIdx+1>=act.length;
+  nxt.textContent=isLast?(isLastP?'⚔️ Ergebnis →':'Nächster Kämpfer →'):'Weiter →';
 }
 
-function showExpl(type, text) {
-  const el = document.getElementById('expl');
-  el.className = 'expl '+type;
-  el.textContent = (type==='c'?'✓ ':type==='w'?'✗ ':'')+text;
+function showExpl(type,txt){
+  const el=document.getElementById('expl');
+  el.className='ex '+type;
+  el.textContent=(type==='c'?'✓ ':type==='w'?'✗ ':'')+txt;
 }
 
-function nextQuestion() {
-  const active = players.slice(0, playerCount);
-  const cp = active[currentPlayerIdx];
-  const qLen = (questions[cp.id]||[]).length;
-  if(currentQIdx+1 >= qLen) {
-    if(currentPlayerIdx+1 >= active.length) {
-      clearInterval(timerInterval);
-      showResult();
-    } else {
-      currentPlayerIdx++;
-      currentQIdx = 0;
-      showTurnIntro();
-    }
-  } else {
-    currentQIdx++;
-    answered = false;
-    renderQuiz();
-  }
+function nextQ(){
+  const act=active();
+  const cp=act[cpIdx];
+  const qLen=(questions[cp.id]||[]).length;
+  if(qIdx+1>=qLen){
+    if(cpIdx+1>=act.length){clearInterval(timerInt);showResult();}
+    else{cpIdx++;qIdx=0;showTurn();}
+  } else {qIdx++;answered=false;renderQ();}
 }
 
-function showResult() {
-  const active = players.slice(0, playerCount);
-  const sorted = [...active].sort((a,b)=>(scores[b.id]||0)-(scores[a.id]||0));
-  const qTotal = Q_COUNT;
-
-  document.getElementById('podium').innerHTML = sorted.map((p,rank) => {
-    const c = COUNTRIES.find(ct=>ct.id===p.countryId);
-    const sc = scores[p.id]||0;
-    return `<div class="podium-row${rank===0?' first':''}">
-      <span class="pod-medal">${MEDALS[rank]}</span>
-      <span class="pod-flag">${c.flag}</span>
-      <span class="pod-name">${p.name}</span>
-      <span class="pod-score" style="color:${c.color}">${sc}<span style="font-size:.55em;opacity:.3">/${qTotal}</span></span>
-      <span class="pod-pct">${Math.round(sc/qTotal*100)}%</span>
+function showResult(){
+  const act=active();
+  const sorted=[...act].sort((a,b)=>(scores[b.id]||0)-(scores[a.id]||0));
+  document.getElementById('pod').innerHTML=sorted.map((p,r)=>{
+    const c=C(p.cid);
+    const sc=scores[p.id]||0;
+    return `<div class="pr${r===0?' f1':''}">
+      <span style="font-size:1.2rem;min-width:26px">${MEDALS[r]}</span>
+      <span style="font-size:1.1rem">${c.flag}</span>
+      <span style="flex:1;font-size:.93rem">${p.name}</span>
+      <span style="font-family:Cinzel,serif;font-size:1.4rem;font-weight:700;color:${c.color}">${sc}<span style="font-size:.5em;opacity:.3">/${Q_COUNT}</span></span>
+      <span style="font-size:.72rem;color:rgba(240,180,140,.4);min-width:34px;text-align:right">${Math.round(sc/Q_COUNT*100)}%</span>
     </div>`;
   }).join('');
-
-  const top = sorted[0];
-  const topSc = scores[top.id]||0;
-  const tied = sorted.filter(p=>(scores[p.id]||0)===topSc);
-  const tc = COUNTRIES.find(ct=>ct.id===top.countryId);
-  document.getElementById('winner-msg').textContent = 
-    tied.length>1 ? '🤝 Unentschieden! · Ничья!' : `${tc.flag} ${top.name} gewinnt! · побеждает!`;
-
-  document.getElementById('save-btn').className = 'btn btn-primary';
-  document.getElementById('save-btn').disabled = false;
-  showScreen('result');
+  const top=sorted[0];
+  const topSc=scores[top.id]||0;
+  const tied=sorted.filter(p=>(scores[p.id]||0)===topSc);
+  const tc=C(top.cid);
+  document.getElementById('wmsg').textContent=
+    tied.length>1?'🤝 Unentschieden! · Ничья!':
+    `${tc.flag} ${top.name} gewinnt! · побеждает!`;
+  const sb=document.getElementById('savebtn');
+  sb.textContent='💾 Punkte speichern';
+  sb.disabled=false;
+  sb.className='btn btn-p';
+  go('result');
 }
 
-function saveHS() {
-  const active = players.slice(0, playerCount);
-  let hs = JSON.parse(localStorage.getItem('wq_hs')||'[]');
-  active.forEach(p => {
-    const c = COUNTRIES.find(ct=>ct.id===p.countryId);
-    hs.push({
-      name: p.name||'Spieler',
-      flag: c.flag,
-      score: scores[p.id]||0,
-      total: Q_COUNT,
-      pct: Math.round(((scores[p.id]||0)/Q_COUNT)*100),
-      date: new Date().toLocaleDateString('de-DE')
-    });
+function saveHS(){
+  const act=active();
+  let hs=JSON.parse(localStorage.getItem('wq_hs')||'[]');
+  act.forEach(p=>{
+    const c=C(p.cid);
+    hs.push({name:p.name||'Spieler',flag:c.flag,score:scores[p.id]||0,total:Q_COUNT,pct:Math.round(((scores[p.id]||0)/Q_COUNT)*100),date:new Date().toLocaleDateString('de-DE')});
   });
-  hs = hs.sort((a,b)=>b.pct-a.pct).slice(0,30);
-  localStorage.setItem('wq_hs', JSON.stringify(hs));
-  const btn = document.getElementById('save-btn');
-  btn.textContent = '✓ Gespeichert!';
-  btn.style.color = '#86efac';
-  btn.disabled = true;
+  hs=hs.sort((a,b)=>b.pct-a.pct).slice(0,30);
+  localStorage.setItem('wq_hs',JSON.stringify(hs));
+  const sb=document.getElementById('savebtn');
+  sb.textContent='✓ Gespeichert!';
+  sb.style.color='#86efac';
+  sb.disabled=true;
 }
 
-function renderHS() {
-  const hs = JSON.parse(localStorage.getItem('wq_hs')||'[]');
-  if(hs.length===0) {
-    document.getElementById('hs-list').innerHTML = '<div class="empty">Noch keine Einträge.<br><small>Spiel beenden und Punkte speichern!</small></div>';
-    return;
-  }
-  document.getElementById('hs-list').innerHTML = hs.map((h,i)=>
-    `<div class="hs-row">
-      <span class="hs-rank">${i+1}.</span>
-      <span>${h.flag}</span>
-      <span class="hs-name">${h.name}</span>
-      <span class="hs-score">${h.score}/${h.total}</span>
-      <span class="hs-pct">${h.pct}%</span>
-      <span class="hs-date">${h.date}</span>
-    </div>`
+function renderHS(){
+  const hs=JSON.parse(localStorage.getItem('wq_hs')||'[]');
+  if(!hs.length){document.getElementById('hslist').innerHTML='<div style="text-align:center;color:rgba(255,180,130,.25);padding:28px;font-style:italic">Noch keine Einträge.</div>';return;}
+  document.getElementById('hslist').innerHTML=hs.map((h,i)=>
+    `<div class="hr"><span style="color:rgba(255,180,130,.25);min-width:20px;font-family:Cinzel,serif;font-size:.75rem">${i+1}.</span><span>${h.flag}</span><span style="flex:1">${h.name}</span><span style="font-family:Cinzel,serif;font-weight:700;color:#ff9960">${h.score}/${h.total}</span><span style="color:rgba(240,180,130,.4);min-width:32px;text-align:right">${h.pct}%</span><span style="color:rgba(240,180,130,.2);font-size:.7rem;margin-left:6px">${h.date}</span></div>`
   ).join('');
 }
 </script>
