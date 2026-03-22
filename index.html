@@ -9,10 +9,77 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-<body>
+<body style="margin:0;padding:0;background:#04000a">
   <div id="root"></div>
   <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
+
+const COUNTRIES = [
+{ id: “de”, flag: “🇩🇪”, name: “Deutschland”, lang: “Deutsch”,     color: “#ff6b35”, dim: “rgba(255,107,53,0.15)” },
+{ id: “ru”, flag: “🇷🇺”, name: “Россия”,       lang: “Русский”,    color: “#e03030”, dim: “rgba(224,48,48,0.15)”  },
+{ id: “ua”, flag: “🇺🇦”, name: “Україна”,      lang: “Українська”, color: “#c084fc”, dim: “rgba(192,132,252,0.15)”},
+{ id: “tr”, flag: “🇹🇷”, name: “Türkiye”,      lang: “Türkçe”,     color: “#f43f5e”, dim: “rgba(244,63,94,0.15)”  },
+{ id: “fr”, flag: “🇫🇷”, name: “France”,       lang: “Français”,   color: “#fb923c”, dim: “rgba(251,146,60,0.15)” },
+];
+
+const CATEGORIES = [
+{ id: “history”,   emoji: “🏛️”, de: “Geschichte”, en: “History”  },
+{ id: “geography”, emoji: “🌍”, de: “Geografie”,  en: “Geography”},
+{ id: “culture”,   emoji: “🎭”, de: “Kultur”,     en: “Culture”  },
+{ id: “food”,      emoji: “🍽️”, de: “Essen”,      en: “Food”     },
+{ id: “sport”,     emoji: “⚽”, de: “Sport”,      en: “Sport”    },
+{ id: “language”,  emoji: “💬”, de: “Sprache”,    en: “Language” },
+];
+
+const LANG_NAMES = { de: “German”, ru: “Russian”, ua: “Ukrainian”, tr: “Turkish”, fr: “French” };
+const MEDALS = [“🥇”, “🥈”, “🥉”, “4.”];
+const TIMER_SECS = 25;
+const Q_COUNT = 10;
+
+async function generateQuestions(player, otherCountries, categories) {
+const lang    = LANG_NAMES[player.countryId] || “English”;
+const targets = otherCountries.map(c => c.name).join(”, “);
+const cats    = categories.join(”, “);
+const prompt  = `You are generating quiz questions for a cultural knowledge game. Player language: ${lang} Countries to ask about: ${targets} Categories: ${cats} Question count: ${Q_COUNT} Write ALL text in ${lang} only. Respond ONLY with a raw JSON array — no markdown, no backticks: [{"question":"...","options":["...","...","...","..."],"correctIndex":0,"explanation":"..."}] Rules: exactly 4 options, vary correctIndex (0-3), short explanations (1-2 sentences).`;
+const res  = await fetch(“https://api.anthropic.com/v1/messages”, {
+method: “POST”, headers: { “Content-Type”: “application/json” },
+body: JSON.stringify({ model: “claude-sonnet-4-20250514”, max_tokens: 1500, messages: [{ role: “user”, content: prompt }] }),
+});
+const data = await res.json();
+const raw  = data.content.map(b => b.text || “”).join(””);
+return JSON.parse(raw.replace(/`json|`/g, “”).trim());
+}
+
+const mkPlayers = () => [
+{ id: 0, name: “”, countryId: “de” },
+{ id: 1, name: “”, countryId: “ru” },
+{ id: 2, name: “”, countryId: “ua” },
+{ id: 3, name: “”, countryId: “fr” },
+];
+
+function Particles() {
+const items = useRef(
+Array.from({length: 26}, (_, i) => ({
+left: `${(i * 3.85) % 100}%`,
+delay: `${(i * 0.37) % 8}s`,
+dur: `${7 + (i * 0.41) % 9}s`,
+size: `${2 + (i * 0.17) % 3}px`,
+op: 0.2 + (i * 0.03) % 0.5,
+}))
+).current;
+return (
+<div className="particles" aria-hidden="true">
+{items.map((p, i) => (
+<div key={i} className=“particle” style={{
+left: p.left, animationDelay: p.delay,
+animationDuration: p.dur, width: p.size, height: p.size, opacity: p.op,
+}}/>
+))}
+</div>
+);
+}
+
+port { useState, useEffect, useRef, useCallback } from “react”;
 
 const COUNTRIES = [
 { id: “de”, flag: “🇩🇪”, name: “Deutschland”, lang: “Deutsch”,     color: “#ff6b35”, dim: “rgba(255,107,53,0.15)” },
@@ -953,8 +1020,7 @@ return (
 );
 }
 
-const root = ReactDOM.createRoot(document.getElementById(‘root’));
-root.render(React.createElement(App));
+ReactDOM.createRoot(document.getElementById(‘root’)).render(React.createElement(App));
 </script>
 
 </body>
