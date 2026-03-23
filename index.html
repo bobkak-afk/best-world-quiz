@@ -81,7 +81,7 @@ body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,seri
 .div{height:1px;background:rgba(180,20,20,.12);margin:14px 0}
 .warn{color:#fb923c;font-size:.8rem;margin-top:5px;font-style:italic}
 .footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:8px;z-index:10;pointer-events:none}
-.footer p{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.footer p{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.92);text-shadow:0 0 12px rgba(255,100,50,.5)}
 .h{display:none}
 .r2{display:flex;gap:8px}
 </style>
@@ -112,7 +112,8 @@ body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,seri
   <div class="steps"><div class="sd on" id="d1"></div><div class="sd" id="d2"></div><div class="sd" id="d3"></div></div>
   <div id="ss1" class="card">
     <div class="sec">⚔️ Wie viele Kämpfer?</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:18px">
+      <button class="btn btn-o" id="b1" onclick="setPc(1)" style="font-size:1.8rem;padding:18px 0;font-family:Cinzel,serif">1</button>
       <button class="btn btn-p" id="b2" onclick="setPc(2)" style="font-size:1.8rem;padding:18px 0;font-family:Cinzel,serif">2</button>
       <button class="btn btn-o" id="b3" onclick="setPc(3)" style="font-size:1.8rem;padding:18px 0;font-family:Cinzel,serif">3</button>
       <button class="btn btn-o" id="b4" onclick="setPc(4)" style="font-size:1.8rem;padding:18px 0;font-family:Cinzel,serif">4</button>
@@ -341,8 +342,9 @@ function active(){return players.slice(0,pc2)}
 // ── SETUP ──
 function setPc(n){
   pc2=n;
-  [2,3,4].forEach(i=>{
+  [1,2,3,4].forEach(i=>{
     const b=document.getElementById('b'+i);
+    if(!b)return;
     b.className=i===n?'btn btn-p':'btn btn-o';
     b.style.cssText='font-size:1.8rem;padding:18px 0;font-family:Cinzel,serif';
   });
@@ -363,10 +365,8 @@ function renderPlist(){
   let h='';
   act.forEach((p,i)=>{
     const c=C(p.cid);
-    const takenIds=act.filter((_,j)=>j!==i).map(x=>x.cid);
     const fbtns=COUNTRIES.map(ct=>{
-      const tk=takenIds.includes(ct.id);
-      return `<button class="fb${p.cid===ct.id?' sel':''}${tk?' tk':''}" onclick="selC(${p.id},'${ct.id}')" title="${ct.name}">${ct.flag}</button>`;
+      return `<button class="fb${p.cid===ct.id?' sel':''}" onclick="selC(${p.id},'${ct.id}')" title="${ct.name}">${ct.flag}</button>`;
     }).join('');
     h+=`<div style="margin-bottom:10px;padding:12px;border:1px solid rgba(200,60,60,.3);border-left:3px solid ${c.color};border-radius:3px;background:rgba(12,0,5,.7)">
       <div style="display:flex;gap:9px;align-items:flex-start">
@@ -384,8 +384,6 @@ function renderPlist(){
 
 function setN(id,v){players[id].name=v}
 function selC(pid,cid){
-  const act=active();
-  if(act.some(p=>p.id!==pid&&p.cid===cid))return;
   players[pid].cid=cid;
   renderPlist();
 }
