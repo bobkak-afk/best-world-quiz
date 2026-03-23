@@ -24,18 +24,16 @@ body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,seri
 @keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .mk{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.2rem,5vw,2.4rem);letter-spacing:.18em;background:linear-gradient(180deg,#fff5e0 0%,#ffaa40 25%,#ff4400 60%,#990000 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(255,100,0,.85)) drop-shadow(0 4px 8px rgba(0,0,0,1));animation:mkF 2s ease-in-out infinite;text-align:center}
 @keyframes mkF{0%,100%{filter:drop-shadow(0 0 12px rgba(255,100,0,.7)) drop-shadow(0 4px 8px rgba(0,0,0,1))}50%{filter:drop-shadow(0 0 32px rgba(255,180,0,1)) drop-shadow(0 4px 8px rgba(0,0,0,1))}}
-.globe{font-size:clamp(7rem,20vw,11rem);filter:drop-shadow(0 0 28px rgba(255,40,0,.9)) drop-shadow(0 0 70px rgba(150,0,0,.5));animation:flt 3.5s ease-in-out infinite;text-align:center;line-height:1;display:block}
+.globe{font-size:clamp(9rem,26vw,14rem);filter:drop-shadow(0 0 32px rgba(255,40,0,.95)) drop-shadow(0 0 80px rgba(150,0,0,.6));animation:globeSpin 8s linear infinite;text-align:center;line-height:1;display:block}
 @keyframes flt{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1deg)}}
-.swords{position:relative;width:110px;height:70px;margin:0 auto 2px}
-.sw{position:absolute;font-size:2.5rem}
-.sw.l{left:0;animation:swL 2s ease-in-out infinite}
-.sw.r{right:0;animation:swR 2s ease-in-out infinite;transform:scaleX(-1)}
-.sprk{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.3rem;animation:sp 1s ease-in-out infinite}
-@keyframes swL{0%,100%{transform:rotate(-45deg)}50%{transform:rotate(-30deg) translateX(8px)}}
-@keyframes swR{0%,100%{transform:scaleX(-1) rotate(-45deg)}50%{transform:scaleX(-1) rotate(-30deg) translateX(8px)}}
-@keyframes sp{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.8)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.4)}}
-.title{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1rem,4.5vw,1.8rem);color:#ffc8a0;text-shadow:0 0 24px rgba(255,80,30,.5);text-align:center}
-.tagline{font-family:'Cinzel',serif;font-size:clamp(.7rem,2.5vw,.9rem);letter-spacing:.1em;color:#ff4422;text-shadow:0 0 10px rgba(255,60,20,.6);text-align:center;text-transform:uppercase;margin:3px 0 8px}
+@keyframes globeSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.swords{display:flex;align-items:center;justify-content:center;margin:4px auto 4px;height:60px}
+.sw{font-size:3.5rem;display:inline-block;animation:swingSword 1.5s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(255,200,0,.7));transform-origin:bottom center}
+.sprk{display:none}
+@keyframes swingSword{0%{transform:rotate(-40deg)}50%{transform:rotate(40deg)}100%{transform:rotate(-40deg)}}
+.title{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.5rem,6vw,2.6rem);color:#ffc8a0;text-shadow:0 0 28px rgba(255,80,30,.6),0 0 60px rgba(200,20,0,.3);text-align:center;line-height:1.15}
+.tagline{font-family:'Cinzel',serif;font-size:clamp(.72rem,2.5vw,.92rem);letter-spacing:.1em;color:#ff4422;text-shadow:0 0 10px rgba(255,60,20,.6);text-align:center;text-transform:uppercase;margin:3px 0 2px}
+.tagline2{font-family:'IM Fell English',serif;font-size:clamp(.82rem,2.8vw,1rem);color:rgba(255,180,130,.65);text-align:center;font-style:italic;margin-bottom:10px;letter-spacing:.04em}
 .flags{font-size:1.6rem;letter-spacing:.35rem;animation:flt 4.5s ease-in-out infinite;text-align:center;margin:4px 0 14px}
 .btn{width:100%;padding:13px 16px;border-radius:3px;font-family:'Cinzel',serif;font-weight:700;font-size:.78rem;letter-spacing:.14em;cursor:pointer;border:none;text-transform:uppercase;margin-bottom:8px;transition:all .2s;position:relative;overflow:hidden}
 .btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transform:translateX(-100%);transition:transform .5s}
@@ -80,7 +78,7 @@ body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,seri
 .ptag{font-size:.68rem;color:#ffcc80;background:rgba(100,40,0,.5);border:1px solid rgba(200,120,0,.3);border-radius:8px;padding:2px 6px;display:inline-block;margin-bottom:3px;font-family:'Cinzel',serif;letter-spacing:.05em}
 .qwrap{display:flex;flex-direction:column;height:100%;padding:12px 12px 66px}
 .sbar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:9px;flex-shrink:0}
-.sc{display:flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid rgba(140,20,20,.2);border-radius:3px;font-size:.76rem;color:rgba(240,180,150,.28);background:rgba(10,0,5,.75);transition:all .25s}
+.sc{display:flex;align-items:center;gap:5px;padding:6px 12px;border:1px solid rgba(140,20,20,.25);border-radius:3px;font-size:.8rem;color:rgba(240,180,150,.5);background:rgba(16,2,8,.88);transition:all .25s}
 .sc.act{background:rgba(28,2,6,.95)}
 .sn{font-family:'Cinzel',serif;font-weight:700}
 .qcard{flex:1;display:flex;flex-direction:column;background:linear-gradient(160deg,rgba(10,0,6,.96),rgba(6,0,12,.96));border:1px solid rgba(160,20,40,.28);border-radius:4px;padding:16px 16px 12px;box-shadow:0 0 40px rgba(120,0,20,.2);position:relative;overflow:hidden}
@@ -88,11 +86,11 @@ body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,seri
 .tt{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:9px;flex-shrink:0}
 .tf2{height:100%;border-radius:2px;transition:width 1s linear,background .3s}
 .tr{display:flex;justify-content:space-between;margin-bottom:11px;flex-shrink:0}
-.ql{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,180,150,.3);font-family:'Cinzel',serif}
-.tnum{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700}
-.qt{font-size:clamp(.93rem,2.4vw,1.08rem);line-height:1.65;color:#f0d8c0;margin-bottom:13px;flex-shrink:0}
+.ql{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,200,170,.55);font-family:'Cinzel',serif}
+.tnum{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:700;letter-spacing:.05em}
+.qt{font-size:clamp(1.05rem,2.8vw,1.2rem);line-height:1.7;color:#ffffff;margin-bottom:13px;flex-shrink:0;font-weight:500}
 .opts{display:grid;gap:6px;flex-shrink:0}
-.ob{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(12,0,6,.82);border:1px solid rgba(140,20,30,.22);border-radius:3px;color:rgba(240,200,180,.45);font-family:'IM Fell English',serif;font-size:.91rem;cursor:pointer;text-align:left;line-height:1.4;transition:all .17s;width:100%;position:relative;overflow:hidden}
+.ob{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(20,3,10,.88);border:1px solid rgba(160,30,40,.3);border-radius:3px;color:rgba(255,230,210,.75);font-family:'IM Fell English',serif;font-size:.98rem;cursor:pointer;text-align:left;line-height:1.4;transition:all .17s;width:100%;position:relative;overflow:hidden}
 .ob:hover:not([disabled]){border-color:rgba(200,40,40,.5);color:#f0d8c0;background:rgba(30,2,6,.95);padding-left:16px}
 .ob:active:not([disabled]){transform:scale(.98)}
 .ob.cor{border-color:rgba(80,200,110,.6);color:#86efac;background:rgba(0,24,6,.75);animation:cPop .3s ease}
@@ -102,9 +100,9 @@ body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,seri
 @keyframes wShk{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 .ok{min-width:21px;height:21px;border:1px solid currentColor;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:bold;opacity:.5;flex-shrink:0;font-family:'Cinzel',serif}
 .ex{padding:9px 12px;border-radius:3px;font-size:.83rem;line-height:1.58;margin:9px 0 7px;font-style:italic}
-.ex.c{border-left:3px solid rgba(80,200,110,.55);background:rgba(0,22,6,.7);color:#a7f3d0}
-.ex.w{border-left:3px solid rgba(220,40,40,.55);background:rgba(28,0,0,.7);color:#fca5a5}
-.ex.t{border-left:3px solid rgba(250,120,0,.55);background:rgba(28,6,0,.7);color:#fdba74}
+.ex.c{border-left:3px solid rgba(80,200,110,.65);background:rgba(0,28,8,.85);color:#c6ffd0;font-size:.9rem}
+.ex.w{border-left:3px solid rgba(220,40,40,.65);background:rgba(35,0,0,.85);color:#ffbcbc;font-size:.9rem}
+.ex.t{border-left:3px solid rgba(250,120,0,.65);background:rgba(35,8,0,.85);color:#ffd090;font-size:.9rem}
 .xpop{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-family:'Cinzel',serif;font-weight:900;font-size:1.8rem;color:#ffcc00;text-shadow:0 0 20px rgba(255,200,0,.8);pointer-events:none;z-index:999;animation:xpAnim .85s ease forwards}
 @keyframes xpAnim{0%{opacity:0;transform:translate(-50%,-60%)}20%{opacity:1}80%{opacity:1;transform:translate(-50%,-80%)}100%{opacity:0;transform:translate(-50%,-110%)}}
 .rt{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;text-align:center;background:linear-gradient(135deg,#ffcc80,#ff6633,#cc0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
@@ -114,7 +112,7 @@ body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,seri
 .wm{text-align:center;font-family:'Cinzel',serif;font-size:.98rem;font-weight:700;padding:12px;margin-bottom:12px;border:1px solid rgba(180,40,20,.3);border-radius:3px;background:rgba(38,4,4,.6);color:#ffaa70;letter-spacing:.05em}
 .div{height:1px;background:rgba(180,20,20,.12);margin:12px 0}
 .hr2{display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid rgba(140,20,20,.15);border-radius:3px;font-size:.84rem;background:rgba(10,0,5,.65);margin-bottom:6px}
-.sec{font-family:'Cinzel',serif;font-size:.66rem;letter-spacing:.2em;color:#ff7755;text-transform:uppercase;margin-bottom:10px}
+.sec{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.2em;color:#ff9977;text-transform:uppercase;margin-bottom:12px;text-shadow:0 0 8px rgba(255,100,50,.3)}
 .fighters{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .fi{position:absolute;bottom:0;font-size:clamp(9rem,22vw,15rem);opacity:.07;line-height:1}
 .fi.l{left:-1%;animation:fiL 4s ease-in-out infinite}
@@ -135,17 +133,20 @@ body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,seri
 
 <!-- HOME -->
 
-<div id="s-home" class="screen ctr active">
-  <div style="width:100%;max-width:320px;display:flex;flex-direction:column;align-items:center">
-    <div class="mk">MORTAL KOMBAT</div>
+<div id="s-home" class="screen active" style="padding:0;overflow-y:auto">
+  <div style="width:100%;max-width:360px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:14px 18px 70px;min-height:100%">
+    <div class="mk" style="margin-top:6px;margin-bottom:2px">MORTAL KOMBAT</div>
     <div class="globe">🌍</div>
-    <div class="swords"><span class="sw l">⚔️</span><span class="sprk">✨</span><span class="sw r">⚔️</span></div>
+    <div class="swords"><span class="sw">⚔️</span></div>
     <div class="title">❤️ Best World Quiz ❤️</div>
     <div class="tagline">Kämpfe dich durch!</div>
+    <div class="tagline2">Oder Angst? 😅</div>
     <div class="flags">🇩🇪 🇷🇺 🇺🇦 🇹🇷 🇫🇷</div>
-    <button class="btn btn-p" onclick="go('setup')">🎮 Neues Spiel · Новая игра</button>
-    <button class="btn btn-g" onclick="go('profiles')">👤 Spielerprofile · Профили</button>
-    <button class="btn btn-o" onclick="go('hs')">🏆 Bestenliste · Рейтинг</button>
+    <div style="width:100%;margin-top:16px">
+      <button class="btn btn-p" onclick="go('setup')" style="padding:17px;font-size:.88rem;margin-bottom:12px">🎮 Neues Spiel · Новая игра</button>
+      <button class="btn btn-g" onclick="go('profiles')" style="padding:17px;font-size:.88rem;margin-bottom:12px">👤 Spielerprofile · Профили</button>
+      <button class="btn btn-o" onclick="go('hs')" style="padding:17px;font-size:.88rem;margin-bottom:0">🏆 Bestenliste · Рейтинг</button>
+    </div>
   </div>
 </div>
 
@@ -317,7 +318,7 @@ function renderPL(){
     const c=C(p.cid);const pf=p.name.trim()?getProf(p.name.trim()):null;const lv=pf?getLv(pf.xp):null;
     const fbtns=COUNTRIES.map(ct=>`<button class="fb${p.cid===ct.id?' sel':''}" onclick="selC(${p.id},'${ct.id}')" title="${ct.name}">${ct.flag}</button>`).join('');
     h+=`<div class="pbox" style="--pc:${c.color}"><div style="display:flex;gap:8px;align-items:flex-start"><div style="font-family:Cinzel,serif;font-size:1.2rem;font-weight:900;color:#fff;min-width:20px;padding-top:3px">${i+1}</div><div style="flex:1">${lv?`<div class="ptag">⚔️ Lvl ${lv.v} ${lv.n} · ${pf.xp} XP</div>`:''}
-    <input class="inp" placeholder="Name ${i+1}" value="${p.name}" oninput="setN(${p.id},this.value)" maxlength="20"/><div class="frow">${fbtns}</div><div style="font-size:.67rem;color:rgba(200,120,90,.3);font-style:italic;margin-top:3px">${c.flag} ${c.lang}</div></div></div></div>`;
+    <input class="inp" placeholder="Name ${i+1}" value="${p.name}" oninput="setN(${p.id},this.value)" maxlength="20" enterkeyhint="next" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false"/><div class="frow">${fbtns}</div><div style="font-size:.67rem;color:rgba(200,120,90,.3);font-style:italic;margin-top:3px">${c.flag} ${c.lang}</div></div></div></div>`;
   });
   document.getElementById('plist').innerHTML=h;
 }
