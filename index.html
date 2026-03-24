@@ -1,420 +1,234 @@
-<!DOCTYPE html>
+Here is an improved version of the "Best World Quiz" with Mortal Kombat theme. I've fixed the CSS variable bug, added HTML escaping for security, polished the timer bar, and refined the overall experience.
 
+```html
+<!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-<title>❤️ Best World Quiz ❤️</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#070008">
+<title>MORTAL KOMBAT · BEST WORLD QUIZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden}
-body{background:#04000a;color:#f0d8c0;font-family:'IM Fell English',Georgia,serif;height:100vh}
-.bg{position:fixed;inset:0;background:radial-gradient(ellipse 120% 60% at 50% -10%,rgba(220,10,10,.38) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 5% 90%,rgba(140,0,60,.25) 0%,transparent 55%),radial-gradient(ellipse 60% 50% at 95% 90%,rgba(80,0,100,.22) 0%,transparent 55%),linear-gradient(180deg,#04000a 0%,#080012 50%,#04000a 100%);z-index:0}
-.grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(180,0,60,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(180,0,60,.05) 1px,transparent 1px);background-size:48px 48px}
-.particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.p{position:absolute;bottom:-10px;border-radius:50%;background:radial-gradient(circle,#ff6030,#cc0020);box-shadow:0 0 8px 2px rgba(255,50,20,.6);animation:rise linear infinite}
-@keyframes rise{0%{transform:translateY(0) scale(1);opacity:0}8%{opacity:1}92%{opacity:.4}100%{transform:translateY(-105vh) scale(.15);opacity:0}}
-.app{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-.screen{display:none;flex-direction:column;height:100%;width:100%;overflow-y:auto;overflow-x:hidden;padding:16px 14px 68px}
+html,body{height:100%;overflow:hidden;background:#070008}
+body{color:#efe8d8;font-family:'Rajdhani',sans-serif;font-weight:500;font-size:16px}
+#bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 140% 70% at 50% -15%, rgba(200,0,0,.32) 0%, transparent 58%), radial-gradient(ellipse 80% 60% at 0% 100%, rgba(120,0,50,.22) 0%, transparent 50%), radial-gradient(ellipse 80% 60% at 100% 100%, rgba(60,0,80,.18) 0%, transparent 50%), radial-gradient(ellipse 60% 60% at 50% 50%, rgba(30,0,15,.4) 0%, transparent 80%), linear-gradient(175deg,#09000e 0%,#07000b 40%,#040009 100%)}
+#vgrid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(200,0,80,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,0,80,.04) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 0%,transparent 100%)}
+#vign{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 45%,rgba(0,0,0,.7) 100%)}
+#sparks{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.sp{position:absolute;bottom:-8px;border-radius:50%;background:radial-gradient(circle,#ff7040,#c00010);box-shadow:0 0 6px 1px rgba(255,60,20,.55);animation:spRise linear infinite}
+@keyframes spRise{0%{transform:translateY(0) translateX(0) scale(1);opacity:0}6%{opacity:1}50%{transform:translateY(-50vh) translateX(10px) scale(.65)}94%{opacity:.35}100%{transform:translateY(-108vh) translateX(-6px) scale(.1);opacity:0}}
+#app{position:relative;z-index:1;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.screen{display:none;flex-direction:column;width:100%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
 .screen.active{display:flex}
-.ctr{align-items:center;justify-content:center}
-.card{width:100%;max-width:600px;margin:0 auto;background:linear-gradient(160deg,rgba(18,2,10,.97),rgba(10,0,18,.97));border:1px solid rgba(180,30,60,.35);border-radius:4px;padding:22px 20px;box-shadow:0 0 40px rgba(150,0,0,.2),0 20px 60px rgba(0,0,0,.7);position:relative;overflow:hidden;animation:cardIn .35s ease}
-.card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,60,80,.75),transparent)}
-@keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.mk{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.2rem,5vw,2.4rem);letter-spacing:.18em;background:linear-gradient(180deg,#fff5e0 0%,#ffaa40 25%,#ff4400 60%,#990000 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(255,100,0,.85)) drop-shadow(0 4px 8px rgba(0,0,0,1));animation:mkF 2s ease-in-out infinite;text-align:center}
-@keyframes mkF{0%,100%{filter:drop-shadow(0 0 12px rgba(255,100,0,.7)) drop-shadow(0 4px 8px rgba(0,0,0,1))}50%{filter:drop-shadow(0 0 32px rgba(255,180,0,1)) drop-shadow(0 4px 8px rgba(0,0,0,1))}}
-.globe{font-size:clamp(9rem,26vw,14rem);filter:drop-shadow(0 0 32px rgba(255,40,0,.95)) drop-shadow(0 0 80px rgba(150,0,0,.6));animation:globeSpin 8s linear infinite;text-align:center;line-height:1;display:block}
-@keyframes flt{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1deg)}}
-@keyframes globeSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-.swords{display:flex;align-items:center;justify-content:center;margin:4px auto 4px;height:60px}
-.sw{font-size:3.5rem;display:inline-block;animation:swingSword 1.5s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(255,200,0,.7));transform-origin:bottom center}
-.sprk{display:none}
-@keyframes swingSword{0%{transform:rotate(-40deg)}50%{transform:rotate(40deg)}100%{transform:rotate(-40deg)}}
-.title{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.5rem,6vw,2.6rem);color:#ffc8a0;text-shadow:0 0 28px rgba(255,80,30,.6),0 0 60px rgba(200,20,0,.3);text-align:center;line-height:1.15}
-.tagline{font-family:'Cinzel',serif;font-size:clamp(.72rem,2.5vw,.92rem);letter-spacing:.1em;color:#ff4422;text-shadow:0 0 10px rgba(255,60,20,.6);text-align:center;text-transform:uppercase;margin:3px 0 2px}
-.tagline2{font-family:'IM Fell English',serif;font-size:clamp(.82rem,2.8vw,1rem);color:rgba(255,180,130,.65);text-align:center;font-style:italic;margin-bottom:10px;letter-spacing:.04em}
-.flags{font-size:1.6rem;letter-spacing:.35rem;animation:flt 4.5s ease-in-out infinite;text-align:center;margin:4px 0 14px}
-.btn{width:100%;padding:13px 16px;border-radius:3px;font-family:'Cinzel',serif;font-weight:700;font-size:.78rem;letter-spacing:.14em;cursor:pointer;border:none;text-transform:uppercase;margin-bottom:8px;transition:all .2s;position:relative;overflow:hidden}
-.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transform:translateX(-100%);transition:transform .5s}
-.btn:hover::after{transform:translateX(100%)}
-.btn:active{transform:scale(.96)!important;filter:brightness(1.2)}
-.btn-p{background:linear-gradient(135deg,#4a0000,#8b0000,#b01500,#5c0000);color:#ffe5cc;box-shadow:0 0 0 1px rgba(255,60,30,.28),0 0 20px rgba(160,0,0,.4)}
-.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 28px rgba(200,0,0,.5)}
-.btn-o{background:transparent;color:rgba(240,180,150,.45);border:1px solid rgba(180,40,40,.25);font-family:'IM Fell English',serif;font-style:italic;text-transform:none;font-size:.9rem;letter-spacing:.02em}
-.btn-o:hover{color:rgba(240,180,150,.8);border-color:rgba(200,60,60,.5)}
-.btn-g{background:linear-gradient(135deg,#5a3400,#b07000,#d09000,#6a3800);color:#fff8e0;box-shadow:0 0 18px rgba(200,130,0,.35)}
-.btn-g:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(255,160,0,.5)}
-.pcgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:16px}
-.pcb{padding:15px 0;font-family:'Cinzel',serif;font-size:1.5rem;font-weight:900;background:rgba(14,0,6,.8);border:2px solid rgba(130,20,20,.22);border-radius:3px;color:rgba(200,80,60,.3);cursor:pointer;transition:all .18s;text-align:center}
-.pcb:hover{border-color:rgba(200,50,50,.5);color:rgba(255,120,90,.7)}
-.pcb.on{border-color:rgba(220,50,30,.75);color:#ff9966;box-shadow:0 0 16px rgba(180,20,0,.4);background:rgba(50,3,3,.7)}
-.pcb:active{transform:scale(.9)}
-.pbox{margin-bottom:9px;padding:12px 13px;border-radius:3px;border:1px solid rgba(200,50,50,.22);border-left:3px solid var(--pc,#880000);background:rgba(12,0,5,.75)}
-.inp{width:100%;padding:9px 11px;background:rgba(20,2,5,.9);border:1px solid rgba(200,60,60,.28);border-radius:3px;color:#fff;font-family:'IM Fell English',serif;font-size:.93rem;outline:none;transition:all .2s;margin-bottom:6px}
-.inp:focus{border-color:rgba(255,100,80,.65);box-shadow:0 0 10px rgba(180,20,0,.15)}
-.inp::placeholder{color:rgba(200,120,90,.22)}
-.frow{display:flex;gap:5px;flex-wrap:wrap}
-.fb{padding:5px 8px;font-size:1.1rem;background:rgba(10,0,4,.8);border:2px solid rgba(120,20,20,.2);border-radius:3px;cursor:pointer;transition:all .18s}
-.fb:hover{border-color:rgba(200,50,50,.4);transform:scale(1.1)}
-.fb.sel{border-color:#cc2200;transform:scale(1.12);box-shadow:0 0 10px rgba(200,20,0,.3)}
-.fb:active{transform:scale(.93)}
-.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}
-.cb{display:flex;align-items:center;gap:7px;padding:10px 11px;background:rgba(12,0,5,.85);border:1px solid rgba(140,20,20,.2);border-radius:3px;color:rgba(240,180,150,.3);font-family:'IM Fell English',serif;font-size:.86rem;cursor:pointer;transition:all .18s}
-.cb:hover{border-color:rgba(200,50,50,.4);color:rgba(240,180,150,.65)}
-.cb.on{border-color:rgba(220,50,30,.65);color:#ffcca0;background:rgba(40,2,4,.85);box-shadow:0 0 10px rgba(160,10,0,.18)}
-.cb:active{transform:scale(.97)}
-.steps{display:flex;gap:8px;justify-content:center;margin-bottom:16px}
-.sd{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);transition:all .35s}
-.sd.on{background:rgba(255,60,40,.85);box-shadow:0 0 10px rgba(255,60,40,.7)}
-.lg{font-size:3.5rem;filter:drop-shadow(0 0 18px rgba(255,40,0,.8));animation:spin 2s linear infinite;text-align:center;display:block}
-@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.lr{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:rgba(12,0,5,.9);border:1px solid rgba(140,20,20,.2);border-radius:3px;font-size:.86rem;color:rgba(240,180,150,.45);margin-bottom:6px;min-width:190px}
-.lr.done{border-color:rgba(80,200,100,.3);color:#86efac}
-.tf{font-size:5rem;filter:drop-shadow(0 0 18px rgba(255,40,0,.4));animation:flt 3s ease-in-out infinite;display:block;text-align:center;margin-bottom:10px}
-.xpb{height:4px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;margin:4px 0 2px}
-.xpf{height:100%;border-radius:3px;background:linear-gradient(90deg,#ff6600,#ffcc00);box-shadow:0 0 8px rgba(255,150,0,.6);transition:width .8s ease}
-.lvlbdg{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;background:linear-gradient(135deg,rgba(80,20,0,.8),rgba(140,40,0,.8));border:1px solid rgba(255,130,0,.35);border-radius:10px;font-size:.68rem;font-family:'Cinzel',serif;color:#ffcc80;letter-spacing:.07em}
-.ptag{font-size:.68rem;color:#ffcc80;background:rgba(100,40,0,.5);border:1px solid rgba(200,120,0,.3);border-radius:8px;padding:2px 6px;display:inline-block;margin-bottom:3px;font-family:'Cinzel',serif;letter-spacing:.05em}
-.qwrap{display:flex;flex-direction:column;height:100%;padding:12px 12px 66px}
-.sbar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:9px;flex-shrink:0}
-.sc{display:flex;align-items:center;gap:5px;padding:6px 12px;border:1px solid rgba(140,20,20,.25);border-radius:3px;font-size:.8rem;color:rgba(240,180,150,.5);background:rgba(16,2,8,.88);transition:all .25s}
-.sc.act{background:rgba(28,2,6,.95)}
-.sn{font-family:'Cinzel',serif;font-weight:700}
-.qcard{flex:1;display:flex;flex-direction:column;background:linear-gradient(160deg,rgba(10,0,6,.96),rgba(6,0,12,.96));border:1px solid rgba(160,20,40,.28);border-radius:4px;padding:16px 16px 12px;box-shadow:0 0 40px rgba(120,0,20,.2);position:relative;overflow:hidden}
-.qcard::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,60,60,.55),transparent)}
-.tt{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:9px;flex-shrink:0}
-.tf2{height:100%;border-radius:2px;transition:width 1s linear,background .3s}
-.tr{display:flex;justify-content:space-between;margin-bottom:11px;flex-shrink:0}
-.ql{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,200,170,.55);font-family:'Cinzel',serif}
-.tnum{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:700;letter-spacing:.05em}
-.qt{font-size:clamp(1.05rem,2.8vw,1.2rem);line-height:1.7;color:#ffffff;margin-bottom:13px;flex-shrink:0;font-weight:500}
-.opts{display:grid;gap:6px;flex-shrink:0}
-.ob{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(20,3,10,.88);border:1px solid rgba(160,30,40,.3);border-radius:3px;color:rgba(255,230,210,.75);font-family:'IM Fell English',serif;font-size:.98rem;cursor:pointer;text-align:left;line-height:1.4;transition:all .17s;width:100%;position:relative;overflow:hidden}
-.ob:hover:not([disabled]){border-color:rgba(200,40,40,.5);color:#f0d8c0;background:rgba(30,2,6,.95);padding-left:16px}
-.ob:active:not([disabled]){transform:scale(.98)}
-.ob.cor{border-color:rgba(80,200,110,.6);color:#86efac;background:rgba(0,24,6,.75);animation:cPop .3s ease}
-.ob.wrg{border-color:rgba(220,40,40,.6);color:#fca5a5;background:rgba(30,0,0,.75);animation:wShk .3s ease}
-.ob[disabled]{cursor:default}
-@keyframes cPop{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
-@keyframes wShk{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.ok{min-width:21px;height:21px;border:1px solid currentColor;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:bold;opacity:.5;flex-shrink:0;font-family:'Cinzel',serif}
-.ex{padding:9px 12px;border-radius:3px;font-size:.83rem;line-height:1.58;margin:9px 0 7px;font-style:italic}
-.ex.c{border-left:3px solid rgba(80,200,110,.65);background:rgba(0,28,8,.85);color:#c6ffd0;font-size:.9rem}
-.ex.w{border-left:3px solid rgba(220,40,40,.65);background:rgba(35,0,0,.85);color:#ffbcbc;font-size:.9rem}
-.ex.t{border-left:3px solid rgba(250,120,0,.65);background:rgba(35,8,0,.85);color:#ffd090;font-size:.9rem}
-.xpop{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-family:'Cinzel',serif;font-weight:900;font-size:1.8rem;color:#ffcc00;text-shadow:0 0 20px rgba(255,200,0,.8);pointer-events:none;z-index:999;animation:xpAnim .85s ease forwards}
-@keyframes xpAnim{0%{opacity:0;transform:translate(-50%,-60%)}20%{opacity:1}80%{opacity:1;transform:translate(-50%,-80%)}100%{opacity:0;transform:translate(-50%,-110%)}}
-.rt{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;text-align:center;background:linear-gradient(135deg,#ffcc80,#ff6633,#cc0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
-.pod{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
-.pr{display:flex;align-items:center;gap:8px;padding:10px 11px;border:1px solid rgba(140,20,20,.18);border-radius:3px;background:rgba(10,0,5,.75)}
-.pr.f1{border-color:rgba(255,150,50,.35)!important;background:rgba(30,5,0,.8);box-shadow:0 0 14px rgba(200,70,0,.12)}
-.wm{text-align:center;font-family:'Cinzel',serif;font-size:.98rem;font-weight:700;padding:12px;margin-bottom:12px;border:1px solid rgba(180,40,20,.3);border-radius:3px;background:rgba(38,4,4,.6);color:#ffaa70;letter-spacing:.05em}
-.div{height:1px;background:rgba(180,20,20,.12);margin:12px 0}
-.hr2{display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid rgba(140,20,20,.15);border-radius:3px;font-size:.84rem;background:rgba(10,0,5,.65);margin-bottom:6px}
-.sec{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.2em;color:#ff9977;text-transform:uppercase;margin-bottom:12px;text-shadow:0 0 8px rgba(255,100,50,.3)}
-.fighters{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.fi{position:absolute;bottom:0;font-size:clamp(9rem,22vw,15rem);opacity:.07;line-height:1}
-.fi.l{left:-1%;animation:fiL 4s ease-in-out infinite}
-.fi.r{right:-1%;animation:fiR 4s ease-in-out infinite}
-@keyframes fiL{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(3deg)}}
-@keyframes fiR{0%,100%{transform:scaleX(-1) translateY(0) rotate(3deg)}50%{transform:scaleX(-1) translateY(-10px) rotate(-3deg)}}
-.footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:9px 16px;z-index:100;pointer-events:none;background:linear-gradient(0deg,rgba(4,0,10,.92) 0%,transparent 100%)}
-.footer p{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.92);text-shadow:0 0 12px rgba(255,80,30,.55)}
+.scenter{align-items:center;justify-content:center}
+.spad{padding:20px 16px 80px}
+.card{width:100%;max-width:620px;margin:0 auto;background:linear-gradient(145deg,rgba(22,4,14,.94) 0%,rgba(12,2,20,.94) 100%);border:1px solid rgba(200,40,80,.22);border-radius:8px;padding:24px 22px;box-shadow:0 0 0 1px rgba(255,0,50,.05),0 0 30px rgba(180,0,40,.12),0 0 80px rgba(80,0,30,.1),0 28px 72px rgba(0,0,0,.72);backdrop-filter:blur(12px);position:relative;overflow:hidden;animation:cardIn .38s cubic-bezier(.22,1,.36,1)}
+.card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,80,100,.65),transparent);box-shadow:0 0 12px rgba(255,30,60,.45)}
+.card::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(120,0,40,.35),transparent)}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px) scale(.98)}to{opacity:1;transform:none}}
+.mk{font-family:'Cinzel Decorative',serif;font-weight:900;font-size:clamp(1.1rem,4.5vw,2.1rem);letter-spacing:.16em;text-transform:uppercase;text-align:center;background:linear-gradient(180deg,#fff8e8 0%,#ffb030 22%,#ff4000 55%,#aa0000 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(255,100,0,.82)) drop-shadow(0 0 45px rgba(200,20,0,.45)) drop-shadow(0 4px 8px rgba(0,0,0,1));animation:mkGlow 2.4s ease-in-out infinite;line-height:1.15}
+@keyframes mkGlow{0%,100%{filter:drop-shadow(0 0 14px rgba(255,100,0,.7)) drop-shadow(0 4px 8px rgba(0,0,0,1))}50%{filter:drop-shadow(0 0 36px rgba(255,200,0,1)) drop-shadow(0 0 70px rgba(220,40,0,.65)) drop-shadow(0 4px 8px rgba(0,0,0,1))}}
+.t-main{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.5rem,6.5vw,2.8rem);color:#ffd0a8;text-align:center;line-height:1.15;text-shadow:0 0 32px rgba(255,90,30,.55),0 0 80px rgba(200,20,0,.28),0 3px 8px rgba(0,0,0,1)}
+.t-tag{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(.72rem,2.6vw,.92rem);letter-spacing:.14em;text-transform:uppercase;text-align:center;color:#ff4422;text-shadow:0 0 12px rgba(255,60,20,.65)}
+.t-sub{font-family:'Rajdhani',sans-serif;font-weight:500;font-size:clamp(.88rem,3vw,1.05rem);color:rgba(255,190,150,.6);text-align:center;font-style:italic}
+.sec-lbl{font-family:'Cinzel',serif;font-size:.68rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#ff7755;margin-bottom:14px;text-shadow:0 0 8px rgba(255,80,40,.35)}
+.globe{font-size:clamp(9rem,27vw,14rem);display:block;text-align:center;line-height:1;filter:drop-shadow(0 0 36px rgba(255,50,0,.95)) drop-shadow(0 0 90px rgba(160,0,0,.65));animation:gSpin 9s linear infinite}
+@keyframes gSpin{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.04)}100%{transform:rotate(360deg) scale(1)}}
+.sword-wrap{height:64px;display:flex;align-items:center;justify-content:center;position:relative}
+.sword-icon{font-size:3.2rem;display:block;filter:drop-shadow(0 0 12px rgba(255,210,0,.8)) drop-shadow(0 0 28px rgba(255,100,0,.5));transform-origin:center bottom;animation:swordSwing 1.6s ease-in-out infinite}
+@keyframes swordSwing{0%{transform:rotate(-45deg) scale(.95)}25%{transform:rotate(0deg) scale(1.05)}50%{transform:rotate(45deg) scale(.95)}75%{transform:rotate(0deg) scale(1.05)}100%{transform:rotate(-45deg) scale(.95)}}
+.btn{width:100%;padding:15px 20px;border-radius:6px;font-family:'Cinzel',serif;font-weight:700;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border:none;margin-bottom:10px;transition:all .22s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden}
+.btn-shine::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);transform:translateX(-100%);transition:transform .55s}
+.btn-shine:hover::before{transform:translateX(100%)}
+.btn:active{transform:scale(.95)!important}
+.btn-red{background:linear-gradient(135deg,#3d0000 0%,#7a0000 35%,#a81200 60%,#4e0000 100%);color:#ffe8d0;box-shadow:0 0 0 1px rgba(255,50,20,.25),0 0 22px rgba(150,0,0,.38),0 6px 24px rgba(0,0,0,.5)}
+.btn-red:hover{background:linear-gradient(135deg,#520000 0%,#960000 35%,#c41800 60%,#620000 100%);box-shadow:0 0 0 1px rgba(255,80,40,.45),0 0 32px rgba(200,0,0,.5),0 8px 28px rgba(0,0,0,.5);transform:translateY(-2px)}
+.btn-gold{background:linear-gradient(135deg,#4a2800 0%,#9a6200 35%,#c48000 60%,#5c3200 100%);color:#fff5d0;box-shadow:0 0 0 1px rgba(255,180,0,.22),0 0 20px rgba(200,120,0,.32),0 6px 22px rgba(0,0,0,.5)}
+.btn-gold:hover{box-shadow:0 0 0 1px rgba(255,200,0,.4),0 0 30px rgba(240,160,0,.5);transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.03);color:rgba(255,200,160,.5);border:1px solid rgba(200,60,60,.2);font-family:'Rajdhani',sans-serif;font-weight:600;text-transform:none;letter-spacing:.04em;font-size:.92rem}
+.btn-ghost:hover{color:rgba(255,200,160,.85);border-color:rgba(220,80,80,.45);background:rgba(200,20,20,.08)}
+.pcg{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
+.pcb{padding:16px 0;text-align:center;font-family:'Cinzel Decorative',serif;font-size:1.5rem;font-weight:900;background:rgba(12,0,6,.85);border:2px solid rgba(140,20,20,.2);border-radius:6px;color:rgba(200,80,60,.28);cursor:pointer;transition:all .2s}
+.pcb:hover{border-color:rgba(210,60,60,.5);color:rgba(255,130,100,.7);background:rgba(30,2,8,.9)}
+.pcb.on{border-color:rgba(230,60,30,.75);color:#ff9966;background:rgba(55,4,4,.75);box-shadow:0 0 18px rgba(190,20,0,.38),inset 0 0 12px rgba(90,0,0,.3)}
+.pcb:active{transform:scale(.88)}
+.prow{margin-bottom:10px;padding:14px 14px;border-radius:6px;border:1px solid rgba(200,50,50,.18);border-left:3px solid var(--pc,#880000);background:rgba(14,2,6,.8)}
+.pnum{font-family:'Cinzel Decorative',serif;font-size:1.3rem;font-weight:900;color:#fff;min-width:22px;padding-top:2px;line-height:1;text-shadow:0 0 10px rgba(255,255,255,.3)}
+.pinp{width:100%;padding:11px 13px;background:rgba(18,2,8,.92);border:1px solid rgba(200,60,60,.25);border-radius:5px;color:#fff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1rem;outline:none;transition:all .2s;margin-bottom:8px;caret-color:#ff6633}
+.pinp:focus{border-color:rgba(255,110,80,.65);box-shadow:0 0 0 2px rgba(200,30,10,.15),0 0 12px rgba(180,20,0,.12)}
+.pinp::placeholder{color:rgba(200,120,90,.2)}
+.frow{display:flex;gap:6px;flex-wrap:wrap}
+.fb{padding:6px 9px;font-size:1.15rem;background:rgba(10,0,4,.85);border:2px solid rgba(130,20,20,.18);border-radius:5px;cursor:pointer;transition:all .18s}
+.fb:hover{border-color:rgba(210,60,60,.42);transform:scale(1.1)}
+.fb.sel{border-color:#cc2200;transform:scale(1.14);box-shadow:0 0 12px rgba(210,20,0,.35)}
+.fb:active{transform:scale(.91)}
+.plang{font-size:.7rem;color:rgba(200,130,100,.32);margin-top:5px;font-style:italic}
+.ptag{display:inline-flex;align-items:center;gap:4px;font-size:.68rem;color:#ffcc80;background:rgba(100,40,0,.5);border:1px solid rgba(200,120,0,.28);border-radius:10px;padding:2px 7px;margin-bottom:5px;font-family:'Cinzel',serif;letter-spacing:.05em}
+.catg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.catb{display:flex;align-items:center;gap:9px;padding:12px 13px;background:rgba(12,0,6,.88);border:1px solid rgba(150,20,20,.18);border-radius:6px;color:rgba(240,180,150,.28);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;transition:all .18s;text-align:left}
+.catb:hover{border-color:rgba(210,60,60,.38);color:rgba(240,180,150,.65);background:rgba(22,2,8,.95)}
+.catb.on{border-color:rgba(230,60,30,.6);color:#ffcca0;background:rgba(45,3,5,.9);box-shadow:0 0 12px rgba(170,15,0,.18)}
+.steps{display:flex;gap:10px;justify-content:center;margin-bottom:18px}
+.sdot{width:32px;height:4px;border-radius:2px;background:rgba(255,255,255,.08);transition:all .35s}
+.sdot.on{background:rgba(255,60,40,.85);box-shadow:0 0 8px rgba(255,60,40,.6)}
+.ldglobe{font-size:4rem;display:block;text-align:center;filter:drop-shadow(0 0 22px rgba(255,50,0,.8));animation:ldSpin 1.8s linear infinite}
+@keyframes ldSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.lrow{display:flex;justify-content:space-between;align-items:center;padding:9px 18px;background:rgba(14,2,8,.9);border:1px solid rgba(150,20,20,.18);border-radius:5px;font-size:.92rem;color:rgba(240,185,155,.42);margin-bottom:7px;min-width:200px;font-weight:600}
+.lrow.done{border-color:rgba(80,210,100,.3);color:#90f7ac}
+.turn-flag{font-size:5.5rem;display:block;text-align:center;margin-bottom:12px;filter:drop-shadow(0 0 20px rgba(255,50,0,.45));animation:fltBounce 3s ease-in-out infinite}
+@keyframes fltBounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.04)}}
+.turn-name{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.7rem,6vw,2.4rem);text-align:center;margin-bottom:6px;text-shadow:0 0 22px currentColor,0 0 55px currentColor}
+#s-quiz{padding:0}
+.qwrap{display:flex;flex-direction:column;height:100%;padding:12px 14px 72px;gap:10px}
+.sbar{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;flex-shrink:0}
+.schip{display:flex;align-items:center;gap:6px;padding:6px 13px;border:1px solid rgba(150,20,20,.22);border-radius:20px;font-size:.82rem;color:rgba(240,190,160,.38);background:rgba(14,2,8,.85);transition:all .25s;font-weight:600}
+.schip.act{background:rgba(30,3,10,.95)}
+.schip-score{font-family:'Cinzel',serif;font-weight:700;font-size:.9rem}
+.qcard{flex:1;display:flex;flex-direction:column;background:linear-gradient(150deg,rgba(10,0,8,.96) 0%,rgba(7,0,14,.96) 100%);border:1px solid rgba(170,25,45,.25);border-radius:8px;padding:18px 18px 14px;box-shadow:0 0 45px rgba(130,0,20,.18),0 28px 70px rgba(0,0,0,.7);position:relative;overflow:hidden}
+.qcard::before{content:'';position:absolute;top:0;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,70,70,.55),transparent)}
+.ttrack{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;margin-bottom:12px;flex-shrink:0}
+.tfill{height:100%;border-radius:2px;transition:width 1s linear,background .3s,box-shadow .3s}
+.trow{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-shrink:0}
+.qlabel{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,200,170,.45)}
+.tnum{font-family:'Cinzel Decorative',serif;font-size:1.25rem;font-weight:700;letter-spacing:.04em;min-width:44px;text-align:right}
+.qtext{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:clamp(1.08rem,2.8vw,1.22rem);line-height:1.65;color:#fff;margin-bottom:14px;flex-shrink:0;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.opts{display:grid;gap:8px;flex-shrink:0}
+.obt{display:flex;align-items:center;gap:12px;padding:13px 15px;background:rgba(16,2,10,.85);border:1px solid rgba(160,25,40,.25);border-radius:6px;color:rgba(255,228,205,.72);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1rem;cursor:pointer;text-align:left;line-height:1.35;transition:all .17s;width:100%}
+.obt:hover:not([disabled]){border-color:rgba(220,50,50,.52);color:#fff;background:rgba(32,4,14,.95);box-shadow:inset 2px 0 0 rgba(230,50,50,.4),0 0 14px rgba(180,15,15,.14)}
+.obt:active:not([disabled]){transform:scale(.98)}
+.obt.cor{border-color:rgba(80,210,110,.65);color:#b0ffca;background:rgba(0,28,8,.88);box-shadow:inset 2px 0 0 rgba(80,210,110,.5),0 0 16px rgba(50,190,90,.18);animation:cPop .3s}
+.obt.wrg{border-color:rgba(230,50,50,.62);color:#ffaeae;background:rgba(32,0,0,.88);animation:wShk .3s ease}
+.obt[disabled]{cursor:default}
+@keyframes cPop{0%{transform:scale(1)}50%{transform:scale(1.015)}100%{transform:scale(1)}}
+@keyframes wShk{0%,100%{transform:translateX(0)}30%{transform:translateX(-5px)}70%{transform:translateX(5px)}}
+.okey{min-width:28px;height:28px;border:1.5px solid currentColor;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:.68rem;font-weight:700;opacity:.45;flex-shrink:0}
+.expl{padding:12px 14px;border-radius:5px;font-family:'Rajdhani',sans-serif;font-weight:500;font-size:.96rem;line-height:1.58;margin:10px 0 8px;flex-shrink:0}
+.expl.c{border-left:3px solid rgba(80,210,110,.6);background:rgba(0,30,8,.88);color:#c8ffd8}
+.expl.w{border-left:3px solid rgba(230,50,50,.6);background:rgba(35,0,0,.88);color:#ffbcbc}
+.expl.t{border-left:3px solid rgba(255,130,0,.6);background:rgba(36,8,0,.88);color:#ffd8a0}
+.xpop{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);font-family:'Cinzel Decorative',serif;font-weight:900;font-size:2rem;color:#ffcc00;text-shadow:0 0 22px rgba(255,200,0,.85);pointer-events:none;z-index:9999;animation:xpFly .9s ease forwards}
+@keyframes xpFly{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}18%{opacity:1;transform:translate(-50%,-65%) scale(1.1)}75%{opacity:1;transform:translate(-50%,-85%)}100%{opacity:0;transform:translate(-50%,-110%) scale(.8)}}
+.xpbar{height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;margin:5px 0 3px}
+.xpfill{height:100%;border-radius:3px;background:linear-gradient(90deg,#ff6800,#ffcc00);box-shadow:0 0 9px rgba(255,160,0,.65);transition:width .85s ease}
+.lvlbadge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:12px;background:linear-gradient(135deg,rgba(90,22,0,.85),rgba(150,48,0,.85));border:1px solid rgba(255,140,0,.32);font-family:'Cinzel',serif;font-size:.68rem;color:#ffcc88;letter-spacing:.07em}
+.rtitle{font-family:'Cinzel Decorative',serif;font-weight:900;text-align:center;font-size:clamp(1.3rem,5vw,1.8rem);background:linear-gradient(135deg,#ffe090,#ff7030,#cc0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(255,90,20,.4));margin-bottom:18px}
+.podrow{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid rgba(150,20,20,.18);border-radius:6px;background:rgba(12,2,6,.8);margin-bottom:8px;transition:all .3s}
+.podrow.p1{border-color:rgba(255,165,40,.38)!important;background:rgba(35,6,0,.88);box-shadow:0 0 18px rgba(210,80,0,.14)}
+.wnrmsg{text-align:center;font-family:'Cinzel',serif;font-weight:700;font-size:1.05rem;padding:14px;margin-bottom:14px;border:1px solid rgba(190,45,20,.3);border-radius:6px;background:rgba(40,5,5,.65);color:#ffb070}
+.divider{height:1px;background:rgba(190,20,20,.12);margin:14px 0}
+.profrow{padding:13px 14px;border:1px solid rgba(190,55,20,.22);border-radius:6px;background:rgba(16,3,7,.78);margin-bottom:9px}
+.hsrow{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid rgba(150,20,20,.14);border-radius:5px;background:rgba(12,2,6,.7);margin-bottom:6px;font-weight:600;font-size:.92rem}
+.fighters-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.ftr{position:absolute;bottom:0;font-size:clamp(10rem,24vw,16rem);opacity:.055;line-height:1;filter:drop-shadow(0 0 35px rgba(255,50,0,.25))}
+.ftr.l{left:-3%;animation:ftrL 5s ease-in-out infinite}
+.ftr.r{right:-3%;animation:ftrR 5s ease-in-out infinite}
+@keyframes ftrL{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+@keyframes ftrR{0%,100%{transform:scaleX(-1) translateY(0) rotate(4deg)}50%{transform:scaleX(-1) translateY(-12px) rotate(-4deg)}}
+#footer{position:fixed;bottom:0;left:0;right:0;z-index:100;pointer-events:none;padding:10px 16px 12px;text-align:center;background:linear-gradient(0deg,rgba(5,0,10,.95) 0%,transparent 100%)}
+#footer p{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.88);text-shadow:0 0 14px rgba(255,90,30,.5)}
+.flags{font-size:1.65rem;letter-spacing:.4rem;text-align:center;animation:fltBounce 5s ease-in-out infinite}
 .h{display:none!important}
-.r2{display:flex;gap:7px}
-.sc2{width:100%;max-width:600px;margin:0 auto;position:relative;z-index:1}
+.r2{display:flex;gap:8px}
+.wrap{width:100%;max-width:620px;margin:0 auto;position:relative;z-index:1}
 </style>
 </head>
 <body>
-<div class="bg"></div><div class="grid"></div>
-<div class="particles" id="pt"></div>
-<div class="app">
+<div id="bg"></div><div id="vgrid"></div><div id="vign"></div>
+<div id="sparks"></div>
+<div id="app">
+<div id="s-home" class="screen active"><div style="width:100%;max-width:380px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:14px 20px 80px;min-height:100%"><div class="mk">MORTAL KOMBAT</div><div class="globe">🌍</div><div class="sword-wrap"><span class="sword-icon">⚔️</span><span class="sword-spark">✨</span></div><div class="t-main">❤️ Best World Quiz ❤️</div><div class="t-tag">Kämpfe dich durch!</div><div class="flags">🇩🇪 🇷🇺 🇺🇦 🇹🇷 🇫🇷</div><div style="width:100%"><button class="btn btn-red btn-shine" onclick="go('setup')">🎮 Neues Spiel · Новая игра</button><button class="btn btn-gold btn-shine" onclick="go('profiles')">👤 Spielerprofile · Профили</button><button class="btn btn-ghost" onclick="go('hs')">🏆 Bestenliste · Рейтинг</button></div></div></div>
 
-<!-- HOME -->
+<div id="s-setup" class="screen spad"><div class="fighters-bg"><div class="ftr l">🥷</div><div class="ftr r">🥷</div></div><div class="wrap"><div class="steps"><div class="sdot on" id="d1"></div><div class="sdot" id="d2"></div><div class="sdot" id="d3"></div></div>
+<div id="ss1" class="card"><div class="sec-lbl">⚔️ Wie viele Kämpfer? · Сколько игроков?</div><div class="pcg"><button class="pcb" id="b1" onclick="setPc(1)">1</button><button class="pcb on" id="b2" onclick="setPc(2)">2</button><button class="pcb" id="b3" onclick="setPc(3)">3</button><button class="pcb" id="b4" onclick="setPc(4)">4</button><button class="pcb" id="b5" onclick="setPc(5)">5</button></div><button class="btn btn-red btn-shine" onclick="stp(2)">Weiter →</button><button class="btn btn-ghost" onclick="go('home')">← Zurück</button></div>
+<div id="ss2" class="card h"><div class="sec-lbl">🩸 Kämpfer wählen · Выбор игроков</div><div id="plist"></div><div class="r2"><button class="btn btn-ghost" style="flex:1" onclick="stp(1)">← Zurück</button><button class="btn btn-red btn-shine" style="flex:2" onclick="stp(3)">Weiter →</button></div></div>
+<div id="ss3" class="card h"><div class="sec-lbl">📜 Kategorien · Категории</div><div class="catg" id="catg"></div><div class="r2"><button class="btn btn-ghost" style="flex:1" onclick="stp(2)">← Zurück</button><button class="btn btn-red btn-shine" style="flex:2" onclick="startGame()">🔥 Los geht's! · Вперёд!</button></div></div>
+</div></div>
 
-<div id="s-home" class="screen active" style="padding:0;overflow-y:auto">
-  <div style="width:100%;max-width:360px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:14px 18px 70px;min-height:100%">
-    <div class="mk" style="margin-top:6px;margin-bottom:2px">MORTAL KOMBAT</div>
-    <div class="globe">🌍</div>
-    <div class="swords"><span class="sw">⚔️</span></div>
-    <div class="title">❤️ Best World Quiz ❤️</div>
-    <div class="tagline">Kämpfe dich durch!</div>
-    <div class="tagline2">Oder Angst? 😅</div>
-    <div class="flags">🇩🇪 🇷🇺 🇺🇦 🇹🇷 🇫🇷</div>
-    <div style="width:100%;margin-top:16px">
-      <button class="btn btn-p" onclick="go('setup')" style="padding:17px;font-size:.88rem;margin-bottom:12px">🎮 Neues Spiel · Новая игра</button>
-      <button class="btn btn-g" onclick="go('profiles')" style="padding:17px;font-size:.88rem;margin-bottom:12px">👤 Spielerprofile · Профили</button>
-      <button class="btn btn-o" onclick="go('hs')" style="padding:17px;font-size:.88rem;margin-bottom:0">🏆 Bestenliste · Рейтинг</button>
-    </div>
-  </div>
+<div id="s-loading" class="screen scenter spad"><span class="ldglobe">🌍</span><div style="font-family:'Cinzel',serif;font-size:1.3rem;color:#ff8855;margin:14px 0 4px">Bereite Fragen vor…</div><div id="lrows"></div></div>
+<div id="s-turn" class="screen scenter spad"><div class="card" style="text-align:center;max-width:370px"><span class="turn-flag" id="tfl"></span><div class="turn-name" id="tnm"></div><div id="tprf" style="margin-bottom:10px"></div><div id="tsb" style="color:rgba(255,180,140,.42);margin-bottom:16px"></div><div id="tpv" style="color:rgba(255,180,140,.32);margin-bottom:18px"></div><button class="btn btn-red btn-shine" onclick="startQuiz()">⚔️ Bereit! · Готов! →</button></div></div>
+<div id="s-quiz" class="screen"><div class="qwrap"><div class="sbar" id="sbar"></div><div class="qcard"><div class="ttrack"><div class="tfill" id="tfill"></div></div><div class="trow"><span class="qlabel" id="qlbl"></span><span class="tnum" id="tnum">25</span></div><div class="qtext" id="qtext"></div><div class="opts" id="opts"></div><div id="expl" class="h"></div><button class="btn btn-red btn-shine h" id="nxtbtn" onclick="nextQ()" style="margin-top:10px">Weiter →</button></div></div></div>
+<div id="s-result" class="screen spad"><div class="wrap"><div class="card"><div class="rtitle">⚔️ Ergebnis · Результат</div><div id="pod"></div><div class="wnrmsg" id="wmsg"></div><div id="xpsum" style="text-align:center;font-size:.88rem;color:rgba(255,200,100,.42);margin-bottom:14px">Fortschritt gespeichert · Прогресс сохранён ✓</div><div class="divider"></div><button class="btn btn-red btn-shine" onclick="startGame()">🔄 Nochmal spielen · Ещё раз</button><button class="btn btn-ghost" onclick="go('home')">🏠 Hauptmenü · Меню</button></div></div></div>
+<div id="s-profiles" class="screen spad"><div class="wrap"><div class="card"><div class="sec-lbl">👤 Spielerprofile · Профили игроков</div><div id="prlist"></div><button class="btn btn-ghost" style="margin-top:14px" onclick="go('home')">← Zurück · Назад</button></div></div></div>
+<div id="s-hs" class="screen spad"><div class="wrap"><div class="card"><div class="sec-lbl">🏆 Bestenliste · Рейтинг</div><div id="hslist"></div><button class="btn btn-ghost" style="margin-top:14px" onclick="go('home')">← Zurück · Назад</button></div></div></div>
 </div>
-
-<!-- SETUP -->
-
-<div id="s-setup" class="screen">
-  <div class="fighters"><div class="fi l">🥷</div><div class="fi r">🥷</div></div>
-  <div class="sc2" style="padding-top:14px">
-    <div class="steps"><div class="sd on" id="d1"></div><div class="sd" id="d2"></div><div class="sd" id="d3"></div></div>
-    <div id="ss1" class="card">
-      <div class="sec">⚔️ Wie viele Kämpfer?</div>
-      <div class="pcgrid">
-        <button class="pcb" id="b1" onclick="setPc(1)">1</button>
-        <button class="pcb on" id="b2" onclick="setPc(2)">2</button>
-        <button class="pcb" id="b3" onclick="setPc(3)">3</button>
-        <button class="pcb" id="b4" onclick="setPc(4)">4</button>
-        <button class="pcb" id="b5" onclick="setPc(5)">5</button>
-      </div>
-      <button class="btn btn-p" onclick="stp(2)">Weiter →</button>
-      <button class="btn btn-o" onclick="go('home')">← Zurück</button>
-    </div>
-    <div id="ss2" class="card h">
-      <div class="sec">🩸 Kämpfer wählen</div>
-      <div id="plist"></div>
-      <div class="r2"><button class="btn btn-o" style="flex:1;margin:0" onclick="stp(1)">← Zurück</button><button class="btn btn-p" style="flex:2;margin:0" onclick="stp(3)">Weiter →</button></div>
-    </div>
-    <div id="ss3" class="card h">
-      <div class="sec">📜 Kategorien</div>
-      <div class="cgrid" id="cgrid"></div>
-      <div class="r2" style="margin-top:7px"><button class="btn btn-o" style="flex:1;margin:0" onclick="stp(2)">← Zurück</button><button class="btn btn-p" style="flex:2;margin:0" onclick="startGame()">🔥 Los geht's!</button></div>
-    </div>
-  </div>
-</div>
-
-<!-- LOADING -->
-
-<div id="s-loading" class="screen ctr">
-  <span class="lg">🌍</span>
-  <div style="font-family:Cinzel,serif;font-size:1.3rem;color:#ff8855;text-align:center;margin:10px 0 3px">Bereite Fragen vor…</div>
-  <div style="color:rgba(255,180,130,.35);font-size:.84rem;font-style:italic;text-align:center;margin-bottom:16px">Готовлю вопросы…</div>
-  <div id="lrows"></div>
-</div>
-
-<!-- TURN -->
-
-<div id="s-turn" class="screen ctr">
-  <div class="card" style="text-align:center;max-width:350px">
-    <span class="tf" id="tfl"></span>
-    <div style="font-family:Cinzel,serif;font-size:1.8rem;font-weight:900;text-align:center;margin-bottom:6px" id="tnm"></div>
-    <div id="tprf" style="margin-bottom:7px"></div>
-    <div style="color:rgba(255,180,140,.4);font-size:.86rem;font-style:italic;text-align:center;margin-bottom:14px" id="tsb"></div>
-    <div id="tpv" style="font-size:.76rem;color:rgba(255,180,140,.3);margin-bottom:14px"></div>
-    <button class="btn btn-p" onclick="startQuiz()">⚔️ Bereit! →</button>
-  </div>
-</div>
-
-<!-- QUIZ -->
-
-<div id="s-quiz" class="screen" style="padding:0">
-  <div class="qwrap">
-    <div class="sbar" id="sbar"></div>
-    <div class="qcard">
-      <div class="tt"><div class="tf2" id="tfill"></div></div>
-      <div class="tr"><span class="ql" id="qlbl"></span><span class="tnum" id="tnum">25s</span></div>
-      <div class="qt" id="qtext"></div>
-      <div class="opts" id="opts"></div>
-      <div id="expl" class="h"></div>
-      <button class="btn btn-p h" id="nxtbtn" onclick="nextQ()" style="margin-top:9px;flex-shrink:0">Weiter →</button>
-    </div>
-  </div>
-</div>
-
-<!-- RESULT -->
-
-<div id="s-result" class="screen">
-  <div class="sc2">
-    <div class="card">
-      <div class="rt">⚔️ Ergebnis · Результат</div>
-      <div class="pod" id="pod"></div>
-      <div class="wm" id="wmsg"></div>
-      <div id="xpsum" style="margin-bottom:12px;text-align:center;font-size:.76rem;color:rgba(255,200,100,.45);font-style:italic">Fortschritt gespeichert ✓</div>
-      <div class="div"></div>
-      <button class="btn btn-p" onclick="startGame()" style="margin-bottom:7px">🔄 Nochmal spielen</button>
-      <button class="btn btn-o" onclick="go('home')">🏠 Hauptmenü</button>
-    </div>
-  </div>
-</div>
-
-<!-- PROFILES -->
-
-<div id="s-profiles" class="screen">
-  <div class="sc2" style="padding-top:14px">
-    <div class="card">
-      <div class="sec">👤 Spielerprofile · Профили игроков</div>
-      <div id="prlist"></div>
-      <button class="btn btn-o" style="margin-top:12px" onclick="go('home')">← Zurück</button>
-    </div>
-  </div>
-</div>
-
-<!-- HS -->
-
-<div id="s-hs" class="screen">
-  <div class="sc2" style="padding-top:14px">
-    <div class="card">
-      <div class="sec">🏆 Bestenliste · Рейтинг</div>
-      <div id="hslist"></div>
-      <button class="btn btn-o" style="margin-top:12px" onclick="go('home')">← Zurück</button>
-    </div>
-  </div>
-</div>
-
-</div>
-<div class="footer"><p>Produziert von Wowa &amp; Amiar Kempf</p></div>
+<div id="footer"><p>Produziert von Wowa &amp; Amiar Kempf</p></div>
 
 <script>
-// PARTICLES
-const pt=document.getElementById('pt');
-for(let i=0;i<24;i++){const d=document.createElement('div');d.className='p';d.style.cssText=`left:${(i*4.17)%100}%;width:${2+(i*.14)%3}px;height:${2+(i*.14)%3}px;animation-delay:${(i*.38)%9}s;animation-duration:${8+(i*.44)%9}s;opacity:${.15+(i*.025)%.45}`;pt.appendChild(d);}
+(function(){
+  // particles
+  const sparks=document.getElementById('sparks');
+  for(let i=0;i<22;i++){let d=document.createElement('div');d.className='sp';d.style.cssText=`left:${(i*4.55)%100}%;width:${2+(i*.13)%2.8}px;height:${2+(i*.13)%2.8}px;animation-delay:${(i*.41)%10}s;animation-duration:${8+(i*.47)%10}s;opacity:${.12+(i*.022)%.42}`;sparks.appendChild(d);}
+})();
 
-// DATA
-const COUNTRIES=[{id:'de',flag:'🇩🇪',name:'Deutschland',lang:'Deutsch',color:'#F5C518'},{id:'ru',flag:'🇷🇺',name:'Россия',lang:'Русский',color:'#e03030'},{id:'ua',flag:'🇺🇦',name:'Україна',lang:'Українська',color:'#3B82F6'},{id:'tr',flag:'🇹🇷',name:'Türkiye',lang:'Türkçe',color:'#EF4444'},{id:'fr',flag:'🇫🇷',name:'France',lang:'Français',color:'#818CF8'}];
-const CATS=[{id:'h',e:'🏛️',l:'Geschichte'},{id:'g',e:'🌍',l:'Geografie'},{id:'c',e:'🎭',l:'Kultur'},{id:'f',e:'🍽️',l:'Essen'},{id:'s',e:'⚽',l:'Sport'},{id:'l',e:'💬',l:'Sprache'}];
-const MEDALS=['🥇','🥈','🥉','4.','5.'];
+// --- security: escape html
+function escapeHtml(str){if(!str)return '';return str.replace(/[&<>]/g,function(m){if(m==='&')return '&amp;';if(m==='<')return '&lt;';if(m==='>')return '&gt;';return m;}).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,function(c){return c;}).replace(/'/g,'&#39;').replace(/"/g,'&quot;');}
+
+// -------- DATA ----------
+const COUNTRIES=[{id:'de',flag:'🇩🇪',name:'Deutschland',lang:'Deutsch',color:'#F5C518'},{id:'ru',flag:'🇷🇺',name:'Россия',lang:'Русский',color:'#e03030'},{id:'ua',flag:'🇺🇦',name:'Україна',lang:'Українська',color:'#4090F0'},{id:'tr',flag:'🇹🇷',name:'Türkiye',lang:'Türkçe',color:'#EF4444'},{id:'fr',flag:'🇫🇷',name:'France',lang:'Français',color:'#9090f8'}];
+const CATS=[{id:'h',e:'🏛️',l:'Geschichte · History'},{id:'g',e:'🌍',l:'Geografie · Geography'},{id:'c',e:'🎭',l:'Kultur · Culture'},{id:'f',e:'🍽️',l:'Essen · Food'},{id:'s',e:'⚽',l:'Sport'},{id:'l',e:'💬',l:'Sprache · Language'}];
 const LEVELS=[{v:1,n:'Neuling',x:0},{v:2,n:'Lehrling',x:80},{v:3,n:'Kämpfer',x:200},{v:4,n:'Krieger',x:400},{v:5,n:'Meister',x:700},{v:6,n:'Champion',x:1100},{v:7,n:'Legende',x:1600},{v:8,n:'Held',x:2200},{v:9,n:'Gott',x:3000},{v:10,n:'Weltmeister',x:4000}];
-function getLv(xp){let l=LEVELS[0];for(const x of LEVELS){if(xp>=x.x)l=x;}return l;}
-function getNxtLv(xp){for(const x of LEVELS){if(xp<x.x)return x;}return null;}
-function xpForQ(t){return 10+Math.floor(t/5)*2;}
+const getLv=(xp)=>{let l=LEVELS[0];LEVELS.forEach(x=>{if(xp>=x.x)l=x;});return l;};
+const getNxt=(xp)=>LEVELS.find(x=>xp<x.x)||null;
+const xpGain=(t)=>10+Math.floor(t/5)*2;
+const Q_COUNT=10;
+const TSECS=25;
 
+// ---------- QUESTION DATABASE (full) ----------
 const QDB={
-de:[{q:"Was ist die Hauptstadt von Russland?",o:["Moskau","St. Petersburg","Kiew","Minsk"],c:0,e:"Moskau ist seit Jahrhunderten die Hauptstadt Russlands."},{q:"Welcher Fluss fließt durch Moskau?",o:["Donau","Wolga","Moskwa","Dnjepr"],c:2,e:"Die Moskwa ist der Fluss durch die russische Hauptstadt."},{q:"Welches Bauwerk steht auf dem Roten Platz?",o:["Kreml","Eremitage","Bolschoi-Theater","Tretjakow-Galerie"],c:0,e:"Der Kreml ist der bekannteste Komplex am Roten Platz."},{q:"Was ist das Nationalgericht der Türkei?",o:["Kebab","Pizza","Sushi","Schnitzel"],c:0,e:"Kebab ist eines der bekanntesten türkischen Gerichte weltweit."},{q:"In welchem Land liegt der Bosporus?",o:["Griechenland","Bulgarien","Türkei","Ukraine"],c:2,e:"Der Bosporus verbindet Europa und Asien in der Türkei."},{q:"Was ist die Hauptstadt der Ukraine?",o:["Lwiw","Charkiw","Odessa","Kiew"],c:3,e:"Kiew (Kyjiw) ist die Hauptstadt und größte Stadt der Ukraine."},{q:"Was ist das bekannteste Gericht der ukrainischen Küche?",o:["Gulasch","Borschtsch","Piroschki","Wareniki"],c:1,e:"Borschtsch ist eine rote Suppe aus Rüben – ukrainisches Nationalgericht."},{q:"Wie heißt der Eiffelturm auf Französisch?",o:["Tour Eiffel","La Grande Tour","Palais Eiffel","Monument Paris"],c:0,e:"'Tour Eiffel' – erbaut 1889."},{q:"Was ist die Währung Frankreichs?",o:["Franc","Pfund","Euro","Lira"],c:2,e:"Frankreich verwendet den Euro seit 2002."},{q:"Welches Getränk ist typisch für Russland?",o:["Wodka","Whisky","Rum","Gin"],c:0,e:"Wodka ist das bekannteste alkoholische Getränk aus Russland."},{q:"Welcher türkische Held gründete die moderne Türkei?",o:["Suleiman I.","Atatürk","Erdoğan","Mehmed II."],c:1,e:"Mustafa Kemal Atatürk gründete 1923 die moderne Republik Türkei."},{q:"Was ist die größte Stadt Frankreichs?",o:["Lyon","Marseille","Paris","Bordeaux"],c:2,e:"Paris ist die größte Stadt Frankreichs."},{q:"Welches Meer liegt südlich der Ukraine?",o:["Nordsee","Mittelmeer","Schwarzes Meer","Rotes Meer"],c:2,e:"Das Schwarze Meer liegt im Süden der Ukraine."},{q:"Wie viele Zeitzonen hat Russland?",o:["5","9","11","14"],c:2,e:"Russland erstreckt sich über 11 Zeitzonen."},{q:"Welcher Fluss durchfließt Paris?",o:["Loire","Rhône","Garonne","Seine"],c:3,e:"Die Seine fließt durch das Zentrum von Paris."},{q:"Was ist der höchste Berg Russlands?",o:["Elbrus","Kazbek","Uschba","Dombay"],c:0,e:"Der Elbrus (5642 m) ist der höchste Berg Russlands und Europas."},{q:"Was bedeutet 'Merci' auf Französisch?",o:["Bitte","Danke","Entschuldigung","Hallo"],c:1,e:"'Merci' bedeutet auf Französisch 'Danke'."},{q:"Welche türkische Stadt liegt auf zwei Kontinenten?",o:["Ankara","Izmir","Istanbul","Bursa"],c:2,e:"Istanbul liegt teilweise in Europa und teilweise in Asien."},{q:"Welche ukrainische Stadt ist bekannt für ihre Altstadt?",o:["Odessa","Lwiw","Kiew","Charkiw"],c:1,e:"Lwiw gilt als kulturelle Hauptstadt der Ukraine."},{q:"Was ist die Flaggenfarbe Frankreichs?",o:["Rot-Weiß-Blau","Blau-Weiß-Rot","Rot-Blau-Weiß","Weiß-Rot-Blau"],c:1,e:"Die französische Flagge ist Blau-Weiß-Rot (Trikolore)."}],
-ru:[{q:"Какова столица Германии?",o:["Мюнхен","Берлин","Гамбург","Франкфурт"],c:1,e:"Берлин — столица и крупнейший город Германии."},{q:"Какой автомобильный бренд родом из Германии?",o:["Volvo","Toyota","BMW","Fiat"],c:2,e:"BMW (Bayerische Motoren Werke) — немецкий автопроизводитель."},{q:"Какое национальное блюдо Германии?",o:["Суши","Брецель","Пицца","Тако"],c:1,e:"Брецель — традиционная немецкая выпечка."},{q:"Какая река протекает через Париж?",o:["Рейн","Темза","Сена","Дунай"],c:2,e:"Сена — главная река Парижа."},{q:"Какое блюдо символизирует французскую кухню?",o:["Шаурма","Круассан","Хот-дог","Тортилья"],c:1,e:"Круассан — символ французской выпечки."},{q:"Какой язык является официальным в Украине?",o:["Русский","Польский","Украинский","Белорусский"],c:2,e:"Украинский — единственный официальный язык Украины."},{q:"Как называется знаменитый турецкий кофе?",o:["Эспрессо","Американо","Турецкий кофе","Капучино"],c:2,e:"Турецкий кофе — один из старейших способов варки кофе."},{q:"Какой город является крупнейшим в Турции?",o:["Анкара","Измир","Стамбул","Бурса"],c:2,e:"Стамбул — крупнейший город Турции."},{q:"Какая башня является символом Парижа?",o:["Биг-Бен","Эйфелева башня","Колизей","Пизанская башня"],c:1,e:"Эйфелева башня построена в 1889 году."},{q:"Сколько земель в Германии?",o:["10","14","16","18"],c:2,e:"Германия состоит из 16 федеральных земель."},{q:"Какая валюта используется в Германии?",o:["Марка","Фунт","Евро","Крона"],c:2,e:"Германия использует евро с 2002 года."},{q:"Как называется французский национальный праздник?",o:["День Победы","День взятия Бастилии","Рождество","День Республики"],c:1,e:"День взятия Бастилии — 14 июля."},{q:"Какой французский сыр самый знаменитый?",o:["Гауда","Пармезан","Камамбер","Чеддер"],c:2,e:"Камамбер — один из самых известных французских сыров."},{q:"Через какой пролив Турция разделяет Европу и Азию?",o:["Дарданеллы","Босфор","Гибралтар","Суэц"],c:1,e:"Босфор — пролив, разделяющий Европу и Азию."},{q:"Как называется главная улица Парижа?",o:["Монмартр","Елисейские поля","Риволи","Бульвар Осман"],c:1,e:"Елисейские поля — самая известная улица Парижа."},{q:"Какой немецкий город известен Октобрфестом?",o:["Берлин","Гамбург","Мюнхен","Кёльн"],c:2,e:"Мюнхен проводит Oktoberfest ежегодно."},{q:"Что такое Майдан в Украине?",o:["Горный хребет","Главная площадь Киева","Валюта","Танец"],c:1,e:"Майдан Незалежності — главная площадь Киева."},{q:"Какой напиток изобрели французы?",o:["Шампанское","Виски","Ром","Текила"],c:0,e:"Шампанское создано в регионе Шампань во Франции."},{q:"Как называется парламент Германии?",o:["Сейм","Бундестаг","Риксдаг","Дума"],c:1,e:"Бундестаг — федеральный парламент Германии."},{q:"Что означает украинское слово «Слава»?",o:["Мир","Слава","Свобода","Честь"],c:1,e:"«Слава» означает «слава» — отсюда «Слава Україні!»"}],
-ua:[{q:"Яка столиця Німеччини?",o:["Мюнхен","Берлін","Гамбург","Дрезден"],c:1,e:"Берлін — столиця та найбільше місто Німеччини."},{q:"Яка річка тече через Берлін?",o:["Рейн","Дунай","Шпрее","Ельба"],c:2,e:"Річка Шпрее протікає через центр Берліна."},{q:"Яка мова є офіційною в Туреччині?",o:["Арабська","Перська","Турецька","Курдська"],c:2,e:"Турецька мова є єдиною офіційною мовою Туреччини."},{q:"В якому місті знаходиться Ейфелева вежа?",o:["Лондон","Рим","Мадрид","Париж"],c:3,e:"Ейфелева вежа знаходиться в Парижі."},{q:"Яке море омиває береги Туреччини на заході?",o:["Чорне море","Середземне море","Егейське море","Каспійське"],c:2,e:"Егейське море омиває західне узбережжя Туреччини."},{q:"Який напій є символом Німеччини?",o:["Вино","Пиво","Горілка","Ром"],c:1,e:"Пиво — найвідоміший алкогольний напій Німеччини."},{q:"Яка валюта Франції?",o:["Франк","Фунт","Євро","Ліра"],c:2,e:"Франція використовує євро з 2002 року."},{q:"Яке місто є столицею Туреччини?",o:["Стамбул","Ізмір","Анкара","Бурса"],c:2,e:"Анкара — столиця Туреччини."},{q:"Як називається відомий французький сир?",o:["Гауда","Камамбер","Пармезан","Чеддер"],c:1,e:"Камамбер — один з найвідоміших французьких сирів."},{q:"Яке місто Росії є культурною столицею?",o:["Москва","Новосибірськ","Санкт-Петербург","Казань"],c:2,e:"Санкт-Петербург — культурна столиця Росії."},{q:"Яка найдовша річка Франції?",o:["Рона","Луара","Гаронна","Сена"],c:1,e:"Луара — найдовша річка Франції (1006 км)."},{q:"Коли була побудована Берлінська стіна?",o:["1945","1955","1961","1968"],c:2,e:"Берлінська стіна побудована у 1961 році."},{q:"Скільки федеральних земель у Німеччині?",o:["10","12","16","18"],c:2,e:"Німеччина складається з 16 федеральних земель."},{q:"Яка гора є найвищою в Росії?",o:["Ельбрус","Казбек","Белуха","Народна"],c:0,e:"Ельбрус (5642 м) — найвища гора Росії та Європи."},{q:"Що означає слово 'Bonjour' французькою?",o:["До побачення","Будь ласка","Добрий день","Дякую"],c:2,e:"'Bonjour' означає 'Добрий день'."},{q:"Де знаходиться музей Лувр?",o:["Берлін","Рим","Париж","Відень"],c:2,e:"Лувр — найбільший художній музей світу, у Парижі."},{q:"Яка річка тече через Париж?",o:["Луара","Рона","Гаронна","Сена"],c:3,e:"Сена тече через центр Парижа."},{q:"Як називається турецький напій із йогурту?",o:["Айран","Чай","Компот","Лимонад"],c:0,e:"Айран — традиційний турецький напій з йогурту, води та солі."},{q:"Яка столиця Росії?",o:["Санкт-Петербург","Казань","Москва","Новосибірськ"],c:2,e:"Москва — столиця Росії."},{q:"Яка офіційна мова Франції?",o:["Іспанська","Французька","Італійська","Португальська"],c:1,e:"Французька мова є єдиною офіційною мовою Франції."}],
-tr:[{q:"Almanya'nın başkenti neresidir?",o:["Münih","Frankfurt","Hamburg","Berlin"],c:3,e:"Berlin, Almanya'nın başkenti ve en büyük şehridir."},{q:"Fransa'nın ulusal sembolü nedir?",o:["Kartal","Horoz","Aslan","Gül"],c:1,e:"Horoz, Fransa'nın gayri resmi ulusal sembolüdür."},{q:"Ukrayna'nın başkenti neresidir?",o:["Lviv","Odessa","Kiev","Harkov"],c:2,e:"Kiev (Kyiv), Ukrayna'nın başkenti ve en büyük şehridir."},{q:"Rusya'nın en ünlü içkisi nedir?",o:["Viski","Votka","Rom","Cin"],c:1,e:"Votka, Rusya'nın en ünlü geleneksel içkisidir."},{q:"Paris'in ünlü kulesi hangisidir?",o:["Big Ben","Eyfel Kulesi","Pisa Kulesi","Kolizey"],c:1,e:"Eyfel Kulesi 1889'da inşa edilmiştir."},{q:"Ukrayna'nın ulusal çorbası nedir?",o:["Çorba","Borş","Solyanka","Rassolnik"],c:1,e:"Borş, pancardan yapılan geleneksel Ukrayna çorbasıdır."},{q:"Hangi Alman şehri BMW'nin merkezidir?",o:["Berlin","Hamburg","Münih","Köln"],c:2,e:"BMW, Münih'te kurulmuş bir Alman otomobil markasıdır."},{q:"Fransa'nın para birimi nedir?",o:["Frank","Pound","Dolar","Euro"],c:3,e:"Fransa, 2002'den beri Euro kullanmaktadır."},{q:"Ukrayna hangi denize kıyısı vardır?",o:["Ege","Akdeniz","Karadeniz","Kızıldeniz"],c:2,e:"Ukrayna'nın güneyinde Karadeniz bulunur."},{q:"Berlin Duvarı hangi yıl yıkıldı?",o:["1985","1987","1989","1991"],c:2,e:"Berlin Duvarı, 9 Kasım 1989'da yıkılmıştır."},{q:"Moskova Kremlin nedir?",o:["Müze","Rus hükümeti","Kilise","Saray"],c:1,e:"Kremlin, Rus hükümetinin merkezi olan tarihi bir yapıdır."},{q:"Almanya kaç eyaletten oluşur?",o:["10","12","16","18"],c:2,e:"Almanya 16 federal eyaletten (Bundesland) oluşur."},{q:"Rusya'nın en büyük gölü hangisidir?",o:["Baykal","Ladoga","Hazar","Onega"],c:0,e:"Baykal Gölü, dünyanın en derin tatlı su gölüdür."},{q:"Ukrayna'nın para birimi nedir?",o:["Ruble","Hryvnia","Euro","Lev"],c:1,e:"Ukrayna'nın resmi para birimi Hryvnia'dır."},{q:"Fransa'nın milli marşının adı nedir?",o:["God Save the Queen","La Marseillaise","Rule Britannia","Ode to Joy"],c:1,e:"La Marseillaise, 1792 yılında yazılmış Fransız milli marşıdır."},{q:"Luvr Müzesi hangi şehirde?",o:["Berlin","Roma","Paris","Viyana"],c:2,e:"Luvr, dünyanın en büyük sanat müzesi olup Paris'tedir."},{q:"Rusya kaç saat dilimine sahip?",o:["7","9","11","13"],c:2,e:"Rusya, dünyadaki en fazla saat dilimine (11) sahip ülkedir."},{q:"Fransız mutfağının ünlü tatlısı?",o:["Tiramisu","Cheesecake","Crème brûlée","Baklava"],c:2,e:"Crème brûlée, karamelize şeker kaplamalı Fransız tatlısıdır."},{q:"Ukrayna'nın resmi dili?",o:["Rusça","Lehçe","Ukraynaca","Beyaz Rusça"],c:2,e:"Ukraynaca, Ukrayna'nın tek resmi dilidir."},{q:"Almanya'nın en uzun nehri?",o:["Ren","Elbe","Tuna","Main"],c:0,e:"Ren (Rhein) Nehri, Almanya'nın en uzun nehridir."}],
-fr:[{q:"Quelle est la capitale de l'Allemagne?",o:["Munich","Hambourg","Berlin","Francfort"],c:2,e:"Berlin est la capitale et la plus grande ville d'Allemagne."},{q:"Quelle est la capitale de la Russie?",o:["Saint-Pétersbourg","Moscou","Kazan","Novossibirsk"],c:1,e:"Moscou est la capitale de la Russie."},{q:"Quelle est la capitale de l'Ukraine?",o:["Lviv","Odessa","Kharkiv","Kiev"],c:3,e:"Kiev (Kyiv) est la capitale de l'Ukraine."},{q:"Quel est le plat national turc?",o:["Pizza","Kebab","Sushi","Tacos"],c:1,e:"Le kebab est l'un des plats turcs les plus connus."},{q:"Quel fleuve traverse Berlin?",o:["Rhin","Danube","Sprée","Elbe"],c:2,e:"La Sprée traverse le centre de Berlin."},{q:"Quel est l'animal symbole de l'Allemagne?",o:["Lion","Loup","Aigle","Ours"],c:2,e:"L'aigle est le symbole national de l'Allemagne."},{q:"Quelle mer borde le sud de la Turquie?",o:["Mer Noire","Mer Rouge","Mer Caspienne","Mer Méditerranée"],c:3,e:"La mer Méditerranée borde le sud de la Turquie."},{q:"Quelle est la boisson nationale russe?",o:["Whisky","Rhum","Vodka","Gin"],c:2,e:"La vodka est la boisson la plus connue de Russie."},{q:"Comment s'appelle la soupe ukrainienne?",o:["Gaspacho","Bortsch","Solianka","Okrochka"],c:1,e:"Le bortsch est la soupe traditionnelle ukrainienne."},{q:"En quelle année le mur de Berlin est-il tombé?",o:["1985","1987","1989","1991"],c:2,e:"Le mur de Berlin est tombé le 9 novembre 1989."},{q:"Quelle est la monnaie de la Turquie?",o:["Euro","Drachme","Lire turque","Dollar"],c:2,e:"La lire turque est la monnaie officielle de la Turquie."},{q:"Quel est le plus grand lac de Russie?",o:["Lac Baïkal","Lac Ladoga","Mer Caspienne","Lac Onega"],c:0,e:"Le lac Baïkal est le plus grand lac d'eau douce du monde."},{q:"Quel est le nom du parlement allemand?",o:["Sénat","Bundestag","Riksdag","Duma"],c:1,e:"Le Bundestag est le parlement fédéral allemand."},{q:"Quelle est la plus haute montagne de Turquie?",o:["Mont Olympe","Mont Ararat","Mont Taurus","Mont Erciyas"],c:1,e:"Le mont Ararat (5137 m) est le point culminant de la Turquie."},{q:"Quel est le célèbre musée de Paris?",o:["Musée d'Orsay","Centre Pompidou","Le Louvre","Musée Rodin"],c:2,e:"Le Louvre est le plus grand musée d'art du monde."},{q:"Combien de fuseaux horaires possède la Russie?",o:["7","9","11","13"],c:2,e:"La Russie s'étend sur 11 fuseaux horaires."},{q:"Quel est le symbole national de l'Ukraine?",o:["L'aigle","Le tournesol","Le trident","Le blé"],c:2,e:"Le trident (tryzub) est le symbole national de l'Ukraine."},{q:"Quelle est la célèbre avenue de Paris?",o:["Montmartre","Champs-Élysées","Rivoli","Haussmann"],c:1,e:"Les Champs-Élysées est l'avenue la plus célèbre de Paris."},{q:"Quelle est la monnaie officielle de l'Ukraine?",o:["Rouble","Hryvnia","Euro","Zloty"],c:1,e:"La hryvnia est la monnaie officielle de l'Ukraine."},{q:"Quel est le plat traditionnel allemand?",o:["Currywurst","Schnitzel","Bratwurst","Pretzel"],c:1,e:"Le Schnitzel est l'un des plats traditionnels les plus connus d'Allemagne."}]
+de:[{q:"Was ist die Hauptstadt von Russland?",o:["Moskau","St. Petersburg","Kiew","Minsk"],c:0,e:"Moskau ist seit Jahrhunderten die Hauptstadt Russlands."},{q:"Welcher Fluss fließt durch Moskau?",o:["Donau","Wolga","Moskwa","Dnjepr"],c:2,e:"Die Moskwa fließt direkt durch die russische Hauptstadt."},{q:"Was steht auf dem Roten Platz in Moskau?",o:["Kreml","Eremitage","Bolschoi-Theater","Tretjakow-Galerie"],c:0,e:"Der Kreml ist das Wahrzeichen des Roten Platzes."},{q:"Was ist das Nationalgericht der Türkei?",o:["Kebab","Pizza","Sushi","Schnitzel"],c:0,e:"Kebab zählt zu den bekanntesten türkischen Gerichten weltweit."},{q:"In welchem Land liegt der Bosporus?",o:["Griechenland","Bulgarien","Türkei","Ukraine"],c:2,e:"Der Bosporus verbindet Europa und Asien – er liegt in der Türkei."},{q:"Was ist die Hauptstadt der Ukraine?",o:["Lwiw","Charkiw","Odessa","Kiew"],c:3,e:"Kiew (Kyjiw) ist Hauptstadt und größte Stadt der Ukraine."},{q:"Was ist das bekannteste Gericht der ukrainischen Küche?",o:["Gulasch","Borschtsch","Piroschki","Wareniki"],c:1,e:"Borschtsch ist eine rote Rübensuppe – das ukrainische Nationalgericht."},{q:"Wie heißt der Eiffelturm auf Französisch?",o:["Tour Eiffel","La Grande Tour","Palais Eiffel","Monument Paris"],c:0,e:"'Tour Eiffel' – erbaut 1889 als Eingangstor zur Weltausstellung."},{q:"Was ist die Währung Frankreichs?",o:["Franc","Pfund","Euro","Lira"],c:2,e:"Frankreich ist Mitglied der Eurozone und nutzt den Euro seit 2002."},{q:"Welches Getränk ist typisch für Russland?",o:["Wodka","Whisky","Rum","Gin"],c:0,e:"Wodka ist das weltberühmte alkoholische Getränk Russlands."},{q:"Welcher türkische Held gründete die moderne Türkei?",o:["Suleiman I.","Atatürk","Erdoğan","Mehmed II."],c:1,e:"Mustafa Kemal Atatürk gründete 1923 die Republik Türkei."},{q:"Was ist die größte Stadt Frankreichs?",o:["Lyon","Marseille","Paris","Bordeaux"],c:2,e:"Paris hat über 2 Mio. Einwohner und ist Frankreichs größte Stadt."},{q:"Welches Meer liegt südlich der Ukraine?",o:["Nordsee","Mittelmeer","Schwarzes Meer","Rotes Meer"],c:2,e:"Das Schwarze Meer liegt direkt südlich der Ukraine."},{q:"Wie viele Zeitzonen hat Russland?",o:["5","9","11","14"],c:2,e:"Russland erstreckt sich über 11 Zeitzonen – mehr als jedes andere Land."},{q:"Welcher Fluss durchfließt Paris?",o:["Loire","Rhône","Garonne","Seine"],c:3,e:"Die Seine fließt mitten durch das Herz von Paris."},{q:"Was ist der höchste Berg Russlands?",o:["Elbrus","Kazbek","Uschba","Dombay"],c:0,e:"Der Elbrus (5.642 m) ist der höchste Berg Russlands und ganz Europas."},{q:"Was bedeutet 'Merci' auf Französisch?",o:["Bitte","Danke","Entschuldigung","Hallo"],c:1,e:"'Merci' bedeutet im Französischen einfach 'Danke'."},{q:"Welche türkische Stadt liegt auf zwei Kontinenten?",o:["Ankara","Izmir","Istanbul","Bursa"],c:2,e:"Istanbul liegt auf zwei Kontinenten: in Europa und in Asien."},{q:"Welche ukrainische Stadt ist bekannt für ihre barocke Altstadt?",o:["Odessa","Lwiw","Kiew","Charkiw"],c:1,e:"Lwiw (Lviv) gilt als kulturelle Hauptstadt der Ukraine."},{q:"Was ist die Flaggenfarbe Frankreichs von links nach rechts?",o:["Rot-Weiß-Blau","Blau-Weiß-Rot","Weiß-Blau-Rot","Rot-Blau-Weiß"],c:1,e:"Die Trikolore ist von links: Blau–Weiß–Rot."}],
+ru:[{q:"Какова столица Германии?",o:["Мюнхен","Берлин","Гамбург","Франкфурт"],c:1,e:"Берлин — столица и крупнейший город Германии."},{q:"Какой автомобильный бренд родом из Германии?",o:["Volvo","Toyota","BMW","Fiat"],c:2,e:"BMW (Bayerische Motoren Werke) — знаменитый немецкий автопроизводитель."},{q:"Какое традиционное немецкое блюдо?",o:["Суши","Брецель","Пицца","Тако"],c:1,e:"Брецель — традиционная немецкая выпечка в форме кренделя."},{q:"Какая река протекает через Париж?",o:["Рейн","Темза","Сена","Дунай"],c:2,e:"Сена — главная река Парижа."},{q:"Что символизирует французская кухня?",o:["Шаурма","Круассан","Хот-дог","Тортилья"],c:1,e:"Круассан — символ французской выпечки."},{q:"Какой язык является официальным в Украине?",o:["Русский","Польский","Украинский","Белорусский"],c:2,e:"Украинский — единственный официальный язык Украины."},{q:"Как называется знаменитый турецкий кофе?",o:["Эспрессо","Американо","Турецкий кофе","Капучино"],c:2,e:"Турецкий кофе — один из древнейших способов приготовления кофе."},{q:"Какой город является крупнейшим в Турции?",o:["Анкара","Измир","Стамбул","Бурса"],c:2,e:"Стамбул — крупнейший город Турции."},{q:"Какая башня является символом Парижа?",o:["Биг-Бен","Эйфелева башня","Колизей","Пизанская башня"],c:1,e:"Эйфелева башня построена в 1889 г."},{q:"Сколько земель (Bundesländer) в Германии?",o:["10","14","16","18"],c:2,e:"Германия состоит из 16 федеральных земель."},{q:"Какая валюта используется в Германии?",o:["Марка","Фунт","Евро","Крона"],c:2,e:"Германия входит в еврозону."},{q:"Как называется французский национальный праздник?",o:["День Победы","День взятия Бастилии","Рождество","День Республики"],c:1,e:"День взятия Бастилии (14 июля)."},{q:"Какой французский сыр самый знаменитый?",o:["Гауда","Пармезан","Камамбер","Чеддер"],c:2,e:"Камамбер — символ французской гастрономии."},{q:"Через какой пролив Турция разделяет Европу и Азию?",o:["Дарданеллы","Босфор","Гибралтар","Суэц"],c:1,e:"Босфор разделяет два континента."},{q:"Что такое Майдан в Украине?",o:["Горный хребет","Главная площадь Киева","Валюта","Народный танец"],c:1,e:"Майдан Незалежності — главная площадь Киева."},{q:"Какой немецкий город известен Октябрьским фестивалем?",o:["Берлин","Гамбург","Мюнхен","Кёльн"],c:2,e:"Мюнхен ежегодно проводит Oktoberfest."},{q:"Какой напиток изобрели французы?",o:["Шампанское","Виски","Ром","Текила"],c:0,e:"Шампанское создано в регионе Шампань."},{q:"Как называется парламент Германии?",o:["Сейм","Бундестаг","Риксдаг","Дума"],c:1,e:"Бундестаг — федеральный парламент Германии."},{q:"Какое море омывает берега Украины на юге?",o:["Норвежское","Каспийское","Чёрное","Средиземное"],c:2,e:"Чёрное море — основной морской выход Украины."},{q:"Как называется главный проспект Парижа?",o:["Монмартр","Елисейские поля","Риволи","Бульвар Осман"],c:1,e:"Елисейские поля (Champs-Élysées)."}],
+ua:[{q:"Яка столиця Німеччини?",o:["Мюнхен","Берлін","Гамбург","Дрезден"],c:1,e:"Берлін — столиця Німеччини."},{q:"Яка річка тече через Берлін?",o:["Рейн","Дунай","Шпрее","Ельба"],c:2,e:"Шпрее протікає через центр Берліна."},{q:"Яка мова є офіційною в Туреччині?",o:["Арабська","Перська","Турецька","Курдська"],c:2,e:"Турецька — єдина офіційна мова Туреччини."},{q:"В якому місті знаходиться Ейфелева вежа?",o:["Лондон","Рим","Мадрид","Париж"],c:3,e:"Ейфелева вежа — символ Парижа."},{q:"Яке море омиває береги Туреччини на заході?",o:["Чорне море","Середземне море","Егейське море","Каспійське"],c:2,e:"Егейське море омиває західне узбережжя Туреччини."},{q:"Який напій є символом Німеччини?",o:["Вино","Пиво","Горілка","Ром"],c:1,e:"Пиво — найвідоміший напій Німеччини."},{q:"Яка валюта Франції?",o:["Франк","Фунт","Євро","Ліра"],c:2,e:"Франція використовує євро."},{q:"Яке місто є столицею Туреччини?",o:["Стамбул","Ізмір","Анкара","Бурса"],c:2,e:"Анкара — столиця Туреччини."},{q:"Де знаходиться музей Лувр?",o:["Берлін","Рим","Париж","Відень"],c:2,e:"Лувр у Парижі."},{q:"Яке місто Росії є культурною столицею?",o:["Москва","Новосибірськ","Санкт-Петербург","Казань"],c:2,e:"Санкт-Петербург — культурна столиця."},{q:"Яка найдовша річка Франції?",o:["Рона","Луара","Гаронна","Сена"],c:1,e:"Луара (1006 км)."},{q:"Коли була побудована Берлінська стіна?",o:["1945","1955","1961","1968"],c:2,e:"1961 р."},{q:"Скільки федеральних земель у Німеччині?",o:["10","12","16","18"],c:2,e:"16 земель."},{q:"Яка гора є найвищою в Росії?",o:["Ельбрус","Казбек","Белуха","Народна"],c:0,e:"Ельбрус (5642 м)."},{q:"Що означає 'Bonjour' французькою?",o:["До побачення","Будь ласка","Добрий день","Дякую"],c:2,e:"'Bonjour' = Добрий день."},{q:"Яка річка тече через Париж?",o:["Луара","Рона","Гаронна","Сена"],c:3,e:"Сена тече через Париж."},{q:"Як називається турецький напій із йогурту?",o:["Айран","Чай","Компот","Лимонад"],c:0,e:"Айран — традиційний напій."},{q:"Яка столиця Росії?",o:["Санкт-Петербург","Казань","Москва","Новосибірськ"],c:2,e:"Москва."},{q:"Яка офіційна мова Франції?",o:["Іспанська","Французька","Італійська","Португальська"],c:1,e:"Французька."},{q:"Яка найвідоміша пам'ятка архітектури Росії?",o:["Ейфелева вежа","Кремль","Колізей","Біг-Бен"],c:1,e:"Московський Кремль."}],
+tr:[{q:"Almanya'nın başkenti neresidir?",o:["Münih","Frankfurt","Hamburg","Berlin"],c:3,e:"Berlin, Almanya'nın başkenti."},{q:"Fransa'nın ulusal sembolü nedir?",o:["Kartal","Horoz","Aslan","Gül"],c:1,e:"Horoz, Fransa'nın sembolü."},{q:"Ukrayna'nın başkenti neresidir?",o:["Lviv","Odessa","Kiev","Harkov"],c:2,e:"Kiev (Kyiv)."},{q:"Rusya'nın en ünlü içkisi nedir?",o:["Viski","Votka","Rom","Cin"],c:1,e:"Votka."},{q:"Paris'in ünlü kulesi hangisidir?",o:["Big Ben","Eyfel Kulesi","Pisa Kulesi","Kolizey"],c:1,e:"Eyfel Kulesi."},{q:"Ukrayna'nın ulusal çorbası nedir?",o:["Gazpacho","Borş","Solyanka","Rassolnik"],c:1,e:"Borş."},{q:"Hangi Alman şehri BMW'nin merkezidir?",o:["Berlin","Hamburg","Münih","Köln"],c:2,e:"Münih."},{q:"Fransa'nın para birimi nedir?",o:["Frank","Pound","Dolar","Euro"],c:3,e:"Euro."},{q:"Ukrayna hangi denize kıyısı vardır?",o:["Ege","Akdeniz","Karadeniz","Kızıldeniz"],c:2,e:"Karadeniz."},{q:"Berlin Duvarı hangi yıl yıkıldı?",o:["1985","1987","1989","1991"],c:2,e:"1989."},{q:"Moskova Kremlin nedir?",o:["Müze","Rus hükümeti binası","Kilise","Saray"],c:1,e:"Rus hükümet merkezi."},{q:"Almanya kaç federal eyaletten oluşur?",o:["10","12","16","18"],c:2,e:"16."},{q:"Rusya'nın en büyük gölü hangisidir?",o:["Baykal","Ladoga","Hazar","Onega"],c:0,e:"Baykal Gölü."},{q:"Ukrayna'nın para birimi nedir?",o:["Ruble","Hryvnia","Euro","Lev"],c:1,e:"Hryvnia."},{q:"Fransa'nın milli marşının adı nedir?",o:["God Save the King","La Marseillaise","Rule Britannia","Ode to Joy"],c:1,e:"La Marseillaise."},{q:"Luvr Müzesi hangi şehirde bulunur?",o:["Berlin","Roma","Paris","Viyana"],c:2,e:"Paris."},{q:"Rusya kaç saat dilimine sahip?",o:["7","9","11","13"],c:2,e:"11."},{q:"Fransız mutfağının en ünlü tatlısı?",o:["Tiramisu","Cheesecake","Crème brûlée","Baklava"],c:2,e:"Crème brûlée."},{q:"Ukrayna'nın resmi dili nedir?",o:["Rusça","Lehçe","Ukraynaca","Beyaz Rusça"],c:2,e:"Ukraynaca."},{q:"Almanya'da en uzun nehir hangisi?",o:["Ren","Elbe","Tuna","Main"],c:0,e:"Ren Nehri."}],
+fr:[{q:"Quelle est la capitale de l'Allemagne?",o:["Munich","Hambourg","Berlin","Francfort"],c:2,e:"Berlin est la capitale."},{q:"Quelle est la capitale de la Russie?",o:["Saint-Pétersbourg","Moscou","Kazan","Novossibirsk"],c:1,e:"Moscou."},{q:"Quelle est la capitale de l'Ukraine?",o:["Lviv","Odessa","Kharkiv","Kiev"],c:3,e:"Kiev (Kyiv)."},{q:"Quel est le plat national turc?",o:["Pizza","Kebab","Sushi","Tacos"],c:1,e:"Le kebab."},{q:"Quel fleuve traverse Berlin?",o:["Rhin","Danube","Sprée","Elbe"],c:2,e:"La Sprée."},{q:"Quel est l'animal symbole de l'Allemagne?",o:["Lion","Loup","Aigle","Ours"],c:2,e:"L'aigle."},{q:"Quelle mer borde le sud de la Turquie?",o:["Mer Noire","Mer Rouge","Mer Caspienne","Mer Méditerranée"],c:3,e:"Méditerranée."},{q:"Quelle est la boisson nationale russe?",o:["Whisky","Rhum","Vodka","Gin"],c:2,e:"Vodka."},{q:"Comment s'appelle la soupe ukrainienne à la betterave?",o:["Gaspacho","Bortsch","Solianka","Okrochka"],c:1,e:"Bortsch."},{q:"En quelle année le mur de Berlin est-il tombé?",o:["1985","1987","1989","1991"],c:2,e:"1989."},{q:"Quelle est la monnaie de la Turquie?",o:["Euro","Drachme","Lire turque","Dollar"],c:2,e:"Lire turque."},{q:"Quel est le lac le plus profond de Russie?",o:["Lac Baïkal","Lac Ladoga","Mer Caspienne","Lac Onega"],c:0,e:"Baïkal."},{q:"Quel est le nom du parlement allemand?",o:["Sénat","Bundestag","Riksdag","Duma"],c:1,e:"Bundestag."},{q:"Quelle est la plus haute montagne de Turquie?",o:["Mont Olympe","Mont Ararat","Mont Taurus","Mont Erciyas"],c:1,e:"Mont Ararat."},{q:"Quel est le célèbre musée situé à Paris?",o:["Musée d'Orsay","Centre Pompidou","Le Louvre","Musée Rodin"],c:2,e:"Le Louvre."},{q:"Combien de fuseaux horaires possède la Russie?",o:["7","9","11","13"],c:2,e:"11."},{q:"Quel est le symbole national de l'Ukraine?",o:["L'aigle","Le tournesol","Le trident","Le blé"],c:2,e:"Le trident."},{q:"Quelle est la célèbre avenue de Paris?",o:["Montmartre","Champs-Élysées","Rivoli","Haussmann"],c:1,e:"Champs-Élysées."},{q:"Quelle est la monnaie officielle de l'Ukraine?",o:["Rouble","Hryvnia","Euro","Zloty"],c:1,e:"Hryvnia."},{q:"Quel est le plat traditionnel le plus connu d'Allemagne?",o:["Currywurst","Schnitzel","Bratwurst","Pretzel"],c:1,e:"Schnitzel."}]
 };
 
-// STATE
-let pc2=2;
+// ---- STATE ----
+let pcnt=2;
 let players=[{id:0,name:'',cid:'de'},{id:1,name:'',cid:'ru'},{id:2,name:'',cid:'ua'},{id:3,name:'',cid:'fr'},{id:4,name:'',cid:'de'}];
-let selCats=['h','g','c','f'];
-let questions={},scores={},sessXP={};
-let cpIdx=0,qIdx=0;
-let timerInt=null,tLeft=25,answered=false;
-const TSECS=25,Q_COUNT=10;
+let selCats=['h','g','c','f']; // decorative only
+let questions={}, scores={}, sessXP={};
+let cpIdx=0, qIdx=0, timerInt=null, tLeft=TSECS, answered=false;
 
-// PROFILES
-function loadP(){return JSON.parse(localStorage.getItem('wq_p')||'{}')}
-function saveP(p){localStorage.setItem('wq_p',JSON.stringify(p))}
-function getProf(name){const p=loadP();const k=name.toLowerCase();return p[k]||{name,xp:0,games:0,correct:0,usedQ:{}};}
-function saveProf(pf){const p=loadP();p[pf.name.toLowerCase()]=pf;saveP(p);}
-function updProf(name,xp,corr){const pf=getProf(name);pf.xp=(pf.xp||0)+xp;pf.games=(pf.games||0)+1;pf.correct=(pf.correct||0)+corr;saveProf(pf);return pf;}
-function markUsed(name,cid,idx){const pf=getProf(name);if(!pf.usedQ)pf.usedQ={};if(!pf.usedQ[cid])pf.usedQ[cid]=[];if(!pf.usedQ[cid].includes(idx))pf.usedQ[cid].push(idx);saveProf(pf);}
-function getUnused(name,cid){const pf=getProf(name);const used=(pf.usedQ&&pf.usedQ[cid])||[];const pool=QDB[cid]||QDB.de;const unused=pool.map((_,i)=>i).filter(i=>!used.includes(i));if(unused.length<Q_COUNT){const pf2=getProf(name);if(pf2.usedQ)pf2.usedQ[cid]=[];saveProf(pf2);return pool.map((_,i)=>i);}return unused;}
+// --- Storage ---
+function loadP(){return JSON.parse(localStorage.getItem('bwq_p')||'{}')}
+function saveP(p){localStorage.setItem('bwq_p',JSON.stringify(p))}
+function getProf(name){let p=loadP(),k=name.toLowerCase().trim();return p[k]||{name:name.trim(),xp:0,games:0,correct:0,usedQ:{}};}
+function saveProf(pf){let p=loadP();p[pf.name.toLowerCase().trim()]=pf;saveP(p);}
+function updProf(name,xp,corr){let pf=getProf(name);pf.xp=(pf.xp||0)+xp;pf.games=(pf.games||0)+1;pf.correct=(pf.correct||0)+corr;saveProf(pf);return pf;}
+function getUnused(name,cid){let pf=getProf(name),used=((pf.usedQ||{})[cid])||[],pool=QDB[cid]||QDB.de,unused=pool.map((_,i)=>i).filter(i=>!used.includes(i));if(unused.length<Q_COUNT){pf.usedQ=pf.usedQ||{};pf.usedQ[cid]=[];saveProf(pf);return pool.map((_,i)=>i);}return unused;}
+function markUsed(name,cid,idxArr){let pf=getProf(name);pf.usedQ=pf.usedQ||{};pf.usedQ[cid]=pf.usedQ[cid]||[];idxArr.forEach(i=>{if(!pf.usedQ[cid].includes(i))pf.usedQ[cid].push(i);});saveProf(pf);}
 
-// HELPERS
-function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s-'+id).classList.add('active');if(id==='hs')renderHS();if(id==='profiles')renderProfiles();}
+// --- UI ---
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s-'+id).classList.add('active');if(id==='hs')renderHS();if(id==='profiles')renderProfiles();if(timerInt){clearInterval(timerInt);timerInt=null;}}
 function C(id){return COUNTRIES.find(c=>c.id===id);}
-function active(){return players.slice(0,pc2);}
-function show(el){el.classList.remove('h');}
-function hide(el){el.classList.add('h');}
-
-// SETUP
-function setPc(n){pc2=n;[1,2,3,4,5].forEach(i=>{const b=document.getElementById('b'+i);if(b)b.className='pcb'+(i===n?' on':'');});}
-function stp(n){[1,2,3].forEach(i=>{document.getElementById('ss'+i).classList.add('h');document.getElementById('d'+i).className='sd'+(i<=n?' on':'');});document.getElementById('ss'+n).classList.remove('h');if(n===2)renderPL();if(n===3)renderCats();}
-function renderPL(){
-  const act=active();let h='';
-  act.forEach((p,i)=>{
-    const c=C(p.cid);const pf=p.name.trim()?getProf(p.name.trim()):null;const lv=pf?getLv(pf.xp):null;
-    const fbtns=COUNTRIES.map(ct=>`<button class="fb${p.cid===ct.id?' sel':''}" onclick="selC(${p.id},'${ct.id}')" title="${ct.name}">${ct.flag}</button>`).join('');
-    h+=`<div class="pbox" style="--pc:${c.color}"><div style="display:flex;gap:8px;align-items:flex-start"><div style="font-family:Cinzel,serif;font-size:1.2rem;font-weight:900;color:#fff;min-width:20px;padding-top:3px">${i+1}</div><div style="flex:1">${lv?`<div class="ptag">⚔️ Lvl ${lv.v} ${lv.n} · ${pf.xp} XP</div>`:''}
-    <input class="inp" placeholder="Name ${i+1}" value="${p.name}" oninput="setN(${p.id},this.value)" maxlength="20" enterkeyhint="next" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false"/><div class="frow">${fbtns}</div><div style="font-size:.67rem;color:rgba(200,120,90,.3);font-style:italic;margin-top:3px">${c.flag} ${c.lang}</div></div></div></div>`;
-  });
-  document.getElementById('plist').innerHTML=h;
-}
-function setN(id,v){players[id].name=v;setTimeout(renderPL,150);}
-function selC(pid,cid){players[pid].cid=cid;renderPL();}
-function renderCats(){document.getElementById('cgrid').innerHTML=CATS.map(cat=>`<button class="cb${selCats.includes(cat.id)?' on':''}" onclick="togCat('${cat.id}')">${cat.e} ${cat.l}</button>`).join('');}
+function active(){return players.slice(0,pcnt);}
+function setPc(n){pcnt=n;[1,2,3,4,5].forEach(i=>{let b=document.getElementById('b'+i);if(b)b.className='pcb'+(i===n?' on':'');});}
+function stp(n){[1,2,3].forEach(i=>{document.getElementById('ss'+i).classList.add('h');document.getElementById('d'+i).className='sdot'+(i<=n?' on':'');});document.getElementById('ss'+n).classList.remove('h');if(n===2)renderPL();if(n===3)renderCats();}
+function renderPL(){let act=active();document.getElementById('plist').innerHTML=act.map((p,i)=>{let c=C(p.cid),pf=p.name.trim()?getProf(p.name.trim()):null,lv=pf?getLv(pf.xp):null,fbtns=COUNTRIES.map(ct=>`<button class="fb${p.cid===ct.id?' sel':''}" onclick="selC(${p.id},'${ct.id}')">${ct.flag}</button>`).join('');return `<div class="prow" style="--pc:${c.color}"><div style="display:flex;gap:10px"><div class="pnum">${i+1}</div><div style="flex:1">${lv?`<div class="ptag">⚔️ Lvl ${lv.v} ${escapeHtml(lv.n)} · ${pf.xp} XP</div>`:''}<input class="pinp" placeholder="Name ${i+1}" value="${escapeHtml(p.name)}" oninput="setN(${p.id},this.value)" onblur="deferRender()" maxlength="20"/><div class="frow">${fbtns}</div><div class="plang">${c.flag} ${c.lang}</div></div></div></div>`;}).join('');}
+let renderTimer=null;function setN(id,v){players[id].name=v;clearTimeout(renderTimer);}function deferRender(){clearTimeout(renderTimer);renderTimer=setTimeout(()=>renderPL(),200);}
+function selC(pid,cid){players[pid].cid=cid;renderPL();setTimeout(()=>{let inputs=document.querySelectorAll('.pinp');if(inputs[pid])inputs[pid].focus();},50);}
+function renderCats(){document.getElementById('catg').innerHTML=CATS.map(cat=>`<button class="catb${selCats.includes(cat.id)?' on':''}" onclick="togCat('${cat.id}')"><span style="font-size:1.2rem">${cat.e}</span><span>${cat.l}</span></button>`).join('');}
 function togCat(id){if(selCats.includes(id)){if(selCats.length>1)selCats=selCats.filter(c=>c!==id);}else selCats.push(id);renderCats();}
 
-// GAME
-function startGame(){
-  const act=active();
-  if(act.some(p=>!p.name.trim())){alert('Bitte alle Namen eingeben!');return;}
-  go('loading');scores={};questions={};sessXP={};
-  act.forEach(p=>{scores[p.id]=0;sessXP[p.id]=0;});
-  document.getElementById('lrows').innerHTML=act.map(p=>{const c=C(p.cid);return`<div class="lr" id="lr${p.id}">${c.flag} ${p.name} <span>⟳</span></div>`;}).join('');
-  setTimeout(()=>{
-    act.forEach(p=>{
-      const unusedIdx=getUnused(p.name,p.cid);
-      const chosen=[...unusedIdx].sort(()=>Math.random()-.5).slice(0,Q_COUNT);
-      const pool=QDB[p.cid]||QDB.de;
-      questions[p.id]=chosen.map(i=>({...pool[i],_i:i}));
-      chosen.forEach(i=>markUsed(p.name,p.cid,i));
-      const row=document.getElementById('lr'+p.id);
-      if(row){row.classList.add('done');row.innerHTML=`${C(p.cid).flag} ${p.name} <span>✓</span>`;}
-    });
-    setTimeout(()=>{cpIdx=0;qIdx=0;showTurn();},600);
-  },1000);
-}
-function showTurn(){
-  const act=active();const cp=act[cpIdx];const c=C(cp.cid);
-  document.getElementById('tfl').textContent=c.flag;
-  const nm=document.getElementById('tnm');nm.textContent=cp.name||'Spieler '+(cpIdx+1);nm.style.color=c.color;nm.style.textShadow=`0 0 20px ${c.color}`;
-  const pf=getProf(cp.name);const lv=getLv(pf.xp);const nLv=getNxtLv(pf.xp);
-  const pct=nLv?Math.round(((pf.xp-lv.x)/(nLv.x-lv.x))*100):100;
-  document.getElementById('tprf').innerHTML=`<div class="lvlbdg">⚔️ Level ${lv.v} · ${lv.n}</div><div class="xpb" style="margin-top:5px"><div class="xpf" style="width:${pct}%"></div></div><div style="font-size:.63rem;color:rgba(255,200,100,.4);text-align:center;margin-top:2px">${pf.xp} XP${nLv?' · noch '+(nLv.x-pf.xp)+' bis Lvl '+(lv.v+1):' · MAX'}</div>`;
-  document.getElementById('tsb').textContent=`${Q_COUNT} Fragen · auf ${c.lang}`;
-  let prev='';if(cpIdx>0)prev=act.slice(0,cpIdx).map(p=>`${C(p.cid).flag} ${p.name}: ${scores[p.id]}/${Q_COUNT}`).join(' · ');
-  document.getElementById('tpv').textContent=prev;
-  go('turn');
-}
-function startQuiz(){answered=false;go('quiz');renderQ();}
-function renderQ(){
-  const act=active();const cp=act[cpIdx];const c=C(cp.cid);const qs=questions[cp.id]||[];const q=qs[qIdx];
-  document.getElementById('sbar').innerHTML=act.map((p,i)=>{const pc=C(p.cid);const isA=i===cpIdx;return`<div class="sc${isA?' act':''}" style="${isA?'border-color:'+pc.color+'55;color:'+pc.color:''}">${pc.flag}<span class="sn">${i<=cpIdx?(scores[p.id]||0):'—'}</span></div>`;}).join('');
-  document.getElementById('qlbl').textContent=`${c.flag} ${qIdx+1}/${Q_COUNT}`;
-  document.getElementById('qtext').textContent=q?q.q:'';
-  document.getElementById('expl').className='h';hide(document.getElementById('nxtbtn'));
-  document.getElementById('opts').innerHTML=['A','B','C','D'].map((k,i)=>`<button class="ob" onclick="ans(${i})" id="ob${i}"><span class="ok">${k}</span><span>${q?q.o[i]:''}</span></button>`).join('');
-  startTimer(c.color);
-}
-function startTimer(col){clearInterval(timerInt);tLeft=TSECS;answered=false;updTimer(col);timerInt=setInterval(()=>{tLeft--;updTimer(col);if(tLeft<=0){clearInterval(timerInt);timeOut();}},1000);}
-function updTimer(col){const pct=(tLeft/TSECS)*100;const clr=tLeft<=5?'#f87171':tLeft<=10?'#fb923c':col;document.getElementById('tfill').style.cssText=`width:${pct}%;background:${clr};box-shadow:0 0 8px ${clr}`;document.getElementById('tnum').style.color=clr;document.getElementById('tnum').textContent=tLeft+'s';}
-function ans(idx){
-  if(answered)return;answered=true;clearInterval(timerInt);
-  const act=active();const cp=act[cpIdx];const q=questions[cp.id][qIdx];const ok=idx===q.c;
-  if(ok){scores[cp.id]++;const xp=xpForQ(tLeft);sessXP[cp.id]=(sessXP[cp.id]||0)+xp;showXPPop('+'+xp+' XP');}
-  ['0','1','2','3'].forEach(i=>{const b=document.getElementById('ob'+i);if(parseInt(i)===q.c)b.classList.add('cor');else if(parseInt(i)===idx)b.classList.add('wrg');b.disabled=true;});
-  showExpl(ok?'c':'w',q.e);
-  const nxt=document.getElementById('nxtbtn');show(nxt);
-  const isL=qIdx+1>=(questions[cp.id]||[]).length;const isLP=cpIdx+1>=act.length;
-  nxt.textContent=isL?(isLP?'⚔️ Ergebnis →':'Nächster →'):'Weiter →';
-}
-function timeOut(){
-  if(answered)return;answered=true;
-  const act=active();const cp=act[cpIdx];const q=questions[cp.id][qIdx];
-  document.getElementById('ob'+q.c).classList.add('cor');['0','1','2','3'].forEach(i=>document.getElementById('ob'+i).disabled=true);
-  showExpl('t','⏰ Zeit! Richtig: '+q.o[q.c]);
-  const nxt=document.getElementById('nxtbtn');show(nxt);
-  const isL=qIdx+1>=(questions[cp.id]||[]).length;const isLP=cpIdx+1>=active().length;
-  nxt.textContent=isL?(isLP?'⚔️ Ergebnis →':'Nächster →'):'Weiter →';
-}
-function showExpl(t,txt){const el=document.getElementById('expl');el.className='ex '+t;el.textContent=(t==='c'?'✓ ':t==='w'?'✗ ':'')+txt;}
-function showXPPop(txt){const el=document.createElement('div');el.className='xpop';el.textContent=txt;document.body.appendChild(el);setTimeout(()=>el.remove(),900);}
-function nextQ(){const act=active();const cp=act[cpIdx];const qLen=(questions[cp.id]||[]).length;if(qIdx+1>=qLen){if(cpIdx+1>=act.length){clearInterval(timerInt);showResult();}else{cpIdx++;qIdx=0;showTurn();}}else{qIdx++;answered=false;renderQ();}}
-function showResult(){
-  const act=active();const sorted=[...act].sort((a,b)=>(scores[b.id]||0)-(scores[a.id]||0));
-  document.getElementById('pod').innerHTML=sorted.map((p,r)=>{const c=C(p.cid);const sc=scores[p.id]||0;const xp=sessXP[p.id]||0;const pf=updProf(p.name,xp,sc);const lv=getLv(pf.xp);
-  return`<div class="pr${r===0?' f1':''}"><span style="font-size:1.2rem;min-width:24px">${MEDALS[r]}</span><span style="font-size:1.1rem">${c.flag}</span><div style="flex:1"><div style="font-size:.9rem">${p.name}</div><div style="font-size:.65rem;color:rgba(255,200,100,.5);font-family:Cinzel,serif">Lvl ${lv.v} · ${pf.xp} XP total</div></div><div style="text-align:right"><div style="font-family:Cinzel,serif;font-size:1.3rem;font-weight:700;color:${c.color}">${sc}<span style="font-size:.5em;opacity:.3">/${Q_COUNT}</span></div><div style="font-size:.68rem;color:#ffcc80">+${xp} XP</div></div></div>`;}).join('');
-  const top=sorted[0];const topSc=scores[top.id]||0;const tied=sorted.filter(p=>(scores[p.id]||0)===topSc);const tc=C(top.cid);
-  document.getElementById('wmsg').textContent=tied.length>1?'🤝 Unentschieden! · Ничья!':`${tc.flag} ${top.name} gewinnt! · побеждает!`;
-  go('result');
-}
-function renderProfiles(){
-  const profs=loadP();const keys=Object.keys(profs);
-  if(!keys.length){document.getElementById('prlist').innerHTML='<div style="text-align:center;color:rgba(255,180,130,.25);padding:22px;font-style:italic">Noch keine Profile. Spiele eine Runde!</div>';return;}
-  const sorted=keys.map(k=>profs[k]).sort((a,b)=>(b.xp||0)-(a.xp||0));
-  document.getElementById('prlist').innerHTML=sorted.map((p,i)=>{const lv=getLv(p.xp||0);const nLv=getNxtLv(p.xp||0);const pct=nLv?Math.round(((p.xp-lv.x)/(nLv.x-lv.x))*100):100;
-  return`<div style="padding:11px;border:1px solid rgba(180,50,20,.25);border-radius:3px;background:rgba(15,2,6,.7);margin-bottom:8px"><div style="display:flex;align-items:center;gap:9px;margin-bottom:5px"><span style="font-size:1.4rem">${['🥇','🥈','🥉','🏅','🎖️'][Math.min(i,4)]}</span><div style="flex:1"><div style="font-family:Cinzel,serif;font-size:.92rem;color:#ffd0a0">${p.name}</div><div class="lvlbdg" style="margin-top:2px">⚔️ Level ${lv.v} · ${lv.n}</div></div><div style="font-family:Cinzel,serif;font-size:1.1rem;color:#ffcc80;font-weight:700">${p.xp||0} XP</div></div><div class="xpb"><div class="xpf" style="width:${pct}%"></div></div><div style="display:flex;justify-content:space-between;font-size:.65rem;color:rgba(255,200,100,.4);margin-top:2px"><span>${p.games||0} Spiele · ${p.correct||0} ✓</span><span>${nLv?'noch '+(nLv.x-(p.xp||0))+' XP bis Lvl '+(lv.v+1):'MAX 🏆'}</span></div></div>`;}).join('');
-}
-function renderHS(){
-  const profs=loadP();const keys=Object.keys(profs);
-  if(!keys.length){document.getElementById('hslist').innerHTML='<div style="text-align:center;color:rgba(255,180,130,.25);padding:22px;font-style:italic">Noch keine Einträge.</div>';return;}
-  const sorted=keys.map(k=>profs[k]).sort((a,b)=>(b.xp||0)-(a.xp||0)).slice(0,20);
-  document.getElementById('hslist').innerHTML=sorted.map((p,i)=>{const lv=getLv(p.xp||0);return`<div class="hr2"><span style="color:rgba(255,180,130,.25);min-width:20px;font-family:Cinzel,serif;font-size:.72rem">${i+1}.</span><span>${['🥇','🥈','🥉','🏅','🎖️'][Math.min(i,4)]}</span><span style="flex:1">${p.name}</span><span style="font-family:Cinzel,serif;font-size:.76rem;color:#ffcc80">Lvl ${lv.v}</span><span style="font-family:Cinzel,serif;font-weight:700;color:#ff9960;min-width:52px;text-align:right">${p.xp||0} XP</span></div>`;}).join('');
-}
+function startGame(){let act=active();if(act.some(p=>!p.name.trim())){alert('Bitte alle Namen eingeben!');return;}if(timerInt)clearInterval(timerInt);go('loading');scores={};questions={};sessXP={};act.forEach(p=>{scores[p.id]=0;sessXP[p.id]=0;});document.getElementById('lrows').innerHTML=act.map(p=>`<div class="lrow" id="lr${p.id}">${C(p.cid).flag} ${escapeHtml(p.name)}<span>⟳</span></div>`).join('');setTimeout(()=>{act.forEach(p=>{let unused=getUnused(p.name,p.cid);let chosen=[...unused].sort(()=>Math.random()-.5).slice(0,Q_COUNT);markUsed(p.name,p.cid,chosen);let pool=QDB[p.cid]||QDB.de;questions[p.id]=chosen.map(i=>({...pool[i],_i:i}));let row=document.getElementById('lr'+p.id);if(row){row.classList.add('done');row.innerHTML=`${C(p.cid).flag} ${escapeHtml(p.name)}<span>✓</span>`;}});setTimeout(()=>{cpIdx=0;qIdx=0;showTurn();},700);},900);}
+function showTurn(){let act=active(),cp=act[cpIdx],c=C(cp.cid);document.getElementById('tfl').textContent=c.flag;let nm=document.getElementById('tnm');nm.textContent=escapeHtml(cp.name)||'Spieler '+(cpIdx+1);nm.style.color=c.color;let pf=getProf(cp.name),lv=getLv(pf.xp),nLv=getNxt(pf.xp);let pct=nLv?Math.round(((pf.xp-lv.x)/(nLv.x-lv.x))*100):100;document.getElementById('tprf').innerHTML=`<div class="lvlbadge" style="margin:0 auto 6px;display:inline-flex">⚔️ Level ${lv.v} · ${escapeHtml(lv.n)}</div><div class="xpbar"><div class="xpfill" style="width:${pct}%"></div></div><div style="font-size:.72rem;color:rgba(255,200,100,.4);text-align:center">${pf.xp} XP${nLv?' · noch '+(nLv.x-pf.xp)+' XP':''}</div>`;document.getElementById('tsb').textContent=`${Q_COUNT} Fragen · ${c.lang}`;let prev='';if(cpIdx>0)prev=act.slice(0,cpIdx).map(p=>`${C(p.cid).flag} ${escapeHtml(p.name)}: ${scores[p.id]}/${Q_COUNT}`).join('  ·  ');document.getElementById('tpv').textContent=prev;go('turn');}
+function startQuiz(){if(timerInt)clearInterval(timerInt);answered=false;go('quiz');renderQ();}
+function renderQ(){let act=active(),cp=act[cpIdx],c=C(cp.cid),qs=questions[cp.id]||[],q=qs[qIdx];document.getElementById('sbar').innerHTML=act.map((p,i)=>{let pc=C(p.cid);let isA=i===cpIdx;return`<div class="schip${isA?' act':''}" style="${isA?`border-color:${pc.color}44;color:${pc.color}`:''}">${pc.flag}<span class="schip-score">${i<=cpIdx?(scores[p.id]||0):'—'}</span></div>`;}).join('');document.getElementById('qlbl').textContent=`${c.flag} ${qIdx+1} / ${Q_COUNT}`;document.getElementById('qtext').textContent=q?q.q:'';document.getElementById('expl').className='h';document.getElementById('nxtbtn').classList.add('h');document.getElementById('opts').innerHTML=['A','B','C','D'].map((k,i)=>`<button class="obt" onclick="ans(${i})" id="ob${i}"><span class="okey">${k}</span><span>${q?escapeHtml(q.o[i]):''}</span></button>`).join('');startTimer(c.color);}
+function startTimer(col){clearInterval(timerInt);tLeft=TSECS;answered=false;updT(col);timerInt=setInterval(()=>{tLeft--;updT(col);if(tLeft<=0){clearInterval(timerInt);timeOut();}},1000);}
+function updT(col){let pct=(tLeft/TSECS)*100;let clr=tLeft<=5?'#f87171':tLeft<=10?'#fb923c':col;let tf=document.getElementById('tfill');tf.style.width=pct+'%';tf.style.background=clr;tf.style.boxShadow=`0 0 10px ${clr}`;document.getElementById('tnum').style.color=clr;document.getElementById('tnum').textContent=tLeft+'s';}
+function ans(idx){if(answered)return;answered=true;clearInterval(timerInt);let act=active(),cp=act[cpIdx],q=questions[cp.id][qIdx],ok=idx===q.c;if(ok){scores[cp.id]++;let xp=xpGain(tLeft);sessXP[cp.id]=(sessXP[cp.id]||0)+xp;showXPPop('+'+xp+' XP');}['0','1','2','3'].forEach(i=>{let b=document.getElementById('ob'+i);if(parseInt(i)===q.c)b.classList.add('cor');else if(parseInt(i)===idx)b.classList.add('wrg');b.disabled=true;});let el=document.getElementById('expl');el.className='expl '+(ok?'c':'w');el.textContent=(ok?'✓  ':'✗  ')+q.e;document.getElementById('nxtbtn').classList.remove('h');let isL=qIdx+1>=(questions[cp.id]||[]).length;let isLP=cpIdx+1>=act.length;document.getElementById('nxtbtn').textContent=isL?(isLP?'⚔️ Ergebnis →':'Nächster Spieler →'):'Weiter →';}
+function timeOut(){if(answered)return;answered=true;let act=active(),cp=act[cpIdx],q=questions[cp.id][qIdx];document.getElementById('ob'+q.c).classList.add('cor');['0','1','2','3'].forEach(i=>document.getElementById('ob'+i).disabled=true);let el=document.getElementById('expl');el.className='expl t';el.textContent='⏰ Zeit abgelaufen! Richtig: '+q.o[q.c];document.getElementById('nxtbtn').classList.remove('h');let isL=qIdx+1>=(questions[cp.id]||[]).length;let isLP=cpIdx+1>=active().length;document.getElementById('nxtbtn').textContent=isL?(isLP?'⚔️ Ergebnis →':'Nächster Spieler →'):'Weiter →';}
+function showXPPop(txt){let el=document.createElement('div');el.className='xpop';el.textContent=txt;document.body.appendChild(el);setTimeout(()=>el.remove(),950);}
+function nextQ(){if(timerInt)clearInterval(timerInt);let act=active(),cp=act[cpIdx];if(qIdx+1>=(questions[cp.id]||[]).length){if(cpIdx+1>=act.length){showResult();}else{cpIdx++;qIdx=0;showTurn();}}else{qIdx++;answered=false;renderQ();}}
+function showResult(){let act=active(),sorted=[...act].sort((a,b)=>(scores[b.id]||0)-(scores[a.id]||0));document.getElementById('pod').innerHTML=sorted.map((p,r)=>{let c=C(p.cid),sc=scores[p.id]||0,xp=sessXP[p.id]||0;let pf=updProf(p.name,xp,sc),lv=getLv(pf.xp);return`<div class="podrow${r===0?' p1':''}"><span style="font-size:1.3rem;min-width:26px">${['🥇','🥈','🥉','4.','5.'][r]}</span><span style="font-size:1.15rem">${c.flag}</span><div style="flex:1;margin-left:2px"><div style="font-weight:700;color:#fff">${escapeHtml(p.name)}</div><div class="lvlbadge" style="margin-top:3px">⚔️ Lvl ${lv.v} · ${escapeHtml(lv.n)} · ${pf.xp} XP</div></div><div style="text-align:right"><div style="font-family:'Cinzel Decorative',serif;font-size:1.35rem;color:${c.color}">${sc}<span style="font-size:.5em">/${Q_COUNT}</span></div><div style="font-size:.72rem;color:#ffcc80">+${xp} XP</div></div></div>`;}).join('');let top=sorted[0],topSc=scores[top.id]||0,tied=sorted.filter(p=>(scores[p.id]||0)===topSc),tc=C(top.cid);document.getElementById('wmsg').textContent=tied.length>1?'🤝 Unentschieden! · Ничья!':`${tc.flag} ${escapeHtml(top.name)} gewinnt! · побеждает!`;go('result');}
+function renderProfiles(){let profs=loadP(),keys=Object.keys(profs);if(!keys.length){document.getElementById('prlist').innerHTML=`<div style="text-align:center;color:rgba(255,180,130,.25);padding:26px;font-style:italic">Keine Profile.</div>`;return;}let sorted=keys.map(k=>profs[k]).sort((a,b)=>(b.xp||0)-(a.xp||0));document.getElementById('prlist').innerHTML=sorted.map((p,i)=>{let lv=getLv(p.xp||0),nLv=getNxt(p.xp||0),pct=nLv?Math.round(((p.xp-lv.x)/(nLv.x-lv.x))*100):100,usedTotal=Object.values(p.usedQ||{}).reduce((a,b)=>a+(b?.length||0),0);return`<div class="profrow"><div style="display:flex;gap:10px;margin-bottom:8px"><span style="font-size:1.5rem">${['🥇','🥈','🥉','🏅','🎖️'][Math.min(i,4)]}</span><div style="flex:1"><div style="font-weight:700;color:#ffd0a0">${escapeHtml(p.name)}</div><div class="lvlbadge" style="margin-top:3px">⚔️ Level ${lv.v} · ${escapeHtml(lv.n)}</div></div><div style="font-family:'Cinzel Decorative',serif;font-size:1.2rem;color:#ffcc80">${p.xp||0}<span style="font-size:.5em"> XP</span></div></div><div class="xpbar"><div class="xpfill" style="width:${pct}%"></div></div><div style="display:flex;justify-content:space-between;font-size:.72rem;color:rgba(255,200,100,.4)"><span>${p.games||0} Spiele · ${p.correct||0} richtig · ${usedTotal} Fragen</span><span>${nLv?'noch '+(nLv.x-(p.xp||0))+' XP':'MAX'}</span></div></div>`;}).join('');}
+function renderHS(){let profs=loadP(),keys=Object.keys(profs);if(!keys.length){document.getElementById('hslist').innerHTML=`<div style="text-align:center;color:rgba(255,180,130,.25);padding:26px">Keine Einträge.</div>`;return;}let sorted=keys.map(k=>profs[k]).sort((a,b)=>(b.xp||0)-(a.xp||0)).slice(0,20);document.getElementById('hslist').innerHTML=sorted.map((p,i)=>{let lv=getLv(p.xp||0);return`<div class="hsrow"><span style="color:rgba(255,180,130,.22);min-width:22px">${i+1}.</span><span>${['🥇','🥈','🥉','🏅','🎖️'][Math.min(i,4)]}</span><span style="flex:1;color:#ffd0a0">${escapeHtml(p.name)}</span><span style="font-size:.8rem;color:#ffcc80;margin-right:6px">Lvl ${lv.v}</span><span style="font-family:'Cinzel Decorative',serif;font-weight:900;color:#ff9960;min-width:55px;text-align:right">${p.xp||0} XP</span></div>`;}).join('');}
+window.setPc=setPc;window.stp=stp;window.setN=setN;window.deferRender=deferRender;window.selC=selC;window.togCat=togCat;window.startGame=startGame;window.go=go;window.startQuiz=startQuiz;window.ans=ans;window.nextQ=nextQ;
+renderPL();renderCats();
 </script>
-
 </body>
 </html>
+```
