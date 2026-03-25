@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · GLOBAL GENESIS</title>
+    <title>MK · GLOBAL GENESIS · ONLINE</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
+        /* ========== CSS (unverändert, aber Platzhalter ========== */
         :root {
             --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
             --gold-solid: #d4af37;
@@ -91,6 +92,7 @@
             background-size: cover; background-position: center; position: relative;
             overflow: hidden; display: flex; align-items: center; justify-content: center;
             margin-bottom: 20px; box-shadow: var(--shadow);
+            background-color: #1a1a1a;
         }
         .q-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)); z-index: 1; }
         .q-text { position: relative; z-index: 10; text-align: center; font-size: 1.4rem; padding: 20px; font-weight: 600; text-shadow: 0 2px 10px #000; }
@@ -99,6 +101,7 @@
             background-size: cover; background-position: center; position: relative;
             overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center;
             transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: #2a2a2a;
         }
         .opt-visual:hover { transform: scale(1.03); border-color: var(--gold-solid); }
         .opt-img-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 1; transition: 0.3s; }
@@ -138,20 +141,55 @@
         .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(212, 175, 55, 0.1); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s infinite linear; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--gold);
+            width: 0%;
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+        .xp-text {
+            font-size: 0.7rem;
+            margin-top: 6px;
+            color: #ccc;
+            font-family: 'Outfit', sans-serif;
+        }
+        .key-hint {
+            text-align: center;
+            font-size: 0.7rem;
+            margin-top: 10px;
+            color: rgba(255,255,255,0.4);
+        }
+        .sync-status {
+            font-size: 0.6rem;
+            text-align: center;
+            margin-top: 5px;
+            color: #aaa;
+        }
     </style>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-<div id="modal" onclick="this.style.display='none'">
+<div id="modal" onclick="document.getElementById('modal').style.display='none'">
     <div class="modal-box" onclick="event.stopPropagation()">
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+        <div style="font-size:2.8rem; cursor:pointer;" data-flag="🇩🇪">🇩🇪</div>
+        <div style="font-size:2.8rem; cursor:pointer;" data-flag="🇷🇺">🇷🇺</div>
+        <div style="font-size:2.8rem; cursor:pointer;" data-flag="🇬🇧">🇬🇧</div>
+        <div style="font-size:2.8rem; cursor:pointer;" data-flag="🇳🇬">🇳🇬</div>
+        <div style="font-size:2.8rem; cursor:pointer;" data-flag="🇹🇷">🇹🇷</div>
+        <div style="font-size:2.8rem; cursor:pointer;" data-flag="🇫🇷">🇫🇷</div>
+        <div style="font-size:2.8rem; cursor:pointer;" data-flag="🇺🇦">🇺🇦</div>
+        <div style="font-size:2.8rem; cursor:pointer;" data-flag="🇺🇸">🇺🇸</div>
     </div>
 </div>
 
@@ -164,10 +202,11 @@
         </div>
         <p class="sub-title-low">Best World Quiz</p>
         <div style="margin-top: auto;">
-            <button class="btn-luxe btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
-            <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge & Ränge ⚔️</button>
-            <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
+            <button class="btn-luxe btn-gold" data-screen="setup">Beginne Kampf</button>
+            <button class="btn-luxe btn-outline" data-screen="achievements">Erfolge & Ränge ⚔️</button>
+            <button class="btn-luxe btn-outline" data-screen="leaderboard">Bestenliste 🏆</button>
         </div>
+        <div class="sync-status" id="syncStatus">🔄 Verbinde mit globaler Bestenliste...</div>
         <footer>Produziert von Wowa & Amiar Kempf</footer>
     </section>
 
@@ -175,18 +214,18 @@
         <h2 class="title-gold" style="font-size: 2.2rem;">Krieger</h2>
         <p class="section-label">Game Sprache</p>
         <div class="lang-grid">
-            <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
-            <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
-            <div class="lang-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
-            <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
-            <div class="lang-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
+            <div class="lang-chip" data-lang="de">DE</div>
+            <div class="lang-chip" data-lang="ru">RU</div>
+            <div class="lang-chip" data-lang="en">EN</div>
+            <div class="lang-chip" data-lang="ig">IGBO</div>
+            <div class="lang-chip" data-lang="tr">TR</div>
         </div>
         <p class="section-label">Flagge und Namen aussuchen</p>
         <div id="player-list"></div>
-        <button class="btn-luxe btn-outline" style="font-size:0.6rem; padding: 12px;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
+        <button class="btn-luxe btn-outline" id="addPlayerBtn" style="font-size:0.6rem; padding: 12px;">+ Neuer Kämpfer</button>
         <div style="margin-top: auto;">
-            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Generiere Kampf</button>
-            <button class="btn-back" onclick="App.go('home')">← Hauptmenü</button>
+            <button class="btn-luxe btn-gold" id="prepareBattleBtn">Generiere Kampf</button>
+            <button class="btn-back" data-screen="home">← Hauptmenü</button>
         </div>
     </section>
 
@@ -202,8 +241,8 @@
             <div id="vs-info" style="margin-top:10px;"></div>
         </div>
         <div style="margin-top: auto; padding-bottom: 40px;">
-            <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
-            <button class="btn-back" onclick="App.go('setup')">← Team ändern</button>
+            <button class="btn-luxe btn-gold" id="startQuizBtn">FIGHT!</button>
+            <button class="btn-back" data-screen="setup">← Team ändern</button>
         </div>
     </section>
 
@@ -221,18 +260,19 @@
         <div id="q-feedback" style="display:none; margin-top:10px;">
             <div style="background: rgba(10,10,10,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center;">
                 <p id="q-expl" style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 15px;"></p>
-                <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
+                <button class="btn-luxe btn-gold" id="nextStepBtn" style="margin:0">Nächste Runde</button>
             </div>
         </div>
-        <button class="btn-back" style="margin-top:15px;" onclick="if(confirm('Abbrechen?')) location.reload()">✕ Beenden</button>
+        <div class="key-hint">⚔️ Tipp: Drücke die Tasten 1–4 für die Antwort</div>
+        <button class="btn-back" id="abortQuizBtn" style="margin-top:15px;">✕ Beenden</button>
     </section>
 
     <section id="s-result" class="screen">
         <h1 class="title-gold" style="font-size: 2.5rem;">KAMPF ENDE</h1>
         <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
         <div style="margin-top: auto;">
-            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Nochmal Kämpfen</button>
-            <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
+            <button class="btn-luxe btn-gold" id="rematchBtn">Nochmal Kämpfen</button>
+            <button class="btn-luxe btn-outline" id="homeFromResultBtn">Hauptmenü</button>
         </div>
         <footer>Produziert von Wowa & Amiar Kempf</footer>
     </section>
@@ -240,367 +280,549 @@
     <section id="s-achievements" class="screen">
         <h1 class="title-gold" style="font-size: 2rem;">ERFOLGE</h1>
         <div id="ach-list" style="margin-top:30px; flex:1;"></div>
-        <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+        <button class="btn-luxe btn-gold" data-screen="home">Hauptmenü</button>
     </section>
 
     <section id="s-leaderboard" class="screen">
         <h1 class="title-gold" style="font-size: 2rem;">BESTENLISTE</h1>
         <div id="lb-list" style="margin-top:30px; flex:1;"></div>
-        <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+        <button class="btn-luxe btn-gold" data-screen="home">Hauptmenü</button>
     </section>
 </div>
 
 <script>
-    // --------------------------------------------------------------
-    // VERBESSERTER QUIZ-ENGINE – Globus dreht sich nur noch
-    // --------------------------------------------------------------
+    // ==================== SUPABASE KONFIGURATION ====================
+    // HIER DEINE SUPABASE-ZUGANGSDAten einfügen:
+    const SUPABASE_URL = 'https://DEINE_PROJEKT_REF.supabase.co';   // <-- ersetzen
+    const SUPABASE_ANON_KEY = 'DEIN_ANON_KEY';                     // <-- ersetzen
     
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // ==================== DATENBANK & FRAGEN ====================
     const DB = {
         de: [
-            { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
-            { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
-            { id: "de3", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
-            { id: "de4", q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "China"], c: 0, e: "Sie stehen nahe Kairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
-            { id: "de5", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifik deckt 35% der Erde.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "de6", q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Er liegt im Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
-            { id: "de7", q: "Währung der USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist Weltleitwährung.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
-            { id: "de8", q: "Kontinent Australien?", o: ["Kleinster", "Größter", "Kältester", "Heißester"], c: 0, e: "Australien ist der kleinste Kontinent.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
-            { id: "de9", q: "Eiffelturm Standort?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Wahrzeichen von Frankreich.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
-            { id: "de10", q: "Farbe der UNO Flagge?", o: ["Blau-Weiß", "Rot-Gelb", "Schwarz-Rot", "Grün"], c: 0, e: "Blau und Weiß für den Frieden.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
+            { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km²." },
+            { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole." },
+            { id: "de3", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader." },
+            { id: "de4", q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "China"], c: 0, e: "Sie stehen nahe Kairo." },
+            { id: "de5", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifik deckt 35% der Erde." },
+            { id: "de6", q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Er liegt im Himalaya." },
+            { id: "de7", q: "Währung der USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist Weltleitwährung." },
+            { id: "de8", q: "Kontinent Australien?", o: ["Kleinster", "Größter", "Kältester", "Heißester"], c: 0, e: "Australien ist der kleinste Kontinent." },
+            { id: "de9", q: "Eiffelturm Standort?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Wahrzeichen von Frankreich." },
+            { id: "de10", q: "Farbe der UNO Flagge?", o: ["Blau-Weiß", "Rot-Gelb", "Schwarz-Rot", "Grün"], c: 0, e: "Blau und Weiß für den Frieden." }
         ],
         ru: [
-            { id: "ru1", q: "Самая большая страна в мире?", o: ["Россия", "Канада", "Китай", "США"], c: 0, e: "Россия занимает около 17 млн км².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
-            { id: "ru2", q: "Столица Японии?", o: ["Токио", "Киото", "Осака", "Сеул"], c: 0, e: "Токио — крупнейший мегаполис.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
-            { id: "ru3", q: "Какая река протекает через Египет?", o: ["Нил", "Амазонка", "Конго", "Ганг"], c: 0, e: "Нил — источник жизни.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
-            { id: "ru4", q: "Где находятся пирамиды?", o: ["Гиза", "Мексика", "Ирак", "Китай"], c: 0, e: "Они находятся недалеко от Каира.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
-            { id: "ru5", q: "Самый большой океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный Ледовитый"], c: 0, e: "Тихий океан покрывает 35% Земли.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "ru6", q: "Самая высокая гора?", o: ["Эверест", "К2", "Монблан", "Фудзияма"], c: 0, e: "Она находится в Гималаях.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
-            { id: "ru7", q: "Валюта США?", o: ["Доллар", "Евро", "Фунт", "Йена"], c: 0, e: "Доллар США — мировая резервная валюта.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
-            { id: "ru8", q: "Континент Австралии?", o: ["Самый маленький", "Самый большой", "Самый холодный", "Самый жаркий"], c: 0, e: "Австралия — самый маленький континент.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
-            { id: "ru9", q: "Где находится Эйфелева башня?", o: ["Париж", "Берлин", "Лондон", "Рим"], c: 0, e: "Символ Франции.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
-            { id: "ru10", q: "Цвет флага ООН?", o: ["Сине-белый", "Красно-желтый", "Черно-красный", "Зеленый"], c: 0, e: "Синий и белый символизируют мир.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
+            { id: "ru1", q: "Самая большая страна в мире?", o: ["Россия", "Канада", "Китай", "США"], c: 0, e: "Россия занимает около 17 млн км²." },
+            { id: "ru2", q: "Столица Японии?", o: ["Токио", "Киото", "Осака", "Сеул"], c: 0, e: "Токио — крупнейший мегаполис." },
+            { id: "ru3", q: "Какая река протекает через Египет?", o: ["Нил", "Амазонка", "Конго", "Ганг"], c: 0, e: "Нил — источник жизни." },
+            { id: "ru4", q: "Где находятся пирамиды?", o: ["Гиза", "Мексика", "Ирак", "Китай"], c: 0, e: "Они находятся недалеко от Каира." },
+            { id: "ru5", q: "Самый большой океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный Ледовитый"], c: 0, e: "Тихий океан покрывает 35% Земли." },
+            { id: "ru6", q: "Самая высокая гора?", o: ["Эверест", "К2", "Монблан", "Фудзияма"], c: 0, e: "Она находится в Гималаях." },
+            { id: "ru7", q: "Валюта США?", o: ["Доллар", "Евро", "Фунт", "Йена"], c: 0, e: "Доллар США — мировая резервная валюта." },
+            { id: "ru8", q: "Континент Австралии?", o: ["Самый маленький", "Самый большой", "Самый холодный", "Самый жаркий"], c: 0, e: "Австралия — самый маленький континент." },
+            { id: "ru9", q: "Где находится Эйфелева башня?", o: ["Париж", "Берлин", "Лондон", "Рим"], c: 0, e: "Символ Франции." },
+            { id: "ru10", q: "Цвет флага ООН?", o: ["Сине-белый", "Красно-желтый", "Черно-красный", "Зеленый"], c: 0, e: "Синий и белый символизируют мир." }
         ],
         en: [
-            { id: "en1", q: "Largest country in the world?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia covers about 17 million km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
-            { id: "en2", q: "Capital of Japan?", o: ["Tokyo", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokyo is the largest metropolis.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
-            { id: "en3", q: "Which river flows through Egypt?", o: ["Nile", "Amazon", "Congo", "Ganges"], c: 0, e: "The Nile is the lifeline.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
-            { id: "en4", q: "Where are the pyramids?", o: ["Giza", "Mexico", "Iraq", "China"], c: 0, e: "They are near Cairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
-            { id: "en5", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "The Pacific covers 35% of Earth.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "en6", q: "Highest mountain?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "It is in the Himalayas.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
-            { id: "en7", q: "Currency of USA?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar is the world's reserve currency.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
-            { id: "en8", q: "Continent Australia?", o: ["Smallest", "Largest", "Coldest", "Hottest"], c: 0, e: "Australia is the smallest continent.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
-            { id: "en9", q: "Eiffel Tower location?", o: ["Paris", "Berlin", "London", "Rome"], c: 0, e: "Symbol of France.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
-            { id: "en10", q: "Color of UN flag?", o: ["Blue-White", "Red-Yellow", "Black-Red", "Green"], c: 0, e: "Blue and white for peace.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
+            { id: "en1", q: "Largest country in the world?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia covers about 17 million km²." },
+            { id: "en2", q: "Capital of Japan?", o: ["Tokyo", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokyo is the largest metropolis." },
+            { id: "en3", q: "Which river flows through Egypt?", o: ["Nile", "Amazon", "Congo", "Ganges"], c: 0, e: "The Nile is the lifeline." },
+            { id: "en4", q: "Where are the pyramids?", o: ["Giza", "Mexico", "Iraq", "China"], c: 0, e: "They are near Cairo." },
+            { id: "en5", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "The Pacific covers 35% of Earth." },
+            { id: "en6", q: "Highest mountain?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "It is in the Himalayas." },
+            { id: "en7", q: "Currency of USA?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar is the world's reserve currency." },
+            { id: "en8", q: "Continent Australia?", o: ["Smallest", "Largest", "Coldest", "Hottest"], c: 0, e: "Australia is the smallest continent." },
+            { id: "en9", q: "Eiffel Tower location?", o: ["Paris", "Berlin", "London", "Rome"], c: 0, e: "Symbol of France." },
+            { id: "en10", q: "Color of UN flag?", o: ["Blue-White", "Red-Yellow", "Black-Red", "Green"], c: 0, e: "Blue and white for peace." }
         ],
         ig: [
-            { id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "abuja nigeria", imgKw: ["abuja city", "lagos city", "enugu city", "kano city"] },
-            { id: "ig2", q: "Kedu mba kasị ukwuu n'ụwa?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia bụ mba kasị ukwuu.", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
-            { id: "ig3", q: "Isi obodo Japan?", o: ["Tokyo", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokyo bụ isi obodo Japan.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
-            { id: "ig4", q: "Osimiri dị n'Ijipt?", o: ["Nile", "Amazon", "Congo", "Ganges"], c: 0, e: "Osimiri Nile bụ ndụ.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
-            { id: "ig5", q: "Ebee pyramid dị?", o: ["Giza", "Mexico", "Iraq", "China"], c: 0, e: "Ha dị nso Cairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
-            { id: "ig6", q: "Oke osimiri kasị ukwuu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific kpuchiri 35% nke ụwa.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "ig7", q: "Ugwu kasị elu?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Ọ dị na Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
-            { id: "ig8", q: "Ego USA?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar bụ ego ụwa.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
-            { id: "ig9", q: "Kọntinent Australia?", o: ["Nke kasị nta", "Nke kasị ukwuu", "Nke kasị oyi", "Nke kasị ọkụ"], c: 0, e: "Australia bụ kọntinent kacha nta.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
-            { id: "ig10", q: "Eiffel Tower dị?", o: ["Paris", "Berlin", "London", "Rome"], c: 0, e: "Akara France.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] }
+            { id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo." },
+            { id: "ig2", q: "Kedu mba kasị ukwuu n'ụwa?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia bụ mba kasị ukwuu." },
+            { id: "ig3", q: "Isi obodo Japan?", o: ["Tokyo", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokyo bụ isi obodo Japan." },
+            { id: "ig4", q: "Osimiri dị n'Ijipt?", o: ["Nile", "Amazon", "Congo", "Ganges"], c: 0, e: "Osimiri Nile bụ ndụ." },
+            { id: "ig5", q: "Ebee pyramid dị?", o: ["Giza", "Mexico", "Iraq", "China"], c: 0, e: "Ha dị nso Cairo." },
+            { id: "ig6", q: "Oke osimiri kasị ukwuu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific kpuchiri 35% nke ụwa." },
+            { id: "ig7", q: "Ugwu kasị elu?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Ọ dị na Himalaya." },
+            { id: "ig8", q: "Ego USA?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar bụ ego ụwa." },
+            { id: "ig9", q: "Kọntinent Australia?", o: ["Nke kasị nta", "Nke kasị ukwuu", "Nke kasị oyi", "Nke kasị ọkụ"], c: 0, e: "Australia bụ kọntinent kacha nta." },
+            { id: "ig10", q: "Eiffel Tower dị?", o: ["Paris", "Berlin", "London", "Rome"], c: 0, e: "Akara France." }
         ],
         tr: [
-            { id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "bursa mosque"] },
-            { id: "tr2", q: "Dünyanın en büyük ülkesi?", o: ["Rusya", "Kanada", "Çin", "ABD"], c: 0, e: "Rusya yaklaşık 17 milyon km²'dir.", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
-            { id: "tr3", q: "Japonya'nın başkenti?", o: ["Tokyo", "Kyoto", "Osaka", "Seul"], c: 0, e: "Tokyo en büyük metropoldür.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
-            { id: "tr4", q: "Mısır'dan geçen nehir?", o: ["Nil", "Amazon", "Kongo", "Ganj"], c: 0, e: "Nil hayat kaynağıdır.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
-            { id: "tr5", q: "Piramitler nerede?", o: ["Gize", "Meksika", "Irak", "Çin"], c: 0, e: "Kahire yakınlarında.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
-            { id: "tr6", q: "En büyük okyanus?", o: ["Pasifik", "Atlas", "Hint", "Arktik"], c: 0, e: "Pasifik Dünya'nın %35'ini kaplar.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "tr7", q: "En yüksek dağ?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Himalayalar'da bulunur.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
-            { id: "tr8", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "ABD Doları dünya rezerv para birimidir.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
-            { id: "tr9", q: "Avustralya kıtası?", o: ["En küçük", "En büyük", "En soğuk", "En sıcak"], c: 0, e: "Avustralya en küçük kıtadır.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
-            { id: "tr10", q: "Eyfel Kulesi nerede?", o: ["Paris", "Berlin", "Londra", "Roma"], c: 0, e: "Fransa'nın sembolü.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] }
+            { id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir." },
+            { id: "tr2", q: "Dünyanın en büyük ülkesi?", o: ["Rusya", "Kanada", "Çin", "ABD"], c: 0, e: "Rusya yaklaşık 17 milyon km²'dir." },
+            { id: "tr3", q: "Japonya'nın başkenti?", o: ["Tokyo", "Kyoto", "Osaka", "Seul"], c: 0, e: "Tokyo en büyük metropoldür." },
+            { id: "tr4", q: "Mısır'dan geçen nehir?", o: ["Nil", "Amazon", "Kongo", "Ganj"], c: 0, e: "Nil hayat kaynağıdır." },
+            { id: "tr5", q: "Piramitler nerede?", o: ["Gize", "Meksika", "Irak", "Çin"], c: 0, e: "Kahire yakınlarında." },
+            { id: "tr6", q: "En büyük okyanus?", o: ["Pasifik", "Atlas", "Hint", "Arktik"], c: 0, e: "Pasifik Dünya'nın %35'ini kaplar." },
+            { id: "tr7", q: "En yüksek dağ?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Himalayalar'da bulunur." },
+            { id: "tr8", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "ABD Doları dünya rezerv para birimidir." },
+            { id: "tr9", q: "Avustralya kıtası?", o: ["En küçük", "En büyük", "En soğuk", "En sıcak"], c: 0, e: "Avustralya en küçük kıtadır." },
+            { id: "tr10", q: "Eyfel Kulesi nerede?", o: ["Paris", "Berlin", "Londra", "Roma"], c: 0, e: "Fransa'nın sembolü." }
         ]
     };
-
-    const App = {
-        profiles: {},
-        players: [],
-        pIdx: 0,
-        qIdx: 0,
-        timer: null,
-        timeLeft: 12,
-        currentLang: 'de',
-        activeFlagIdx: null,
-        activeQs: [],
-        answered: false,
-        sessionUsedIds: [],
-
-        save() {
-            try {
-                localStorage.setItem('mk_supreme_v9', JSON.stringify(this.profiles));
-            } catch(e) { console.warn("localStorage voll?", e); }
-        },
-
-        load() {
-            try {
-                const saved = localStorage.getItem('mk_supreme_v9');
-                if (saved) this.profiles = JSON.parse(saved);
-            } catch(e) { console.warn("Fehler beim Laden", e); this.profiles = {}; }
-        },
-
-        getProfile(name) {
-            const raw = name.trim();
-            const key = raw.toLowerCase();
-            if (!this.profiles[key]) {
-                this.profiles[key] = { 
-                    name: raw,
-                    displayName: raw,
-                    xp: 0, 
-                    gold: 0, 
-                    level: 1, 
-                    flag: '🐲',
-                    usedIds: []
-                };
-            } else {
-                this.profiles[key].name = raw;
+    
+    // ==================== APP-STATE ====================
+    let profiles = {};          // { id: profile }
+    let players = [];
+    let currentPlayerIndex = 0;
+    let currentQuestionIndex = 0;
+    let activeQuestions = [];
+    let sessionUsedIds = [];
+    let currentLang = 'de';
+    let timer = null;
+    let timeLeft = 12;
+    let answered = false;
+    let quizActive = false;
+    let currentFlagButton = null;
+    let syncActive = false;  // verhindert parallele Syncs
+    
+    // ==================== SUPABASE HELPER ====================
+    async function syncProfilesToCloud() {
+        if (syncActive) return;
+        syncActive = true;
+        try {
+            // Alle lokalen Profile in die Cloud hochladen (upsert)
+            for (const id in profiles) {
+                const p = profiles[id];
+                const { error } = await supabase
+                    .from('profiles')
+                    .upsert({ id: p.id, name: p.name, flag: p.flag, xp: p.xp, gold: p.gold, level: p.level }, { onConflict: 'id' });
+                if (error) console.warn("Fehler beim Upsert", error);
             }
-            return this.profiles[key];
-        },
-
-        getRank(lvl) {
-            if(lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
-            if(lvl >= 10) return { class: 'rank-master', label: 'Master' };
-            return { class: 'rank-warrior', label: 'Warrior' };
-        },
-
-        go(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('s-' + id).classList.add('active');
-            if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
-            if(id === 'leaderboard') this.renderLeaderboard();
-            if(id === 'achievements') this.renderAchievements();
-        },
-
-        setLang(l) {
-            this.currentLang = l;
-            document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
-            document.getElementById('ln-' + l).classList.add('active');
-        },
-
-        addPlayerInput() {
-            const cont = document.getElementById('player-list');
-            const id = Date.now() + Math.random();
-            const d = document.createElement('div');
-            d.className = 'player-card'; d.id = 'pc-' + id;
-            d.innerHTML = `<div class="flag-plus" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Name..."><button class="btn-trash" onclick="document.getElementById('pc-${id}').remove()">🗑️</button>`;
-            cont.appendChild(d);
-        },
-
-        openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
-        confirmFlag(f) { 
-            const card = document.getElementById('pc-' + this.activeFlagIdx);
-            const btn = card.querySelector('.flag-plus');
-            btn.innerText = f; btn.style.borderStyle = 'solid';
-            document.getElementById('modal').style.display = 'none';
-        },
-
-        getQuestionsForLang(lang) {
-            let bank = DB[lang] || DB.en;
-            if (bank.length < 10) {
-                const fallback = DB.en.slice(0, 10 - bank.length);
-                bank = [...bank, ...fallback];
-            }
-            return bank;
-        },
-
-        async prepareBattle() {
-            const cards = document.querySelectorAll('.player-card');
-            if (cards.length === 0) return;
-            this.players = [];
-            for (let c of cards) {
-                const name = c.querySelector('input').value || "Warrior";
-                const flag = c.querySelector('.flag-plus').innerText === '+' ? '🐲' : c.querySelector('.flag-plus').innerText;
-                const profile = this.getProfile(name);
-                profile.flag = flag;
-                profile.sessionScore = 0;
-                profile.sessionGold = 0;
-                this.players.push(profile);
-            }
-            this.pIdx = 0;
-            this.go('loading');
-            await this.prepareQuestionsForCurrentPlayer();
-            setTimeout(() => this.showVS(), 1500);
-        },
-
-        prepareQuestionsForCurrentPlayer() {
-            const bank = this.getQuestionsForLang(this.currentLang);
-            const available = bank.filter(q => !this.sessionUsedIds.includes(q.id));
-            if (available.length < 5) {
-                this.sessionUsedIds = [];
-                const freshAvailable = bank.filter(q => !this.sessionUsedIds.includes(q.id));
-                this.activeQs = freshAvailable.sort(() => 0.5 - Math.random()).slice(0, 10);
-            } else {
-                this.activeQs = available.sort(() => 0.5 - Math.random()).slice(0, 10);
-            }
-        },
-
-        showVS() {
-            const p = this.players[this.pIdx];
-            const r = this.getRank(p.level);
-            document.getElementById('vs-flag').innerText = p.flag;
-            document.getElementById('vs-name').innerText = p.name.toUpperCase();
-            document.getElementById('vs-info').innerHTML = `<span class="rank-pill ${r.class}">${r.label}</span> <span style="font-size:0.85rem; color:var(--gold-solid);">GOLD: ${p.gold}</span>`;
-            this.go('vs');
-        },
-
-        startQuiz() {
-            this.qIdx = 0;
-            this.answered = false;
-            this.renderQuestion();
-            this.go('quiz');
-        },
-
-        setBgWithFallback(element, url) {
-            element.style.backgroundImage = `url('${url}')`;
-            const img = new Image();
-            img.onerror = () => {
-                element.style.backgroundImage = "url('https://via.placeholder.com/800x450?text=Geography+Image')";
-            };
-            img.src = url;
-        },
-
-        renderQuestion() {
-            const q = this.activeQs[this.qIdx];
-            const p = this.players[this.pIdx];
-            document.getElementById('q-round').innerText = `Round ${this.qIdx + 1}/10`;
-            document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
-            document.getElementById('q-text').innerText = q.q;
-
-            const imgUrl = `https://source.unsplash.com/800x450/?${encodeURIComponent(q.kw)}`;
-            const frame = document.getElementById('q-frame');
-            this.setBgWithFallback(frame, imgUrl);
-            
-            const box = document.getElementById('q-options'); 
-            box.innerHTML = '';
-            document.getElementById('q-feedback').style.display = 'none';
-            box.style.display = 'block';
-            this.answered = false;
-
-            q.o.forEach((opt, i) => {
-                const b = document.createElement('div');
-                b.className = 'opt-visual';
-                const imgKeyword = q.imgKw && q.imgKw[i] ? q.imgKw[i] : `${opt},landscape`;
-                const optImgUrl = `https://source.unsplash.com/400x150/?${encodeURIComponent(imgKeyword)}`;
-                b.style.backgroundImage = `url('${optImgUrl}')`;
-                const imgTest = new Image();
-                imgTest.onerror = () => {
-                    b.style.backgroundImage = "url('https://via.placeholder.com/400x150?text=Option')";
-                };
-                imgTest.src = optImgUrl;
-                b.innerHTML = `<div class="opt-img-overlay"></div><div class="opt-label">${opt}</div>`;
-                b.onclick = () => this.handleAnswer(i, b);
-                box.appendChild(b);
-            });
-            this.startTimer();
-        },
-
-        startTimer() {
-            clearInterval(this.timer);
-            this.timeLeft = 12;
-            const bar = document.getElementById('timer-bar');
-            bar.style.width = "100%";
-            this.timer = setInterval(() => {
-                if (this.answered) return;
-                this.timeLeft -= 1;
-                bar.style.width = (this.timeLeft / 12 * 100) + "%";
-                if (this.timeLeft <= 0) {
-                    clearInterval(this.timer);
-                    if (!this.answered) this.handleAnswer(-1);
-                }
-            }, 1000);
-        },
-
-        handleAnswer(idx, b) {
-            if (this.answered) return;
-            this.answered = true;
-            clearInterval(this.timer);
-            
-            const q = this.activeQs[this.qIdx];
-            const p = this.players[this.pIdx];
-            const opts = document.querySelectorAll('.opt-visual');
-            opts.forEach(o => o.style.pointerEvents = 'none');
-
-            this.sessionUsedIds.push(q.id);
-
-            if (idx === q.c) {
-                if(b) b.classList.add('correct');
-                p.sessionScore++;
-                const gain = Math.max(0, Math.round(this.timeLeft * 30));
-                p.sessionGold += gain;
-                p.gold += gain;
-                p.xp += 100;
-                p.level = Math.floor(Math.sqrt(p.xp / 350)) + 1;
-            } else {
-                if (idx !== -1 && b) b.classList.add('wrong');
-                if (opts[q.c]) opts[q.c].classList.add('correct');
-            }
-            this.save();
-            document.getElementById('q-expl').innerText = q.e;
-            document.getElementById('q-feedback').style.display = 'block';
-            document.getElementById('q-options').style.display = 'none';
-        },
-
-        nextStep() {
-            this.qIdx++;
-            if (this.qIdx < 10 && this.qIdx < this.activeQs.length) {
-                this.answered = false;
-                this.renderQuestion();
-            } else {
-                this.pIdx++;
-                if (this.pIdx < this.players.length) {
-                    this.sessionUsedIds = [];
-                    this.prepareQuestionsForCurrentPlayer();
-                    this.showVS();
-                } else {
-                    this.showResults();
-                }
-            }
-        },
-
-        renderLeaderboard() {
-            const list = document.getElementById('lb-list');
-            const sorted = Object.values(this.profiles).sort((a,b) => b.xp - a.xp);
-            list.innerHTML = sorted.map((p, i) => `
-                <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; border-color:${i<3?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
-                    <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b></div>
-                    <div style="text-align:right">LVL ${p.level}<br><span style="color:var(--gold-solid);">${p.gold} 💰</span></div>
-                </div>
-            `).join('');
-        },
-
-        renderAchievements() {
-            const list = document.getElementById('ach-list');
-            const sorted = Object.values(this.profiles).sort((a,b) => b.level - a.level);
-            list.innerHTML = sorted.map(p => {
-                const r = this.getRank(p.level);
-                return `<div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;">
-                    <div style="font-size:2rem">${p.flag}</div>
-                    <div style="flex:1"><b>${p.name}</b><br><span class="rank-pill ${r.class}">${r.label}</span></div>
-                    <div style="text-align:right; font-weight:700; color:var(--gold-solid)">Lvl ${p.level}</div>
-                </div>`;
-            }).join('');
-        },
-
-        showResults() {
-            this.go('result');
-            const list = document.getElementById('res-list');
-            list.innerHTML = this.players.map(p => `
-                <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;">
-                    <div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div>
-                    <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div>
-                </div>`).join('');
+            // Bestenliste aktualisieren
+            renderLeaderboard();
+            renderAchievements();
+            document.getElementById('syncStatus').innerHTML = '✅ Mit globaler Bestenliste verbunden';
+        } catch(e) {
+            console.warn("Sync fehlgeschlagen, nutze localStorage", e);
+            document.getElementById('syncStatus').innerHTML = '⚠️ Offline – Fortschritt nur lokal gespeichert';
+        } finally {
+            syncActive = false;
         }
-    };
-
-    App.load();
-    App.go('home');
-    // KEIN setInterval mehr für den Globus – er dreht sich nur noch via CSS.
+    }
+    
+    async function loadProfilesFromCloud() {
+        try {
+            const { data, error } = await supabase.from('profiles').select('*');
+            if (error) throw error;
+            if (data) {
+                // In lokales Objekt umwandeln
+                const newProfiles = {};
+                data.forEach(p => { newProfiles[p.id] = p; });
+                profiles = newProfiles;
+                saveProfilesToLocal(); // lokal sichern
+                renderLeaderboard();
+                renderAchievements();
+                document.getElementById('syncStatus').innerHTML = '✅ Mit globaler Bestenliste verbunden';
+            }
+        } catch(e) {
+            console.warn("Konnte Cloud-Daten nicht laden, nutze lokale Daten", e);
+            document.getElementById('syncStatus').innerHTML = '⚠️ Offline – lokale Bestenliste';
+        }
+    }
+    
+    // Lokale Sicherung als Fallback
+    function saveProfilesToLocal() {
+        try {
+            localStorage.setItem('mk_global_v11', JSON.stringify(profiles));
+        } catch(e) {}
+    }
+    
+    function loadProfilesFromLocal() {
+        try {
+            const saved = localStorage.getItem('mk_global_v11');
+            if (saved) profiles = JSON.parse(saved);
+        } catch(e) { profiles = {}; }
+    }
+    
+    // ==================== PROFIL-FUNKTIONEN ====================
+    function generateId() {
+        return crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random();
+    }
+    
+    function getProfileByName(name) {
+        const normalized = name.trim().toLowerCase();
+        for (let id in profiles) {
+            if (profiles[id].name.toLowerCase() === normalized) {
+                return profiles[id];
+            }
+        }
+        const newId = generateId();
+        const newProfile = {
+            id: newId,
+            name: name.trim(),
+            xp: 0,
+            gold: 0,
+            level: 1,
+            flag: '🐲'
+        };
+        profiles[newId] = newProfile;
+        saveProfilesToLocal();
+        syncProfilesToCloud(); // asynchron hochladen
+        return newProfile;
+    }
+    
+    function updateProfile(profile) {
+        if (profile.id && profiles[profile.id]) {
+            profiles[profile.id] = profile;
+            saveProfilesToLocal();
+            syncProfilesToCloud();
+        }
+    }
+    
+    function getRank(level) {
+        if(level >= 50) return { class: 'rank-god', label: 'Elder God' };
+        if(level >= 10) return { class: 'rank-master', label: 'Master' };
+        return { class: 'rank-warrior', label: 'Warrior' };
+    }
+    
+    function xpForLevel(lvl) {
+        if (lvl <= 1) return 0;
+        return 350 * (lvl - 1) * (lvl - 1);
+    }
+    
+    function getProgress(profile) {
+        const xpCurrent = xpForLevel(profile.level);
+        const xpNext = xpForLevel(profile.level + 1);
+        const xpInLevel = profile.xp - xpCurrent;
+        const needed = xpNext - xpCurrent;
+        if (needed <= 0) return 100;
+        return Math.min(100, Math.max(0, (xpInLevel / needed) * 100));
+    }
+    
+    // ==================== FRAGEN ====================
+    function getQuestionsForLang(lang) {
+        let bank = DB[lang] || DB.en;
+        if (bank.length < 10) {
+            const fallback = DB.en.slice(0, 10 - bank.length);
+            bank = [...bank, ...fallback];
+        }
+        return bank;
+    }
+    
+    function prepareQuestionsForPlayer() {
+        const bank = getQuestionsForLang(currentLang);
+        const available = bank.filter(q => !sessionUsedIds.includes(q.id));
+        if (available.length < 5) {
+            sessionUsedIds = [];
+            const freshAvailable = bank.filter(q => !sessionUsedIds.includes(q.id));
+            activeQuestions = freshAvailable.sort(() => 0.5 - Math.random()).slice(0, 10);
+        } else {
+            activeQuestions = available.sort(() => 0.5 - Math.random()).slice(0, 10);
+        }
+    }
+    
+    // ==================== UI-HELPER ====================
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('s-' + screenId).classList.add('active');
+        if (screenId === 'setup') renderPlayerList();
+        if (screenId === 'achievements') renderAchievements();
+        if (screenId === 'leaderboard') renderLeaderboard();
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if(m==='&') return '&amp;';
+            if(m==='<') return '&lt;';
+            if(m==='>') return '&gt;';
+            return m;
+        });
+    }
+    
+    // ==================== SETUP ====================
+    function renderPlayerList() {
+        const container = document.getElementById('player-list');
+        const currentPlayers = Array.from(container.children).map(card => {
+            const nameInput = card.querySelector('.input-luxe');
+            const flagDiv = card.querySelector('.flag-plus');
+            return { name: nameInput.value, flag: flagDiv.innerText === '+' ? '🐲' : flagDiv.innerText, elementId: card.id };
+        });
+        container.innerHTML = '';
+        currentPlayers.forEach(p => addPlayerCard(p.name, p.flag));
+        if (container.children.length === 0) addPlayerCard('', '🐲');
+    }
+    
+    function addPlayerCard(name = '', flag = '🐲') {
+        const container = document.getElementById('player-list');
+        const id = 'pc-' + generateId();
+        const div = document.createElement('div');
+        div.className = 'player-card';
+        div.id = id;
+        div.innerHTML = `
+            <div class="flag-plus" data-flag="${flag}">${flag === '🐲' ? '+' : flag}</div>
+            <input type="text" class="input-luxe" placeholder="Name..." value="${escapeHtml(name)}">
+            <button class="btn-trash" data-remove="${id}">🗑️</button>
+        `;
+        container.appendChild(div);
+        const flagBtn = div.querySelector('.flag-plus');
+        flagBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openFlagModal(flagBtn);
+        });
+        const trashBtn = div.querySelector('.btn-trash');
+        trashBtn.addEventListener('click', () => div.remove());
+    }
+    
+    function openFlagModal(btn) {
+        currentFlagButton = btn;
+        document.getElementById('modal').style.display = 'flex';
+    }
+    
+    function confirmFlag(flag) {
+        if (currentFlagButton) {
+            currentFlagButton.innerText = flag;
+            currentFlagButton.style.borderStyle = 'solid';
+            currentFlagButton.dataset.flag = flag;
+            currentFlagButton = null;
+        }
+        document.getElementById('modal').style.display = 'none';
+    }
+    
+    // ==================== SPIEL ====================
+    async function prepareBattle() {
+        const playerCards = document.querySelectorAll('#player-list .player-card');
+        if (playerCards.length === 0) return;
+        players = [];
+        for (let card of playerCards) {
+            const name = card.querySelector('.input-luxe').value.trim() || "Warrior";
+            const flagElem = card.querySelector('.flag-plus');
+            let flag = flagElem.innerText;
+            if (flag === '+' || flag === '🐲') flag = '🐲';
+            const profile = getProfileByName(name);
+            profile.flag = flag;
+            profile.sessionScore = 0;
+            profile.sessionGold = 0;
+            players.push(profile);
+        }
+        currentPlayerIndex = 0;
+        showScreen('loading');
+        await new Promise(r => setTimeout(r, 500));
+        prepareQuestionsForPlayer();
+        showVS();
+    }
+    
+    function showVS() {
+        const p = players[currentPlayerIndex];
+        const rank = getRank(p.level);
+        document.getElementById('vs-flag').innerText = p.flag;
+        document.getElementById('vs-name').innerText = p.name.toUpperCase();
+        document.getElementById('vs-info').innerHTML = `<span class="rank-pill ${rank.class}">${rank.label}</span> <span style="font-size:0.85rem; color:var(--gold-solid);">GOLD: ${p.gold}</span>`;
+        showScreen('vs');
+    }
+    
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        answered = false;
+        quizActive = true;
+        renderQuestion();
+        showScreen('quiz');
+    }
+    
+    function renderQuestion() {
+        if (!quizActive) return;
+        const q = activeQuestions[currentQuestionIndex];
+        const p = players[currentPlayerIndex];
+        document.getElementById('q-round').innerText = `Round ${currentQuestionIndex+1}/10`;
+        document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
+        document.getElementById('q-text').innerText = q.q;
+        // einfache SVG-Background
+        document.getElementById('q-frame').style.backgroundImage = "url('data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 450\"%3E%3Crect width=\"800\" height=\"450\" fill=\"%23222222\"/%3E%3Ctext x=\"400\" y=\"225\" font-size=\"40\" fill=\"%23d4af37\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"monospace\"%3E🌍%3C/text%3E%3C/svg%3E')";
+        
+        const optionsDiv = document.getElementById('q-options');
+        optionsDiv.innerHTML = '';
+        document.getElementById('q-feedback').style.display = 'none';
+        optionsDiv.style.display = 'block';
+        answered = false;
+        
+        q.o.forEach((opt, idx) => {
+            const optDiv = document.createElement('div');
+            optDiv.className = 'opt-visual';
+            optDiv.setAttribute('data-opt-index', idx);
+            optDiv.innerHTML = `<div class="opt-img-overlay"></div><div class="opt-label">${escapeHtml(opt)}</div>`;
+            optDiv.addEventListener('click', () => handleAnswer(idx, optDiv));
+            optionsDiv.appendChild(optDiv);
+        });
+        startTimer();
+    }
+    
+    function startTimer() {
+        if (timer) clearInterval(timer);
+        timeLeft = 12;
+        const bar = document.getElementById('timer-bar');
+        bar.style.width = '100%';
+        timer = setInterval(() => {
+            if (!quizActive || answered) return;
+            timeLeft -= 1;
+            bar.style.width = (timeLeft / 12 * 100) + '%';
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                if (!answered) handleAnswer(-1);
+            }
+        }, 1000);
+    }
+    
+    function handleAnswer(selectedIdx, optElement) {
+        if (answered) return;
+        answered = true;
+        clearInterval(timer);
+        const q = activeQuestions[currentQuestionIndex];
+        const p = players[currentPlayerIndex];
+        const allOpts = document.querySelectorAll('#q-options .opt-visual');
+        allOpts.forEach(o => o.style.pointerEvents = 'none');
+        sessionUsedIds.push(q.id);
+        
+        if (selectedIdx === q.c) {
+            if (optElement) optElement.classList.add('correct');
+            p.sessionScore++;
+            const gain = Math.max(0, Math.round(timeLeft * 30));
+            p.sessionGold += gain;
+            p.gold += gain;
+            p.xp += 100;
+            p.level = Math.floor(Math.sqrt(p.xp / 350)) + 1;
+            updateProfile(p);
+        } else {
+            if (selectedIdx !== -1 && optElement) optElement.classList.add('wrong');
+            if (allOpts[q.c]) allOpts[q.c].classList.add('correct');
+        }
+        document.getElementById('q-expl').innerText = q.e;
+        document.getElementById('q-feedback').style.display = 'block';
+        document.getElementById('q-options').style.display = 'none';
+    }
+    
+    function nextStep() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < 10 && currentQuestionIndex < activeQuestions.length) {
+            answered = false;
+            renderQuestion();
+        } else {
+            currentPlayerIndex++;
+            if (currentPlayerIndex < players.length) {
+                sessionUsedIds = [];
+                prepareQuestionsForPlayer();
+                showVS();
+            } else {
+                showResults();
+            }
+        }
+    }
+    
+    function showResults() {
+        quizActive = false;
+        const container = document.getElementById('res-list');
+        container.innerHTML = players.map(p => `
+            <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;">
+                <div><span>${p.flag}</span> <b style="margin-left:10px">${escapeHtml(p.name)}</b></div>
+                <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div>
+            </div>
+        `).join('');
+        showScreen('result');
+    }
+    
+    // ==================== BESTENLISTE & ERFOLGE ====================
+    function renderLeaderboard() {
+        const list = document.getElementById('lb-list');
+        const sorted = Object.values(profiles).sort((a,b) => b.xp - a.xp);
+        list.innerHTML = sorted.map((p, i) => `
+            <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; border-color:${i<3?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
+                <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${escapeHtml(p.name)}</b></div>
+                <div style="text-align:right">LVL ${p.level}<br><span style="color:var(--gold-solid);">${p.gold} 💰</span></div>
+            </div>
+        `).join('');
+    }
+    
+    function renderAchievements() {
+        const list = document.getElementById('ach-list');
+        const sorted = Object.values(profiles).sort((a,b) => b.level - a.level);
+        list.innerHTML = sorted.map(p => {
+            const r = getRank(p.level);
+            const progress = getProgress(p);
+            const xpCurrent = xpForLevel(p.level);
+            const xpNext = xpForLevel(p.level + 1);
+            const xpInLevel = p.xp - xpCurrent;
+            const needed = xpNext - xpCurrent;
+            return `
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px;">
+                <div style="display:flex; align-items:center; gap:15px; margin-bottom:12px;">
+                    <div style="font-size:2rem">${p.flag}</div>
+                    <div style="flex:1"><b>${escapeHtml(p.name)}</b><br><span class="rank-pill ${r.class}">${r.label}</span></div>
+                    <div style="text-align:right; font-weight:700; color:var(--gold-solid)">Lvl ${p.level}</div>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%;"></div></div>
+                <div class="xp-text">${xpInLevel} / ${needed} XP – noch ${needed - xpInLevel} XP bis Level ${p.level+1}</div>
+            </div>`;
+        }).join('');
+    }
+    
+    // ==================== EVENT-LISTENER ====================
+    function setupEventListeners() {
+        document.querySelectorAll('[data-screen]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const screen = btn.getAttribute('data-screen');
+                if (screen) showScreen(screen);
+            });
+        });
+        document.getElementById('addPlayerBtn').addEventListener('click', () => addPlayerCard());
+        document.getElementById('prepareBattleBtn').addEventListener('click', prepareBattle);
+        document.getElementById('startQuizBtn').addEventListener('click', startQuiz);
+        document.getElementById('nextStepBtn').addEventListener('click', nextStep);
+        document.getElementById('rematchBtn').addEventListener('click', prepareBattle);
+        document.getElementById('homeFromResultBtn').addEventListener('click', () => showScreen('home'));
+        document.getElementById('abortQuizBtn').addEventListener('click', () => {
+            if (confirm('Kampf abbrechen? Fortschritt verloren.')) {
+                quizActive = false;
+                if (timer) clearInterval(timer);
+                showScreen('home');
+            }
+        });
+        
+        document.querySelectorAll('.lang-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const lang = chip.getAttribute('data-lang');
+                if (lang) {
+                    currentLang = lang;
+                    document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                }
+            });
+        });
+        
+        const modal = document.getElementById('modal');
+        modal.querySelectorAll('[data-flag]').forEach(flagElem => {
+            flagElem.addEventListener('click', () => {
+                const flag = flagElem.getAttribute('data-flag');
+                if (flag) confirmFlag(flag);
+            });
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            const activeScreen = document.querySelector('.screen.active')?.id;
+            if (activeScreen === 's-quiz' && !answered && document.getElementById('q-feedback').style.display !== 'block') {
+                const key = e.key;
+                if (key >= '1' && key <= '4') {
+                    const idx = parseInt(key) - 1;
+                    const options = document.querySelectorAll('#q-options .opt-visual');
+                    if (options[idx]) options[idx].click();
+                }
+            }
+        });
+    }
+    
+    // ==================== INIT ====================
+    (async function init() {
+        // Erst lokale Daten laden, dann versuchen Cloud-Daten zu holen
+        loadProfilesFromLocal();
+        await loadProfilesFromCloud();  // asynchron, ersetzt lokale durch Cloud, wenn verfügbar
+        setupEventListeners();
+        // Aktive Sprachauswahl setzen
+        document.querySelector(`.lang-chip[data-lang="${currentLang}"]`).classList.add('active');
+        showScreen('home');
+    })();
 </script>
 </body>
 </html>
