@@ -6,7 +6,6 @@
     <title>MK · GLOBAL GENESIS</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* ... (CSS unverändert, da optisch gleich) ... */
         :root {
             --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
             --gold-solid: #d4af37;
@@ -157,7 +156,6 @@
 </div>
 
 <div id="app">
-    <!-- SCREEN: HOME -->
     <section id="s-home" class="screen active">
         <p class="branding-top">Elite Prestige Game</p>
         <div class="home-center">
@@ -173,7 +171,6 @@
         <footer>Produziert von Wowa & Amiar Kempf</footer>
     </section>
 
-    <!-- SCREEN: SETUP -->
     <section id="s-setup" class="screen">
         <h2 class="title-gold" style="font-size: 2.2rem;">Krieger</h2>
         <p class="section-label">Game Sprache</p>
@@ -193,13 +190,11 @@
         </div>
     </section>
 
-    <!-- SCREEN: LOADING -->
     <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
         <div class="spinner"></div>
         <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:25px;">Lade Game-Visuals...</p>
     </section>
 
-    <!-- SCREEN: VS -->
     <section id="s-vs" class="screen">
         <div style="text-align: center; margin-top: 60px;">
             <div id="vs-flag" style="font-size: 7.5rem; margin-bottom: 15px;">🐲</div>
@@ -212,21 +207,17 @@
         </div>
     </section>
 
-    <!-- SCREEN: QUIZ -->
     <section id="s-quiz" class="screen">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1/10</span>
             <span id="q-gold" class="badge">💰 0</span>
         </div>
         <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
-        
         <div id="q-frame" class="q-visual-frame">
             <div class="q-overlay"></div>
             <h3 id="q-text" class="q-text">Lade Prüfung...</h3>
         </div>
-
         <div id="q-options"></div>
-
         <div id="q-feedback" style="display:none; margin-top:10px;">
             <div style="background: rgba(10,10,10,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center;">
                 <p id="q-expl" style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 15px;"></p>
@@ -236,7 +227,6 @@
         <button class="btn-back" style="margin-top:15px;" onclick="if(confirm('Abbrechen?')) location.reload()">✕ Beenden</button>
     </section>
 
-    <!-- SCREEN: RESULT -->
     <section id="s-result" class="screen">
         <h1 class="title-gold" style="font-size: 2.5rem;">KAMPF ENDE</h1>
         <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
@@ -247,14 +237,12 @@
         <footer>Produziert von Wowa & Amiar Kempf</footer>
     </section>
 
-    <!-- SCREEN: ACHIEVEMENTS -->
     <section id="s-achievements" class="screen">
         <h1 class="title-gold" style="font-size: 2rem;">ERFOLGE</h1>
         <div id="ach-list" style="margin-top:30px; flex:1;"></div>
         <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
     </section>
 
-    <!-- SCREEN: LEADERBOARD -->
     <section id="s-leaderboard" class="screen">
         <h1 class="title-gold" style="font-size: 2rem;">BESTENLISTE</h1>
         <div id="lb-list" style="margin-top:30px; flex:1;"></div>
@@ -264,10 +252,9 @@
 
 <script>
     // --------------------------------------------------------------
-    // VERBESSERTER QUIZ-ENGINE
+    // VERBESSERTER QUIZ-ENGINE – Globus dreht sich nur noch
     // --------------------------------------------------------------
     
-    // Umfangreiche Datenbank für alle Sprachen (mind. 10 Fragen pro Sprache)
     const DB = {
         de: [
             { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
@@ -332,19 +319,18 @@
     };
 
     const App = {
-        profiles: {},          // gespeicherte Profile (key: normalizedName)
-        players: [],          // temporäre Spieler für aktuelle Runde
+        profiles: {},
+        players: [],
         pIdx: 0,
         qIdx: 0,
         timer: null,
-        timeLeft: 12,        // in Sekunden
+        timeLeft: 12,
         currentLang: 'de',
         activeFlagIdx: null,
-        activeQs: [],         // Fragen für aktuellen Spieler
-        answered: false,      // verhindert doppelte Antwort
-        sessionUsedIds: [],   // pro Spieler, wird vor jeder Runde neu gesetzt
+        activeQs: [],
+        answered: false,
+        sessionUsedIds: [],
 
-        // localStorage mit Fehlerbehandlung
         save() {
             try {
                 localStorage.setItem('mk_supreme_v9', JSON.stringify(this.profiles));
@@ -358,22 +344,20 @@
             } catch(e) { console.warn("Fehler beim Laden", e); this.profiles = {}; }
         },
 
-        // Normalisierter Key + Anzeigename
         getProfile(name) {
             const raw = name.trim();
             const key = raw.toLowerCase();
             if (!this.profiles[key]) {
                 this.profiles[key] = { 
-                    name: raw,       // Anzeigename
+                    name: raw,
                     displayName: raw,
                     xp: 0, 
                     gold: 0, 
                     level: 1, 
                     flag: '🐲',
-                    usedIds: []      // nur noch für globale Historie, wird in prepareBattle nicht mehr genutzt
+                    usedIds: []
                 };
             } else {
-                // falls sich der Anzeigename geändert hat, updaten
                 this.profiles[key].name = raw;
             }
             return this.profiles[key];
@@ -416,10 +400,8 @@
             document.getElementById('modal').style.display = 'none';
         },
 
-        // Fragengenerator: sorgt für mindestens 10 Fragen, füllt ggf. mit englischen auf
         getQuestionsForLang(lang) {
             let bank = DB[lang] || DB.en;
-            // falls bank weniger als 10 Fragen hat, ergänzen mit englischen Fragen
             if (bank.length < 10) {
                 const fallback = DB.en.slice(0, 10 - bank.length);
                 bank = [...bank, ...fallback];
@@ -436,27 +418,21 @@
                 const flag = c.querySelector('.flag-plus').innerText === '+' ? '🐲' : c.querySelector('.flag-plus').innerText;
                 const profile = this.getProfile(name);
                 profile.flag = flag;
-                // Klone nicht, sondern arbeite mit dem Originalprofil – füge temporäre Session-Felder hinzu
                 profile.sessionScore = 0;
                 profile.sessionGold = 0;
                 this.players.push(profile);
             }
             this.pIdx = 0;
             this.go('loading');
-            
-            // Fragenpool für den ersten Spieler vorbereiten
             await this.prepareQuestionsForCurrentPlayer();
             setTimeout(() => this.showVS(), 1500);
         },
 
         prepareQuestionsForCurrentPlayer() {
-            const p = this.players[this.pIdx];
             const bank = this.getQuestionsForLang(this.currentLang);
-            // usedIds sind nicht mehr im Profil, sondern sessionUsedIds (pro Runde)
             const available = bank.filter(q => !this.sessionUsedIds.includes(q.id));
             if (available.length < 5) {
                 this.sessionUsedIds = [];
-                // nochmal filtern
                 const freshAvailable = bank.filter(q => !this.sessionUsedIds.includes(q.id));
                 this.activeQs = freshAvailable.sort(() => 0.5 - Math.random()).slice(0, 10);
             } else {
@@ -480,7 +456,6 @@
             this.go('quiz');
         },
 
-        // Bilder mit Fallback
         setBgWithFallback(element, url) {
             element.style.backgroundImage = `url('${url}')`;
             const img = new Image();
@@ -497,7 +472,6 @@
             document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
             document.getElementById('q-text').innerText = q.q;
 
-            // Bild mit Fallback
             const imgUrl = `https://source.unsplash.com/800x450/?${encodeURIComponent(q.kw)}`;
             const frame = document.getElementById('q-frame');
             this.setBgWithFallback(frame, imgUrl);
@@ -508,14 +482,12 @@
             box.style.display = 'block';
             this.answered = false;
 
-            // Optionen mit Bildern
             q.o.forEach((opt, i) => {
                 const b = document.createElement('div');
                 b.className = 'opt-visual';
                 const imgKeyword = q.imgKw && q.imgKw[i] ? q.imgKw[i] : `${opt},landscape`;
                 const optImgUrl = `https://source.unsplash.com/400x150/?${encodeURIComponent(imgKeyword)}`;
                 b.style.backgroundImage = `url('${optImgUrl}')`;
-                // Fallback auch hier
                 const imgTest = new Image();
                 imgTest.onerror = () => {
                     b.style.backgroundImage = "url('https://via.placeholder.com/400x150?text=Option')";
@@ -534,7 +506,7 @@
             const bar = document.getElementById('timer-bar');
             bar.style.width = "100%";
             this.timer = setInterval(() => {
-                if (this.answered) return; // nicht weiter zählen, wenn schon beantwortet
+                if (this.answered) return;
                 this.timeLeft -= 1;
                 bar.style.width = (this.timeLeft / 12 * 100) + "%";
                 if (this.timeLeft <= 0) {
@@ -554,13 +526,11 @@
             const opts = document.querySelectorAll('.opt-visual');
             opts.forEach(o => o.style.pointerEvents = 'none');
 
-            // Merken, welche Frage bereits verwendet wurde (für diese Session)
             this.sessionUsedIds.push(q.id);
 
             if (idx === q.c) {
                 if(b) b.classList.add('correct');
                 p.sessionScore++;
-                // Zeitbonus: ursprünglich war der Bonus abhängig von timeLeft (0..12). Jetzt timeLeft in Sekunden
                 const gain = Math.max(0, Math.round(this.timeLeft * 30));
                 p.sessionGold += gain;
                 p.gold += gain;
@@ -582,10 +552,9 @@
                 this.answered = false;
                 this.renderQuestion();
             } else {
-                // Spieler fertig -> nächster Spieler oder Ergebnis
                 this.pIdx++;
                 if (this.pIdx < this.players.length) {
-                    this.sessionUsedIds = []; // neuer Spieler, neue Session
+                    this.sessionUsedIds = [];
                     this.prepareQuestionsForCurrentPlayer();
                     this.showVS();
                 } else {
@@ -629,20 +598,9 @@
         }
     };
 
-    // Initialisierung
     App.load();
     App.go('home');
-
-    // Globale Emoji-Rotation
-    const countryEmojis = ['🌍', '🇩🇪', '🇷🇺', '🇬🇧', '🇺🇸', '🇫🇷', '🇯🇵', '🇨🇳', '🇮🇳', '🇧🇷', '🇮🇹', '🇪🇸', '🇨🇦', '🇦🇺', '🇲🇽', '🇰🇷', '🇹🇷', '🇳🇬', '🇪🇬', '🇿🇦'];
-    let currentEmojiIndex = 0;
-    setInterval(() => {
-        const atlasElement = document.querySelector('.atlas');
-        if (atlasElement && document.getElementById('s-home').classList.contains('active')) {
-            currentEmojiIndex = (currentEmojiIndex + 1) % countryEmojis.length;
-            atlasElement.innerText = countryEmojis[currentEmojiIndex];
-        }
-    }, 2000);
+    // KEIN setInterval mehr für den Globus – er dreht sich nur noch via CSS.
 </script>
 </body>
 </html>
