@@ -1,12 +1,13 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · GLOBAL GENESIS · ONLINE</title>
+    <title>MK · GLOBAL GENESIS · Online</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* ========== CSS (unverändert, aber Platzhalter ========== */
+        /* ========== CSS (unverändert, siehe vorherige Version) ========== */
         :root {
             --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
             --gold-solid: #d4af37;
@@ -175,7 +176,6 @@
             color: #aaa;
         }
     </style>
-    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -292,7 +292,7 @@
 
 <script>
     // ==================== SUPABASE KONFIGURATION ====================
-    // HIER DEINE SUPABASE-ZUGANGSDAten einfügen:
+    // HIER DEINE SUPABASE-ZUGANGSDATEN EINFÜGEN:
     const SUPABASE_URL = 'https://DEINE_PROJEKT_REF.supabase.co';   // <-- ersetzen
     const SUPABASE_ANON_KEY = 'DEIN_ANON_KEY';                     // <-- ersetzen
     
@@ -375,14 +375,13 @@
     let answered = false;
     let quizActive = false;
     let currentFlagButton = null;
-    let syncActive = false;  // verhindert parallele Syncs
+    let syncActive = false;
     
-    // ==================== SUPABASE HELPER ====================
+    // ==================== SUPABASE HELFER ====================
     async function syncProfilesToCloud() {
         if (syncActive) return;
         syncActive = true;
         try {
-            // Alle lokalen Profile in die Cloud hochladen (upsert)
             for (const id in profiles) {
                 const p = profiles[id];
                 const { error } = await supabase
@@ -390,7 +389,6 @@
                     .upsert({ id: p.id, name: p.name, flag: p.flag, xp: p.xp, gold: p.gold, level: p.level }, { onConflict: 'id' });
                 if (error) console.warn("Fehler beim Upsert", error);
             }
-            // Bestenliste aktualisieren
             renderLeaderboard();
             renderAchievements();
             document.getElementById('syncStatus').innerHTML = '✅ Mit globaler Bestenliste verbunden';
@@ -407,11 +405,10 @@
             const { data, error } = await supabase.from('profiles').select('*');
             if (error) throw error;
             if (data) {
-                // In lokales Objekt umwandeln
                 const newProfiles = {};
                 data.forEach(p => { newProfiles[p.id] = p; });
                 profiles = newProfiles;
-                saveProfilesToLocal(); // lokal sichern
+                saveProfilesToLocal();
                 renderLeaderboard();
                 renderAchievements();
                 document.getElementById('syncStatus').innerHTML = '✅ Mit globaler Bestenliste verbunden';
@@ -422,7 +419,6 @@
         }
     }
     
-    // Lokale Sicherung als Fallback
     function saveProfilesToLocal() {
         try {
             localStorage.setItem('mk_global_v11', JSON.stringify(profiles));
@@ -513,7 +509,7 @@
         }
     }
     
-    // ==================== UI-HELPER ====================
+    // ==================== UI ====================
     function showScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById('s-' + screenId).classList.add('active');
@@ -628,7 +624,6 @@
         document.getElementById('q-round').innerText = `Round ${currentQuestionIndex+1}/10`;
         document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
         document.getElementById('q-text').innerText = q.q;
-        // einfache SVG-Background
         document.getElementById('q-frame').style.backgroundImage = "url('data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 450\"%3E%3Crect width=\"800\" height=\"450\" fill=\"%23222222\"/%3E%3Ctext x=\"400\" y=\"225\" font-size=\"40\" fill=\"%23d4af37\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"monospace\"%3E🌍%3C/text%3E%3C/svg%3E')";
         
         const optionsDiv = document.getElementById('q-options');
@@ -721,10 +716,16 @@
         showScreen('result');
     }
     
-    // ==================== BESTENLISTE & ERFOLGE ====================
+    // ==================== BESTENLISTE & ERFOLGE (nur aktive Spieler) ====================
     function renderLeaderboard() {
         const list = document.getElementById('lb-list');
-        const sorted = Object.values(profiles).sort((a,b) => b.xp - a.xp);
+        // Nur Profile mit XP > 0 (haben wirklich gespielt)
+        const activeProfiles = Object.values(profiles).filter(p => p.xp > 0);
+        const sorted = activeProfiles.sort((a,b) => b.xp - a.xp);
+        if (sorted.length === 0) {
+            list.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">⚔️ Noch keine Kämpfer aktiv – werde der Erste!</div>';
+            return;
+        }
         list.innerHTML = sorted.map((p, i) => `
             <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; border-color:${i<3?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
                 <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${escapeHtml(p.name)}</b></div>
@@ -735,7 +736,13 @@
     
     function renderAchievements() {
         const list = document.getElementById('ach-list');
-        const sorted = Object.values(profiles).sort((a,b) => b.level - a.level);
+        // Nur Profile mit XP > 0
+        const activeProfiles = Object.values(profiles).filter(p => p.xp > 0);
+        const sorted = activeProfiles.sort((a,b) => b.level - a.level);
+        if (sorted.length === 0) {
+            list.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">⚔️ Spiele deinen ersten Kampf, um in die Rangliste zu kommen!</div>';
+            return;
+        }
         list.innerHTML = sorted.map(p => {
             const r = getRank(p.level);
             const progress = getProgress(p);
@@ -815,14 +822,13 @@
     
     // ==================== INIT ====================
     (async function init() {
-        // Erst lokale Daten laden, dann versuchen Cloud-Daten zu holen
         loadProfilesFromLocal();
-        await loadProfilesFromCloud();  // asynchron, ersetzt lokale durch Cloud, wenn verfügbar
+        await loadProfilesFromCloud();  // Cloud-Daten überschreiben lokale
         setupEventListeners();
-        // Aktive Sprachauswahl setzen
         document.querySelector(`.lang-chip[data-lang="${currentLang}"]`).classList.add('active');
         showScreen('home');
     })();
 </script>
 </body>
 </html>
+```
