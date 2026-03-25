@@ -826,37 +826,3 @@
 </script>
 </body>
 </html>
-```
-
----
-
-✅ So funktioniert es jetzt
-
-1. Globale Bestenliste – Alle Spieler weltweit teilen sich eine gemeinsame Datenbank.
-2. Echtzeit‑Synchronisation – Nach jeder Änderung (XP, Gold, Level) wird das Profil automatisch in die Cloud hochgeladen.
-3. Offline‑Fallback – Wenn keine Internetverbindung besteht, werden die Daten lokal gespeichert und später synchronisiert.
-4. Tastatursteuerung – Schnelle Antworten mit den Tasten 1–4.
-5. Fortschrittsbalken – Zeigt genau, wie viele XP noch zum nächsten Rang fehlen.
-
----
-
-🌐 Deployment (kostenlos)
-
-Du kannst die fertige index.html auf einem statischen Hosting bereitstellen:
-
-· GitHub Pages – kostenlos, weltweit erreichbar.
-· Netlify – Drag‑and‑Drop, kostenlos.
-· Vercel – ebenfalls gratis.
-
-Einfach die Datei hochladen – die App verbindet sich dann automatisch mit deinem Supabase‑Backend.
-
----
-
-⚠️ Wichtiger Hinweis
-
-· Supabase‑Zugangsdaten nicht öffentlich machen! In diesem Code sind sie sichtbar (im Browser). Das ist für eine reine Browser‑App unvermeidbar. Du solltest Row Level Security (RLS) in Supabase so einstellen, dass nur Lese‑ und Schreibzugriffe auf die profiles-Tabelle erlaubt sind (wie oben in der SQL gezeigt). Niemand kann dann fremde Daten löschen oder manipulieren.
-· Bei starkem Traffic kann das kostenlose Supabase‑Kontingent (500 MB Datenbank, 2 GB Bandbreite) ausreichen – für viele Spieler locker genug.
-
----
-
-Jetzt kannst du die App überall auf der Welt spielen und die Fortschritte aller Spieler sehen! Bei Fragen helfe ich gern weiter.
