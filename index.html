@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · APEX WORLD QUIZ</title>
+    <title>MK · INFINITY QUIZ</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
             --gold-solid: #d4af37;
             --bg: #030303;
-            --card: rgba(20, 20, 20, 0.9);
+            --card: rgba(20, 20, 20, 0.95);
             --border: rgba(212, 175, 55, 0.4);
             --red: #ff3c00;
         }
@@ -32,7 +32,7 @@
         #app { width: 100%; max-width: 450px; height: 100vh; display: flex; flex-direction: column; position: relative; z-index: 10; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); }
 
         .screen { display: none; flex: 1; padding: 30px 25px; flex-direction: column; overflow-y: auto; }
-        .screen.active { display: flex; animation: screenIn 0.5s ease-out forwards; }
+        .screen.active { display: flex; animation: screenIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
         @keyframes screenIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -50,7 +50,7 @@
         .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 8px 15px rgba(170, 119, 28, 0.4); }
         .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
 
-        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; }
+        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; transition: 0.3s; }
         .input-minimal { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 10px; outline: none; font-weight: 600; }
         
         .badge { background: var(--gold); color: #000; padding: 3px 10px; border-radius: 100px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; }
@@ -63,7 +63,7 @@
         .option-item.correct { background: #1b4d2e !important; border-color: #2ecc71 !important; }
         .option-item.wrong { background: #4d1b1b !important; border-color: #e74c3c !important; }
 
-        footer { text-align: center; padding: 20px; font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; }
+        footer { text-align: center; padding: 20px; font-size: 0.7rem; color: rgba(255,255,255,0.8); font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -87,7 +87,7 @@
         <!-- SETUP SCREEN -->
         <section id="s-setup" class="screen">
             <h2 class="title-gold" style="font-size: 2.2rem; text-align: center;">Kämpfer</h2>
-            <p style="text-align: center; font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; color:var(--gold-solid); margin-bottom:30px;">Identität bestätigen</p>
+            <p style="text-align: center; font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; color:var(--gold-solid); margin-bottom:30px;">Wähle dein Team</p>
             <div id="player-container"></div>
             <button class="btn-luxe btn-outline" style="font-size:0.6rem;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
             <div style="margin-top: auto;">
@@ -103,15 +103,16 @@
                 <h2 id="vs-name" class="title-gold">SPIELER</h2>
                 <div id="vs-stats" style="margin-top:10px;"></div>
             </div>
-            <div style="margin-top: auto; padding-bottom: 40px;">
+            <div style="margin-top: auto; padding-bottom: 20px;">
                 <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
+                <button class="btn-luxe btn-outline" style="border:none; opacity:0.6;" onclick="App.go('setup')">Zurück zum Setup</button>
             </div>
         </section>
 
         <!-- QUIZ SCREEN -->
         <section id="s-quiz" class="screen">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Level 01</span>
+                <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1</span>
                 <span id="q-gold" class="badge">💰 0</span>
             </div>
             <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
@@ -134,7 +135,7 @@
 
         <!-- RESULT SCREEN -->
         <section id="s-result" class="screen">
-            <h1 class="title-gold" style="font-size:2.2rem; text-align:center;">Kampf-Ende</h1>
+            <h1 class="title-gold" style="font-size:2.2rem; text-align:center;">Ergebnis</h1>
             <div id="result-list" style="margin-top:30px; flex:1;"></div>
             <button class="btn-luxe btn-gold" onclick="location.reload()">Neustart</button>
             <footer>Produziert von Wowa & Amiar Kempf</footer>
@@ -142,39 +143,57 @@
     </div>
 
     <script>
+        // MASSIVE DATABASE
         const QUESTIONS = [
             { q: "Was ist das flächenmäßig größte Land?", o: ["China", "Kanada", "Russland", "USA"], c: 2, e: "Russland ist mit 17 Mio. km² der Spitzenreiter." },
-            { q: "Welcher Fluss fließt durch Ägypten?", o: ["Amazonas", "Nil", "Kongo", "Donau"], c: 1, e: "Der Nil ist die Lebensader der ägyptischen Zivilisation." },
+            { q: "Welcher Fluss fließt durch Ägypten?", o: ["Amazonas", "Nil", "Kongo", "Donau"], c: 1, e: "Der Nil ist die Lebensader Ägyptens." },
             { q: "In welchem Land liegen die Pyramiden von Gizeh?", o: ["Mexiko", "Iran", "Ägypten", "Peru"], c: 2, e: "Sie stehen nahe Kairo in Ägypten." },
             { q: "Was ist das bevölkerungsreichste Land?", o: ["China", "Indien", "USA", "Indonesien"], c: 1, e: "Indien hat China im Jahr 2023 überholt." },
-            { q: "In welchem Land steht der Eiffelturm?", o: ["Italien", "Spanien", "Frankreich", "Deutschland"], c: 2, e: "Der Eiffelturm ist das Wahrzeichen von Paris." }
+            { q: "In welchem Land steht der Eiffelturm?", o: ["Italien", "Spanien", "Frankreich", "Deutschland"], c: 2, e: "Der Eiffelturm steht in Paris." },
+            { q: "Wie viele Bundesländer hat Deutschland?", o: ["12", "14", "16", "18"], c: 2, e: "Deutschland besteht aus 16 Bundesländern." },
+            { q: "Was ist die Hauptstadt von Japan?", o: ["Seoul", "Peking", "Tokio", "Osaka"], c: 2, e: "Tokio ist die Hauptstadt Japans." },
+            { q: "In welchem Land wurde der Kebab erfunden?", o: ["Türkei", "Griechenland", "Libanon", "Iran"], c: 0, e: "Der Kebab stammt ursprünglich aus der Türkei." },
+            { q: "Was ist die Währung der USA?", o: ["Euro", "Dollar", "Pfund", "Yen"], c: 1, e: "Der US-Dollar ist die offizielle Währung." },
+            { q: "Welches Gebirge trennt Europa und Asien?", o: ["Alpen", "Ural", "Himalaya", "Anden"], c: 1, e: "Das Uralgebirge gilt als Grenze." },
+            { q: "Was ist der kleinste Kontinent?", o: ["Europa", "Antarktis", "Australien", "Südamerika"], c: 2, e: "Australien/Ozeanien ist der kleinste Kontinent." },
+            { q: "In welchem Land liegt der Grand Canyon?", o: ["Kanada", "Mexiko", "USA", "Australien"], c: 2, e: "Er liegt im Bundesstaat Arizona, USA." },
+            { q: "Welches Meer liegt zwischen Europa und Afrika?", o: ["Rotes Meer", "Schwarzes Meer", "Mittelmeer", "Nordsee"], c: 2, e: "Das Mittelmeer trennt die Kontinente." },
+            { q: "Welches Land hat die meisten Inseln?", o: ["Indonesien", "Schweden", "Philippinen", "Norwegen"], c: 1, e: "Schweden hat über 267.000 Inseln." },
+            { q: "Wie heißt die Hauptstadt der Ukraine?", o: ["Lwiw", "Odessa", "Kiew", "Charkiw"], c: 2, e: "Kiew (Kyjiw) ist die Hauptstadt." }
         ];
 
         const App = {
-            profiles: JSON.parse(localStorage.getItem('mk_profiles')) || {},
+            profiles: JSON.parse(localStorage.getItem('mk_profiles_v2')) || {},
             players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, activeQs: [],
 
-            save() { localStorage.setItem('mk_profiles', JSON.stringify(this.profiles)); },
+            save() { localStorage.setItem('mk_profiles_v2', JSON.stringify(this.profiles)); },
 
             getProfile(name) {
                 const key = name.trim().toLowerCase();
                 if (!this.profiles[key]) {
-                    this.profiles[key] = { name: name.trim(), xp: 0, gold: 0, correct: 0, level: 1 };
+                    this.profiles[key] = { 
+                        name: name.trim(), 
+                        xp: 0, 
+                        gold: 0, 
+                        level: 1, 
+                        usedQuestions: [] // TRACKER FÜR GEFRAGTE FRAGEN
+                    };
                 }
                 return this.profiles[key];
             },
 
-            addXP(name, amount) {
+            addXP(name, amount, qIndex) {
                 const p = this.getProfile(name);
                 p.xp += amount;
-                p.correct += (amount / 100);
-                p.level = Math.floor(Math.sqrt(p.xp / 500)) + 1;
-                this.save();
-            },
-
-            addGold(name, amount) {
-                const p = this.getProfile(name);
-                p.gold += amount;
+                p.level = Math.floor(Math.sqrt(p.xp / 400)) + 1;
+                // Markiere Frage als benutzt
+                if (!p.usedQuestions.includes(qIndex)) {
+                    p.usedQuestions.push(qIndex);
+                }
+                // Wenn alle Fragen aufgebraucht sind, Reset für dieses Profil
+                if (p.usedQuestions.length >= QUESTIONS.length) {
+                    p.usedQuestions = [];
+                }
                 this.save();
             },
 
@@ -182,6 +201,9 @@
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                 document.getElementById('s-' + id).classList.add('active');
                 if(id === 'leaderboard') this.renderLeaderboard();
+                if(id === 'setup' && document.getElementById('player-container').children.length === 0) {
+                    this.addPlayerInput(); // Startet immer mit mindestens 1 Spieler
+                }
             },
 
             addPlayerInput(val = "") {
@@ -189,20 +211,15 @@
                 if(container.children.length >= 4) return;
                 const div = document.createElement('div');
                 div.className = 'player-card';
-                div.innerHTML = `<span>👤</span><input type="text" class="input-minimal" placeholder="Name eingeben..." value="${val}">`;
+                div.innerHTML = `<span>👤</span><input type="text" class="input-minimal" placeholder="Name..." value="${val}">`;
                 container.appendChild(div);
-            },
-
-            startSolo() {
-                document.getElementById('player-container').innerHTML = "";
-                this.addPlayerInput("Krieger Solo");
-                this.startBattle();
             },
 
             startBattle() {
                 const inputs = document.querySelectorAll('.input-minimal');
-                this.players = Array.from(inputs).map(inp => {
-                    const name = inp.value || "Anonym";
+                const selectedNames = Array.from(inputs).map(i => i.value || "Anonym");
+                
+                this.players = selectedNames.map(name => {
                     return { ...this.getProfile(name), sessionScore: 0, sessionGold: 0 };
                 });
                 this.pIdx = 0;
@@ -212,20 +229,37 @@
             showVS() {
                 const p = this.players[this.pIdx];
                 document.getElementById('vs-name').innerText = p.name.toUpperCase();
-                document.getElementById('vs-stats').innerHTML = `<span class="lvl-pill">LVL ${p.level}</span> <span style="font-size:0.8rem; color:var(--gold-solid);">Gesamt Gold: ${p.gold}</span>`;
+                document.getElementById('vs-stats').innerHTML = `<span class="lvl-pill">LVL ${p.level}</span> <span class="badge">Gesamt Gold: ${p.gold}</span>`;
                 this.go('vs');
             },
 
             startQuiz() {
+                const p = this.players[this.pIdx];
                 this.qIdx = 0;
-                this.activeQs = [...QUESTIONS].sort(() => Math.random() - 0.5);
+                
+                // FILTER: Nur Fragen nehmen, die der Spieler NOCH NIE gesehen hat
+                let availableIndices = QUESTIONS.map((_, i) => i)
+                    .filter(i => !p.usedQuestions.includes(i));
+                
+                // Falls Pool leer (sollte durch Reset im addXP nicht passieren, aber zur Sicherheit)
+                if (availableIndices.length < 5) {
+                    p.usedQuestions = [];
+                    availableIndices = QUESTIONS.map((_, i) => i);
+                }
+
+                // Wähle 5 zufällige aus den Verfügbaren
+                this.activeQs = availableIndices
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 5)
+                    .map(index => ({ ...QUESTIONS[index], originalIndex: index }));
+
                 this.renderQuestion();
                 this.go('quiz');
             },
 
             renderQuestion() {
                 const q = this.activeQs[this.qIdx];
-                document.getElementById('q-round').innerText = `RUNDE ${this.qIdx + 1}/${this.activeQs.length}`;
+                document.getElementById('q-round').innerText = `Frage ${this.qIdx + 1}/5`;
                 document.getElementById('q-gold').innerText = `💰 ${this.players[this.pIdx].sessionGold}`;
                 document.getElementById('q-text').innerText = q.q;
                 const box = document.getElementById('q-options');
@@ -264,13 +298,15 @@
                 if(idx === q.c) {
                     btn.classList.add('correct');
                     p.sessionScore++;
-                    const goldGained = Math.round(this.timeLeft * 20);
+                    const goldGained = Math.round(this.timeLeft * 25);
                     p.sessionGold += goldGained;
-                    this.addXP(p.name, 100);
-                    this.addGold(p.name, goldGained);
+                    p.gold += goldGained;
+                    this.addXP(p.name, 100, q.originalIndex); // Speichert Frage als benutzt
                 } else {
                     if(idx !== -1) btn.classList.add('wrong');
                     opts[q.c].classList.add('correct');
+                    // Auch falsche Fragen werden als "gesehen" markiert
+                    this.addXP(p.name, 0, q.originalIndex);
                 }
 
                 document.getElementById('q-expl').innerText = q.e;
@@ -306,19 +342,18 @@
                 const sorted = [...this.players].sort((a,b) => b.sessionScore - a.sessionScore);
                 list.innerHTML = sorted.map((p, i) => `
                     <div class="glass-panel" style="display:flex; justify-content:space-between; align-items:center;">
-                        <div><span class="badge">#${i+1}</span> <b style="margin-left:10px">${p.name}</b></div>
+                        <div><span class="badge">RANK #${i+1}</span> <b style="margin-left:10px">${p.name}</b></div>
                         <div style="text-align:right">
                             <div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore} PKT</div>
-                            <div style="font-size:0.7rem; opacity:0.6;">+${p.sessionGold} GOLD</div>
+                            <div style="font-size:0.7rem; opacity:0.6;">💰 +${p.sessionGold}</div>
                         </div>
                     </div>
                 `).join('');
             }
         };
 
-        // Init
-        App.addPlayerInput();
-        App.addPlayerInput();
+        // Standard-Start
+        App.go('home');
     </script>
 </body>
 </html>
