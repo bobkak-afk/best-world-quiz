@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · SUPREME ATLAS QUIZ</title>
+    <title>MK · MASTERY GENESIS</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,6 +13,7 @@
             --card: rgba(15, 15, 15, 0.98);
             --border: rgba(212, 175, 55, 0.35);
             --red: #ff3c00;
+            --blue: #00d4ff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -33,76 +34,38 @@
 
         @keyframes screenIn { from { opacity: 0; transform: translateY(20px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 
-        /* --- HOME SCREEN LAYOUT --- */
-        .home-top-label {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.6rem;
-            letter-spacing: 8px;
-            color: var(--gold-solid);
-            text-align: center;
-            margin-top: 10px; /* Höher gesetzt */
-            opacity: 0.8;
-            text-transform: uppercase;
-        }
-
-        .home-main-logo {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .title-gold {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 3.2rem;
-            background: var(--gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 0.85;
-            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
-        }
-
-        .atlas-box {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .atlas {
-            font-size: 8rem; /* Größerer Globus */
-            animation: rotateAtlas 20s linear infinite;
-            filter: drop-shadow(0 0 40px rgba(0, 150, 255, 0.4));
-            user-select: none;
-        }
-
+        /* --- TITEL & ATLAS --- */
+        .title-gold { font-family: 'Cinzel Decorative', serif; font-size: 3rem; text-align: center; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 0.85; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); }
+        .atlas { font-size: 7.5rem; animation: rotateAtlas 15s linear infinite; filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.5)); margin: 20px 0; display: inline-block; }
         @keyframes rotateAtlas { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .sub-title { font-family: 'Syncopate', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: #fff; text-align: center; text-transform: uppercase; margin-top: 25px; font-weight: 700; text-shadow: 0 0 20px rgba(255,255,255,0.8); }
 
-        .sub-title-lower {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 1.6rem; /* Größere Schrift */
-            letter-spacing: 4px;
-            color: #fff;
-            text-align: center;
-            text-transform: uppercase;
-            margin-top: 50px; /* Deutlich weiter runter gesetzt */
-            margin-bottom: 40px;
-            font-weight: 700;
-            text-shadow: 0 0 25px rgba(255,255,255,0.7);
-        }
-
-        /* --- UI ELEMENTS --- */
-        .btn-luxe { appearance: none; border: none; padding: 18px; border-radius: 14px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-bottom: 12px; }
+        /* --- BUTTONS --- */
+        .btn-luxe { appearance: none; border: none; padding: 18px; border-radius: 14px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.7rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-bottom: 12px; }
         .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
         .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
         .btn-back { background: transparent; color: rgba(255,255,255,0.6); border: none; font-family: 'Syncopate'; font-size: 0.6rem; cursor: pointer; padding: 10px; text-align: center; font-weight: 700; }
 
+        /* --- ACHIEVEMENT BADGES --- */
+        .rank-badge {
+            padding: 3px 10px; border-radius: 6px; font-size: 0.6rem; font-family: 'Syncopate'; 
+            font-weight: 900; text-transform: uppercase; margin-right: 8px;
+        }
+        .rank-warrior { background: #666; color: #fff; }
+        .rank-master { background: var(--blue); color: #000; box-shadow: 0 0 10px var(--blue); }
+        .rank-grandmaster { background: var(--gold-solid); color: #000; box-shadow: 0 0 10px var(--gold-solid); }
+        .rank-god { background: var(--red); color: #fff; box-shadow: 0 0 15px var(--red); animation: pulseRed 1.5s infinite alternate; }
+        @keyframes pulseRed { from { filter: brightness(1); } to { filter: brightness(1.5); } }
+
         /* --- VISUAL QUIZ --- */
         .q-card-visual {
-            height: 220px; border-radius: 20px; border: 1px solid var(--border);
+            height: 200px; border-radius: 20px; border: 1px solid var(--border);
             background-size: cover; background-position: center; position: relative;
             overflow: hidden; display: flex; align-items: center; justify-content: center;
-            margin-bottom: 20px; box-shadow: 0 15px 35px #000;
+            margin-bottom: 20px; box-shadow: 0 10px 30px #000;
         }
         .q-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.75); }
-        .q-text { position: relative; z-index: 5; text-align: center; font-size: 1.3rem; padding: 15px; font-weight: 600; text-shadow: 0 2px 8px #000; }
+        .q-text { position: relative; z-index: 5; text-align: center; font-size: 1.3rem; padding: 20px; text-shadow: 0 2px 8px #000; font-weight: 500; }
 
         .opt-visual {
             height: 60px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
@@ -114,24 +77,25 @@
         .opt-visual.correct .opt-overlay { background: rgba(27, 77, 46, 0.85) !important; }
         .opt-visual.wrong .opt-overlay { background: rgba(77, 27, 27, 0.85) !important; }
 
-        /* RANK BADGES */
-        .rank-badge { padding: 3px 10px; border-radius: 6px; font-size: 0.6rem; font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; margin-right: 8px; }
-        .rank-warrior { background: #666; color: #fff; }
-        .rank-master { background: #00d4ff; color: #000; }
-        .rank-god { background: #ff3c00; color: #fff; animation: pulse 1s infinite alternate; }
-        @keyframes pulse { from { opacity: 1; } to { opacity: 0.7; } }
-
+        /* --- SETUP & CARDS --- */
+        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 18px; padding: 15px; display: flex; align-items: center; margin-bottom: 10px; position: relative; }
         .flag-plus { width: 42px; height: 42px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; cursor: pointer; color: var(--gold-solid); }
         .input-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 12px; outline: none; font-weight: 600; }
+
+        .timer-rail { height: 5px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 15px 0 20px; overflow: hidden; }
+        .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
+
+        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(15px); }
+        .modal-box { background: #111; border: 1px solid var(--gold-solid); padding: 30px; border-radius: 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 
         footer { text-align: center; padding: 20px; font-size: 0.7rem; color: #fff; font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
-    <!-- FLAG MODAL -->
+    <!-- MODAL -->
     <div id="modal" onclick="this.style.display='none'">
-        <div style="background:#111; border:1px solid var(--gold-solid); padding:30px; border-radius:24px; display:grid; grid-template-columns: repeat(4, 1fr); gap:15px;" onclick="event.stopPropagation()">
+        <div class="modal-box" onclick="event.stopPropagation()">
             <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
             <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
             <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
@@ -144,29 +108,26 @@
     </div>
 
     <div id="app">
-        <!-- SCREEN: HOME -->
+        <!-- HOME -->
         <section id="s-home" class="screen active">
-            <p class="home-top-label">Elite Prestige Realm</p>
-            
-            <div class="home-main-logo">
+            <div style="margin-top: 30px; text-align: center;">
+                <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:5px; color:#d4af37;">Elite Prestige Realm</p>
                 <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
-                <div class="atlas-box"><div class="atlas">🌍</div></div>
+                <div class="atlas">🌍</div>
+                <p class="sub-title">Best World Quiz</p>
             </div>
-
-            <p class="sub-title-lower">Best World Quiz</p>
-
             <div style="margin-top: auto;">
                 <button class="btn-luxe btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
-                <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge ⚔️</button>
+                <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge & Ränge ⚔️</button>
                 <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
             </div>
             <footer>Produziert von Wowa & Amiar Kempf</footer>
         </section>
 
-        <!-- SCREEN: SETUP -->
+        <!-- SETUP -->
         <section id="s-setup" class="screen">
             <h2 class="title-gold" style="font-size: 2rem;">Krieger</h2>
-            <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 20px 0;">
+            <div class="lang-grid" style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 20px;">
                 <div class="lang-chip" id="ln-de" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; cursor:pointer; font-size:0.5rem; text-align:center;" onclick="App.setLang('de')">DE</div>
                 <div class="lang-chip" id="ln-ru" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; cursor:pointer; font-size:0.5rem; text-align:center;" onclick="App.setLang('ru')">RU</div>
                 <div class="lang-chip" id="ln-en" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; cursor:pointer; font-size:0.5rem; text-align:center;" onclick="App.setLang('en')">EN</div>
@@ -181,7 +142,13 @@
             </div>
         </section>
 
-        <!-- SCREEN: VS -->
+        <!-- LOADING -->
+        <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
+            <div class="spinner" style="width:60px; height:60px; border:4px solid rgba(212,175,55,0.1); border-top-color:#d4af37; border-radius:50%; animation:spin 1s infinite linear;"></div>
+            <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:20px;">Lade Mastery-Daten...</p>
+        </section>
+
+        <!-- VS -->
         <section id="s-vs" class="screen">
             <div style="text-align: center; margin-top: 60px;">
                 <div id="vs-flag" style="font-size: 7rem; margin-bottom: 15px;">🐲</div>
@@ -194,7 +161,7 @@
             </div>
         </section>
 
-        <!-- SCREEN: QUIZ -->
+        <!-- QUIZ -->
         <section id="s-quiz" class="screen">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1/10</span>
@@ -206,57 +173,66 @@
                 <div class="q-overlay"></div>
                 <h3 id="q-text" class="q-text">Herausforderung...</h3>
             </div>
+
             <div id="q-options"></div>
+
             <div id="q-feedback" style="display:none; margin-top:10px;">
-                <div style="background: rgba(10,10,10,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align:center;">
+                <div style="background: rgba(10,10,10,0.9); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align:center;">
                     <p id="q-expl" style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 15px;"></p>
                     <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
                 </div>
             </div>
         </section>
 
-        <!-- SCREEN: ACHIEVEMENTS -->
+        <!-- ERFOLGE (ACHIEVEMENTS) -->
         <section id="s-achievements" class="screen">
-            <h1 class="title-gold" style="font-size:2rem;">Meilensteine</h1>
+            <h1 class="title-gold" style="font-size:2.2rem; text-align:center;">Meilensteine</h1>
             <div id="ach-list" style="margin-top:30px; flex:1;"></div>
             <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
         </section>
 
-        <!-- SCREEN: LEADERBOARD -->
+        <!-- LEADERBOARD -->
         <section id="s-leaderboard" class="screen">
-            <h1 class="title-gold" style="font-size:2rem;">Halle des Ruhms</h1>
+            <h1 class="title-gold" style="font-size:2.2rem; text-align:center;">Bestenliste</h1>
             <div id="lb-list" style="margin-top:30px; flex:1;"></div>
             <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
         </section>
 
-        <!-- SCREEN: RESULT -->
+        <!-- RESULT -->
         <section id="s-result" class="screen">
-            <h1 class="title-gold" style="font-size: 2.2rem;">ENDE</h1>
+            <h1 class="title-gold" style="font-size: 2.2rem;">ERGEBNIS</h1>
             <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
-            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Neustart</button>
-            <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
+            <div style="margin-top: auto;">
+                <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Neustart</button>
+                <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
+            </div>
             <footer>Produziert von Wowa & Amiar Kempf</footer>
         </section>
     </div>
 
     <script>
+        /**
+         * MK PRESTIGE MASTERY ENGINE
+         */
         const DB = {
             de: [
-                { id: "de1", q: "Was ist die Hauptstadt von Frankreich?", o: ["Paris", "Lyon", "Marseille", "Berlin"], c: 0, e: "Paris ist die Weltstadt der Liebe.", kw: "paris" },
-                { id: "de2", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Donau", "Rhein"], c: 0, e: "Der Nil ist die Lebensader Ägyptens.", kw: "nile" },
-                { id: "de3", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia" }
+                { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia" },
+                { id: "de2", q: "Welcher Fluss ist am längsten?", o: ["Nil", "Amazonas", "Donau", "Rhein"], c: 0, e: "Der Nil gilt als längster Fluss.", kw: "nile" },
+                { id: "de3", q: "Hauptstadt von Frankreich?", o: ["Paris", "Lyon", "Marseille", "Nizza"], c: 0, e: "Paris ist die Weltstadt der Mode.", kw: "paris" },
+                { id: "de4", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifik deckt 35% der Erde.", kw: "pacific" },
+                { id: "de5", q: "Wo stehen die Pyramiden?", o: ["Ägypten", "Mexiko", "Irak", "China"], c: 0, e: "Die Gizeh-Pyramiden sind Weltwunder.", kw: "pyramids" }
             ],
             ru: [{ id: "ru1", q: "Столица России?", o: ["Москва", "Питер", "Киев", "Минск"], c: 0, e: "Москва — столица.", kw: "moscow" }],
-            en: [{ id: "en1", q: "Capital of USA?", o: ["Washington D.C.", "New York", "LA", "Miami"], c: 0, e: "Washington D.C. ist die Hauptstadt.", kw: "washington" }],
+            en: [{ id: "en1", q: "Capital of USA?", o: ["Washington D.C.", "New York", "LA", "Miami"], c: 0, e: "Washington D.C. is the capital.", kw: "washington" }],
             ig: [{ id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "nigeria" }],
             tr: [{ id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara" }]
         };
 
         const App = {
-            profiles: JSON.parse(localStorage.getItem('mk_supreme_atlas_v1')) || {},
+            profiles: JSON.parse(localStorage.getItem('mk_mastery_v1')) || {},
             players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, currentLang: 'de', activeFlagIdx: null, activeQs: [],
 
-            save() { localStorage.setItem('mk_supreme_atlas_v1', JSON.stringify(this.profiles)); },
+            save() { localStorage.setItem('mk_mastery_v1', JSON.stringify(this.profiles)); },
 
             getProfile(name) {
                 const k = name.trim().toLowerCase();
@@ -266,6 +242,7 @@
 
             getRankInfo(lvl) {
                 if(lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
+                if(lvl >= 25) return { class: 'rank-grandmaster', label: 'Grandmaster' };
                 if(lvl >= 10) return { class: 'rank-master', label: 'Master' };
                 return { class: 'rank-warrior', label: 'Warrior' };
             },
@@ -276,6 +253,7 @@
                 if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
                 if(id === 'leaderboard') this.renderLeaderboard();
                 if(id === 'achievements') this.renderAchievements();
+                window.scrollTo(0,0);
             },
 
             setLang(l) {
@@ -314,9 +292,17 @@
                     return { ...p, sessionScore: 0, sessionGold: 0 };
                 });
                 if(this.players.length === 0) return;
-                this.pIdx = 0; 
-                this.activeQs = (DB[this.currentLang] || DB.de).sort(() => 0.5 - Math.random()).slice(0, 10);
-                this.showVS();
+                this.pIdx = 0; this.go('loading');
+                this.activeQs = await this.fetchQuestions(10);
+                setTimeout(() => this.showVS(), 1200);
+            },
+
+            async fetchQuestions(amount) {
+                const p = this.getProfile(this.players[this.pIdx].name);
+                const bank = DB[this.currentLang] || DB.de;
+                let available = bank.filter(q => !p.usedIds.includes(q.id));
+                if(available.length < amount) { p.usedIds = []; available = bank; }
+                return available.sort(() => 0.5 - Math.random()).slice(0, amount);
             },
 
             showVS() {
@@ -339,10 +325,102 @@
 
                 document.getElementById('q-visual').style.backgroundImage = `url('https://source.unsplash.com/800x450/?${q.kw},landscape')`;
                 const box = document.getElementById('q-options'); box.innerHTML = '';
-                document.getElementById('q-feedback').style.display = 'none';
+                document.getElementById('q-feedback').style.display = 'none'; box.style.display = 'block';
 
                 q.o.forEach((opt, i) => {
                     const b = document.createElement('div');
                     b.className = 'opt-visual';
                     b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?texture,dark,${i}')`;
-                    b.innerHTML = `<div class
+                    b.innerHTML = `<div class="opt-overlay"></div><div class="opt-text">${opt}</div>`;
+                    b.onclick = () => this.handleAnswer(i, b);
+                    box.appendChild(b);
+                });
+                this.startTimer();
+            },
+
+            startTimer() {
+                clearInterval(this.timer); this.timeLeft = 12;
+                const bar = document.getElementById('timer-bar');
+                this.timer = setInterval(() => {
+                    this.timeLeft -= 0.1;
+                    bar.style.width = (this.timeLeft / 12 * 100) + "%";
+                    if(this.timeLeft <= 0) this.handleAnswer(-1);
+                }, 100);
+            },
+
+            handleAnswer(idx, b) {
+                clearInterval(this.timer);
+                const q = this.activeQs[this.qIdx];
+                const p = this.players[this.pIdx];
+                const prof = this.getProfile(p.name);
+                const opts = document.querySelectorAll('.opt-visual');
+                opts.forEach(o => o.style.pointerEvents = 'none');
+                prof.usedIds.push(q.id);
+
+                if(idx === q.c) {
+                    if(b) b.classList.add('correct');
+                    p.sessionScore++;
+                    const gain = Math.round(this.timeLeft * 30);
+                    p.sessionGold += gain; prof.gold += gain; prof.xp += 100;
+                    prof.level = Math.floor(Math.sqrt(prof.xp / 300)) + 1;
+                } else {
+                    if(idx !== -1 && b) b.classList.add('wrong');
+                    opts[q.c].classList.add('correct');
+                }
+                this.save();
+                document.getElementById('q-expl').innerText = q.e;
+                document.getElementById('q-feedback').style.display = 'block';
+                document.getElementById('q-options').style.display = 'none';
+            },
+
+            nextStep() {
+                this.qIdx++;
+                if(this.qIdx < 10) this.renderQuestion();
+                else { this.pIdx++; if(this.pIdx < this.players.length) this.prepareBattle(); else this.showResults(); }
+            },
+
+            renderLeaderboard() {
+                const list = document.getElementById('lb-list');
+                const sorted = Object.values(this.profiles).sort((a,b) => b.xp - a.xp);
+                list.innerHTML = sorted.map((p, i) => {
+                    const r = this.getRankInfo(p.level);
+                    return `
+                    <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; border-color:${i<3?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
+                        <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b><br><span class="rank-badge ${r.class}" style="margin-top:5px; display:inline-block">${r.label}</span></div>
+                        <div style="text-align:right">LVL ${p.level}<br><span style="color:var(--gold-solid); font-size:0.8rem;">${p.gold} 💰</span></div>
+                    </div>`;
+                }).join('');
+            },
+
+            renderAchievements() {
+                const list = document.getElementById('ach-list');
+                const sorted = Object.values(this.profiles).sort((a,b) => b.level - a.level);
+                list.innerHTML = sorted.map(p => {
+                    const r = this.getRankInfo(p.level);
+                    return `
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;">
+                        <div style="font-size:1.5rem">${p.flag}</div>
+                        <div style="flex:1">
+                            <b style="font-size:1.1rem">${p.name}</b><br>
+                            <span class="rank-badge ${r.class}">${r.label}</span>
+                        </div>
+                        <div style="text-align:right; font-weight:700; color:var(--gold-solid)">Level ${p.level}</div>
+                    </div>`;
+                }).join('') || '<p style="text-align:center; opacity:0.5">Noch keine Helden registriert.</p>';
+            },
+
+            showResults() {
+                this.go('result');
+                const list = document.getElementById('res-list');
+                list.innerHTML = this.players.map(p => `
+                    <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;">
+                        <div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div>
+                        <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div>
+                    </div>`).join('');
+            }
+        };
+
+        App.go('home'); App.setLang('de');
+    </script>
+</body>
+</html>
