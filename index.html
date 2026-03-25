@@ -9,10 +9,11 @@
         :root {
             --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
             --gold-solid: #d4af37;
-            --bg: #050505;
-            --card: rgba(15, 15, 15, 0.95);
-            --border: rgba(212, 175, 55, 0.3);
+            --bg: #030303;
+            --card: rgba(20, 20, 20, 0.85);
+            --border: rgba(212, 175, 55, 0.4);
             --red: #ff3c00;
+            --blue-glow: rgba(0, 150, 255, 0.2);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -25,7 +26,11 @@
             overflow: hidden;
             display: flex;
             justify-content: center;
-            background-image: radial-gradient(circle at 50% -20%, #2a1b00 0%, #050505 80%);
+            /* Moderner Arena-Hintergrund */
+            background-image: 
+                radial-gradient(circle at 50% 100%, #1a1a1a 0%, transparent 70%),
+                radial-gradient(circle at 0% 0%, #3a2a00 0%, transparent 40%),
+                radial-gradient(circle at 100% 0%, #001a3a 0%, transparent 40%);
         }
 
         #app {
@@ -36,127 +41,143 @@
             flex-direction: column;
             position: relative;
             z-index: 10;
-            border-left: 1px solid rgba(255,255,255,0.05);
-            border-right: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(5px);
         }
 
         .screen {
             display: none;
             flex: 1;
-            padding: 40px 25px;
+            padding: 30px 25px;
             flex-direction: column;
             overflow-y: auto;
         }
 
-        .screen.active { display: flex; animation: screenIn 0.5s ease-out forwards; }
+        .screen.active { display: flex; animation: screenIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
         @keyframes screenIn {
-            from { opacity: 0; transform: translateY(10px); filter: blur(10px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+            from { opacity: 0; transform: translateY(30px); filter: brightness(2); }
+            to { opacity: 1; transform: translateY(0); filter: brightness(1); }
         }
 
-        /* --- ATLAS ROTATION --- */
-        .atlas-container {
-            display: flex;
-            justify-content: center;
-            margin: 25px 0; /* Mehr Abstand */
-        }
-
-        .atlas {
-            font-size: 7rem; /* Viel größer gemacht */
-            animation: rotateAtlas 15s linear infinite;
-            filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.5));
-            user-select: none;
-        }
-
-        @keyframes rotateAtlas {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* TYPOGRAPHY */
+        /* --- LOGO & TITEL --- */
+        .logo-section { text-align: center; margin-bottom: 20px; }
         .title-gold {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 3.2rem;
-            text-align: center;
+            font-size: 3rem;
             background: var(--gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 0.85;
             filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
         }
-
         .sub-title {
             font-family: 'Syncopate', sans-serif;
-            font-size: 1.4rem; /* Größere Schrift */
-            letter-spacing: 3px;
-            color: #ffffff;
-            text-align: center;
-            text-transform: uppercase;
-            margin-top: 25px; /* Weiter runter gesetzt */
+            font-size: 1.3rem;
+            color: #fff;
+            margin-top: 15px;
             font-weight: 700;
-            text-shadow: 0 0 20px rgba(255,255,255,0.7);
+            text-shadow: 0 0 15px rgba(255,255,255,0.5);
         }
 
+        /* --- KÄMPFER SELEKTION DESIGN --- */
+        .selection-header { text-align: center; margin-bottom: 30px; }
         .label-tech {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             letter-spacing: 5px;
             color: var(--gold-solid);
             text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 15px; /* Etwas höher gesetzt durch Margin-Abstand unten */
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
-        /* BUTTONS */
+        #player-container { display: grid; gap: 15px; }
+
+        .player-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: cardSlide 0.5s ease-out backwards;
+        }
+
+        @keyframes cardSlide {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .player-card:hover {
+            transform: scale(1.02);
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .player-card::before {
+            content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%;
+            background: var(--gold);
+        }
+
+        .avatar-circle {
+            width: 50px; height: 50px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .input-minimal {
+            background: transparent; border: none; color: #fff;
+            font-family: 'Outfit', sans-serif; font-size: 1.2rem;
+            font-weight: 600; width: 100%; margin-left: 15px; outline: none;
+            letter-spacing: 1px;
+        }
+
+        .input-minimal::placeholder { color: rgba(255,255,255,0.2); }
+
+        /* --- BUTTONS --- */
         .btn-luxe {
-            appearance: none; border: none; padding: 18px; border-radius: 14px;
+            appearance: none; border: none; padding: 20px; border-radius: 16px;
             font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem;
             cursor: pointer; transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
             text-transform: uppercase; display: flex; align-items: center;
-            justify-content: center; gap: 10px; width: 100%; margin-bottom: 12px;
+            justify-content: center; gap: 12px; width: 100%; margin-bottom: 15px;
         }
 
-        .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 8px 20px rgba(170, 119, 28, 0.4); }
-        .btn-gold:active { transform: scale(0.96); }
-        .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
-        .btn-outline:hover { background: rgba(255,255,255,0.05); }
-
-        /* PANELS */
-        .glass-panel {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 24px; padding: 25px; backdrop-filter: blur(20px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 20px;
+        .btn-gold { 
+            background: var(--gold); color: #000; font-weight: 900; 
+            box-shadow: 0 10px 25px rgba(170, 119, 28, 0.4); 
+            position: relative; overflow: hidden;
         }
 
-        .timer-rail { height: 5px; background: rgba(255,255,255,0.05); border-radius: 10px; margin: 15px 0 25px; overflow: hidden; }
-        .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
-
-        .option-item {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            padding: 18px 22px; border-radius: 16px; margin-bottom: 10px; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
-        }
-        .option-item:hover { border-color: var(--gold-solid); background: rgba(255,255,255,0.06); transform: translateX(5px); }
-        .option-item.correct { background: #1b4d2e !important; border-color: #2ecc71 !important; }
-        .option-item.wrong { background: #4d1b1b !important; border-color: #e74c3c !important; }
-
-        footer {
-            text-align: center; padding: 25px; font-size: 0.7rem;
-            letter-spacing: 2px; color: rgba(255,255,255,0.7); /* Heller gemacht */
-            font-family: 'Syncopate', sans-serif; text-transform: uppercase;
-            font-weight: 700;
+        .btn-gold::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg); animation: shine 3s infinite;
         }
 
-        .badge { background: var(--gold); color: #000; padding: 4px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        @keyframes shine { 0% { left: -150%; } 100% { left: 150%; } }
 
-        .btn-exit {
-            position: absolute; top: 15px; right: 20px;
-            font-family: 'Syncopate', sans-serif; font-size: 0.6rem;
-            color: rgba(255,255,255,0.4); text-decoration: none; border: 1px solid rgba(255,255,255,0.1);
-            padding: 6px 12px; border-radius: 8px; cursor: pointer; z-index: 100;
+        .btn-outline { background: rgba(255,255,255,0.03); color: #fff; border: 1px solid var(--border); }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+
+        /* --- ATLAS --- */
+        .atlas {
+            font-size: 7rem;
+            animation: rotateAtlas 20s linear infinite;
+            filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.4));
+            margin: 20px 0;
         }
+        @keyframes rotateAtlas { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        footer { text-align: center; padding: 25px; font-size: 0.7rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); font-family: 'Syncopate', sans-serif; font-weight: 700; }
+
+        .btn-exit { position: absolute; top: 15px; right: 20px; font-family: 'Syncopate', sans-serif; font-size: 0.6rem; color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 8px; cursor: pointer; z-index: 100; }
     </style>
 </head>
 <body>
@@ -164,12 +185,10 @@
     <div id="app">
         <!-- SCREEN: HOME -->
         <section id="s-home" class="screen active">
-            <div style="margin-top: 40px;"> <!-- Höher gesetzt -->
-                <p class="label-tech">Elite Prestige Realm</p>
+            <div class="logo-section">
+                <p class="label-tech" style="margin-top: 40px;">Elite Prestige Realm</p>
                 <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
-                <div class="atlas-container">
-                    <div class="atlas">🌍</div>
-                </div>
+                <div style="display: flex; justify-content: center;"><div class="atlas">🌍</div></div>
                 <p class="sub-title">Best World Quiz</p>
             </div>
             <div style="margin-top: auto; padding-bottom: 10px;">
@@ -179,17 +198,24 @@
             <footer>Produziert von Wowa & Amiar Kempf</footer>
         </section>
 
-        <!-- SCREEN: SETUP -->
+        <!-- SCREEN: SETUP (Kämpfer-Selektion) -->
         <section id="s-setup" class="screen">
-            <h2 class="title-gold" style="font-size: 2.2rem;">Kämpfer</h2>
-            <p class="label-tech" style="margin-bottom: 25px;">Wähle dein Team</p>
-            <div id="player-container">
-                <!-- Dynamisch -->
+            <div class="selection-header">
+                <h2 class="title-gold" style="font-size: 2.2rem;">Kämpfer</h2>
+                <p class="label-tech">Wähle dein Team</p>
             </div>
-            <button class="btn-luxe btn-outline" style="padding: 12px; font-size: 0.6rem;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
-            <div style="margin-top: auto;">
+            
+            <div id="player-container">
+                <!-- Hier werden die Kämpfer-Karten eingefügt -->
+            </div>
+
+            <div style="margin-top: 25px;">
+                <button class="btn-luxe btn-outline" style="padding: 15px; font-size: 0.65rem;" onclick="App.addPlayerInput()">+ Kämpfer hinzufügen</button>
+            </div>
+
+            <div style="margin-top: auto; padding-bottom: 20px;">
                 <button class="btn-luxe btn-gold" onclick="App.startBattle()">Kampf Starten</button>
-                <button class="btn-luxe btn-outline" style="border-color:transparent; opacity:0.6" onclick="App.go('home')">← Zurück zum Hauptmenü</button>
+                <button class="btn-luxe btn-outline" style="border:none; opacity:0.6; font-size: 0.6rem;" onclick="App.go('home')">← Hauptmenü</button>
             </div>
         </section>
 
@@ -198,37 +224,36 @@
             <div style="text-align: center; margin-top: 60px;">
                 <div style="font-size: 6.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 20px var(--gold-solid));">🐲</div>
                 <h2 id="vs-name" class="title-gold" style="font-size: 2.8rem;">SPIELER</h2>
-                <div class="badge">Bereit zum Sieg</div>
+                <div style="background: var(--gold); color:#000; padding: 5px 15px; border-radius: 100px; display:inline-block; font-weight:800; font-size:0.7rem; text-transform:uppercase; letter-spacing:2px;">Bereit zum Sieg</div>
             </div>
             <div style="margin-top: auto; padding-bottom: 20px;">
                 <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
-                <button class="btn-luxe btn-outline" style="border:none; opacity:0.6" onclick="App.go('setup')">← Kämpfer bearbeiten</button>
+                <button class="btn-luxe btn-outline" style="border:none; opacity:0.6" onclick="App.go('setup')">← Team bearbeiten</button>
             </div>
         </section>
 
         <!-- SCREEN: QUIZ -->
         <section id="s-quiz" class="screen">
-            <div class="btn-exit" onclick="if(confirm('Kampf abbrechen?')) location.reload()">Abbrechen ✕</div>
-            
+            <div class="btn-exit" onclick="if(confirm('Kampf abbrechen?')) location.reload()">✕</div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
                 <span id="quiz-round" class="label-tech">Level 01</span>
-                <span id="quiz-gold" class="badge">💰 0</span>
+                <span id="quiz-gold" style="background: var(--gold); color:#000; padding: 4px 12px; border-radius: 100px; font-weight:800; font-size:0.7rem;">💰 0</span>
             </div>
             <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
-            <div class="glass-panel"><h3 id="quiz-question" style="font-size: 1.4rem; text-align: center; line-height: 1.4; font-weight: 300;">Lade Herausforderung...</h3></div>
-            <div id="quiz-options"><!-- Optionen --></div>
-            <div id="quiz-feedback" style="display: none; margin-top: 5px;">
-                <div class="glass-panel" style="padding: 15px; border-color: rgba(255,255,255,0.1);">
-                    <p id="quiz-expl" style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 15px;"></p>
-                    <button class="btn-luxe btn-gold" style="margin: 0;" onclick="App.nextStep()">Nächste Runde</button>
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.6);"><h3 id="quiz-question" style="font-size: 1.4rem; text-align: center; line-height: 1.4; font-weight: 300;">Lade Herausforderung...</h3></div>
+            <div id="quiz-options" style="margin-top: 15px;"></div>
+            <div id="quiz-feedback" style="display: none; margin-top: 10px;">
+                <div style="background: var(--card); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 20px;">
+                    <p id="quiz-expl" style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 15px; text-align: center;"></p>
+                    <button class="btn-luxe btn-gold" style="margin: 0;" onclick="App.nextStep()">Weiter</button>
                 </div>
             </div>
         </section>
 
         <!-- SCREEN: RESULT -->
         <section id="s-result" class="screen">
-            <h1 class="title-gold" style="font-size: 2.5rem;">ERGEBNIS</h1>
-            <p class="label-tech">Kampf Beendet</p>
+            <h1 class="title-gold" style="font-size: 2.5rem; text-align: center;">ERGEBNIS</h1>
+            <p class="label-tech" style="text-align: center;">Kampf Beendet</p>
             <div id="leaderboard" style="margin-top: 30px; flex: 1;"></div>
             <button class="btn-luxe btn-gold" onclick="location.reload()">Hauptmenü</button>
             <footer>Produziert von Wowa & Amiar Kempf</footer>
@@ -255,10 +280,16 @@
             addPlayerInput(name = "") {
                 const container = document.getElementById('player-container');
                 if(container.children.length >= 4) return;
-                const div = document.createElement('div');
-                div.className = 'player-entry';
-                div.innerHTML = `<span>👤</span><input type="text" class="input-minimal" value="${name || 'Krieger ' + (container.children.length + 1)}">`;
-                container.appendChild(div);
+                
+                const card = document.createElement('div');
+                card.className = 'player-card';
+                card.style.animationDelay = (container.children.length * 0.1) + 's';
+                
+                card.innerHTML = `
+                    <div class="avatar-circle">👤</div>
+                    <input type="text" class="input-minimal" value="${name || 'Krieger ' + (container.children.length + 1)}" placeholder="Name eingeben...">
+                `;
+                container.appendChild(card);
             },
 
             startSolo() {
@@ -302,8 +333,17 @@
                 q.o.forEach((opt, i) => {
                     const btn = document.createElement('div');
                     btn.className = 'option-item';
+                    btn.style.background = 'rgba(255,255,255,0.03)';
+                    btn.style.border = '1px solid rgba(255,255,255,0.1)';
+                    btn.style.padding = '18px 22px';
+                    btn.style.borderRadius = '16px';
+                    btn.style.marginBottom = '10px';
+                    btn.style.cursor = 'pointer';
+                    btn.style.display = 'flex';
+                    btn.style.justifyContent = 'space-between';
+                    btn.style.transition = '0.3s';
                     btn.innerHTML = `<span>${opt}</span><span style="opacity:0.3">◈</span>`;
-                    btn.onclick = () => this.handleAnswer(i);
+                    btn.onclick = () => this.handleAnswer(i, btn);
                     optBox.appendChild(btn);
                 });
                 this.startTimer();
@@ -320,18 +360,20 @@
                 }, 100);
             },
 
-            handleAnswer(idx) {
+            handleAnswer(idx, clickedBtn) {
                 clearInterval(this.timer);
                 const q = this.activeQs[this.qIdx];
-                const opts = document.querySelectorAll('.option-item');
+                const opts = document.querySelectorAll('#quiz-options div');
                 opts.forEach(o => o.style.pointerEvents = 'none');
 
                 if(idx === q.c) {
-                    opts[idx].classList.add('correct');
+                    clickedBtn.classList.add('correct');
                     this.players[this.pIdx].score++;
                     this.players[this.pIdx].gold += Math.round(this.timeLeft * 30);
+                } else if(idx !== -1) {
+                    clickedBtn.classList.add('wrong');
+                    opts[q.c].classList.add('correct');
                 } else {
-                    if(idx !== -1) opts[idx].classList.add('wrong');
                     opts[q.c].classList.add('correct');
                 }
 
@@ -363,8 +405,8 @@
                     else if(p.score >= 3) rank = "Master";
 
                     return `
-                    <div class="glass-panel" style="display:flex; justify-content:space-between; align-items:center; border-color:${i===0?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
-                        <div><span class="badge">${rank}</span> <div style="margin-top:5px; font-weight:700;">${p.name}</div></div>
+                    <div style="background: var(--card); border: 1px solid ${i===0?'var(--gold-solid)':'rgba(255,255,255,0.1)'}; border-radius: 20px; padding: 20px; display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
+                        <div><span style="background: var(--gold); color:#000; padding: 2px 10px; border-radius:100px; font-size:0.6rem; font-weight:800;">${rank}</span> <div style="margin-top:5px; font-weight:700;">${p.name}</div></div>
                         <div style="text-align:right">
                             <div style="color:var(--gold-solid); font-weight:900; font-size:1.4rem;">${p.score}/${QUESTIONS.length}</div>
                             <div style="font-size:0.75rem; opacity:0.6; font-family:'Syncopate';">💰 ${p.gold}</div>
