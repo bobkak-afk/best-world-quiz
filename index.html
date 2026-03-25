@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · BEST WORLD QUIZ</title>
+    <title>MK · PRESTIGE ATLAS QUIZ</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -51,8 +51,27 @@
         .screen.active { display: flex; animation: screenIn 0.5s ease-out forwards; }
 
         @keyframes screenIn {
-            from { opacity: 0; transform: translateY(15px); filter: blur(10px); }
+            from { opacity: 0; transform: translateY(10px); filter: blur(10px); }
             to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* --- ATLAS ROTATION --- */
+        .atlas-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .atlas {
+            font-size: 4.5rem;
+            animation: rotateAtlas 12s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(0, 150, 255, 0.4));
+            user-select: none;
+        }
+
+        @keyframes rotateAtlas {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         /* TYPOGRAPHY */
@@ -64,20 +83,19 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 0.85;
-            margin-bottom: 5px;
             filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
         }
 
         .sub-title {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            color: #fff;
+            font-size: 0.9rem;
+            letter-spacing: 5px;
+            color: #ffffff; /* Heller gemacht */
             text-align: center;
             text-transform: uppercase;
-            margin-bottom: 25px;
-            opacity: 0.9;
+            margin-top: 5px;
             font-weight: 700;
+            text-shadow: 0 0 15px rgba(255,255,255,0.6); /* Glow Effekt */
         }
 
         .label-tech {
@@ -136,6 +154,14 @@
         }
 
         .badge { background: var(--gold); color: #000; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; }
+        
+        /* Quiz Exit Button */
+        .btn-exit {
+            position: absolute; top: 15px; right: 20px;
+            font-family: 'Syncopate', sans-serif; font-size: 0.6rem;
+            color: rgba(255,255,255,0.3); text-decoration: none; border: 1px solid rgba(255,255,255,0.1);
+            padding: 5px 10px; border-radius: 8px; cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -143,9 +169,12 @@
     <div id="app">
         <!-- SCREEN: HOME -->
         <section id="s-home" class="screen active">
-            <div style="margin-top: 60px;">
+            <div style="margin-top: 50px;">
                 <p class="label-tech">Elite Prestige Realm</p>
                 <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
+                <div class="atlas-container">
+                    <div class="atlas">🌍</div>
+                </div>
                 <p class="sub-title">Best World Quiz</p>
             </div>
             <div style="margin-top: auto; padding-bottom: 10px;">
@@ -165,7 +194,7 @@
             <button class="btn-luxe btn-outline" style="padding: 12px; font-size: 0.6rem;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
             <div style="margin-top: auto;">
                 <button class="btn-luxe btn-gold" onclick="App.startBattle()">Kampf Starten</button>
-                <button class="btn-luxe btn-outline" style="border:none; opacity:0.5" onclick="App.go('home')">Zurück</button>
+                <button class="btn-luxe btn-outline" style="border-color:transparent; opacity:0.6" onclick="App.go('home')">← Zurück zum Hauptmenü</button>
             </div>
         </section>
 
@@ -176,14 +205,17 @@
                 <h2 id="vs-name" class="title-gold" style="font-size: 2.5rem;">SPIELER</h2>
                 <div class="badge">Bereit zum Sieg</div>
             </div>
-            <div style="margin-top: auto; padding-bottom: 40px;">
+            <div style="margin-top: auto; padding-bottom: 20px;">
                 <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
+                <button class="btn-luxe btn-outline" style="border:none; opacity:0.5" onclick="App.go('setup')">← Kämpfer bearbeiten</button>
             </div>
         </section>
 
         <!-- SCREEN: QUIZ -->
         <section id="s-quiz" class="screen">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="btn-exit" onclick="if(confirm('Kampf abbrechen?')) location.reload()">Abbrechen ✕</div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
                 <span id="quiz-round" class="label-tech">Level 01</span>
                 <span id="quiz-gold" class="badge">💰 0</span>
             </div>
@@ -203,7 +235,7 @@
             <h1 class="title-gold" style="font-size: 2.2rem;">ERGEBNIS</h1>
             <p class="label-tech">Kampf Beendet</p>
             <div id="leaderboard" style="margin-top: 30px; flex: 1;"></div>
-            <button class="btn-luxe btn-gold" onclick="location.reload()">Neuer Kampf</button>
+            <button class="btn-luxe btn-gold" onclick="location.reload()">Hauptmenü</button>
             <footer>Produziert von Wowa & Amiar Kempf</footer>
         </section>
     </div>
@@ -347,7 +379,7 @@
             }
         };
 
-        // Standard-Start mit 2 Feldern
+        // Standard-Start Felder
         App.addPlayerInput();
         App.addPlayerInput();
     </script>
