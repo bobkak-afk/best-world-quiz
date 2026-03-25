@@ -1,443 +1,533 @@
-Hier ist das finale Meisterstück: die „Apex Genesis Visual Mastery Edition“.
-
-Ich habe die Benutzeroberfläche exakt nach deinen Wünschen angepasst:
-
-Setup-Hinweis: Über der Spielerauswahl steht nun prominent: „Flagge und Namen aussuchen“.
-
-Visual Engine 2.0: Jede Frage und jede einzelne Antwort erhält nun ein individuelles Hintergrundbild aus dem Internet, das exakt zum jeweiligen Text passt (z. B. wenn die Antwort „Paris“ lautet, wird ein Bild von Paris geladen).
-
-Endprodukt-Politur: Das Design ist extrem edel (Obsidian & Deep Gold), die Navigation ist lückenlos und die 3D-Weltkugel zeigt alle Länder beim Drehen.
-
-code
-Html
-
-play_circle
-
-download
-
-content_copy
-
-expand_less
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · APEX LEGACY FINAL</title>
+    <title>MK · GLOBAL GENESIS</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
             --gold-solid: #d4af37;
             --bg: #050505;
-            --card: rgba(12, 12, 15, 0.95);
-            --border: rgba(212, 175, 55, 0.35);
+            --border: rgba(212, 175, 55, 0.4);
             --red: #ff3c00;
+            --shadow: 0 0 20px rgba(0,0,0,0.8);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif;
-            height: 100vh; overflow: hidden; display: flex; justify-content: center;
-            background-image: radial-gradient(circle at 50% -20%, #2a1b00 0%, #050505 80%);
-        }
+```
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    
+    body {
+        background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif;
+        height: 100vh; overflow: hidden; display: flex; justify-content: center;
+        background-image: radial-gradient(circle at 50% -20%, #2a1b00 0%, #050505 80%);
+    }
 
-        #app {
-            width: 100%; max-width: 460px; height: 100vh; display: flex; flex-direction: column;
-            position: relative; z-index: 10; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);
-        }
+    #app {
+        width: 100%; max-width: 460px; height: 100vh; display: flex; flex-direction: column;
+        position: relative; z-index: 10; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);
+    }
 
-        .screen { display: none; flex: 1; padding: 25px; flex-direction: column; overflow-y: auto; position: relative; }
-        .screen.active { display: flex; animation: screenIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+    .screen { display: none; flex: 1; padding: 25px; flex-direction: column; overflow-y: auto; position: relative; }
+    .screen.active { display: flex; animation: screenIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
-        @keyframes screenIn { from { opacity: 0; transform: translateY(15px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+    @keyframes screenIn { from { opacity: 0; transform: translateY(20px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 
-        /* --- TOP BRANDING --- */
-        .branding-top {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.65rem; letter-spacing: 12px; color: var(--gold-solid);
-            text-align: center; margin-top: 10px; text-transform: uppercase; opacity: 0.9;
-        }
+    /* --- HOME SCREEN LAYOUT --- */
+    .branding-top {
+        font-family: 'Syncopate', sans-serif;
+        font-size: 0.6rem;
+        letter-spacing: 10px;
+        color: var(--gold-solid);
+        text-align: center;
+        margin-top: 10px;
+        text-transform: uppercase;
+        opacity: 0.9;
+    }
 
-        /* --- 3D EARTH GLOBE --- */
-        .globe-container {
-            width: 240px; height: 240px; margin: 25px auto;
-            position: relative; border-radius: 50%; background: #000;
-            overflow: hidden; box-shadow: inset -25px -25px 50px #000, inset 10px 10px 30px rgba(255,255,255,0.1), 0 0 50px rgba(0, 150, 255, 0.2);
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .globe-map {
-            width: 200%; height: 100%; position: absolute;
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Blue_Marble_2002.png/1024px-Blue_Marble_2002.png');
-            background-size: cover; animation: rotateEarth 30s linear infinite; opacity: 0.85;
-        }
-        .globe-overlay { position: absolute; inset: 0; background: radial-gradient(circle at 35% 35%, transparent 20%, rgba(0,0,0,0.8) 85%); z-index: 2; }
-        @keyframes rotateEarth { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .home-center {
+        text-align: center;
+        margin-top: 30px;
+    }
 
-        /* --- LOGO --- */
-        .logo-box { text-align: center; margin-top: 30px; }
-        .title-gold { font-family: 'Cinzel Decorative', serif; font-size: 3.5rem; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 0.85; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5)); letter-spacing: -2px; }
-        .sub-title-low { font-family: 'Syncopate', sans-serif; font-size: 1.6rem; letter-spacing: 4px; color: #fff; text-align: center; text-transform: uppercase; margin-top: 50px; margin-bottom: 40px; font-weight: 700; text-shadow: 0 0 25px rgba(255,255,255,0.8); }
+    .title-gold {
+        font-family: 'Cinzel Decorative', serif;
+        font-size: 3.5rem;
+        background: var(--gold);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 0.85;
+        filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5));
+        letter-spacing: -2px;
+    }
 
-        /* --- BUTTONS --- */
-        .btn-luxe { appearance: none; border: none; padding: 20px; border-radius: 16px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-bottom: 15px; }
-        .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
-        .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
-        .btn-back { background: transparent; color: rgba(255,255,255,0.5); border: none; font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; padding: 10px; text-align: center; font-weight: 700; width: 100%; }
+    .atlas-box {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
 
-        /* --- SETUP CARDS --- */
-        .section-label { font-family: 'Syncopate', sans-serif; font-size: 0.7rem; letter-spacing: 3px; color: var(--gold-solid); text-align: center; margin: 20px 0 10px; text-transform: uppercase; font-weight: 700; }
-        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; animation: slideIn 0.4s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
-        .flag-plus { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; color: var(--gold-solid); }
-        .input-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 15px; outline: none; font-weight: 600; }
-        .btn-trash { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; padding: 5px; opacity: 0.6; }
+    .atlas {
+        font-size: 8.5rem;
+        animation: rotateAtlas 20s linear infinite;
+        filter: drop-shadow(0 0 40px rgba(0, 150, 255, 0.5));
+        user-select: none;
+    }
 
-        .lang-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 25px; }
-        .lang-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 12px 2px; border-radius: 12px; font-size: 0.55rem; font-family: 'Syncopate'; cursor: pointer; text-align: center; }
-        .lang-chip.active { background: var(--gold); color: #000; font-weight: 900; }
+    @keyframes rotateAtlas { 
+        0% { transform: rotate(0deg) scale(1); }
+        25% { transform: rotate(90deg) scale(0.95); }
+        50% { transform: rotate(180deg) scale(1); }
+        75% { transform: rotate(270deg) scale(0.95); }
+        100% { transform: rotate(360deg) scale(1); }
+    }
 
-        /* --- VISUAL QUIZ ENGINE --- */
-        .q-visual-frame { height: 230px; border-radius: 24px; border: 1px solid var(--border); background-size: cover; background-position: center; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 10px 40px #000; }
-        .q-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.9)); z-index: 1; }
-        .q-text { position: relative; z-index: 10; text-align: center; font-size: 1.4rem; padding: 20px; font-weight: 600; text-shadow: 0 3px 10px #000; }
+    .sub-title-low {
+        font-family: 'Syncopate', sans-serif;
+        font-size: 1.7rem;
+        letter-spacing: 4px;
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+        margin-top: 60px;
+        margin-bottom: 40px;
+        font-weight: 700;
+        text-shadow: 0 0 25px rgba(255,255,255,0.8);
+    }
 
-        .opt-visual { height: 65px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15); background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .opt-visual:hover { transform: scale(1.03); border-color: var(--gold-solid); }
-        .opt-img-shade { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 1; transition: 0.3s; }
-        .opt-visual:hover .opt-img-shade { background: rgba(0,0,0,0.4); }
-        .opt-label { position: relative; z-index: 10; padding-left: 20px; font-weight: 700; font-size: 1.1rem; text-shadow: 0 2px 5px #000; }
-        
-        .opt-visual.correct .opt-img-shade { background: rgba(27, 77, 46, 0.85) !important; }
-        .opt-visual.wrong .opt-img-shade { background: rgba(77, 27, 27, 0.85) !important; }
+    /* --- UI COMPONENTS --- */
+    .btn-luxe { appearance: none; border: none; padding: 20px; border-radius: 16px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-bottom: 15px; }
+    .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
+    .btn-gold:active { transform: scale(0.96); }
+    .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
+    .btn-back { background: transparent; color: rgba(255,255,255,0.5); border: none; font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; padding: 10px; text-align: center; font-weight: 700; }
 
-        /* --- RANKING & ACHIEVEMENTS --- */
-        .rank-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; margin-right: 8px; }
-        .rank-master { background: #00d4ff; color: #000; box-shadow: 0 0 10px #00d4ff; }
-        .rank-god { background: #ff3c00; color: #fff; box-shadow: 0 0 15px #ff3c00; }
+    /* --- VISUAL QUIZ ENGINE --- */
+    .q-visual-frame {
+        height: 240px; border-radius: 24px; border: 1px solid var(--border);
+        background-size: cover; background-position: center; position: relative;
+        overflow: hidden; display: flex; align-items: center; justify-content: center;
+        margin-bottom: 20px; box-shadow: var(--shadow);
+    }
+    .q-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)); z-index: 1; }
+    .q-text { position: relative; z-index: 10; text-align: center; font-size: 1.4rem; padding: 20px; font-weight: 600; text-shadow: 0 2px 10px #000; }
 
-        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(15px); }
-        .modal-box { background: #111; border: 1px solid var(--gold-solid); padding: 30px; border-radius: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+    .opt-visual {
+        height: 65px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15);
+        background-size: cover; background-position: center; position: relative;
+        overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center;
+        transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .opt-visual:hover { transform: scale(1.03); border-color: var(--gold-solid); }
+    .opt-img-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 1; transition: 0.3s; }
+    .opt-visual:hover .opt-img-overlay { background: rgba(0,0,0,0.45); }
+    .opt-label { position: relative; z-index: 10; padding-left: 20px; font-weight: 700; font-size: 1.1rem; text-shadow: 0 2px 5px #000; }
 
-        footer { text-align: center; padding: 25px; font-size: 0.75rem; color: #ffffff; font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; }
-        .timer-rail { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 15px 0 25px; overflow: hidden; }
-        .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
-        .spinner { width: 60px; height: 60px; border: 4px solid rgba(212, 175, 55, 0.1); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s infinite linear; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
+    .opt-visual.correct .opt-img-overlay { background: rgba(27, 77, 46, 0.8) !important; }
+    .opt-visual.correct { border-color: #2ecc71 !important; }
+    .opt-visual.wrong .opt-img-overlay { background: rgba(77, 27, 27, 0.8) !important; }
+    .opt-visual.wrong { border-color: #e74c3c !important; }
+
+    /* --- SETUP --- */
+    .section-label {
+        font-family: 'Syncopate', sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        color: var(--gold-solid);
+        text-align: center;
+        margin: 20px 0 15px;
+        text-transform: uppercase;
+        font-weight: 700;
+        opacity: 0.95;
+    }
+
+    .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; animation: slideIn 0.4s ease; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
+    .flag-plus { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; color: var(--gold-solid); }
+    .input-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 15px; outline: none; font-weight: 600; }
+    .btn-trash { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; padding: 5px; opacity: 0.6; }
+
+    .lang-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 25px; }
+    .lang-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 12px 2px; border-radius: 12px; font-size: 0.55rem; font-family: 'Syncopate'; cursor: pointer; text-align: center; }
+    .lang-chip.active { background: var(--gold); color: #000; font-weight: 900; }
+
+    /* --- ACHIEVEMENTS --- */
+    .rank-pill { padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; margin-right: 8px; }
+    .rank-master { background: #00d4ff; color: #000; box-shadow: 0 0 10px #00d4ff; }
+    .rank-god { background: #ff3c00; color: #fff; box-shadow: 0 0 15px #ff3c00; }
+
+    /* --- MODAL --- */
+    #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(15px); }
+    .modal-box { background: #111; border: 1px solid var(--gold-solid); padding: 30px; border-radius: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+
+    footer { text-align: center; padding: 25px; font-size: 0.75rem; color: #ffffff; font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; }
+    .badge { background: var(--gold); color: #000; padding: 4px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; }
+    
+    .timer-rail { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 15px 0 25px; overflow: hidden; }
+    .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
+
+    .spinner { width: 50px; height: 50px; border: 4px solid rgba(212, 175, 55, 0.1); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s infinite linear; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+```
+
 </head>
 <body>
 
-    <!-- MODAL -->
-    <div id="modal" onclick="this.style.display='none'">
-        <div class="modal-box" onclick="event.stopPropagation()">
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+```
+<!-- MODAL -->
+<div id="modal" onclick="this.style.display='none'">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+    </div>
+</div>
+
+<div id="app">
+    <!-- SCREEN: HOME -->
+    <section id="s-home" class="screen active">
+        <p class="branding-top">Elite Prestige Game</p>
+        
+        <div class="home-center">
+            <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
+            <div class="atlas-box"><div class="atlas">🌍</div></div>
         </div>
-    </div>
 
-    <div id="app">
-        <!-- SCREEN: HOME -->
-        <section id="s-home" class="screen active">
-            <p class="branding-top">Elite Prestige Game</p>
-            <div class="logo-box"><h1 class="title-gold">MORTAL<br>KOMBAT</h1></div>
-            <div class="globe-container">
-                <div class="globe-map"></div>
-                <div class="globe-overlay"></div>
-            </div>
-            <p class="sub-title-low">Best World Quiz</p>
-            <div style="margin-top: auto;">
-                <button class="btn-luxe btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
-                <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge ⚔️</button>
-                <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
-            </div>
-            <footer>Produziert von Wowa & Amiar Kempf</footer>
-        </section>
+        <p class="sub-title-low">Best World Quiz</p>
 
-        <!-- SCREEN: SETUP -->
-        <section id="s-setup" class="screen">
-            <h2 class="title-gold" style="font-size: 2.2rem; text-align:center;">Krieger</h2>
-            <p class="section-label">Game Sprache</p>
-            <div class="lang-grid">
-                <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
-                <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
-                <div class="lang-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
-                <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
-                <div class="lang-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
-            </div>
+        <div style="margin-top: auto;">
+            <button class="btn-luxe btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
+            <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge & Ränge ⚔️</button>
+            <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
+        </div>
+        <footer>Produziert von Wowa & Amiar Kempf</footer>
+    </section>
 
-            <p class="section-label">Flagge und Namen aussuchen</p>
-            <div id="player-list"></div>
-            <button class="btn-luxe btn-outline" style="font-size:0.6rem; padding: 12px;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
+    <!-- SCREEN: SETUP -->
+    <section id="s-setup" class="screen">
+        <h2 class="title-gold" style="font-size: 2.2rem;">Krieger</h2>
+        
+        <p class="section-label">Game Sprache</p>
+        <div class="lang-grid">
+            <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
+            <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
+            <div class="lang-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
+            <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
+            <div class="lang-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
+        </div>
 
-            <div style="margin-top: auto;">
-                <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">FIGHT!</button>
-                <button class="btn-back" onclick="App.go('home')">← Zurück</button>
-            </div>
-        </section>
+        <p class="section-label">Flagge und Namen aussuchen</p>
+        <div id="player-list"></div>
+        <button class="btn-luxe btn-outline" style="font-size:0.6rem; padding: 12px;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
 
-        <!-- SCREEN: LOADING -->
-        <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
-            <div class="spinner"></div>
-            <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:25px;">Synchronisiere Visuals...</p>
-        </section>
+        <div style="margin-top: auto;">
+            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Generiere Kampf</button>
+            <button class="btn-back" onclick="App.go('home')">← Hauptmenü</button>
+        </div>
+    </section>
 
-        <!-- SCREEN: VS -->
-        <section id="s-vs" class="screen">
-            <div style="text-align: center; margin-top: 60px;">
-                <div id="vs-flag" style="font-size: 8rem; margin-bottom: 15px; filter: drop-shadow(0 0 30px #00d4ff);">🐲</div>
-                <h2 id="vs-name" class="title-gold" style="font-size: 3rem;">PLAYER</h2>
-                <div id="vs-info" style="margin-top:10px;"></div>
-            </div>
-            <div style="margin-top: auto; padding-bottom: 40px;">
-                <button class="btn-luxe btn-gold" onclick="App.startQuiz()">START</button>
-                <button class="btn-back" onclick="App.go('setup')">← Team ändern</button>
-            </div>
-        </section>
+    <!-- SCREEN: LOADING -->
+    <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
+        <div class="spinner"></div>
+        <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:25px;">Lade Game-Visuals...</p>
+    </section>
 
-        <!-- SCREEN: QUIZ -->
-        <section id="s-quiz" class="screen">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1/10</span>
-                <span id="q-gold" style="background:var(--gold); color:#000; padding:4px 12px; border-radius:100px; font-size:0.7rem; font-weight:800;">💰 0</span>
+    <!-- SCREEN: VS -->
+    <section id="s-vs" class="screen">
+        <div style="text-align: center; margin-top: 60px;">
+            <div id="vs-flag" style="font-size: 7.5rem; margin-bottom: 15px;">🐲</div>
+            <h2 id="vs-name" class="title-gold" style="font-size: 2.8rem;">PLAYER</h2>
+            <div id="vs-info" style="margin-top:10px;"></div>
+        </div>
+        <div style="margin-top: auto; padding-bottom: 40px;">
+            <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
+            <button class="btn-back" onclick="App.go('setup')">← Team ändern</button>
+        </div>
+    </section>
+
+    <!-- SCREEN: QUIZ -->
+    <section id="s-quiz" class="screen">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1/10</span>
+            <span id="q-gold" class="badge">💰 0</span>
+        </div>
+        <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
+        
+        <div id="q-frame" class="q-visual-frame">
+            <div class="q-overlay"></div>
+            <h3 id="q-text" class="q-text">Lade Prüfung...</h3>
+        </div>
+
+        <div id="q-options"></div>
+
+        <div id="q-feedback" style="display:none; margin-top:10px;">
+            <div style="background: rgba(10,10,10,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center;">
+                <p id="q-expl" style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 15px;"></p>
+                <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
             </div>
-            <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
+        </div>
+        <button class="btn-back" style="margin-top:15px;" onclick="if(confirm('Abbrechen?')) location.reload()">✕ Beenden</button>
+    </section>
+
+    <!-- SCREEN: RESULT -->
+    <section id="s-result" class="screen">
+        <h1 class="title-gold" style="font-size: 2.5rem;">KAMPF ENDE</h1>
+        <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
+        <div style="margin-top: auto;">
+            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Nochmal Kämpfen</button>
+            <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
+        </div>
+        <footer>Produziert von Wowa & Amiar Kempf</footer>
+    </section>
+
+    <!-- SCREEN: ACHIEVEMENTS -->
+    <section id="s-achievements" class="screen">
+        <h1 class="title-gold" style="font-size: 2rem;">ERFOLGE</h1>
+        <div id="ach-list" style="margin-top:30px; flex:1;"></div>
+        <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+    </section>
+
+    <!-- SCREEN: LEADERBOARD -->
+    <section id="s-leaderboard" class="screen">
+        <h1 class="title-gold" style="font-size: 2rem;">BESTENLISTE</h1>
+        <div id="lb-list" style="margin-top:30px; flex:1;"></div>
+        <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+    </section>
+</div>
+
+<script>
+    /**
+     * MK PRESTIGE GLOBAL ENGINE v8 - INFINITY VISUAL
+     */
+    const DB = {
+        de: [
+            { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "de3", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "de4", q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "China"], c: 0, e: "Sie stehen nahe Kairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "de5", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifik deckt 35% der Erde.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "de6", q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Er liegt im Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "de7", q: "Währung der USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist Weltleitwährung.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "de8", q: "Kontinent Australien?", o: ["Kleinster", "Größter", "Kältester", "Heißester"], c: 0, e: "Australien ist der kleinste Kontinent.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "de9", q: "Eiffelturm Standort?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Wahrzeichen von Frankreich.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
+            { id: "de10", q: "Farbe der UNO Flagge?", o: ["Blau-Weiß", "Rot-Gelb", "Schwarz-Rot", "Grün"], c: 0, e: "Blau und Weiß für den Frieden.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
+        ],
+        ru: [{ id: "ru1", q: "Столица России?", o: ["Москва", "Питер", "Киев", "Минск"], c: 0, e: "Москва — сердце страны.", kw: "moscow kremlin", imgKw: ["moscow red square", "saint petersburg", "kiev ukraine", "minsk belarus"] }],
+        en: [{ id: "en1", q: "Largest country?", o: ["Russia", "USA", "China", "Canada"], c: 0, e: "Russia is the largest.", kw: "russia landscape", imgKw: ["russia landscape", "usa landmarks", "china landscape", "canada nature"] }],
+        ig: [{ id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "abuja nigeria", imgKw: ["abuja city", "lagos city", "enugu city", "kano city"] }],
+        tr: [{ id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "bursa mosque"] }]
+    };
+
+    const App = {
+        profiles: JSON.parse(localStorage.getItem('mk_supreme_v9')) || {},
+        players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, currentLang: 'de', activeFlagIdx: null, activeQs: [],
+
+        save() { localStorage.setItem('mk_supreme_v9', JSON.stringify(this.profiles)); },
+
+        getProfile(name) {
+            const k = name.trim().toLowerCase();
+            if(!this.profiles[k]) this.profiles[k] = { name: name.trim(), xp: 0, gold: 0, level: 1, flag: '🐲', usedIds: [] };
+            return this.profiles[k];
+        },
+
+        getRank(lvl) {
+            if(lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
+            if(lvl >= 10) return { class: 'rank-master', label: 'Master' };
+            return { class: 'rank-warrior', label: 'Warrior' };
+        },
+
+        go(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('s-' + id).classList.add('active');
+            if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
+            if(id === 'leaderboard') this.renderLeaderboard();
+            if(id === 'achievements') this.renderAchievements();
+        },
+
+        setLang(l) {
+            this.currentLang = l;
+            document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
+            document.getElementById('ln-' + l).classList.add('active');
+        },
+
+        addPlayerInput() {
+            const cont = document.getElementById('player-list');
+            const id = Date.now() + Math.random();
+            const d = document.createElement('div');
+            d.className = 'player-card'; d.id = 'pc-' + id;
+            d.innerHTML = `<div class="flag-plus" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Name..."><button class="btn-trash" onclick="document.getElementById('pc-${id}').remove()">🗑️</button>`;
+            cont.appendChild(d);
+        },
+
+        openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
+        confirmFlag(f) { 
+            const card = document.getElementById('pc-' + this.activeFlagIdx);
+            const btn = card.querySelector('.flag-plus');
+            btn.innerText = f; btn.style.borderStyle = 'solid';
+            document.getElementById('modal').style.display = 'none';
+        },
+
+        async prepareBattle() {
+            const cards = document.querySelectorAll('.player-card');
+            this.players = Array.from(cards).map(c => {
+                const name = c.querySelector('input').value || "Warrior";
+                const flag = c.querySelector('.flag-plus').innerText === '+' ? '🐲' : c.querySelector('.flag-plus').innerText;
+                const p = this.getProfile(name); p.flag = flag;
+                return { ...p, sessionScore: 0, sessionGold: 0 };
+            });
+            if(this.players.length === 0) return;
+            this.pIdx = 0; this.go('loading');
             
-            <div id="q-frame" class="q-visual-frame"><div class="q-overlay"></div><h3 id="q-text" class="q-text">Lade Prüfung...</h3></div>
-            <div id="q-options"></div>
+            // Fetch Questions
+            const p = this.getProfile(this.players[0].name);
+            const bank = DB[this.currentLang] || DB.de;
+            let available = bank.filter(q => !p.usedIds.includes(q.id));
+            if(available.length < 5) { p.usedIds = []; available = bank; }
+            this.activeQs = available.sort(() => 0.5 - Math.random()).slice(0, 10);
 
-            <div id="q-feedback" style="display:none; margin-top:10px;">
-                <div style="background: rgba(0,0,0,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 25px; text-align: center;">
-                    <p id="q-expl" style="font-size: 1rem; opacity: 0.85; margin-bottom: 15px; line-height:1.4;"></p>
-                    <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
-                </div>
-            </div>
-        </section>
+            setTimeout(() => this.showVS(), 1500);
+        },
 
-        <!-- RESULT SCREEN -->
-        <section id="s-result" class="screen">
-            <h1 class="title-gold" style="font-size: 2.5rem; text-align:center;">KAMPF ENDE</h1>
-            <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
-            <div style="margin-top: auto;">
-                <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Nochmal</button>
-                <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
-            </div>
-        </section>
+        showVS() {
+            const p = this.players[this.pIdx];
+            const r = this.getRank(p.level);
+            document.getElementById('vs-flag').innerText = p.flag;
+            document.getElementById('vs-name').innerText = p.name.toUpperCase();
+            document.getElementById('vs-info').innerHTML = `<span class="rank-pill ${r.class}">${r.label}</span> <span style="font-size:0.85rem; color:var(--gold-solid);">GOLD: ${p.gold}</span>`;
+            this.go('vs');
+        },
 
-        <!-- EXTRA SCREENS -->
-        <section id="s-leaderboard" class="screen">
-            <h1 class="title-gold" style="font-size: 2rem; text-align:center;">Bestenliste</h1>
-            <div id="lb-list" style="margin-top:30px; flex:1;"></div>
-            <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
-        </section>
+        startQuiz() { this.qIdx = 0; this.renderQuestion(); this.go('quiz'); },
 
-        <section id="s-achievements" class="screen">
-            <h1 class="title-gold" style="font-size: 2rem; text-align:center;">Erfolge</h1>
-            <div id="ach-list" style="margin-top:30px; flex:1;"></div>
-            <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
-        </section>
-    </div>
+        renderQuestion() {
+            const q = this.activeQs[this.qIdx];
+            const p = this.players[this.pIdx];
+            document.getElementById('q-round').innerText = `Round ${this.qIdx + 1}/10`;
+            document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
+            document.getElementById('q-text').innerText = q.q;
 
-    <script>
-        /**
-         * MK PRESTIGE GAME ENGINE v12 - FINAL LEGACY
-         */
-        const DB = {
-            de: [
-                { id: "de1", q: "Was ist das flächenmäßig größte Land?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst über 17 Mio km².", kw: "russia nature" },
-                { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo city" },
-                { id: "de3", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader Ägyptens.", kw: "nile river" },
-                { id: "de4", q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "Sudan"], c: 0, e: "Sie befinden sich nahe Kairo.", kw: "pyramids" },
-                { id: "de5", q: "Größter Ozean der Welt?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifik deckt 35% der Erde.", kw: "ocean" },
-                { id: "de6", q: "Höchster Berg der Erde?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Er ist 8.848 Meter hoch.", kw: "mount everest" },
-                { id: "de7", q: "Wie viele Bundesländer hat Deutschland?", o: ["16", "12", "14", "18"], c: 0, e: "Deutschland besteht aus 16 Ländern.", kw: "germany city" },
-                { id: "de8", q: "Währung in den USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist Weltreservewährung.", kw: "american money" },
-                { id: "de9", q: "Wo steht der Eiffelturm?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Wahrzeichen von Frankreich.", kw: "paris eiffel" },
-                { id: "de10", q: "Was ist das kleinste Land der Welt?", o: ["Vatikanstadt", "Monaco", "Malta", "Lichtenstein"], c: 0, e: "Der Vatikan ist ein eigener Stadtstaat.", kw: "vatican" }
-            ],
-            ru: [{ id: "ru1", q: "Столица России?", o: ["Москва", "Питер", "Киев", "Минск"], c: 0, e: "Москва — сердце страны.", kw: "moscow" }],
-            en: [{ id: "en1", q: "Largest country?", o: ["Russia", "USA", "China", "Canada"], c: 0, e: "Russia is the largest.", kw: "russia" }],
-            ig: [{ id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "nigeria city" }],
-            tr: [{ id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara" }]
-        };
+            // Hintergrundbild für Frage aus dem Internet
+            const timestamp = Date.now();
+            document.getElementById('q-frame').style.backgroundImage = `url('https://source.unsplash.com/800x450/?${q.kw}&t=${timestamp}')`;
+            
+            const box = document.getElementById('q-options'); 
+            box.innerHTML = '';
+            document.getElementById('q-feedback').style.display = 'none';
+            box.style.display = 'block';
 
-        const App = {
-            profiles: JSON.parse(localStorage.getItem('mk_legacy_v12')) || {},
-            players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, currentLang: 'de', activeFlagIdx: null, activeQs: [],
+            // Antworten mit passenden Hintergrundbildern aus dem Internet
+            q.o.forEach((opt, i) => {
+                const b = document.createElement('div');
+                b.className = 'opt-visual';
+                const imgKeyword = q.imgKw && q.imgKw[i] ? q.imgKw[i] : `${opt},landscape`;
+                b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?${imgKeyword}&t=${timestamp + i}')`;
+                b.innerHTML = `<div class="opt-img-overlay"></div><div class="opt-label">${opt}</div>`;
+                b.onclick = () => this.handleAnswer(i, b);
+                box.appendChild(b);
+            });
+            this.startTimer();
+        },
 
-            save() { localStorage.setItem('mk_legacy_v12', JSON.stringify(this.profiles)); },
+        startTimer() {
+            clearInterval(this.timer); this.timeLeft = 12;
+            const bar = document.getElementById('timer-bar');
+            this.timer = setInterval(() => {
+                this.timeLeft -= 0.1;
+                bar.style.width = (this.timeLeft / 12 * 100) + "%";
+                if(this.timeLeft <= 0) this.handleAnswer(-1);
+            }, 100);
+        },
 
-            getProfile(name) {
-                const k = name.trim().toLowerCase();
-                if(!this.profiles[k]) this.profiles[k] = { name: name.trim(), xp: 0, gold: 0, level: 1, flag: '🐲', usedIds: [] };
-                return this.profiles[k];
-            },
+        handleAnswer(idx, b) {
+            clearInterval(this.timer);
+            const q = this.activeQs[this.qIdx];
+            const p = this.players[this.pIdx];
+            const prof = this.getProfile(p.name);
+            const opts = document.querySelectorAll('.opt-visual');
+            opts.forEach(o => o.style.pointerEvents = 'none');
 
-            go(id) {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById('s-' + id).classList.add('active');
-                if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
-                if(id === 'leaderboard') this.renderLeaderboard();
-                if(id === 'achievements') this.renderAchievements();
-            },
+            prof.usedIds.push(q.id);
 
-            setLang(l) {
-                this.currentLang = l;
-                document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
-                document.getElementById('ln-' + l).classList.add('active');
-            },
-
-            addPlayerInput() {
-                const cont = document.getElementById('player-list');
-                const id = Date.now() + Math.random();
-                const d = document.createElement('div');
-                d.className = 'player-card'; d.id = 'pc-' + id;
-                d.innerHTML = `<div class="flag-plus" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Name..."><button class="btn-trash" onclick="document.getElementById('pc-${id}').remove()">🗑️</button>`;
-                cont.appendChild(d);
-            },
-
-            openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
-            confirmFlag(f) { 
-                const card = document.getElementById('pc-' + this.activeFlagIdx);
-                const btn = card.querySelector('.flag-plus');
-                btn.innerText = f; btn.style.borderStyle = 'solid';
-                document.getElementById('modal').style.display = 'none';
-            },
-
-            async prepareBattle() {
-                const cards = document.querySelectorAll('.player-card');
-                this.players = Array.from(cards).map(c => {
-                    const name = c.querySelector('input').value || "Warrior";
-                    const flag = c.querySelector('.flag-plus').innerText === '+' ? '🐲' : c.querySelector('.flag-plus').innerText;
-                    const p = this.getProfile(name); p.flag = flag;
-                    return { ...p, sessionScore: 0, sessionGold: 0 };
-                });
-                if(this.players.length === 0) return;
-                this.pIdx = 0; this.go('loading');
-                
-                const bank = DB[this.currentLang] || DB.de;
-                this.activeQs = bank.sort(() => 0.5 - Math.random()).slice(0, 10);
-                setTimeout(() => this.showVS(), 1800);
-            },
-
-            showVS() {
-                const p = this.players[this.pIdx];
-                document.getElementById('vs-flag').innerText = p.flag;
-                document.getElementById('vs-name').innerText = p.name.toUpperCase();
-                document.getElementById('vs-info').innerHTML = `<span style="color:var(--gold-solid); font-weight:700;">LEVEL ${p.level}</span>`;
-                this.go('vs');
-            },
-
-            startQuiz() { this.qIdx = 0; this.renderQuestion(); this.go('quiz'); },
-
-            renderQuestion() {
-                const q = this.activeQs[this.qIdx];
-                const p = this.players[this.pIdx];
-                const sig = Math.random();
-                
-                document.getElementById('q-round').innerText = `Round ${this.qIdx + 1}/10`;
-                document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
-                document.getElementById('q-text').innerText = q.q;
-
-                // Question Image
-                document.getElementById('q-frame').style.backgroundImage = `url('https://source.unsplash.com/800x450/?${q.kw},land&sig=${sig}')`;
-                
-                const box = document.getElementById('q-options'); box.innerHTML = '';
-                document.getElementById('q-feedback').style.display = 'none';
-                box.style.display = 'block';
-
-                // Answer Images
-                q.o.forEach((opt, i) => {
-                    const b = document.createElement('div');
-                    b.className = 'opt-visual';
-                    b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?${opt},landscape&sig=${sig+i}')`;
-                    b.innerHTML = `<div class="opt-img-shade"></div><div class="opt-label">${opt}</div>`;
-                    b.onclick = () => this.handleAnswer(i, b);
-                    box.appendChild(b);
-                });
-                this.startTimer();
-            },
-
-            startTimer() {
-                clearInterval(this.timer); this.timeLeft = 12;
-                const bar = document.getElementById('timer-bar');
-                this.timer = setInterval(() => {
-                    this.timeLeft -= 0.1;
-                    bar.style.width = (this.timeLeft / 12 * 100) + "%";
-                    if(this.timeLeft <= 0) this.handleAnswer(-1);
-                }, 100);
-            },
-
-            handleAnswer(idx, b) {
-                clearInterval(this.timer);
-                const q = this.activeQs[this.qIdx];
-                const p = this.players[this.pIdx];
-                const prof = this.getProfile(p.name);
-                const opts = document.querySelectorAll('.opt-visual');
-                opts.forEach(o => o.style.pointerEvents = 'none');
-
-                if(idx === q.c) {
-                    if(b) b.classList.add('correct');
-                    p.sessionScore++;
-                    const gain = Math.round(this.timeLeft * 30);
-                    p.sessionGold += gain; prof.gold += gain; prof.xp += 100;
-                    prof.level = Math.floor(Math.sqrt(prof.xp / 350)) + 1;
-                } else {
-                    if(idx !== -1 && b) b.classList.add('wrong');
-                    opts[q.c].classList.add('correct');
-                }
-                this.save();
-                document.getElementById('q-expl').innerText = q.e;
-                document.getElementById('q-feedback').style.display = 'block';
-                document.getElementById('q-options').style.display = 'none';
-            },
-
-            nextStep() {
-                this.qIdx++;
-                if(this.qIdx < 10 && this.qIdx < this.activeQs.length) this.renderQuestion();
-                else { this.pIdx++; if(this.pIdx < this.players.length) this.prepareBattle(); else this.showResults(); }
-            },
-
-            renderLeaderboard() {
-                const list = document.getElementById('lb-list');
-                const sorted = Object.values(this.profiles).sort((a,b) => b.xp - a.xp);
-                list.innerHTML = sorted.map((p, i) => `
-                    <div style="background:var(--card); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px;">
-                        <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b></div>
-                        <div style="text-align:right"><span style="color:var(--gold-solid); font-weight:700;">LVL ${p.level}</span><br><span style="opacity:0.6; font-size:0.8rem;">${p.gold} 💰</span></div>
-                    </div>`).join('');
-            },
-
-            renderAchievements() {
-                const list = document.getElementById('ach-list');
-                const sorted = Object.values(this.profiles).sort((a,b) => b.level - a.level);
-                list.innerHTML = sorted.map(p => `
-                    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;">
-                        <div style="font-size:2rem">${p.flag}</div>
-                        <div style="flex:1"><b>${p.name}</b><br><span class="rank-badge rank-master">REALM CHAMPION</span></div>
-                        <div style="text-align:right; font-weight:700; color:var(--gold-solid)">Level ${p.level}</div>
-                    </div>`).join('');
-            },
-
-            showResults() {
-                this.go('result');
-                const list = document.getElementById('res-list');
-                list.innerHTML = this.players.map(p => `
-                    <div style="background:var(--card); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;">
-                        <div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div>
-                        <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div>
-                    </div>`).join('');
+            if(idx === q.c) {
+                if(b) b.classList.add('correct');
+                p.sessionScore++;
+                const gain = Math.round(this.timeLeft * 30);
+                p.sessionGold += gain; prof.gold += gain; prof.xp += 100;
+                prof.level = Math.floor(Math.sqrt(prof.xp / 350)) + 1;
+            } else {
+                if(idx !== -1 && b) b.classList.add('wrong');
+                opts[q.c].classList.add('correct');
             }
-        };
+            this.save();
+            document.getElementById('q-expl').innerText = q.e;
+            document.getElementById('q-feedback').style.display = 'block';
+            document.getElementById('q-options').style.display = 'none';
+        },
 
-        App.go('home');
-    </script>
+        nextStep() {
+            this.qIdx++;
+            if(this.qIdx < 10 && this.qIdx < this.activeQs.length) this.renderQuestion();
+            else { this.pIdx++; if(this.pIdx < this.players.length) this.prepareBattle(); else this.showResults(); }
+        },
+
+        renderLeaderboard() {
+            const list = document.getElementById('lb-list');
+            const sorted = Object.values(this.profiles).sort((a,b) => b.xp - a.xp);
+            list.innerHTML = sorted.map((p, i) => `
+                <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; border-color:${i<3?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
+                    <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b></div>
+                    <div style="text-align:right">LVL ${p.level}<br><span style="color:var(--gold-solid);">${p.gold} 💰</span></div>
+                </div>
+            `).join('');
+        },
+
+        renderAchievements() {
+            const list = document.getElementById('ach-list');
+            const sorted = Object.values(this.profiles).sort((a,b) => b.level - a.level);
+            list.innerHTML = sorted.map(p => {
+                const r = this.getRank(p.level);
+                return `<div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;">
+                    <div style="font-size:2rem">${p.flag}</div>
+                    <div style="flex:1"><b>${p.name}</b><br><span class="rank-pill ${r.class}">${r.label}</span></div>
+                    <div style="text-align:right; font-weight:700; color:var(--gold-solid)">Lvl ${p.level}</div>
+                </div>`;
+            }).join('');
+        },
+
+        showResults() {
+            this.go('result');
+            const list = document.getElementById('res-list');
+            list.innerHTML = this.players.map(p => `
+                <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;">
+                    <div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div>
+                    <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div>
+                </div>`).join('');
+        }
+    };
+
+    App.go('home');
+
+    // Cycle through different country emojis for the globe
+    const countryEmojis = ['🌍', '🇩🇪', '🇷🇺', '🇬🇧', '🇺🇸', '🇫🇷', '🇯🇵', '🇨🇳', '🇮🇳', '🇧🇷', '🇮🇹', '🇪🇸', '🇨🇦', '🇦🇺', '🇲🇽', '🇰🇷', '🇹🇷', '🇳🇬', '🇪🇬', '🇿🇦'];
+    let currentEmojiIndex = 0;
+    
+    setInterval(() => {
+        const atlasElement = document.querySelector('.atlas');
+        if (atlasElement && document.getElementById('s-home').classList.contains('active')) {
+            currentEmojiIndex = (currentEmojiIndex + 1) % countryEmojis.length;
+            atlasElement.innerText = countryEmojis[currentEmojiIndex];
+        }
+    }, 2000); // Change every 2 seconds
+</script>
+```
+
 </body>
 </html>
