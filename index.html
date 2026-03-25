@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · GLOBAL GAME GENERATION</title>
+    <title>MK · SUPREME ATLAS QUIZ</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -24,105 +24,140 @@
         }
 
         #app {
-            width: 100%; max-width: 460px; height: 100vh; display: flex; flex-direction: column;
+            width: 100%; max-width: 450px; height: 100vh; display: flex; flex-direction: column;
             position: relative; z-index: 10; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);
         }
 
-        .screen { display: none; flex: 1; padding: 25px; flex-direction: column; overflow-y: auto; position: relative; }
+        .screen { display: none; flex: 1; padding: 25px; flex-direction: column; overflow-y: auto; }
         .screen.active { display: flex; animation: screenIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
         @keyframes screenIn { from { opacity: 0; transform: translateY(20px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 
         /* --- HOME SCREEN LAYOUT --- */
-        .branding-top {
+        .home-top-label {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.65rem;
-            letter-spacing: 10px;
+            font-size: 0.6rem;
+            letter-spacing: 8px;
             color: var(--gold-solid);
             text-align: center;
-            margin-top: 10px;
+            margin-top: 10px; /* Höher gesetzt */
+            opacity: 0.8;
             text-transform: uppercase;
-            opacity: 0.9;
         }
 
-        .home-center { text-align: center; margin-top: 30px; }
-        .title-gold { font-family: 'Cinzel Decorative', serif; font-size: 3.5rem; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 0.85; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5)); letter-spacing: -2px; }
+        .home-main-logo {
+            margin-top: 30px;
+            text-align: center;
+        }
 
-        .atlas-box { display: flex; justify-content: center; margin: 20px 0; }
-        .atlas { font-size: 8.5rem; animation: rotateAtlas 20s linear infinite; filter: drop-shadow(0 0 40px rgba(0, 150, 255, 0.5)); user-select: none; }
+        .title-gold {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.2rem;
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 0.85;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+        }
+
+        .atlas-box {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .atlas {
+            font-size: 8rem; /* Größerer Globus */
+            animation: rotateAtlas 20s linear infinite;
+            filter: drop-shadow(0 0 40px rgba(0, 150, 255, 0.4));
+            user-select: none;
+        }
+
         @keyframes rotateAtlas { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .sub-title-low { font-family: 'Syncopate', sans-serif; font-size: 1.7rem; letter-spacing: 4px; color: #fff; text-align: center; text-transform: uppercase; margin-top: 60px; margin-bottom: 40px; font-weight: 700; text-shadow: 0 0 25px rgba(255,255,255,0.8); }
+        .sub-title-lower {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.6rem; /* Größere Schrift */
+            letter-spacing: 4px;
+            color: #fff;
+            text-align: center;
+            text-transform: uppercase;
+            margin-top: 50px; /* Deutlich weiter runter gesetzt */
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-shadow: 0 0 25px rgba(255,255,255,0.7);
+        }
 
-        /* --- UI COMPONENTS --- */
-        .btn-luxe { appearance: none; border: none; padding: 20px; border-radius: 16px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-bottom: 15px; }
-        .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
+        /* --- UI ELEMENTS --- */
+        .btn-luxe { appearance: none; border: none; padding: 18px; border-radius: 14px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-bottom: 12px; }
+        .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
         .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
-        .btn-back { background: transparent; color: rgba(255,255,255,0.5); border: none; font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; padding: 10px; text-align: center; font-weight: 700; }
-
-        /* --- SETUP --- */
-        .instruction-text { font-family: 'Syncopate', sans-serif; font-size: 0.55rem; color: #fff; text-align: center; margin-bottom: 8px; letter-spacing: 2px; opacity: 0.7; }
-        
-        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; animation: slideIn 0.4s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
-        .flag-plus { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; color: var(--gold-solid); }
-        .input-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 15px; outline: none; font-weight: 600; }
-        .btn-trash { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; padding: 5px; opacity: 0.6; }
-
-        .lang-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 25px; }
-        .lang-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 12px 2px; border-radius: 12px; font-size: 0.5rem; font-family: 'Syncopate'; cursor: pointer; text-align: center; }
-        .lang-chip.active { background: var(--gold); color: #000; font-weight: 900; border-color: transparent; }
+        .btn-back { background: transparent; color: rgba(255,255,255,0.6); border: none; font-family: 'Syncopate'; font-size: 0.6rem; cursor: pointer; padding: 10px; text-align: center; font-weight: 700; }
 
         /* --- VISUAL QUIZ --- */
-        .q-visual-frame { height: 240px; border-radius: 24px; border: 1px solid var(--border); background-size: cover; background-position: center; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 0 20px #000; }
-        .q-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)); z-index: 1; }
-        .q-text { position: relative; z-index: 10; text-align: center; font-size: 1.4rem; padding: 20px; font-weight: 600; text-shadow: 0 2px 10px #000; }
+        .q-card-visual {
+            height: 220px; border-radius: 20px; border: 1px solid var(--border);
+            background-size: cover; background-position: center; position: relative;
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; box-shadow: 0 15px 35px #000;
+        }
+        .q-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.75); }
+        .q-text { position: relative; z-index: 5; text-align: center; font-size: 1.3rem; padding: 15px; font-weight: 600; text-shadow: 0 2px 8px #000; }
 
-        .opt-visual { height: 65px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15); background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; transition: 0.3s; }
-        .opt-img-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 1; transition: 0.3s; }
-        .opt-label { position: relative; z-index: 10; padding-left: 20px; font-weight: 700; font-size: 1.1rem; text-shadow: 0 2px 5px #000; }
-        .opt-visual.correct .opt-img-overlay { background: rgba(27, 77, 46, 0.8) !important; }
-        .opt-visual.wrong .opt-img-overlay { background: rgba(77, 27, 27, 0.8) !important; }
+        .opt-visual {
+            height: 60px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+            background-size: cover; background-position: center; position: relative;
+            overflow: hidden; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center;
+        }
+        .opt-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); transition: 0.3s; }
+        .opt-text { position: relative; z-index: 5; padding-left: 20px; font-weight: 700; font-size: 1rem; text-shadow: 0 2px 4px #000; }
+        .opt-visual.correct .opt-overlay { background: rgba(27, 77, 46, 0.85) !important; }
+        .opt-visual.wrong .opt-overlay { background: rgba(77, 27, 27, 0.85) !important; }
 
-        /* --- EXTRAS --- */
-        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(15px); }
-        .modal-box { background: #111; border: 1px solid var(--gold-solid); padding: 30px; border-radius: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        footer { text-align: center; padding: 25px; font-size: 0.75rem; color: #ffffff; font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; }
-        .badge { background: var(--gold); color: #000; padding: 4px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; }
-        .timer-rail { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 15px 0 25px; overflow: hidden; }
-        .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
-        .spinner { width: 60px; height: 60px; border: 4px solid rgba(212, 175, 55, 0.1); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s infinite linear; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* RANK BADGES */
+        .rank-badge { padding: 3px 10px; border-radius: 6px; font-size: 0.6rem; font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; margin-right: 8px; }
+        .rank-warrior { background: #666; color: #fff; }
+        .rank-master { background: #00d4ff; color: #000; }
+        .rank-god { background: #ff3c00; color: #fff; animation: pulse 1s infinite alternate; }
+        @keyframes pulse { from { opacity: 1; } to { opacity: 0.7; } }
+
+        .flag-plus { width: 42px; height: 42px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; cursor: pointer; color: var(--gold-solid); }
+        .input-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 12px; outline: none; font-weight: 600; }
+
+        footer { text-align: center; padding: 20px; font-size: 0.7rem; color: #fff; font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
-    <!-- MODAL -->
+    <!-- FLAG MODAL -->
     <div id="modal" onclick="this.style.display='none'">
-        <div class="modal-box" onclick="event.stopPropagation()">
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+        <div style="background:#111; border:1px solid var(--gold-solid); padding:30px; border-radius:24px; display:grid; grid-template-columns: repeat(4, 1fr); gap:15px;" onclick="event.stopPropagation()">
+            <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
+            <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
+            <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
+            <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
+            <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
+            <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
+            <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
+            <div style="font-size:2.5rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
         </div>
     </div>
 
     <div id="app">
         <!-- SCREEN: HOME -->
         <section id="s-home" class="screen active">
-            <p class="branding-top">Elite Prestige Game</p>
-            <div class="home-center">
+            <p class="home-top-label">Elite Prestige Realm</p>
+            
+            <div class="home-main-logo">
                 <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
                 <div class="atlas-box"><div class="atlas">🌍</div></div>
             </div>
-            <p class="sub-title-low">Best World Quiz</p>
+
+            <p class="sub-title-lower">Best World Quiz</p>
+
             <div style="margin-top: auto;">
                 <button class="btn-luxe btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
-                <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge & Ränge ⚔️</button>
+                <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge ⚔️</button>
                 <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
             </div>
             <footer>Produziert von Wowa & Amiar Kempf</footer>
@@ -130,38 +165,27 @@
 
         <!-- SCREEN: SETUP -->
         <section id="s-setup" class="screen">
-            <h2 class="title-gold" style="font-size: 2.2rem;">Krieger</h2>
-            <p style="font-family:'Syncopate'; font-size:0.5rem; letter-spacing:2px; color:var(--gold-solid); margin: 15px 0 10px; text-align:center;">Game Sprache</p>
-            <div class="lang-grid">
-                <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
-                <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
-                <div class="lang-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
-                <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
-                <div class="lang-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
+            <h2 class="title-gold" style="font-size: 2rem;">Krieger</h2>
+            <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 20px 0;">
+                <div class="lang-chip" id="ln-de" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; cursor:pointer; font-size:0.5rem; text-align:center;" onclick="App.setLang('de')">DE</div>
+                <div class="lang-chip" id="ln-ru" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; cursor:pointer; font-size:0.5rem; text-align:center;" onclick="App.setLang('ru')">RU</div>
+                <div class="lang-chip" id="ln-en" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; cursor:pointer; font-size:0.5rem; text-align:center;" onclick="App.setLang('en')">EN</div>
+                <div class="lang-chip" id="ln-ig" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; cursor:pointer; font-size:0.5rem; text-align:center;" onclick="App.setLang('ig')">IGBO</div>
+                <div class="lang-chip" id="ln-tr" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; cursor:pointer; font-size:0.5rem; text-align:center;" onclick="App.setLang('tr')">TR</div>
             </div>
-
             <div id="player-list"></div>
-
-            <p class="instruction-text">Name und Karten Symbol auswählen</p>
-            <button class="btn-luxe btn-outline" style="font-size:0.6rem; padding: 12px;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
-
+            <button class="btn-luxe btn-outline" style="font-size:0.6rem;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
             <div style="margin-top: auto;">
                 <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Kampf Starten</button>
-                <button class="btn-back" onclick="App.go('home')">← Zurück zum Hauptmenü</button>
+                <button class="btn-back" onclick="App.go('home')">← Zurück</button>
             </div>
-        </section>
-
-        <!-- SCREEN: LOADING -->
-        <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
-            <div class="spinner"></div>
-            <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:25px;">Lade Game-Visuals...</p>
         </section>
 
         <!-- SCREEN: VS -->
         <section id="s-vs" class="screen">
             <div style="text-align: center; margin-top: 60px;">
-                <div id="vs-flag" style="font-size: 7.5rem; margin-bottom: 15px;">🐲</div>
-                <h2 id="vs-name" class="title-gold" style="font-size: 2.8rem;">PLAYER</h2>
+                <div id="vs-flag" style="font-size: 7rem; margin-bottom: 15px;">🐲</div>
+                <h2 id="vs-name" class="title-gold">PLAYER</h2>
                 <div id="vs-info" style="margin-top:10px;"></div>
             </div>
             <div style="margin-top: auto; padding-bottom: 40px;">
@@ -170,4 +194,155 @@
             </div>
         </section>
 
-        <!-- SCREEN: QUIZ
+        <!-- SCREEN: QUIZ -->
+        <section id="s-quiz" class="screen">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1/10</span>
+                <span id="q-gold" style="background:var(--gold); color:#000; padding:4px 12px; border-radius:100px; font-size:0.65rem; font-weight:800;">💰 0</span>
+            </div>
+            <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
+            
+            <div id="q-visual" class="q-card-visual">
+                <div class="q-overlay"></div>
+                <h3 id="q-text" class="q-text">Herausforderung...</h3>
+            </div>
+            <div id="q-options"></div>
+            <div id="q-feedback" style="display:none; margin-top:10px;">
+                <div style="background: rgba(10,10,10,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align:center;">
+                    <p id="q-expl" style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 15px;"></p>
+                    <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN: ACHIEVEMENTS -->
+        <section id="s-achievements" class="screen">
+            <h1 class="title-gold" style="font-size:2rem;">Meilensteine</h1>
+            <div id="ach-list" style="margin-top:30px; flex:1;"></div>
+            <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+        </section>
+
+        <!-- SCREEN: LEADERBOARD -->
+        <section id="s-leaderboard" class="screen">
+            <h1 class="title-gold" style="font-size:2rem;">Halle des Ruhms</h1>
+            <div id="lb-list" style="margin-top:30px; flex:1;"></div>
+            <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+        </section>
+
+        <!-- SCREEN: RESULT -->
+        <section id="s-result" class="screen">
+            <h1 class="title-gold" style="font-size: 2.2rem;">ENDE</h1>
+            <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
+            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Neustart</button>
+            <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
+            <footer>Produziert von Wowa & Amiar Kempf</footer>
+        </section>
+    </div>
+
+    <script>
+        const DB = {
+            de: [
+                { id: "de1", q: "Was ist die Hauptstadt von Frankreich?", o: ["Paris", "Lyon", "Marseille", "Berlin"], c: 0, e: "Paris ist die Weltstadt der Liebe.", kw: "paris" },
+                { id: "de2", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Donau", "Rhein"], c: 0, e: "Der Nil ist die Lebensader Ägyptens.", kw: "nile" },
+                { id: "de3", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia" }
+            ],
+            ru: [{ id: "ru1", q: "Столица России?", o: ["Москва", "Питер", "Киев", "Минск"], c: 0, e: "Москва — столица.", kw: "moscow" }],
+            en: [{ id: "en1", q: "Capital of USA?", o: ["Washington D.C.", "New York", "LA", "Miami"], c: 0, e: "Washington D.C. ist die Hauptstadt.", kw: "washington" }],
+            ig: [{ id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "nigeria" }],
+            tr: [{ id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara" }]
+        };
+
+        const App = {
+            profiles: JSON.parse(localStorage.getItem('mk_supreme_atlas_v1')) || {},
+            players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, currentLang: 'de', activeFlagIdx: null, activeQs: [],
+
+            save() { localStorage.setItem('mk_supreme_atlas_v1', JSON.stringify(this.profiles)); },
+
+            getProfile(name) {
+                const k = name.trim().toLowerCase();
+                if(!this.profiles[k]) this.profiles[k] = { name: name.trim(), xp: 0, gold: 0, level: 1, flag: '🐲', usedIds: [] };
+                return this.profiles[k];
+            },
+
+            getRankInfo(lvl) {
+                if(lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
+                if(lvl >= 10) return { class: 'rank-master', label: 'Master' };
+                return { class: 'rank-warrior', label: 'Warrior' };
+            },
+
+            go(id) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById('s-' + id).classList.add('active');
+                if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
+                if(id === 'leaderboard') this.renderLeaderboard();
+                if(id === 'achievements') this.renderAchievements();
+            },
+
+            setLang(l) {
+                this.currentLang = l;
+                document.querySelectorAll('.lang-chip').forEach(c => c.style.background = 'rgba(255,255,255,0.05)');
+                document.getElementById('ln-' + l).style.background = 'var(--gold-solid)';
+                document.getElementById('ln-' + l).style.color = '#000';
+            },
+
+            addPlayerInput() {
+                const cont = document.getElementById('player-list');
+                const id = Date.now() + Math.random();
+                const d = document.createElement('div');
+                d.className = 'player-card'; d.id = 'pc-' + id;
+                d.innerHTML = `
+                    <div class="flag-plus" onclick="App.openFlag('${id}')">+</div>
+                    <input type="text" class="input-luxe" placeholder="Name...">
+                    <button onclick="document.getElementById('pc-${id}').remove()" style="background:none; border:none; color:#ff4d4d; font-size:1.2rem; cursor:pointer;">🗑️</button>
+                `;
+                cont.appendChild(d);
+            },
+
+            openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
+            confirmFlag(f) { 
+                const card = document.getElementById('pc-' + this.activeFlagIdx);
+                card.querySelector('.flag-plus').innerText = f; card.querySelector('.flag-plus').style.borderStyle = 'solid';
+                document.getElementById('modal').style.display = 'none';
+            },
+
+            async prepareBattle() {
+                const cards = document.querySelectorAll('.player-card');
+                this.players = Array.from(cards).map(c => {
+                    const name = c.querySelector('input').value || "Warrior";
+                    const flag = c.querySelector('.flag-plus').innerText === '+' ? '🐲' : c.querySelector('.flag-plus').innerText;
+                    const p = this.getProfile(name); p.flag = flag;
+                    return { ...p, sessionScore: 0, sessionGold: 0 };
+                });
+                if(this.players.length === 0) return;
+                this.pIdx = 0; 
+                this.activeQs = (DB[this.currentLang] || DB.de).sort(() => 0.5 - Math.random()).slice(0, 10);
+                this.showVS();
+            },
+
+            showVS() {
+                const p = this.players[this.pIdx];
+                const r = this.getRankInfo(p.level);
+                document.getElementById('vs-flag').innerText = p.flag;
+                document.getElementById('vs-name').innerText = p.name.toUpperCase();
+                document.getElementById('vs-info').innerHTML = `<span class="rank-badge ${r.class}">${r.label}</span> <span style="font-size:0.8rem;">GOLD: ${p.gold}</span>`;
+                this.go('vs');
+            },
+
+            startQuiz() { this.qIdx = 0; this.renderQuestion(); this.go('quiz'); },
+
+            renderQuestion() {
+                const q = this.activeQs[this.qIdx];
+                const p = this.players[this.pIdx];
+                document.getElementById('q-round').innerText = `Round ${this.qIdx + 1}/10`;
+                document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
+                document.getElementById('q-text').innerText = q.q;
+
+                document.getElementById('q-visual').style.backgroundImage = `url('https://source.unsplash.com/800x450/?${q.kw},landscape')`;
+                const box = document.getElementById('q-options'); box.innerHTML = '';
+                document.getElementById('q-feedback').style.display = 'none';
+
+                q.o.forEach((opt, i) => {
+                    const b = document.createElement('div');
+                    b.className = 'opt-visual';
+                    b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?texture,dark,${i}')`;
+                    b.innerHTML = `<div class
