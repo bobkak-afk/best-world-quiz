@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · WORLD GAME PRESTIGE</title>
+    <title>MK · STELLAR GLOBAL QUIZ</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
             --gold-solid: #d4af37;
-            --bg: #050505;
-            --card: rgba(15, 15, 15, 0.95);
+            --bg: #020205;
+            --card: rgba(10, 10, 12, 0.96);
             --border: rgba(212, 175, 55, 0.4);
             --red: #ff3c00;
-            --shadow: 0 0 30px rgba(0,0,0,0.9);
+            --accent: #00d4ff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -21,108 +21,148 @@
         body {
             background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif;
             height: 100vh; overflow: hidden; display: flex; justify-content: center;
-            background-image: radial-gradient(circle at 50% -20%, #2a1b00 0%, #050505 80%);
+            background-image: 
+                radial-gradient(circle at 50% -20%, #1a1a2e 0%, #020205 80%),
+                url('https://www.transparenttextures.com/patterns/stardust.png');
         }
 
         #app {
             width: 100%; max-width: 460px; height: 100vh; display: flex; flex-direction: column;
             position: relative; z-index: 10; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2); backdrop-filter: blur(10px);
         }
 
         .screen { display: none; flex: 1; padding: 25px; flex-direction: column; overflow-y: auto; position: relative; }
-        .screen.active { display: flex; animation: screenIn 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        .screen.active { display: flex; animation: screenIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
-        @keyframes screenIn { from { opacity: 0; transform: translateY(30px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes screenIn { from { opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(15px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
 
-        /* --- CINEASTISCHER GLOBUS (REAL WORLD MAP) --- */
-        .earth-container {
-            width: 220px; height: 220px;
+        /* --- CINEASTISCHER 3D GLOBUS --- */
+        .earth-viewport {
+            width: 240px; height: 240px;
             margin: 20px auto;
+            border-radius: 50%;
             position: relative;
-            border-radius: 50%;
-            box-shadow: inset -20px -20px 50px #000, 0 0 50px rgba(0, 150, 255, 0.3);
-            background: #001a33;
+            background: #000;
             overflow: hidden;
-            display: flex; align-items: center;
-        }
-
-        .earth-container::after {
-            content: ''; position: absolute; inset: 0;
-            border-radius: 50%;
-            box-shadow: inset 20px 20px 40px rgba(255,255,255,0.1), inset -10px -10px 40px rgba(0,0,0,0.8);
-            pointer-events: none;
+            box-shadow: 
+                inset -30px -30px 60px #000,
+                inset 10px 10px 40px rgba(255,255,255,0.1),
+                0 0 60px rgba(0, 150, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .earth-map {
             width: 200%; height: 100%;
+            position: absolute;
             background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Blue_Marble_2002.png/1024px-Blue_Marble_2002.png');
             background-size: cover;
-            animation: rotateEarth 25s linear infinite;
-            opacity: 0.8;
+            animation: rotateMap 30s linear infinite;
+            filter: brightness(1.1) contrast(1.1);
+            opacity: 0.85;
         }
 
-        @keyframes rotateEarth {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
+        .earth-overlay {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 30% 30%, transparent 10%, rgba(0,0,0,0.8) 80%);
+            z-index: 2; pointer-events: none;
         }
 
-        /* --- HOME SCREEN LAYOUT --- */
-        .branding-top {
+        @keyframes rotateMap { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* --- TOP BRANDING --- */
+        .top-banner {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             letter-spacing: 12px;
             color: var(--gold-solid);
             text-align: center;
-            margin-top: 10px;
+            margin-top: 15px;
             text-transform: uppercase;
-            opacity: 0.9;
+            padding: 8px;
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: 100px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(212, 175, 55, 0.1);
         }
 
-        .logo-box { text-align: center; margin-top: 30px; }
-        .title-gold { font-family: 'Cinzel Decorative', serif; font-size: 3.5rem; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 0.85; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5)); letter-spacing: -2px; }
-
-        .sub-title-bottom { 
-            font-family: 'Syncopate', sans-serif; font-size: 1.7rem; letter-spacing: 4px; color: #fff; 
-            text-align: center; text-transform: uppercase; margin-top: auto; padding-bottom: 40px;
-            font-weight: 700; text-shadow: 0 0 25px rgba(255,255,255,0.8); 
+        /* --- TYPOGRAPHY --- */
+        .title-gold {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.6rem;
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            line-height: 0.8;
+            margin-top: 30px;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+            letter-spacing: -2px;
         }
 
-        /* --- UI COMPONENTS --- */
-        .btn-luxe { appearance: none; border: none; padding: 20px; border-radius: 16px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-bottom: 12px; }
-        .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
-        .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
-        .btn-back { background: transparent; color: rgba(255,255,255,0.5); border: none; font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; padding: 10px; text-align: center; font-weight: 700; }
+        .sub-title-main {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.8rem;
+            text-align: center;
+            text-transform: uppercase;
+            margin-top: auto;
+            padding-bottom: 50px;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(255,255,255,0.9), 0 0 10px rgba(0,0,0,1);
+        }
 
-        /* --- SETUP --- */
-        .instruction-label { font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: var(--gold-solid); text-align: center; margin-bottom: 15px; font-weight: 600; letter-spacing: 1px; }
-        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; animation: slideIn 0.4s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
-        
-        .flag-picker { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; color: var(--gold-solid); }
-        .input-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 15px; outline: none; font-weight: 600; }
+        /* --- BUTTONS --- */
+        .btn-apex {
+            appearance: none; border: none; padding: 22px; border-radius: 18px;
+            font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.8rem;
+            cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase; display: flex; align-items: center;
+            justify-content: center; gap: 12px; width: 100%; margin-bottom: 15px;
+            position: relative; overflow: hidden;
+        }
 
-        .lang-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 25px; }
-        .lang-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 12px 2px; border-radius: 12px; font-size: 0.55rem; font-family: 'Syncopate'; cursor: pointer; text-align: center; }
-        .lang-chip.active { background: var(--gold); color: #000; font-weight: 900; border-color: transparent; }
+        .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 10px 30px rgba(170, 119, 28, 0.4); }
+        .btn-gold::after { content: ''; position: absolute; top: -50%; left: -150%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent); transform: rotate(45deg); animation: shine 4s infinite; }
+        @keyframes shine { 0% { left: -150%; } 100% { left: 150%; } }
+
+        .btn-apex:active { transform: scale(0.94); }
+        .btn-outline { background: rgba(255,255,255,0.03); color: #fff; border: 1px solid var(--border); }
+        .btn-back { background: transparent; border: none; color: rgba(255,255,255,0.4); font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; padding: 15px; width: 100%; text-transform: uppercase; }
+
+        /* --- SETUP CARDS --- */
+        .setup-label { font-family: 'Syncopate', sans-serif; font-size: 0.7rem; color: var(--gold-solid); text-align: center; margin: 20px 0 10px; font-weight: 700; letter-spacing: 2px; }
+        .setup-instruction { font-family: 'Outfit'; font-size: 0.9rem; color: #fff; text-align: center; margin-bottom: 15px; opacity: 0.8; }
+
+        .p-card { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 20px; padding: 18px; display: flex; align-items: center; margin-bottom: 12px; position: relative; }
+        .f-plus { width: 48px; height: 48px; background: #000; border: 2px dashed var(--gold-solid); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1.3rem; cursor: pointer; color: var(--gold-solid); }
+        .i-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit'; font-size: 1.2rem; width: 100%; margin-left: 15px; outline: none; font-weight: 600; }
+
+        .lang-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 25px; }
+        .l-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 12px 2px; border-radius: 12px; font-size: 0.55rem; font-family: 'Syncopate'; cursor: pointer; text-align: center; }
+        .l-chip.active { background: var(--gold); color: #000; font-weight: 900; border-color: transparent; }
 
         /* --- QUIZ VISUALS --- */
-        .q-frame { height: 220px; border-radius: 24px; border: 1px solid var(--border); background-size: cover; background-position: center; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 10px 30px #000; }
-        .q-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)); z-index: 1; }
-        .q-text-inner { position: relative; z-index: 10; text-align: center; font-size: 1.35rem; padding: 20px; font-weight: 600; text-shadow: 0 2px 10px #000; }
+        .visual-frame { height: 240px; border-radius: 24px; border: 1px solid var(--border); background-size: cover; background-position: center; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 20px 40px #000; }
+        .visual-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.9)); z-index: 1; }
+        .visual-text { position: relative; z-index: 10; text-align: center; font-size: 1.45rem; padding: 20px; font-weight: 600; text-shadow: 0 3px 15px #000; }
 
-        .opt-box { height: 60px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15); background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; transition: 0.3s; }
+        .visual-opt { height: 68px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15); background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; transition: 0.3s; }
         .opt-shade { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 1; }
-        .opt-label { position: relative; z-index: 10; padding-left: 20px; font-weight: 700; font-size: 1.1rem; text-shadow: 0 2px 5px #000; }
+        .opt-label { position: relative; z-index: 10; padding-left: 20px; font-weight: 700; font-size: 1.15rem; text-shadow: 0 2px 5px #000; }
 
-        .rank-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; margin-right: 8px; }
-        .rank-master { background: #00d4ff; color: #000; }
-        .rank-god { background: #ff3c00; color: #fff; }
+        /* --- MODAL --- */
+        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.97); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(20px); }
+        .modal-box { background: #0a0a0a; border: 1px solid var(--gold-solid); padding: 35px; border-radius: 30px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); }
 
-        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(15px); }
-        .modal-box { background: #111; border: 1px solid var(--gold-solid); padding: 30px; border-radius: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        footer { text-align: center; padding: 25px; font-size: 0.8rem; color: #fff; font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; opacity: 0.9; }
+        .timer-fill { height: 6px; background: var(--red); box-shadow: 0 0 20px var(--red); width: 100%; transition: width 0.1s linear; }
 
-        footer { text-align: center; padding: 25px; font-size: 0.75rem; color: #ffffff; font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; }
-        .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
+        .spinner { width: 60px; height: 60px; border: 4px solid rgba(212, 175, 55, 0.1); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s infinite linear; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -130,141 +170,142 @@
     <!-- MODAL -->
     <div id="modal" onclick="this.style.display='none'">
         <div class="modal-box" onclick="event.stopPropagation()">
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
-            <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+            <div style="font-size:3rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
+            <div style="font-size:3rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
+            <div style="font-size:3rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
+            <div style="font-size:3rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
+            <div style="font-size:3rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
+            <div style="font-size:3rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
+            <div style="font-size:3rem; cursor:pointer;" onclick="App.confirmFlag('🇮🇹')">🇮🇹</div>
+            <div style="font-size:3rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
         </div>
     </div>
 
     <div id="app">
-        <!-- HOME -->
+        <!-- SCREEN: HOME -->
         <section id="s-home" class="screen active">
-            <p class="branding-top">Elite Prestige Game</p>
+            <div class="top-banner">Elite Prestige Game</div>
             
-            <div class="logo-box">
-                <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
-                <div class="earth-container">
-                    <div class="earth-map"></div>
-                </div>
+            <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
+            
+            <div class="earth-viewport">
+                <div class="earth-map"></div>
+                <div class="earth-overlay"></div>
             </div>
 
-            <p class="sub-title-bottom">Best World Quiz</p>
+            <p class="sub-title-main">Best World Quiz</p>
 
-            <div style="margin-top: 10px;">
-                <button class="btn-luxe btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
-                <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
+            <div style="margin-top: auto;">
+                <button class="btn-apex btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
+                <button class="btn-apex btn-outline" onclick="App.go('achievements')">Erfolge ⚔️</button>
+                <button class="btn-apex btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
             </div>
-            <footer>Produziert von Wowa & Amiar Kempf</footer>
+            <footer>Wowa & Amiar Kempf</footer>
         </section>
 
-        <!-- SETUP -->
+        <!-- SCREEN: SETUP -->
         <section id="s-setup" class="screen">
-            <h2 class="title-gold" style="font-size: 2.2rem; text-align:center;">Krieger</h2>
+            <h2 class="title-gold" style="font-size: 2.2rem; margin-top: 10px;">Setup</h2>
             
-            <p style="font-family:'Syncopate'; font-size:0.5rem; letter-spacing:2px; color:var(--gold-solid); margin: 15px 0 10px; text-align:center;">Game Sprache</p>
-            <div class="lang-grid">
-                <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
-                <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
-                <div class="lang-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
-                <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
-                <div class="lang-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
+            <p class="setup-label">Realm Sprache</p>
+            <div class="lang-bar">
+                <div class="l-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
+                <div class="l-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
+                <div class="l-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
+                <div class="l-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
+                <div class="l-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
             </div>
 
             <div id="player-list"></div>
 
-            <p class="instruction-label">Name und Karten Symbol auswählen</p>
-            <button class="btn-luxe btn-outline" style="font-size:0.6rem; padding: 12px;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
+            <p class="setup-instruction">Name und Karten Symbol auswählen</p>
+            <button class="btn-apex btn-outline" style="font-size:0.65rem; padding: 15px;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
 
             <div style="margin-top: auto;">
-                <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Kampf Starten</button>
-                <button class="btn-back" onclick="App.go('home')">← Zurück zum Hauptmenü</button>
+                <button class="btn-apex btn-gold" onclick="App.prepareBattle()">Starten</button>
+                <button class="btn-back" onclick="App.go('home')">← Hauptmenü</button>
             </div>
         </section>
 
-        <!-- LOADING -->
+        <!-- SCREEN: LOADING -->
         <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
             <div class="spinner"></div>
-            <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:25px;">Generiere Realm-Visuals...</p>
+            <p style="font-family:'Syncopate'; font-size:0.65rem; letter-spacing:4px; margin-top:25px; text-align:center;">Synchronisiere Stellar-Daten...</p>
         </section>
 
-        <!-- VS -->
+        <!-- SCREEN: VS -->
         <section id="s-vs" class="screen">
             <div style="text-align: center; margin-top: 60px;">
-                <div id="vs-flag" style="font-size: 7.5rem; margin-bottom: 15px;">🐲</div>
-                <h2 id="vs-name" class="title-gold" style="font-size: 2.8rem;">PLAYER</h2>
-                <div id="vs-info" style="margin-top:10px;"></div>
+                <div id="vs-flag" style="font-size: 8rem; margin-bottom: 20px; filter: drop-shadow(0 0 30px #00d4ff);">🐲</div>
+                <h2 id="vs-name" class="title-gold" style="font-size: 3rem;">PLAYER</h2>
+                <div id="vs-info" style="margin-top:15px;"></div>
             </div>
             <div style="margin-top: auto; padding-bottom: 40px;">
-                <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
+                <button class="btn-apex btn-gold" onclick="App.startQuiz()">FIGHT!</button>
                 <button class="btn-back" onclick="App.go('setup')">← Team ändern</button>
             </div>
         </section>
 
-        <!-- QUIZ -->
+        <!-- SCREEN: QUIZ -->
         <section id="s-quiz" class="screen">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1/10</span>
-                <span id="q-gold" style="background:var(--gold); color:#000; padding:4px 12px; border-radius:100px; font-size:0.7rem; font-weight:800;">💰 0</span>
+                <span id="q-round" style="font-family:'Syncopate'; font-size:0.65rem; color:var(--gold-solid);">Round 1/10</span>
+                <span id="q-gold" style="background:var(--gold); color:#000; padding:5px 15px; border-radius:100px; font-size:0.7rem; font-weight:800;">💰 0</span>
             </div>
             <div style="height:6px; background:rgba(255,255,255,0.1); border-radius:10px; margin:15px 0 20px; overflow:hidden;">
                 <div id="timer-bar" class="timer-fill"></div>
             </div>
             
-            <div id="q-frame" class="q-frame">
-                <div class="q-overlay"></div>
-                <h3 id="q-text" class="q-text-inner">Herausforderung...</h3>
+            <div id="q-frame" class="visual-frame">
+                <div class="visual-overlay"></div>
+                <h3 id="q-text" class="visual-text">Lade Prüfung...</h3>
             </div>
 
             <div id="q-options"></div>
 
             <div id="q-feedback" style="display:none; margin-top:10px;">
-                <div style="background: rgba(10,10,10,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center;">
-                    <p id="q-expl" style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 15px;"></p>
-                    <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
+                <div style="background: rgba(0,0,0,0.9); border: 1px solid var(--border); border-radius: 20px; padding: 25px; text-align: center;">
+                    <p id="q-expl" style="font-size: 1rem; opacity: 0.9; margin-bottom: 15px; line-height:1.4;"></p>
+                    <button class="btn-apex btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
                 </div>
             </div>
         </section>
 
-        <!-- RESULT -->
+        <!-- RESULT SCREEN -->
         <section id="s-result" class="screen">
-            <h1 class="title-gold" style="font-size: 2.5rem; text-align:center;">KAMPF ENDE</h1>
+            <h1 class="title-gold" style="font-size: 2.8rem; text-align:center;">ENDE</h1>
             <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
             <div style="margin-top: auto;">
-                <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Nochmal Kämpfen</button>
-                <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
+                <button class="btn-apex btn-gold" onclick="App.prepareBattle()">Nochmal Kämpfen</button>
+                <button class="btn-apex btn-outline" onclick="location.reload()">Hauptmenü</button>
             </div>
-            <footer>Produziert von Wowa & Amiar Kempf</footer>
         </section>
 
-        <!-- LEADERBOARD -->
+        <!-- LEADERBOARD & ACHIEVEMENTS -->
         <section id="s-leaderboard" class="screen">
-            <h1 class="title-gold" style="font-size: 2rem; text-align:center;">Halle des Ruhms</h1>
+            <h1 class="title-gold" style="font-size: 2.2rem; text-align:center;">Bestenliste</h1>
             <div id="lb-list" style="margin-top:30px; flex:1;"></div>
-            <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+            <button class="btn-apex btn-gold" onclick="App.go('home')">Zurück</button>
+        </section>
+
+        <section id="s-achievements" class="screen">
+            <h1 class="title-gold" style="font-size: 2.2rem; text-align:center;">Erfolge</h1>
+            <div id="ach-list" style="margin-top:30px; flex:1;"></div>
+            <button class="btn-apex btn-gold" onclick="App.go('home')">Zurück</button>
         </section>
     </div>
 
     <script>
         /**
-         * MK PRESTIGE GAME ENGINE v11
+         * MK PRESTIGE GAME ENGINE v12
          */
         const DB = {
             de: [
-                { id: "de1", q: "Welches Land hat die meisten Inseln?", o: ["Schweden", "Norwegen", "Philippinen", "Indonesien"], c: 0, e: "Schweden hat über 267.000 Inseln.", kw: "sweden island" },
-                { id: "de2", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia nature" },
-                { id: "de3", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole der Welt.", kw: "tokyo neon" },
-                { id: "de4", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader Ägyptens.", kw: "egypt nile" },
-                { id: "de5", q: "Wo stehen die Pyramiden von Gizeh?", o: ["Ägypten", "Mexiko", "Irak", "Sudan"], c: 0, e: "Sie stehen nahe Kairo in Ägypten.", kw: "pyramid giza" },
-                { id: "de6", q: "Wie viele Bundesländer hat Deutschland?", o: ["16", "14", "12", "18"], c: 0, e: "Deutschland besteht seit 1990 aus 16 Ländern.", kw: "germany city" },
-                { id: "de7", q: "Welcher Ozean ist der größte?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifik deckt 35% der Erdoberfläche ab.", kw: "pacific ocean" },
-                { id: "de8", q: "In welchem Jahr fiel die Berliner Mauer?", o: ["1989", "1991", "1985", "1990"], c: 0, e: "Der Mauerfall war am 9. November 1989.", kw: "berlin wall" },
-                { id: "de9", q: "Höchster Berg der Erde?", o: ["Everest", "K2", "Lhotse", "Mont Blanc"], c: 0, e: "Der Mount Everest ist 8.848m hoch.", kw: "everest mountain" },
-                { id: "de10", q: "Währung in den USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist die Weltreservewährung.", kw: "american money" }
+                { id: "de1", q: "Was ist das flächenmäßig größte Land?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst über 17 Mio km².", kw: "russia" },
+                { id: "de2", q: "Größtes Meerestier der Welt?", o: ["Blauwal", "Weißer Hai", "Orca", "Riesenkalmar"], c: 0, e: "Der Blauwal wird bis zu 30 Meter lang.", kw: "blue whale" },
+                { id: "de3", q: "Hauptstadt von Frankreich?", o: ["Paris", "Lyon", "Marseille", "Berlin"], c: 0, e: "Paris ist bekannt als Stadt der Lichter.", kw: "paris tower" },
+                { id: "de4", q: "In welchem Land stehen die Maya-Pyramiden?", o: ["Mexiko", "Ägypten", "Peru", "Indien"], c: 0, e: "Chichén Itzá liegt auf der Halbinsel Yucatán.", kw: "mexico maya" },
+                { id: "de5", q: "Wie viele Bundesländer hat Deutschland?", o: ["16", "12", "14", "18"], c: 0, e: "Deutschland besteht seit 1990 aus 16 Ländern.", kw: "germany map" }
             ],
             ru: [{ id: "ru1", q: "Столица России?", o: ["Москва", "Питер", "Киев", "Минск"], c: 0, e: "Москва — столица страны.", kw: "moscow" }],
             en: [{ id: "en1", q: "Largest country?", o: ["Russia", "USA", "China", "Canada"], c: 0, e: "Russia is the largest country.", kw: "russia" }],
@@ -273,10 +314,10 @@
         };
 
         const App = {
-            profiles: JSON.parse(localStorage.getItem('mk_game_v11')) || {},
+            profiles: JSON.parse(localStorage.getItem('mk_stellar_v12')) || {},
             players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, currentLang: 'de', activeFlagIdx: null, activeQs: [],
 
-            save() { localStorage.setItem('mk_game_v11', JSON.stringify(this.profiles)); },
+            save() { localStorage.setItem('mk_stellar_v12', JSON.stringify(this.profiles)); },
 
             getProfile(name) {
                 const k = name.trim().toLowerCase();
@@ -284,23 +325,17 @@
                 return this.profiles[k];
             },
 
-            getRank(lvl) {
-                if(lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
-                if(lvl >= 10) return { class: 'rank-master', label: 'Master' };
-                return { class: 'rank-warrior', label: 'Warrior' };
-            },
-
             go(id) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                 document.getElementById('s-' + id).classList.add('active');
                 if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
                 if(id === 'leaderboard') this.renderLeaderboard();
-                window.scrollTo(0,0);
+                if(id === 'achievements') this.renderAchievements();
             },
 
             setLang(l) {
                 this.currentLang = l;
-                document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.l-chip').forEach(c => c.classList.remove('active'));
                 document.getElementById('ln-' + l).classList.add('active');
             },
 
@@ -308,24 +343,28 @@
                 const cont = document.getElementById('player-list');
                 const id = Date.now() + Math.random();
                 const d = document.createElement('div');
-                d.className = 'player-card'; d.id = 'pc-' + id;
-                d.innerHTML = `<div class="flag-picker" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Name..."><button onclick="document.getElementById('pc-${id}').remove()" style="background:none; border:none; color:#ff4d4d; font-size:1.2rem; cursor:pointer; opacity:0.6;">🗑️</button>`;
+                d.className = 'p-card'; d.id = 'pc-' + id;
+                d.innerHTML = `
+                    <div class="f-plus" onclick="App.openFlag('${id}')">+</div>
+                    <input type="text" class="i-luxe" placeholder="Name...">
+                    <button onclick="document.getElementById('pc-${id}').remove()" style="background:none; border:none; color:#ff4d4d; font-size:1.2rem; cursor:pointer;">🗑️</button>
+                `;
                 cont.appendChild(d);
             },
 
             openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
             confirmFlag(f) { 
                 const card = document.getElementById('pc-' + this.activeFlagIdx);
-                const btn = card.querySelector('.flag-picker');
+                const btn = card.querySelector('.f-plus');
                 btn.innerText = f; btn.style.borderStyle = 'solid';
                 document.getElementById('modal').style.display = 'none';
             },
 
             async prepareBattle() {
-                const cards = document.querySelectorAll('.player-card');
+                const cards = document.querySelectorAll('.p-card');
                 this.players = Array.from(cards).map(c => {
                     const name = c.querySelector('input').value || "Warrior";
-                    const flag = c.querySelector('.flag-picker').innerText === '+' ? '🐲' : c.querySelector('.flag-picker').innerText;
+                    const flag = c.querySelector('.f-plus').innerText === '+' ? '🐲' : c.querySelector('.f-plus').innerText;
                     const p = this.getProfile(name); p.flag = flag;
                     return { ...p, sessionScore: 0, sessionGold: 0 };
                 });
@@ -334,16 +373,14 @@
                 
                 const bank = DB[this.currentLang] || DB.de;
                 this.activeQs = bank.sort(() => 0.5 - Math.random()).slice(0, 10);
-
-                setTimeout(() => this.showVS(), 1500);
+                setTimeout(() => this.showVS(), 1800);
             },
 
             showVS() {
                 const p = this.players[this.pIdx];
-                const r = this.getRank(p.level);
                 document.getElementById('vs-flag').innerText = p.flag;
                 document.getElementById('vs-name').innerText = p.name.toUpperCase();
-                document.getElementById('vs-info').innerHTML = `<span class="rank-badge ${r.class}">${r.label}</span> <span style="font-size:0.85rem; color:var(--gold-solid);">GOLD: ${p.gold}</span>`;
+                document.getElementById('vs-info').innerHTML = `<span style="color:var(--gold-solid); font-weight:700;">LEVEL ${p.level}</span> <span style="margin-left:15px; opacity:0.6;">${p.gold} GOLD</span>`;
                 this.go('vs');
             },
 
@@ -356,9 +393,8 @@
                 document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
                 document.getElementById('q-text').innerText = q.q;
 
-                // Visual Question
                 const sig = Math.random();
-                document.getElementById('q-frame').style.backgroundImage = `url('https://source.unsplash.com/800x450/?${q.kw},land&sig=${sig}')`;
+                document.getElementById('q-frame').style.backgroundImage = `url('https://source.unsplash.com/800x450/?${q.kw},earth&sig=${sig}')`;
                 
                 const box = document.getElementById('q-options'); box.innerHTML = '';
                 document.getElementById('q-feedback').style.display = 'none';
@@ -366,8 +402,8 @@
 
                 q.o.forEach((opt, i) => {
                     const b = document.createElement('div');
-                    b.className = 'opt-box';
-                    b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?texture,dark,${i}&sig=${sig}')`;
+                    b.className = 'visual-opt';
+                    b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?nature,dark,${i}&sig=${sig}')`;
                     b.innerHTML = `<div class="opt-shade"></div><div class="opt-label">${opt}</div>`;
                     b.onclick = () => this.handleAnswer(i, b);
                     box.appendChild(b);
@@ -390,7 +426,7 @@
                 const q = this.activeQs[this.qIdx];
                 const p = this.players[this.pIdx];
                 const prof = this.getProfile(p.name);
-                const opts = document.querySelectorAll('.opt-box');
+                const opts = document.querySelectorAll('.visual-opt');
                 opts.forEach(o => o.style.pointerEvents = 'none');
 
                 if(idx === q.c) {
@@ -419,18 +455,29 @@
                 const list = document.getElementById('lb-list');
                 const sorted = Object.values(this.profiles).sort((a,b) => b.xp - a.xp);
                 list.innerHTML = sorted.map((p, i) => `
-                    <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; border-color:${i<3?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
+                    <div style="background:var(--card); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px;">
                         <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b></div>
                         <div style="text-align:right">LVL ${p.level}<br><span style="color:var(--gold-solid); font-size:0.8rem;">${p.gold} 💰</span></div>
                     </div>
                 `).join('');
             },
 
+            renderAchievements() {
+                const list = document.getElementById('ach-list');
+                const sorted = Object.values(this.profiles).sort((a,b) => b.level - a.level);
+                list.innerHTML = sorted.map(p => `
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;">
+                        <div style="font-size:2rem">${p.flag}</div>
+                        <div style="flex:1"><b>${p.name}</b><br><span style="color:var(--accent); font-size:0.7rem; font-family:'Syncopate';">GLOBAL MASTER</span></div>
+                        <div style="text-align:right; font-weight:700; color:var(--gold-solid)">Level ${p.level}</div>
+                    </div>`).join('');
+            },
+
             showResults() {
                 this.go('result');
                 const list = document.getElementById('res-list');
                 list.innerHTML = this.players.map(p => `
-                    <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;">
+                    <div style="background:var(--card); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;">
                         <div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div>
                         <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div>
                     </div>`).join('');
