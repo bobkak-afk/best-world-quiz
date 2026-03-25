@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · INFINITY GLOBAL QUIZ</title>
+    <title>MK · ULTIMATE WORLD QUIZ</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
             --gold-solid: #d4af37;
             --bg: #050505;
-            --card: rgba(15, 15, 15, 0.95);
-            --border: rgba(212, 175, 55, 0.4);
+            --card: rgba(20, 20, 20, 0.95);
+            --border: rgba(212, 175, 55, 0.35);
             --red: #ff3c00;
         }
 
@@ -29,69 +29,78 @@
         }
 
         .screen { display: none; flex: 1; padding: 30px 25px; flex-direction: column; overflow-y: auto; }
-        .screen.active { display: flex; animation: screenIn 0.5s ease-out forwards; }
+        .screen.active { display: flex; animation: screenIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
-        @keyframes screenIn { from { opacity: 0; transform: translateY(15px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes screenIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- HOME DESIGN --- */
-        .atlas-container { display: flex; justify-content: center; margin: 25px 0; }
-        .atlas { font-size: 7.5rem; animation: rotateAtlas 15s linear infinite; filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.5)); user-select: none; }
+        /* --- LOGO & ATLAS --- */
+        .atlas { font-size: 7rem; animation: rotateAtlas 15s linear infinite; filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.5)); margin: 25px 0; display: inline-block; }
         @keyframes rotateAtlas { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .title-gold { font-family: 'Cinzel Decorative', serif; font-size: 3rem; text-align: center; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 0.85; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); }
+        .sub-title { font-family: 'Syncopate', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: #fff; text-align: center; text-transform: uppercase; margin-top: 25px; font-weight: 700; text-shadow: 0 0 20px rgba(255,255,255,0.7); }
 
-        .title-gold { font-family: 'Cinzel Decorative', serif; font-size: 3.2rem; text-align: center; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 0.85; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); }
-        .sub-title { font-family: 'Syncopate', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: #fff; text-align: center; text-transform: uppercase; margin-top: 30px; font-weight: 700; text-shadow: 0 0 20px rgba(255,255,255,0.7); }
-        .label-tech { font-family: 'Syncopate', sans-serif; font-size: 0.6rem; letter-spacing: 5px; color: var(--gold-solid); text-transform: uppercase; text-align: center; margin-bottom: 20px; opacity: 0.9; font-weight: 700; }
-
-        /* --- UI ELEMENTS --- */
+        /* --- BUTTONS --- */
         .btn-luxe { appearance: none; border: none; padding: 18px; border-radius: 14px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-bottom: 12px; }
         .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 8px 20px rgba(170, 119, 28, 0.4); }
         .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
+        .btn-back { background: transparent; color: rgba(255,255,255,0.4); border: none; font-family: 'Syncopate'; font-size: 0.6rem; cursor: pointer; padding: 10px; text-align: center; width: 100%; margin-top: 5px; }
 
-        .glass-panel { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 20px; }
+        /* --- SETUP CARDS --- */
+        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; position: relative; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
 
-        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 18px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; }
-        .flag-btn { font-size: 1.8rem; cursor: pointer; padding: 5px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); transition: 0.2s; }
-        .flag-btn:hover { transform: scale(1.1); border-color: var(--gold-solid); }
+        .flag-plus { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; color: var(--gold-solid); transition: 0.3s; }
+        .flag-plus:hover { background: var(--gold-solid); color: #000; border-style: solid; }
+        
         .input-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 15px; outline: none; font-weight: 600; }
+        .btn-delete { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; padding: 5px; opacity: 0.6; transition: 0.3s; }
+        .btn-delete:hover { opacity: 1; transform: scale(1.1); }
 
+        /* --- LANGUAGE SELECTOR --- */
         .lang-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 25px; }
-        .lang-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px 5px; border-radius: 10px; font-size: 0.6rem; font-family: 'Syncopate'; cursor: pointer; text-align: center; }
-        .lang-chip.active { background: var(--gold); color: #000; font-weight: 900; }
+        .lang-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px 2px; border-radius: 10px; font-size: 0.55rem; font-family: 'Syncopate'; cursor: pointer; text-align: center; }
+        .lang-chip.active { background: var(--gold); color: #000; font-weight: 900; border-color: transparent; }
 
-        /* --- QUIZ HUD --- */
+        /* --- QUIZ & HUD --- */
         .timer-rail { height: 5px; background: rgba(255,255,255,0.05); border-radius: 10px; margin: 15px 0 25px; overflow: hidden; }
         .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
-        .option-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 18px 22px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .option-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 18px 22px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; transition: 0.3s; }
         .option-item.correct { background: #1b4d2e !important; border-color: #2ecc71 !important; }
         .option-item.wrong { background: #4d1b1b !important; border-color: #e74c3c !important; }
 
-        footer { text-align: center; padding: 25px; font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.85); font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; }
-        .badge { background: var(--gold); color: #000; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; }
+        /* --- MODAL --- */
+        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:1000; align-items:center; justify-content:center; backdrop-filter: blur(15px); }
+        .modal-box { background: var(--card); border: 1px solid var(--gold-solid); padding: 30px; border-radius: 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .flag-item { font-size: 2.5rem; cursor: pointer; transition: 0.3s; }
+        .flag-item:hover { transform: scale(1.3); }
 
-        /* MODAL */
-        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; backdrop-filter: blur(10px); }
-        .modal-box { background: var(--card); border: 1px solid var(--gold-solid); padding: 30px; border-radius: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        footer { text-align: center; padding: 25px; font-size: 0.7rem; letter-spacing: 2px; color: rgba(255,255,255,0.8); font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; }
+        .badge { background: var(--gold); color: #000; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; }
     </style>
 </head>
 <body>
 
+    <!-- FLAG MODAL -->
     <div id="modal" onclick="this.style.display='none'">
         <div class="modal-box" onclick="event.stopPropagation()">
-            <div class="flag-btn" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
-            <div class="flag-btn" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
-            <div class="flag-btn" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
-            <div class="flag-btn" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
-            <div class="flag-btn" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
+            <div class="flag-item" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
+            <div class="flag-item" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
+            <div class="flag-item" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
+            <div class="flag-item" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
+            <div class="flag-item" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
+            <div class="flag-item" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
+            <div class="flag-item" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
+            <div class="flag-item" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
         </div>
     </div>
 
     <div id="app">
         <!-- HOME -->
         <section id="s-home" class="screen active">
-            <div style="margin-top: 30px;">
-                <p class="label-tech">Elite Prestige Realm</p>
+            <div style="margin-top: 30px; text-align: center;">
+                <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:5px; color:var(--gold-solid); opacity:0.8;">Elite Prestige Realm</p>
                 <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
-                <div class="atlas-container"><div class="atlas">🌍</div></div>
+                <div class="atlas">🌍</div>
                 <p class="sub-title">Best World Quiz</p>
             </div>
             <div style="margin-top: auto;">
@@ -103,9 +112,9 @@
 
         <!-- SETUP -->
         <section id="s-setup" class="screen">
-            <h2 class="title-gold" style="font-size: 2.2rem;">Kämpfer</h2>
+            <h2 class="title-gold" style="font-size: 2rem;">Krieger</h2>
             
-            <p class="label-tech" style="font-size: 0.5rem; margin-bottom: 10px;">Realm Sprache</p>
+            <p style="font-family:'Syncopate'; font-size:0.5rem; letter-spacing:2px; color:var(--gold-solid); margin-bottom:10px; text-align:center;">Wähle Sprache</p>
             <div class="lang-grid">
                 <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
                 <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
@@ -119,7 +128,7 @@
 
             <div style="margin-top: auto;">
                 <button class="btn-luxe btn-gold" onclick="App.startBattle()">Kampf Starten</button>
-                <button class="btn-luxe btn-outline" style="border:none; opacity:0.5;" onclick="App.go('home')">Zurück</button>
+                <button class="btn-back" onclick="App.go('home')">← Zurück zum Hauptmenü</button>
             </div>
         </section>
 
@@ -130,31 +139,33 @@
                 <h2 id="vs-name" class="title-gold">SPIELER</h2>
                 <div id="vs-info" style="margin-top:10px;"></div>
             </div>
-            <div style="margin-top: auto; padding-bottom: 40px;">
+            <div style="margin-top: auto; padding-bottom: 20px;">
                 <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
+                <button class="btn-back" onclick="App.go('setup')">← Kämpfer bearbeiten</button>
             </div>
         </section>
 
         <!-- QUIZ -->
         <section id="s-quiz" class="screen">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span id="q-round" class="label-tech">Round 01</span>
+                <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1</span>
                 <span id="q-gold" class="badge">💰 0</span>
             </div>
             <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
-            <div class="glass-panel"><h3 id="q-text" style="text-align:center; font-weight:300; font-size:1.35rem;">...</h3></div>
-            <div id="q-options"></div>
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 25px;"><h3 id="q-text" style="text-align:center; font-weight:300; font-size:1.3rem;">...</h3></div>
+            <div id="q-options" style="margin-top: 15px;"></div>
             <div id="q-feedback" style="display:none; margin-top:10px;">
-                <div class="glass-panel" style="padding:15px;">
+                <div style="background: var(--card); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 20px;">
                     <p id="q-expl" style="font-size: 0.9rem; opacity: 0.8; text-align: center; margin-bottom: 15px;"></p>
                     <button class="btn-luxe btn-gold" onclick="App.nextStep()">Nächste Runde</button>
                 </div>
             </div>
+            <button class="btn-back" style="margin-top: 20px;" onclick="if(confirm('Kampf abbrechen?')) location.reload()">✕ Kampf Abbrechen</button>
         </section>
 
         <!-- LEADERBOARD -->
         <section id="s-leaderboard" class="screen">
-            <h1 class="title-gold" style="font-size:2.2rem; text-align:center;">Halle des Ruhms</h1>
+            <h1 class="title-gold" style="font-size:2.2rem; text-align:center;">Bestenliste</h1>
             <div id="lb-list" style="margin-top:30px; flex:1;"></div>
             <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
         </section>
@@ -173,35 +184,29 @@
             de: [
                 { q: "Was ist das flächenmäßig größte Land?", o: ["China", "Kanada", "Russland", "USA"], c: 2, e: "Russland ist mit 17 Mio. km² der Spitzenreiter." },
                 { q: "Welcher Fluss fließt durch Ägypten?", o: ["Amazonas", "Nil", "Kongo", "Donau"], c: 1, e: "Der Nil ist die Lebensader Ägyptens." },
-                { q: "Hauptstadt von Frankreich?", o: ["Lyon", "Marseille", "Paris", "Bordeaux"], c: 2, e: "Paris ist die Stadt der Liebe." }
+                { q: "Wo steht der schiefe Turm?", o: ["Paris", "Berlin", "Pisa", "London"], c: 2, e: "Der schiefe Turm steht in Pisa, Italien." }
             ],
             ru: [
-                { q: "Какая страна самая большая по площади?", o: ["Китай", "Канада", "Россия", "США"], c: 2, e: "Россия — самая большая страна в мире." },
-                { q: "Какая река течет через Египет?", o: ["Амазонка", "Нил", "Конго", "Дунай"], c: 1, e: "Нил — главная река Египта." },
-                { q: "Столица Франции?", o: ["Лион", "Марсель", "Париж", "Бордо"], c: 2, e: "Париж — столица Франции." }
+                { q: "Какая самая большая страна по площади?", o: ["Китай", "Канада", "Россия", "США"], c: 2, e: "Россия — самая большая страна в мире." },
+                { q: "Какая река течет через Египет?", o: ["Амазонка", "Нил", "Конго", "Дунай"], c: 1, e: "Нил — главная река Египта." }
             ],
             en: [
                 { q: "What is the largest country by area?", o: ["China", "Canada", "Russia", "USA"], c: 2, e: "Russia is the largest country in the world." },
-                { q: "Which river flows through Egypt?", o: ["Amazon", "Nile", "Congo", "Danube"], c: 1, e: "The Nile is the lifeblood of Egypt." },
-                { q: "Capital of France?", o: ["Lyon", "Marseille", "Paris", "Bordeaux"], c: 2, e: "Paris is the capital of France." }
+                { q: "Which river flows through Egypt?", o: ["Amazon", "Nile", "Congo", "Danube"], c: 1, e: "The Nile is the lifeblood of Egypt." }
             ],
             ig: [
-                { q: "Kedu obodo kacha nwee ala n'ụwa?", o: ["China", "Canada", "Russia", "USA"], c: 2, e: "Russia bụ obodo kacha nwee ala n'ụwa." },
-                { q: "Kedu osimiri na-asọ n'Ijipt?", o: ["Amazon", "Nile", "Congo", "Danube"], c: 1, e: "Osimiri Nile bụ osimiri kacha mkpa n'Ijipt." },
-                { q: "Gịnị bụ isi obodo France?", o: ["Lyon", "Marseille", "Paris", "Bordeaux"], c: 2, e: "Paris bụ isi obodo France." }
+                { q: "Kedu obodo kacha nwee ala n'ụwa?", o: ["China", "Canada", "Russia", "USA"], c: 2, e: "Russia bụ obodo kacha nwee ala n'ụwa." }
             ],
             tr: [
-                { q: "Yüzölçümü en büyük ülke hangisidir?", o: ["Çin", "Kanada", "Rusya", "ABD"], c: 2, e: "Rusya dünyanın en büyük ülkesidir." },
-                { q: "Mısır'dan hangi nehir geçer?", o: ["Amazon", "Nil", "Kongo", "Tuna"], c: 1, e: "Nil nehri Mısır'ın can damarıdır." },
-                { q: "Fransa'nın başkenti neresidir?", o: ["Lyon", "Marsilya", "Paris", "Bordo"], c: 2, e: "Paris, Fransa'nın başkentidir." }
+                { q: "Yüzölçümü en büyük ülke hangisidir?", o: ["Çin", "Kanada", "Rusya", "ABD"], c: 2, e: "Rusya dünyanın en büyük ülkesidir." }
             ]
         };
 
         const App = {
-            profiles: JSON.parse(localStorage.getItem('mk_global_profiles')) || {},
+            profiles: JSON.parse(localStorage.getItem('mk_supreme_v4')) || {},
             players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, currentLang: 'de', activeFlagIdx: 0,
 
-            save() { localStorage.setItem('mk_global_profiles', JSON.stringify(this.profiles)); },
+            save() { localStorage.setItem('mk_supreme_v4', JSON.stringify(this.profiles)); },
 
             getProfile(name) {
                 const k = name.trim().toLowerCase();
@@ -225,29 +230,61 @@
             addPlayerInput() {
                 const cont = document.getElementById('player-list');
                 const idx = cont.children.length;
-                if(idx >= 4) return;
+                if(idx >= 5) return;
                 const d = document.createElement('div');
                 d.className = 'player-card';
-                d.innerHTML = `<div class="flag-btn" onclick="App.openFlag(${idx})">🇩🇪</div><input type="text" class="input-luxe" placeholder="Name...">`;
+                d.id = 'p-card-' + idx;
+                d.innerHTML = `
+                    <div class="flag-plus" onclick="App.openFlag(${idx})">+</div>
+                    <input type="text" class="input-luxe" placeholder="Name..." onblur="App.syncProfile(this, ${idx})">
+                    <button class="btn-delete" onclick="App.removePlayer(${idx})">🗑️</button>
+                `;
                 cont.appendChild(d);
             },
 
-            openFlag(idx) { this.activeFlagIdx = idx; document.getElementById('modal').style.display = 'flex'; },
+            removePlayer(idx) {
+                const card = document.getElementById('p-card-' + idx);
+                if(card) card.remove();
+            },
+
+            openFlag(idx) { 
+                this.activeFlagIdx = idx; 
+                document.getElementById('modal').style.display = 'flex'; 
+            },
+
             confirmFlag(f) { 
                 const cards = document.querySelectorAll('.player-card');
-                cards[this.activeFlagIdx].querySelector('.flag-btn').innerText = f;
+                // Finde die Karte, die das Flaggen-Menü ausgelöst hat
+                const card = document.getElementById('p-card-' + this.activeFlagIdx);
+                if(card) {
+                    const btn = card.querySelector('.flag-plus');
+                    btn.innerText = f;
+                    btn.style.borderStyle = 'solid';
+                }
                 document.getElementById('modal').style.display = 'none';
+            },
+
+            syncProfile(input, idx) {
+                if(!input.value) return;
+                const p = this.getProfile(input.value);
+                const card = document.getElementById('p-card-' + idx);
+                const flagBtn = card.querySelector('.flag-plus');
+                if(p.flag && flagBtn.innerText === '+') {
+                    flagBtn.innerText = p.flag;
+                    flagBtn.style.borderStyle = 'solid';
+                }
             },
 
             startBattle() {
                 const cards = document.querySelectorAll('.player-card');
                 this.players = Array.from(cards).map(c => {
                     const name = c.querySelector('input').value || "Warrior";
-                    const flag = c.querySelector('.flag-btn').innerText;
+                    const flag = c.querySelector('.flag-plus').innerText === '+' ? '🐲' : c.querySelector('.flag-plus').innerText;
                     const p = this.getProfile(name);
                     p.flag = flag;
                     return { ...p, sessionScore: 0, sessionGold: 0 };
                 });
+                if(this.players.length === 0) return alert("Füge mindestens einen Kämpfer hinzu!");
                 this.pIdx = 0;
                 this.showVS();
             },
@@ -256,16 +293,15 @@
                 const p = this.players[this.pIdx];
                 document.getElementById('vs-flag').innerText = p.flag;
                 document.getElementById('vs-name').innerText = p.name.toUpperCase();
-                document.getElementById('vs-info').innerHTML = `<span class="badge">LVL ${p.level}</span> <span style="font-size:0.8rem; margin-left:10px;">${p.gold} Gold</span>`;
+                document.getElementById('vs-info').innerHTML = `<span class="badge">LVL ${p.level}</span> <span style="font-size:0.8rem; margin-left:10px; color:var(--gold-solid);">Gesamt Gold: ${p.gold}</span>`;
                 this.go('vs');
             },
 
             startQuiz() {
-                this.qIdx = 0;
                 const p = this.getProfile(this.players[this.pIdx].name);
-                const bank = DB[this.currentLang];
+                this.qIdx = 0;
+                const bank = DB[this.currentLang] || DB.de;
                 
-                // Infinity Logic: Filter out used questions for THIS profile
                 let available = bank.map((_, i) => i).filter(i => !p.usedIds.includes(this.currentLang + i));
                 if(available.length < 3) { p.usedIds = []; available = bank.map((_, i) => i); }
 
@@ -313,18 +349,18 @@
                 const opts = document.querySelectorAll('.option-item');
                 opts.forEach(o => o.style.pointerEvents = 'none');
 
-                prof.usedIds.push(q.id); // Mark as used
+                prof.usedIds.push(q.id);
 
                 if(idx === q.c) {
-                    b.classList.add('correct');
+                    if(b) b.classList.add('correct');
                     p.sessionScore++;
-                    const gain = Math.round(this.timeLeft * 20);
+                    const gain = Math.round(this.timeLeft * 25);
                     p.sessionGold += gain;
                     prof.gold += gain;
                     prof.xp += 100;
                     prof.level = Math.floor(Math.sqrt(prof.xp / 400)) + 1;
                 } else {
-                    if(idx !== -1) b.classList.add('wrong');
+                    if(idx !== -1 && b) b.classList.add('wrong');
                     opts[q.c].classList.add('correct');
                 }
                 this.save();
@@ -335,8 +371,12 @@
 
             nextStep() {
                 this.qIdx++;
-                if(this.qIdx < 5) this.renderQuestion();
-                else { this.pIdx++; if(this.pIdx < this.players.length) this.showVS(); else this.showResults(); }
+                if(this.qIdx < this.activeQs.length) this.renderQuestion();
+                else { 
+                    this.pIdx++; 
+                    if(this.pIdx < this.players.length) this.showVS(); 
+                    else this.showResults(); 
+                }
             },
 
             renderLeaderboard() {
@@ -345,7 +385,7 @@
                 list.innerHTML = sorted.map((p, i) => `
                     <div class="glass-panel" style="display:flex; justify-content:space-between; align-items:center; padding:15px; border-color:${i<3?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
                         <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b></div>
-                        <div style="text-align:right">LVL ${p.level}<br><span style="color:var(--gold-solid);">${p.gold} 💰</span></div>
+                        <div style="text-align:right">LVL ${p.level}<br><span style="color:var(--gold-solid); font-size:0.8rem;">${p.gold} 💰</span></div>
                     </div>
                 `).join('');
             },
@@ -353,15 +393,17 @@
             showResults() {
                 this.go('result');
                 const list = document.getElementById('res-list');
-                list.innerHTML = this.players.map((p, i) => `
+                const sorted = [...this.players].sort((a,b) => b.sessionScore - a.sessionScore);
+                list.innerHTML = sorted.map((p, i) => `
                     <div class="glass-panel" style="display:flex; justify-content:space-between; align-items:center;">
                         <div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div>
-                        <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore} PKT</div></div>
+                        <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore} PKT</div><div style="font-size:0.7rem; opacity:0.6;">+${p.sessionGold} Gold</div></div>
                     </div>
                 `).join('');
             }
         };
 
+        // Standard-Start
         App.go('home');
     </script>
 </body>
