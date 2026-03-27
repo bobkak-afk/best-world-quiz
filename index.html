@@ -2,707 +2,605 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Unified Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>MK · GLOBAL GENESIS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-
+        :root {
+            --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
+            --gold-solid: #d4af37;
+            --bg: #050505;
+            --border: rgba(212, 175, 55, 0.4);
+            --red: #ff3c00;
+            --shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #f1f5f9;
-            overflow-x: hidden;
+            background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif;
+            height: 100vh; overflow: hidden; display: flex; justify-content: center;
+            background-image: radial-gradient(circle at 50% -20%, #2a1b00 0%, #050505 80%);
         }
-
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        #app {
+            width: 100%; max-width: 460px; height: 100vh; display: flex; flex-direction: column;
+            position: relative; z-index: 10; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);
         }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        .screen { display: none; flex: 1; padding: 25px; flex-direction: column; overflow-y: auto; position: relative; }
+        .screen.active { display: flex; animation: screenIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        @keyframes screenIn { from { opacity: 0; transform: translateY(20px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        .branding-top {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 10px;
+            color: var(--gold-solid);
+            text-align: center;
+            margin-top: 10px;
+            text-transform: uppercase;
+            opacity: 0.9;
         }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+        .home-center {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .title-gold {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.5rem;
+            background: var(--gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 0.85;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5));
+            letter-spacing: -2px;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
-            transition: transform 0.2s;
+        .atlas-box {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
         }
-
-        .btn-primary:active {
-            transform: scale(0.95);
+        .atlas {
+            font-size: 8.5rem;
+            animation: rotateAtlas 20s linear infinite;
+            filter: drop-shadow(0 0 40px rgba(0, 150, 255, 0.5));
+            user-select: none;
         }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+        @keyframes rotateAtlas { 
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(0.95); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(0.95); }
+            100% { transform: rotate(360deg) scale(1); }
         }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
+        .sub-title-low {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.7rem;
+            letter-spacing: 4px;
+            color: #fff;
+            text-align: center;
+            text-transform: uppercase;
+            margin-top: 60px;
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-shadow: 0 0 25px rgba(255,255,255,0.8);
         }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 10px;
+        .btn-luxe { appearance: none; border: none; padding: 20px; border-radius: 16px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-bottom: 15px; }
+        .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
+        .btn-gold:active { transform: scale(0.96); }
+        .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
+        .btn-back { background: transparent; color: rgba(255,255,255,0.5); border: none; font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; padding: 10px; text-align: center; font-weight: 700; }
+        .q-visual-frame {
+            height: 240px; border-radius: 24px; border: 1px solid var(--border);
+            background-size: cover; background-position: center; position: relative;
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; box-shadow: var(--shadow);
         }
-
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
+        .q-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)); z-index: 1; }
+        .q-text { position: relative; z-index: 10; text-align: center; font-size: 1.4rem; padding: 20px; font-weight: 600; text-shadow: 0 2px 10px #000; }
+        .opt-visual {
+            height: 65px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15);
+            background-size: cover; background-position: center; position: relative;
+            overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .opt-visual:hover { transform: scale(1.03); border-color: var(--gold-solid); }
+        .opt-img-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 1; transition: 0.3s; }
+        .opt-visual:hover .opt-img-overlay { background: rgba(0,0,0,0.45); }
+        .opt-label { position: relative; z-index: 10; padding-left: 20px; font-weight: 700; font-size: 1.1rem; text-shadow: 0 2px 5px #000; }
+        .opt-visual.correct .opt-img-overlay { background: rgba(27, 77, 46, 0.8) !important; }
+        .opt-visual.correct { border-color: #2ecc71 !important; }
+        .opt-visual.wrong .opt-img-overlay { background: rgba(77, 27, 27, 0.8) !important; }
+        .opt-visual.wrong { border-color: #e74c3c !important; }
+        .section-label {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: var(--gold-solid);
+            text-align: center;
+            margin: 20px 0 15px;
+            text-transform: uppercase;
+            font-weight: 700;
+            opacity: 0.95;
         }
-
-        /* Task completion toggle */
-        .task-item.completed {
-            opacity: 0.5;
-            text-decoration: line-through;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 4px;
-            background: #38bdf8;
-            border-radius: 2px;
-        }
+        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
+        .flag-plus { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; color: var(--gold-solid); }
+        .input-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 15px; outline: none; font-weight: 600; }
+        .btn-trash { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; padding: 5px; opacity: 0.6; }
+        .lang-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 25px; }
+        .lang-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 12px 2px; border-radius: 12px; font-size: 0.55rem; font-family: 'Syncopate'; cursor: pointer; text-align: center; }
+        .lang-chip.active { background: var(--gold); color: #000; font-weight: 900; }
+        .rank-pill { padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; margin-right: 8px; }
+        .rank-master { background: #00d4ff; color: #000; box-shadow: 0 0 10px #00d4ff; }
+        .rank-god { background: #ff3c00; color: #fff; box-shadow: 0 0 15px #ff3c00; }
+        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(15px); }
+        .modal-box { background: #111; border: 1px solid var(--gold-solid); padding: 30px; border-radius: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        footer { text-align: center; padding: 25px; font-size: 0.75rem; color: #ffffff; font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; }
+        .badge { background: var(--gold); color: #000; padding: 4px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; }
+        .timer-rail { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 15px 0 25px; overflow: hidden; }
+        .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(212, 175, 55, 0.1); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s infinite linear; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8">
+<body>
 
-    <!-- Header & Navigation -->
-    <header class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-12 gap-6 animate-fade-in">
-        <div>
-            <h1 class="text-4xl font-bold gradient-text">SmartSync Hub</h1>
-            <p class="text-slate-400 mt-1">Willkommen zurück! Hier ist deine Übersicht für heute.</p>
-        </div>
-        
-        <nav class="flex gap-8 text-sm font-semibold uppercase tracking-wider">
-            <a href="#" class="nav-item active text-sky-400">Dashboard</a>
-            <a href="#" class="nav-item text-slate-400 hover:text-white transition">Projekte</a>
-            <a href="#" class="nav-item text-slate-400 hover:text-white transition">Analysen</a>
-        </nav>
-
-        <div class="flex items-center gap-4 bg-slate-800/50 p-2 rounded-full border border-slate-700">
-            <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold">JD</div>
-            <div class="hidden sm:block pr-4">
-                <p class="text-xs text-slate-400">User ID</p>
-                <p class="text-sm font-medium">Jan Doe</p>
-            </div>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        <!-- Left Column: Content & Controls -->
-        <div class="lg:col-span-8 space-y-8 animate-fade-in" style="animation-delay: 0.1s;">
-            
-            <!-- Hero Section / Status Card -->
-            <div class="glass-card p-8 bg-gradient-to-br from-indigo-900/40 to-slate-800/40 border-indigo-500/20">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">System Aktiv</span>
-                        <h2 class="text-2xl font-bold mt-4">Aktueller Fortschritt</h2>
-                        <p class="text-slate-400 mt-2 max-w-md">Du hast bereits 85% deiner wöchentlichen Ziele erreicht. Bleib dran, um den Bonus freizuschalten.</p>
-                    </div>
-                    <div class="hidden sm:flex flex-col items-end">
-                        <span class="text-5xl font-bold text-white">85<span class="text-indigo-400 text-2xl">%</span></span>
-                        <div class="w-32 h-2 bg-slate-700 rounded-full mt-2">
-                            <div class="h-full bg-indigo-500 rounded-full" style="width: 85%"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-                    <div class="bg-slate-900/40 p-4 rounded-xl border border-white/5">
-                        <p class="text-slate-500 text-xs">Aufgaben</p>
-                        <p class="text-xl font-bold">12 / 15</p>
-                    </div>
-                    <div class="bg-slate-900/40 p-4 rounded-xl border border-white/5">
-                        <p class="text-slate-500 text-xs">Zeit heute</p>
-                        <p class="text-xl font-bold">6h 12m</p>
-                    </div>
-                    <div class="bg-slate-900/40 p-4 rounded-xl border border-white/5">
-                        <p class="text-slate-500 text-xs">Team-Sync</p>
-                        <p class="text-xl font-bold">In 2h</p>
-                    </div>
-                    <div class="bg-slate-900/40 p-4 rounded-xl border border-white/5">
-                        <p class="text-slate-500 text-xs">Effizienz</p>
-                        <p class="text-xl font-bold text-emerald-400">+12%</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Interaktive Steuerungssektion -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Task List -->
-                <div class="glass-card p-6 flex flex-col h-[400px]">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-semibold flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-sky-400"></i> Prioritäten
-                        </h3>
-                        <button id="addTaskBtn" class="text-xs bg-sky-500/20 text-sky-400 px-3 py-1 rounded-lg hover:bg-sky-500/30 transition">Neu</button>
-                    </div>
-                    
-                    <div id="taskList" class="flex-1 overflow-y-auto custom-scrollbar space-y-3 pr-2">
-                        <!-- Items will be injected via JS -->
-                    </div>
-                </div>
-
-                <!-- Messaging / Feed -->
-                <div class="glass-card p-6 flex flex-col h-[400px]">
-                    <h3 class="text-lg font-semibold mb-6 flex items-center gap-2">
-                        <i class="fa-solid fa-bolt text-amber-400"></i> Aktuelle Aktivität
-                    </h3>
-                    <div id="activityFeed" class="flex-1 overflow-y-auto custom-scrollbar space-y-6 pr-2">
-                        <!-- Feed Items -->
-                        <div class="flex gap-4">
-                            <div class="min-w-[40px] h-10 rounded-full bg-slate-700 flex items-center justify-center"><i class="fa-solid fa-code text-indigo-400"></i></div>
-                            <div>
-                                <p class="text-sm">Neues <span class="text-white font-medium">Frontend Update</span> wurde in den Main-Branch gemergt.</p>
-                                <p class="text-xs text-slate-500 mt-1">Vor 5 Minuten</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="min-w-[40px] h-10 rounded-full bg-slate-700 flex items-center justify-center"><i class="fa-solid fa-comment text-emerald-400"></i></div>
-                            <div>
-                                <p class="text-sm"><span class="text-white font-medium">Sarah Müller</span> hat dich in einem Kommentar markiert.</p>
-                                <p class="text-xs text-slate-500 mt-1">Vor 42 Minuten</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="min-w-[40px] h-10 rounded-full bg-slate-700 flex items-center justify-center"><i class="fa-solid fa-triangle-exclamation text-amber-400"></i></div>
-                            <div>
-                                <p class="text-sm">Server-Auslastung bei <span class="text-amber-400 font-medium">89%</span>. Monitoring empfohlen.</p>
-                                <p class="text-xs text-slate-500 mt-1">Vor 2 Stunden</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Column: Stats & Settings -->
-        <div class="lg:col-span-4 space-y-8 animate-fade-in" style="animation-delay: 0.2s;">
-            
-            <!-- Quick Action & Modal Trigger Area -->
-            <div class="glass-card p-6">
-                <h3 class="text-lg font-semibold mb-4">Schnellzugriff</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <button class="btn-primary p-4 rounded-xl flex flex-col items-center gap-2 group">
-                        <i class="fa-solid fa-plus text-xl"></i>
-                        <span class="text-xs font-semibold">Projekt</span>
-                    </button>
-                    <button class="bg-slate-700 hover:bg-slate-600 p-4 rounded-xl flex flex-col items-center gap-2 transition">
-                        <i class="fa-solid fa-share-nodes text-xl"></i>
-                        <span class="text-xs font-semibold">Teilen</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mini Calendar / Schedule -->
-            <div class="glass-card p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-lg font-semibold">Heutige Termine</h3>
-                    <span class="text-xs text-slate-500">März 27, 2024</span>
-                </div>
-                <div class="space-y-4">
-                    <div class="pl-4 border-l-4 border-indigo-500 bg-indigo-500/5 p-3 rounded-r-xl">
-                        <p class="text-xs text-indigo-400 font-bold uppercase">10:00 - 11:30</p>
-                        <p class="text-sm font-semibold mt-1">Design Review Session</p>
-                    </div>
-                    <div class="pl-4 border-l-4 border-slate-600 bg-slate-600/5 p-3 rounded-r-xl opacity-70">
-                        <p class="text-xs text-slate-400 font-bold uppercase">13:00 - 14:00</p>
-                        <p class="text-sm font-semibold mt-1">Mittagspause</p>
-                    </div>
-                    <div class="pl-4 border-l-4 border-sky-500 bg-sky-500/5 p-3 rounded-r-xl">
-                        <p class="text-xs text-sky-400 font-bold uppercase">15:00 - 16:00</p>
-                        <p class="text-sm font-semibold mt-1">Sprint Planning Q2</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Integration Section -->
-            <div class="glass-card p-6">
-                <h3 class="text-lg font-semibold mb-4 text-slate-300">Verbunden</h3>
-                <div class="flex flex-wrap gap-4">
-                    <div title="Github" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 cursor-pointer transition">
-                        <i class="fa-brands fa-github text-xl"></i>
-                    </div>
-                    <div title="Slack" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 cursor-pointer transition">
-                        <i class="fa-brands fa-slack text-xl text-emerald-400"></i>
-                    </div>
-                    <div title="Figma" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 cursor-pointer transition">
-                        <i class="fa-brands fa-figma text-xl text-rose-400"></i>
-                    </div>
-                    <div title="Google Cloud" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 cursor-pointer transition">
-                        <i class="fa-brands fa-google-drive text-xl text-amber-400"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Custom Modal for Alerts -->
-    <div id="modalOverlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <div class="glass-card p-8 max-w-sm w-full mx-4 shadow-2xl">
-            <h4 class="text-xl font-bold mb-2" id="modalTitle">Meldung</h4>
-            <p class="text-slate-400 mb-6" id="modalText">Dies ist eine wichtige Nachricht.</p>
-            <button id="closeModal" class="w-full btn-primary py-3 rounded-xl font-bold">Verstanden</button>
-        </div>
+<div id="modal" onclick="this.style.display='none'">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
     </div>
+</div>
 
-    <script>
-        // Data Initialization
-        const tasks = [
-            { id: 1, title: "UI-Komponenten optimieren", completed: true, priority: "hoch" },
-            { id: 2, title: "API Dokumentation abschließen", completed: false, priority: "mittel" },
-            { id: 3, title: "Team Meeting vorbereiten", completed: false, priority: "niedrig" },
-            { id: 4, title: "Performance Audit durchführen", completed: false, priority: "hoch" },
-            { id: 5, title: "Assets für Social Media exportieren", completed: true, priority: "niedrig" }
-        ];
+<div id="app">
+    <section id="s-home" class="screen active">
+        <p class="branding-top">Elite Prestige Game</p>
+        <div class="home-center">
+            <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
+            <div class="atlas-box"><div class="atlas">🌍</div></div>
+        </div>
+        <p class="sub-title-low">Best World Quiz</p>
+        <div style="margin-top: auto;">
+            <button class="btn-luxe btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
+            <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge & Ränge ⚔️</button>
+            <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
+        </div>
+        <footer>Produziert von Wowa & Amiar Kempf</footer>
+    </section>
 
-        // UI References
-        const taskListEl = document.getElementById('taskList');
-        const modalOverlay = document.getElementById('modalOverlay');
-        const closeModal = document.getElementById('closeModal');
-        const addTaskBtn = document.getElementById('addTaskBtn');
+    <section id="s-setup" class="screen">
+        <h2 class="title-gold" style="font-size: 2.2rem;">Krieger</h2>
+        <p class="section-label">Game Sprache</p>
+        <div class="lang-grid">
+            <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
+            <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
+            <div class="lang-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
+            <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
+            <div class="lang-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
+        </div>
+        <p class="section-label">Flagge und Namen aussuchen</p>
+        <div id="player-list"></div>
+        <button class="btn-luxe btn-outline" style="font-size:0.6rem; padding: 12px;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
+        <div style="margin-top: auto;">
+            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Generiere Kampf</button>
+            <button class="btn-back" onclick="App.go('home')">← Hauptmenü</button>
+        </div>
+    </section>
 
-        // Functions
-        function renderTasks() {
-            taskListEl.innerHTML = '';
-            tasks.forEach(task => {
-                const item = document.createElement('div');
-                item.className = `task-item group flex items-center justify-between p-4 bg-slate-800/40 border border-white/5 rounded-xl hover:border-sky-500/30 transition-all ${task.completed ? 'completed' : ''}`;
-                
-                const priorityColors = {
-                    hoch: 'bg-rose-500',
-                    mittel: 'bg-amber-500',
-                    niedrig: 'bg-emerald-500'
+    <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
+        <div class="spinner"></div>
+        <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:25px;">Lade Game-Visuals...</p>
+    </section>
+
+    <section id="s-vs" class="screen">
+        <div style="text-align: center; margin-top: 60px;">
+            <div id="vs-flag" style="font-size: 7.5rem; margin-bottom: 15px;">🐲</div>
+            <h2 id="vs-name" class="title-gold" style="font-size: 2.8rem;">PLAYER</h2>
+            <div id="vs-info" style="margin-top:10px;"></div>
+        </div>
+        <div style="margin-top: auto; padding-bottom: 40px;">
+            <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
+            <button class="btn-back" onclick="App.go('setup')">← Team ändern</button>
+        </div>
+    </section>
+
+    <section id="s-quiz" class="screen">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1/10</span>
+            <span id="q-gold" class="badge">💰 0</span>
+        </div>
+        <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
+        <div id="q-frame" class="q-visual-frame">
+            <div class="q-overlay"></div>
+            <h3 id="q-text" class="q-text">Lade Prüfung...</h3>
+        </div>
+        <div id="q-options"></div>
+        <div id="q-feedback" style="display:none; margin-top:10px;">
+            <div style="background: rgba(10,10,10,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center;">
+                <p id="q-expl" style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 15px;"></p>
+                <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
+            </div>
+        </div>
+        <button class="btn-back" style="margin-top:15px;" onclick="if(confirm('Abbrechen?')) location.reload()">✕ Beenden</button>
+    </section>
+
+    <section id="s-result" class="screen">
+        <h1 class="title-gold" style="font-size: 2.5rem;">KAMPF ENDE</h1>
+        <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
+        <div style="margin-top: auto;">
+            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Nochmal Kämpfen</button>
+            <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
+        </div>
+        <footer>Produziert von Wowa & Amiar Kempf</footer>
+    </section>
+
+    <section id="s-achievements" class="screen">
+        <h1 class="title-gold" style="font-size: 2rem;">ERFOLGE</h1>
+        <div id="ach-list" style="margin-top:30px; flex:1;"></div>
+        <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+    </section>
+
+    <section id="s-leaderboard" class="screen">
+        <h1 class="title-gold" style="font-size: 2rem;">BESTENLISTE</h1>
+        <div id="lb-list" style="margin-top:30px; flex:1;"></div>
+        <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+    </section>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // VERBESSERTER QUIZ-ENGINE – Globus dreht sich nur noch
+    // --------------------------------------------------------------
+    
+    const DB = {
+        de: [
+            { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "de3", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "de4", q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "China"], c: 0, e: "Sie stehen nahe Kairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "de5", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifik deckt 35% der Erde.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "de6", q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Er liegt im Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "de7", q: "Währung der USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist Weltleitwährung.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "de8", q: "Kontinent Australien?", o: ["Kleinster", "Größter", "Kältester", "Heißester"], c: 0, e: "Australien ist der kleinste Kontinent.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "de9", q: "Eiffelturm Standort?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Wahrzeichen von Frankreich.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
+            { id: "de10", q: "Farbe der UNO Flagge?", o: ["Blau-Weiß", "Rot-Gelb", "Schwarz-Rot", "Grün"], c: 0, e: "Blau und Weiß für den Frieden.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
+        ],
+        ru: [
+            { id: "ru1", q: "Самая большая страна в мире?", o: ["Россия", "Канада", "Китай", "США"], c: 0, e: "Россия занимает около 17 млн км².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "ru2", q: "Столица Японии?", o: ["Токио", "Киото", "Осака", "Сеул"], c: 0, e: "Токио — крупнейший мегаполис.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "ru3", q: "Какая река протекает через Египет?", o: ["Нил", "Амазонка", "Конго", "Ганг"], c: 0, e: "Нил — источник жизни.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "ru4", q: "Где находятся пирамиды?", o: ["Гиза", "Мексика", "Ирак", "Китай"], c: 0, e: "Они находятся недалеко от Каира.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "ru5", q: "Самый большой океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный Ледовитый"], c: 0, e: "Тихий океан покрывает 35% Земли.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "ru6", q: "Самая высокая гора?", o: ["Эверест", "К2", "Монблан", "Фудзияма"], c: 0, e: "Она находится в Гималаях.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "ru7", q: "Валюта США?", o: ["Доллар", "Евро", "Фунт", "Йена"], c: 0, e: "Доллар США — мировая резервная валюта.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "ru8", q: "Континент Австралии?", o: ["Самый маленький", "Самый большой", "Самый холодный", "Самый жаркий"], c: 0, e: "Австралия — самый маленький континент.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "ru9", q: "Где находится Эйфелева башня?", o: ["Париж", "Берлин", "Лондон", "Рим"], c: 0, e: "Символ Франции.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
+            { id: "ru10", q: "Цвет флага ООН?", o: ["Сине-белый", "Красно-желтый", "Черно-красный", "Зеленый"], c: 0, e: "Синий и белый символизируют мир.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
+        ],
+        en: [
+            { id: "en1", q: "Largest country in the world?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia covers about 17 million km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "en2", q: "Capital of Japan?", o: ["Tokyo", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokyo is the largest metropolis.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "en3", q: "Which river flows through Egypt?", o: ["Nile", "Amazon", "Congo", "Ganges"], c: 0, e: "The Nile is the lifeline.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "en4", q: "Where are the pyramids?", o: ["Giza", "Mexico", "Iraq", "China"], c: 0, e: "They are near Cairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "en5", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "The Pacific covers 35% of Earth.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "en6", q: "Highest mountain?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "It is in the Himalayas.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "en7", q: "Currency of USA?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar is the world's reserve currency.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "en8", q: "Continent Australia?", o: ["Smallest", "Largest", "Coldest", "Hottest"], c: 0, e: "Australia is the smallest continent.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "en9", q: "Eiffel Tower location?", o: ["Paris", "Berlin", "London", "Rome"], c: 0, e: "Symbol of France.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
+            { id: "en10", q: "Color of UN flag?", o: ["Blue-White", "Red-Yellow", "Black-Red", "Green"], c: 0, e: "Blue and white for peace.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
+        ],
+        ig: [
+            { id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "abuja nigeria", imgKw: ["abuja city", "lagos city", "enugu city", "kano city"] },
+            { id: "ig2", q: "Kedu mba kasị ukwuu n'ụwa?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia bụ mba kasị ukwuu.", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "ig3", q: "Isi obodo Japan?", o: ["Tokyo", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokyo bụ isi obodo Japan.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "ig4", q: "Osimiri dị n'Ijipt?", o: ["Nile", "Amazon", "Congo", "Ganges"], c: 0, e: "Osimiri Nile bụ ndụ.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "ig5", q: "Ebee pyramid dị?", o: ["Giza", "Mexico", "Iraq", "China"], c: 0, e: "Ha dị nso Cairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "ig6", q: "Oke osimiri kasị ukwuu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific kpuchiri 35% nke ụwa.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "ig7", q: "Ugwu kasị elu?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Ọ dị na Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "ig8", q: "Ego USA?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar bụ ego ụwa.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "ig9", q: "Kọntinent Australia?", o: ["Nke kasị nta", "Nke kasị ukwuu", "Nke kasị oyi", "Nke kasị ọkụ"], c: 0, e: "Australia bụ kọntinent kacha nta.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "ig10", q: "Eiffel Tower dị?", o: ["Paris", "Berlin", "London", "Rome"], c: 0, e: "Akara France.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] }
+        ],
+        tr: [
+            { id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "bursa mosque"] },
+            { id: "tr2", q: "Dünyanın en büyük ülkesi?", o: ["Rusya", "Kanada", "Çin", "ABD"], c: 0, e: "Rusya yaklaşık 17 milyon km²'dir.", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "tr3", q: "Japonya'nın başkenti?", o: ["Tokyo", "Kyoto", "Osaka", "Seul"], c: 0, e: "Tokyo en büyük metropoldür.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "tr4", q: "Mısır'dan geçen nehir?", o: ["Nil", "Amazon", "Kongo", "Ganj"], c: 0, e: "Nil hayat kaynağıdır.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "tr5", q: "Piramitler nerede?", o: ["Gize", "Meksika", "Irak", "Çin"], c: 0, e: "Kahire yakınlarında.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "tr6", q: "En büyük okyanus?", o: ["Pasifik", "Atlas", "Hint", "Arktik"], c: 0, e: "Pasifik Dünya'nın %35'ini kaplar.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "tr7", q: "En yüksek dağ?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Himalayalar'da bulunur.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "tr8", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "ABD Doları dünya rezerv para birimidir.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "tr9", q: "Avustralya kıtası?", o: ["En küçük", "En büyük", "En soğuk", "En sıcak"], c: 0, e: "Avustralya en küçük kıtadır.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "tr10", q: "Eyfel Kulesi nerede?", o: ["Paris", "Berlin", "Londra", "Roma"], c: 0, e: "Fransa'nın sembolü.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] }
+        ]
+    };
+
+    const App = {
+        profiles: {},
+        players: [],
+        pIdx: 0,
+        qIdx: 0,
+        timer: null,
+        timeLeft: 12,
+        currentLang: 'de',
+        activeFlagIdx: null,
+        activeQs: [],
+        answered: false,
+        sessionUsedIds: [],
+
+        save() {
+            try {
+                localStorage.setItem('mk_supreme_v9', JSON.stringify(this.profiles));
+            } catch(e) { console.warn("localStorage voll?", e); }
+        },
+
+        load() {
+            try {
+                const saved = localStorage.getItem('mk_supreme_v9');
+                if (saved) this.profiles = JSON.parse(saved);
+            } catch(e) { console.warn("Fehler beim Laden", e); this.profiles = {}; }
+        },
+
+        getProfile(name) {
+            const raw = name.trim();
+            const key = raw.toLowerCase();
+            if (!this.profiles[key]) {
+                this.profiles[key] = { 
+                    name: raw,
+                    displayName: raw,
+                    xp: 0, 
+                    gold: 0, 
+                    level: 1, 
+                    flag: '🐲',
+                    usedIds: []
                 };
-
-                item.innerHTML = `
-                    <div class="flex items-center gap-4">
-                        <div class="w-2 h-2 rounded-full ${priorityColors[task.priority]}"></div>
-                        <span class="text-sm font-medium">${task.title}</span>
-                    </div>
-                    <button onclick="toggleTask(${task.id})" class="text-slate-500 group-hover:text-sky-400 transition">
-                        <i class="fa-solid ${task.completed ? 'fa-circle-check text-sky-400' : 'fa-circle'}"></i>
-                    </button>
-                `;
-                taskListEl.appendChild(item);
-            });
-        }
-
-        function toggleTask(id) {
-            const task = tasks.find(t => t.id === id);
-            if (task) {
-                task.completed = !task.completed;
-                renderTasks();
+            } else {
+                this.profiles[key].name = raw;
             }
+            return this.profiles[key];
+        },
+
+        getRank(lvl) {
+            if(lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
+            if(lvl >= 10) return { class: 'rank-master', label: 'Master' };
+            return { class: 'rank-warrior', label: 'Warrior' };
+        },
+
+        go(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('s-' + id).classList.add('active');
+            if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
+            if(id === 'leaderboard') this.renderLeaderboard();
+            if(id === 'achievements') this.renderAchievements();
+        },
+
+        setLang(l) {
+            this.currentLang = l;
+            document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
+            document.getElementById('ln-' + l).classList.add('active');
+        },
+
+        addPlayerInput() {
+            const cont = document.getElementById('player-list');
+            const id = Date.now() + Math.random();
+            const d = document.createElement('div');
+            d.className = 'player-card'; d.id = 'pc-' + id;
+            d.innerHTML = `<div class="flag-plus" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Name..."><button class="btn-trash" onclick="document.getElementById('pc-${id}').remove()">🗑️</button>`;
+            cont.appendChild(d);
+        },
+
+        openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
+        confirmFlag(f) { 
+            const card = document.getElementById('pc-' + this.activeFlagIdx);
+            const btn = card.querySelector('.flag-plus');
+            btn.innerText = f; btn.style.borderStyle = 'solid';
+            document.getElementById('modal').style.display = 'none';
+        },
+
+        getQuestionsForLang(lang) {
+            let bank = DB[lang] || DB.en;
+            if (bank.length < 10) {
+                const fallback = DB.en.slice(0, 10 - bank.length);
+                bank = [...bank, ...fallback];
+            }
+            return bank;
+        },
+
+        async prepareBattle() {
+            const cards = document.querySelectorAll('.player-card');
+            if (cards.length === 0) return;
+            this.players = [];
+            for (let c of cards) {
+                const name = c.querySelector('input').value || "Warrior";
+                const flag = c.querySelector('.flag-plus').innerText === '+' ? '🐲' : c.querySelector('.flag-plus').innerText;
+                const profile = this.getProfile(name);
+                profile.flag = flag;
+                profile.sessionScore = 0;
+                profile.sessionGold = 0;
+                this.players.push(profile);
+            }
+            this.pIdx = 0;
+            this.go('loading');
+            await this.prepareQuestionsForCurrentPlayer();
+            setTimeout(() => this.showVS(), 1500);
+        },
+
+        prepareQuestionsForCurrentPlayer() {
+            const bank = this.getQuestionsForLang(this.currentLang);
+            const available = bank.filter(q => !this.sessionUsedIds.includes(q.id));
+            if (available.length < 5) {
+                this.sessionUsedIds = [];
+                const freshAvailable = bank.filter(q => !this.sessionUsedIds.includes(q.id));
+                this.activeQs = freshAvailable.sort(() => 0.5 - Math.random()).slice(0, 10);
+            } else {
+                this.activeQs = available.sort(() => 0.5 - Math.random()).slice(0, 10);
+            }
+        },
+
+        showVS() {
+            const p = this.players[this.pIdx];
+            const r = this.getRank(p.level);
+            document.getElementById('vs-flag').innerText = p.flag;
+            document.getElementById('vs-name').innerText = p.name.toUpperCase();
+            document.getElementById('vs-info').innerHTML = `<span class="rank-pill ${r.class}">${r.label}</span> <span style="font-size:0.85rem; color:var(--gold-solid);">GOLD: ${p.gold}</span>`;
+            this.go('vs');
+        },
+
+        startQuiz() {
+            this.qIdx = 0;
+            this.answered = false;
+            this.renderQuestion();
+            this.go('quiz');
+        },
+
+        setBgWithFallback(element, url) {
+            element.style.backgroundImage = `url('${url}')`;
+            const img = new Image();
+            img.onerror = () => {
+                element.style.backgroundImage = "url('https://via.placeholder.com/800x450?text=Geography+Image')";
+            };
+            img.src = url;
+        },
+
+        renderQuestion() {
+            const q = this.activeQs[this.qIdx];
+            const p = this.players[this.pIdx];
+            document.getElementById('q-round').innerText = `Round ${this.qIdx + 1}/10`;
+            document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
+            document.getElementById('q-text').innerText = q.q;
+
+            const imgUrl = `https://source.unsplash.com/800x450/?${encodeURIComponent(q.kw)}`;
+            const frame = document.getElementById('q-frame');
+            this.setBgWithFallback(frame, imgUrl);
+            
+            const box = document.getElementById('q-options'); 
+            box.innerHTML = '';
+            document.getElementById('q-feedback').style.display = 'none';
+            box.style.display = 'block';
+            this.answered = false;
+
+            q.o.forEach((opt, i) => {
+                const b = document.createElement('div');
+                b.className = 'opt-visual';
+                const imgKeyword = q.imgKw && q.imgKw[i] ? q.imgKw[i] : `${opt},landscape`;
+                const optImgUrl = `https://source.unsplash.com/400x150/?${encodeURIComponent(imgKeyword)}`;
+                b.style.backgroundImage = `url('${optImgUrl}')`;
+                const imgTest = new Image();
+                imgTest.onerror = () => {
+                    b.style.backgroundImage = "url('https://via.placeholder.com/400x150?text=Option')";
+                };
+                imgTest.src = optImgUrl;
+                b.innerHTML = `<div class="opt-img-overlay"></div><div class="opt-label">${opt}</div>`;
+                b.onclick = () => this.handleAnswer(i, b);
+                box.appendChild(b);
+            });
+            this.startTimer();
+        },
+
+        startTimer() {
+            clearInterval(this.timer);
+            this.timeLeft = 12;
+            const bar = document.getElementById('timer-bar');
+            bar.style.width = "100%";
+            this.timer = setInterval(() => {
+                if (this.answered) return;
+                this.timeLeft -= 1;
+                bar.style.width = (this.timeLeft / 12 * 100) + "%";
+                if (this.timeLeft <= 0) {
+                    clearInterval(this.timer);
+                    if (!this.answered) this.handleAnswer(-1);
+                }
+            }, 1000);
+        },
+
+        handleAnswer(idx, b) {
+            if (this.answered) return;
+            this.answered = true;
+            clearInterval(this.timer);
+            
+            const q = this.activeQs[this.qIdx];
+            const p = this.players[this.pIdx];
+            const opts = document.querySelectorAll('.opt-visual');
+            opts.forEach(o => o.style.pointerEvents = 'none');
+
+            this.sessionUsedIds.push(q.id);
+
+            if (idx === q.c) {
+                if(b) b.classList.add('correct');
+                p.sessionScore++;
+                const gain = Math.max(0, Math.round(this.timeLeft * 30));
+                p.sessionGold += gain;
+                p.gold += gain;
+                p.xp += 100;
+                p.level = Math.floor(Math.sqrt(p.xp / 350)) + 1;
+            } else {
+                if (idx !== -1 && b) b.classList.add('wrong');
+                if (opts[q.c]) opts[q.c].classList.add('correct');
+            }
+            this.save();
+            document.getElementById('q-expl').innerText = q.e;
+            document.getElementById('q-feedback').style.display = 'block';
+            document.getElementById('q-options').style.display = 'none';
+        },
+
+        nextStep() {
+            this.qIdx++;
+            if (this.qIdx < 10 && this.qIdx < this.activeQs.length) {
+                this.answered = false;
+                this.renderQuestion();
+            } else {
+                this.pIdx++;
+                if (this.pIdx < this.players.length) {
+                    this.sessionUsedIds = [];
+                    this.prepareQuestionsForCurrentPlayer();
+                    this.showVS();
+                } else {
+                    this.showResults();
+                }
+            }
+        },
+
+        renderLeaderboard() {
+            const list = document.getElementById('lb-list');
+            const sorted = Object.values(this.profiles).sort((a,b) => b.xp - a.xp);
+            list.innerHTML = sorted.map((p, i) => `
+                <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; border-color:${i<3?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
+                    <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b></div>
+                    <div style="text-align:right">LVL ${p.level}<br><span style="color:var(--gold-solid);">${p.gold} 💰</span></div>
+                </div>
+            `).join('');
+        },
+
+        renderAchievements() {
+            const list = document.getElementById('ach-list');
+            const sorted = Object.values(this.profiles).sort((a,b) => b.level - a.level);
+            list.innerHTML = sorted.map(p => {
+                const r = this.getRank(p.level);
+                return `<div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;">
+                    <div style="font-size:2rem">${p.flag}</div>
+                    <div style="flex:1"><b>${p.name}</b><br><span class="rank-pill ${r.class}">${r.label}</span></div>
+                    <div style="text-align:right; font-weight:700; color:var(--gold-solid)">Lvl ${p.level}</div>
+                </div>`;
+            }).join('');
+        },
+
+        showResults() {
+            this.go('result');
+            const list = document.getElementById('res-list');
+            list.innerHTML = this.players.map(p => `
+                <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;">
+                    <div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div>
+                    <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div>
+                </div>`).join('');
         }
+    };
 
-        function showModal(title, text) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalText').innerText = text;
-            modalOverlay.classList.remove('hidden');
-            setTimeout(() => modalOverlay.classList.add('opacity-100'), 10);
-        }
-
-        function hideModal() {
-            modalOverlay.classList.remove('opacity-100');
-            setTimeout(() => modalOverlay.classList.add('hidden'), 300);
-        }
-
-        // Event Listeners
-        closeModal.addEventListener('click', hideModal);
-        addTaskBtn.addEventListener('click', () => {
-            showModal("Funktion eingeschränkt", "In der Demo-Version können keine neuen Aufgaben gespeichert werden. Aber du kannst die vorhandenen abhaken!");
-        });
-
-        // Initialize
-        window.onload = () => {
-            renderTasks();
-            console.log("Dashboard initialisiert.");
-        };
-    </script>
+    App.load();
+    App.go('home');
+    // KEIN setInterval mehr für den Globus – er dreht sich nur noch via CSS.
+</script>
 </body>
 </html>
-
-
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Unified Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #f1f5f9;
-            overflow-x: hidden;
-        }
-
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
-            transition: transform 0.2s;
-        }
-
-        .btn-primary:active {
-            transform: scale(0.95);
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 10px;
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Task completion toggle */
-        .task-item.completed {
-            opacity: 0.5;
-            text-decoration: line-through;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 4px;
-            background: #38bdf8;
-            border-radius: 2px;
-        }
-    </style>
-</head>
-<body class="min-h-screen p-4 md:p-8">
-
-    <!-- Header & Navigation -->
-    <header class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-12 gap-6 animate-fade-in">
-        <div>
-            <h1 class="text-4xl font-bold gradient-text">SmartSync Hub</h1>
-            <p class="text-slate-400 mt-1">Willkommen zurück! Hier ist deine Übersicht für heute.</p>
-        </div>
-        
-        <nav class="flex gap-8 text-sm font-semibold uppercase tracking-wider">
-            <a href="#" class="nav-item active text-sky-400">Dashboard</a>
-            <a href="#" class="nav-item text-slate-400 hover:text-white transition">Projekte</a>
-            <a href="#" class="nav-item text-slate-400 hover:text-white transition">Analysen</a>
-        </nav>
-
-        <div class="flex items-center gap-4 bg-slate-800/50 p-2 rounded-full border border-slate-700">
-            <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold">JD</div>
-            <div class="hidden sm:block pr-4">
-                <p class="text-xs text-slate-400">User ID</p>
-                <p class="text-sm font-medium">Jan Doe</p>
-            </div>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        <!-- Left Column: Content & Controls -->
-        <div class="lg:col-span-8 space-y-8 animate-fade-in" style="animation-delay: 0.1s;">
-            
-            <!-- Hero Section / Status Card -->
-            <div class="glass-card p-8 bg-gradient-to-br from-indigo-900/40 to-slate-800/40 border-indigo-500/20">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">System Aktiv</span>
-                        <h2 class="text-2xl font-bold mt-4">Aktueller Fortschritt</h2>
-                        <p class="text-slate-400 mt-2 max-w-md">Du hast bereits 85% deiner wöchentlichen Ziele erreicht. Bleib dran, um den Bonus freizuschalten.</p>
-                    </div>
-                    <div class="hidden sm:flex flex-col items-end">
-                        <span class="text-5xl font-bold text-white">85<span class="text-indigo-400 text-2xl">%</span></span>
-                        <div class="w-32 h-2 bg-slate-700 rounded-full mt-2">
-                            <div class="h-full bg-indigo-500 rounded-full" style="width: 85%"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-                    <div class="bg-slate-900/40 p-4 rounded-xl border border-white/5">
-                        <p class="text-slate-500 text-xs">Aufgaben</p>
-                        <p class="text-xl font-bold">12 / 15</p>
-                    </div>
-                    <div class="bg-slate-900/40 p-4 rounded-xl border border-white/5">
-                        <p class="text-slate-500 text-xs">Zeit heute</p>
-                        <p class="text-xl font-bold">6h 12m</p>
-                    </div>
-                    <div class="bg-slate-900/40 p-4 rounded-xl border border-white/5">
-                        <p class="text-slate-500 text-xs">Team-Sync</p>
-                        <p class="text-xl font-bold">In 2h</p>
-                    </div>
-                    <div class="bg-slate-900/40 p-4 rounded-xl border border-white/5">
-                        <p class="text-slate-500 text-xs">Effizienz</p>
-                        <p class="text-xl font-bold text-emerald-400">+12%</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Interaktive Steuerungssektion -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Task List -->
-                <div class="glass-card p-6 flex flex-col h-[400px]">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-semibold flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-sky-400"></i> Prioritäten
-                        </h3>
-                        <button id="addTaskBtn" class="text-xs bg-sky-500/20 text-sky-400 px-3 py-1 rounded-lg hover:bg-sky-500/30 transition">Neu</button>
-                    </div>
-                    
-                    <div id="taskList" class="flex-1 overflow-y-auto custom-scrollbar space-y-3 pr-2">
-                        <!-- Items will be injected via JS -->
-                    </div>
-                </div>
-
-                <!-- Messaging / Feed -->
-                <div class="glass-card p-6 flex flex-col h-[400px]">
-                    <h3 class="text-lg font-semibold mb-6 flex items-center gap-2">
-                        <i class="fa-solid fa-bolt text-amber-400"></i> Aktuelle Aktivität
-                    </h3>
-                    <div id="activityFeed" class="flex-1 overflow-y-auto custom-scrollbar space-y-6 pr-2">
-                        <!-- Feed Items -->
-                        <div class="flex gap-4">
-                            <div class="min-w-[40px] h-10 rounded-full bg-slate-700 flex items-center justify-center"><i class="fa-solid fa-code text-indigo-400"></i></div>
-                            <div>
-                                <p class="text-sm">Neues <span class="text-white font-medium">Frontend Update</span> wurde in den Main-Branch gemergt.</p>
-                                <p class="text-xs text-slate-500 mt-1">Vor 5 Minuten</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="min-w-[40px] h-10 rounded-full bg-slate-700 flex items-center justify-center"><i class="fa-solid fa-comment text-emerald-400"></i></div>
-                            <div>
-                                <p class="text-sm"><span class="text-white font-medium">Sarah Müller</span> hat dich in einem Kommentar markiert.</p>
-                                <p class="text-xs text-slate-500 mt-1">Vor 42 Minuten</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="min-w-[40px] h-10 rounded-full bg-slate-700 flex items-center justify-center"><i class="fa-solid fa-triangle-exclamation text-amber-400"></i></div>
-                            <div>
-                                <p class="text-sm">Server-Auslastung bei <span class="text-amber-400 font-medium">89%</span>. Monitoring empfohlen.</p>
-                                <p class="text-xs text-slate-500 mt-1">Vor 2 Stunden</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Column: Stats & Settings -->
-        <div class="lg:col-span-4 space-y-8 animate-fade-in" style="animation-delay: 0.2s;">
-            
-            <!-- Quick Action & Modal Trigger Area -->
-            <div class="glass-card p-6">
-                <h3 class="text-lg font-semibold mb-4">Schnellzugriff</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <button class="btn-primary p-4 rounded-xl flex flex-col items-center gap-2 group">
-                        <i class="fa-solid fa-plus text-xl"></i>
-                        <span class="text-xs font-semibold">Projekt</span>
-                    </button>
-                    <button class="bg-slate-700 hover:bg-slate-600 p-4 rounded-xl flex flex-col items-center gap-2 transition">
-                        <i class="fa-solid fa-share-nodes text-xl"></i>
-                        <span class="text-xs font-semibold">Teilen</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mini Calendar / Schedule -->
-            <div class="glass-card p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-lg font-semibold">Heutige Termine</h3>
-                    <span class="text-xs text-slate-500">März 27, 2024</span>
-                </div>
-                <div class="space-y-4">
-                    <div class="pl-4 border-l-4 border-indigo-500 bg-indigo-500/5 p-3 rounded-r-xl">
-                        <p class="text-xs text-indigo-400 font-bold uppercase">10:00 - 11:30</p>
-                        <p class="text-sm font-semibold mt-1">Design Review Session</p>
-                    </div>
-                    <div class="pl-4 border-l-4 border-slate-600 bg-slate-600/5 p-3 rounded-r-xl opacity-70">
-                        <p class="text-xs text-slate-400 font-bold uppercase">13:00 - 14:00</p>
-                        <p class="text-sm font-semibold mt-1">Mittagspause</p>
-                    </div>
-                    <div class="pl-4 border-l-4 border-sky-500 bg-sky-500/5 p-3 rounded-r-xl">
-                        <p class="text-xs text-sky-400 font-bold uppercase">15:00 - 16:00</p>
-                        <p class="text-sm font-semibold mt-1">Sprint Planning Q2</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Integration Section -->
-            <div class="glass-card p-6">
-                <h3 class="text-lg font-semibold mb-4 text-slate-300">Verbunden</h3>
-                <div class="flex flex-wrap gap-4">
-                    <div title="Github" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 cursor-pointer transition">
-                        <i class="fa-brands fa-github text-xl"></i>
-                    </div>
-                    <div title="Slack" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 cursor-pointer transition">
-                        <i class="fa-brands fa-slack text-xl text-emerald-400"></i>
-                    </div>
-                    <div title="Figma" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 cursor-pointer transition">
-                        <i class="fa-brands fa-figma text-xl text-rose-400"></i>
-                    </div>
-                    <div title="Google Cloud" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 cursor-pointer transition">
-                        <i class="fa-brands fa-google-drive text-xl text-amber-400"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Custom Modal for Alerts -->
-    <div id="modalOverlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <div class="glass-card p-8 max-w-sm w-full mx-4 shadow-2xl">
-            <h4 class="text-xl font-bold mb-2" id="modalTitle">Meldung</h4>
-            <p class="text-slate-400 mb-6" id="modalText">Dies ist eine wichtige Nachricht.</p>
-            <button id="closeModal" class="w-full btn-primary py-3 rounded-xl font-bold">Verstanden</button>
-        </div>
-    </div>
-
-    <script>
-        // Data Initialization
-        const tasks = [
-            { id: 1, title: "UI-Komponenten optimieren", completed: true, priority: "hoch" },
-            { id: 2, title: "API Dokumentation abschließen", completed: false, priority: "mittel" },
-            { id: 3, title: "Team Meeting vorbereiten", completed: false, priority: "niedrig" },
-            { id: 4, title: "Performance Audit durchführen", completed: false, priority: "hoch" },
-            { id: 5, title: "Assets für Social Media exportieren", completed: true, priority: "niedrig" }
-        ];
-
-        // UI References
-        const taskListEl = document.getElementById('taskList');
-        const modalOverlay = document.getElementById('modalOverlay');
-        const closeModal = document.getElementById('closeModal');
-        const addTaskBtn = document.getElementById('addTaskBtn');
-
-        // Functions
-        function renderTasks() {
-            taskListEl.innerHTML = '';
-            tasks.forEach(task => {
-                const item = document.createElement('div');
-                item.className = `task-item group flex items-center justify-between p-4 bg-slate-800/40 border border-white/5 rounded-xl hover:border-sky-500/30 transition-all ${task.completed ? 'completed' : ''}`;
-                
-                const priorityColors = {
-                    hoch: 'bg-rose-500',
-                    mittel: 'bg-amber-500',
-                    niedrig: 'bg-emerald-500'
-                };
-
-                item.innerHTML = `
-                    <div class="flex items-center gap-4">
-                        <div class="w-2 h-2 rounded-full ${priorityColors[task.priority]}"></div>
-                        <span class="text-sm font-medium">${task.title}</span>
-                    </div>
-                    <button onclick="toggleTask(${task.id})" class="text-slate-500 group-hover:text-sky-400 transition">
-                        <i class="fa-solid ${task.completed ? 'fa-circle-check text-sky-400' : 'fa-circle'}"></i>
-                    </button>
-                `;
-                taskListEl.appendChild(item);
-            });
-        }
-
-        function toggleTask(id) {
-            const task = tasks.find(t => t.id === id);
-            if (task) {
-                task.completed = !task.completed;
-                renderTasks();
-            }
-        }
-
-        function showModal(title, text) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalText').innerText = text;
-            modalOverlay.classList.remove('hidden');
-            setTimeout(() => modalOverlay.classList.add('opacity-100'), 10);
-        }
-
-        function hideModal() {
-            modalOverlay.classList.remove('opacity-100');
-            setTimeout(() => modalOverlay.classList.add('hidden'), 300);
-        }
-
-        // Event Listeners
-        closeModal.addEventListener('click', hideModal);
-        addTaskBtn.addEventListener('click', () => {
-            showModal("Funktion eingeschränkt", "In der Demo-Version können keine neuen Aufgaben gespeichert werden. Aber du kannst die vorhandenen abhaken!");
-        });
-
-        // Initialize
-        window.onload = () => {
-            renderTasks();
-            console.log("Dashboard initialisiert.");
-        };
-    </script>
-</body>
-</html>
-
-
