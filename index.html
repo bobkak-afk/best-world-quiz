@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · GLOBAL GENESIS · VISUAL EVOLUTION</title>
+    <title>MK · GLOBAL GENESIS</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,8 +12,7 @@
             --bg: #050505;
             --border: rgba(212, 175, 55, 0.5);
             --red: #ff3c00;
-            --shadow: 0 0 30px rgba(0,0,0,0.8);
-            --glass: rgba(10, 10, 15, 0.7);
+            --glass: rgba(15, 15, 20, 0.8);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -26,16 +25,15 @@
             overflow: hidden;
             display: flex;
             justify-content: center;
-            position: relative;
         }
+
+        /* Hintergrund-Muster */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" opacity="0.1"><path fill="none" stroke="%23d4af37" stroke-width="0.5" d="M400 100 L600 200 L500 400 L400 500 L200 450 L100 300 L200 150 L400 100Z"/><circle cx="400" cy="400" r="80" stroke="%23d4af37" fill="none"/><path d="M400 200 L400 600 M200 400 L600 400" stroke="%23d4af37"/></svg>');
-            background-repeat: repeat;
-            background-size: 60px;
-            pointer-events: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" opacity="0.05"><path fill="none" stroke="%23d4af37" stroke-width="0.5" d="M400 100 L600 200 L500 400 L400 500 L200 450 L100 300 L200 150 L400 100Z"/><circle cx="400" cy="400" r="80" stroke="%23d4af37" fill="none"/></svg>');
+            background-size: 100px;
             z-index: 0;
         }
 
@@ -47,657 +45,366 @@
             flex-direction: column;
             position: relative;
             z-index: 10;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(2px);
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
         }
 
         .screen {
             display: none;
             flex: 1;
-            padding: 20px 20px 10px 20px;
+            padding: 30px 20px;
             flex-direction: column;
             overflow-y: auto;
-            position: relative;
-            scrollbar-width: thin;
+            animation: fadeIn 0.4s ease-out;
         }
-        .screen.active {
-            display: flex;
-            animation: screenGlow 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        .screen.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes screenGlow {
-            0% { opacity: 0; transform: scale(0.98); filter: blur(6px); }
-            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+        /* Titel & Typo */
+        .title-gold {
+            font-family: 'Cinzel Decorative', serif;
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            line-height: 1;
+            filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));
         }
 
-        /* --- GLOBUS / ATLAS (nur Globus, keine Flaggen) --- */
-        .atlas-box {
-            display: flex;
-            justify-content: center;
-            margin: 10px 0;
-            filter: drop-shadow(0 0 15px rgba(212,175,55,0.6));
-        }
-        .atlas {
-            font-size: 9rem;
-            animation: rotateAtlas 18s infinite linear;
-            filter: drop-shadow(0 0 18px #00a3ff);
-            transition: all 0.3s;
-            display: inline-block;
-        }
-        @keyframes rotateAtlas { 
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.02); }
-            100% { transform: rotate(360deg) scale(1); }
-        }
-
-        /* Luxus Buttons */
+        /* Buttons */
         .btn-luxe {
-            appearance: none;
             border: none;
-            padding: 16px;
-            border-radius: 60px;
+            padding: 18px;
+            border-radius: 50px;
             font-family: 'Syncopate', sans-serif;
             font-weight: 800;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             cursor: pointer;
-            transition: 0.25s ease;
+            transition: 0.3s;
             text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
             width: 100%;
             margin-bottom: 15px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
-        .btn-gold {
-            background: var(--gold);
-            color: #000;
-            font-weight: 900;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
-        }
-        .btn-gold:active { transform: scale(0.96); }
-        .btn-outline {
-            background: rgba(0,0,0,0.6);
-            color: #fff;
-            border: 1.5px solid var(--border);
-            backdrop-filter: blur(5px);
-        }
-        .btn-back {
-            background: transparent;
-            color: rgba(255,255,255,0.6);
-            border: none;
-            font-family: 'Syncopate';
-            font-size: 0.65rem;
-            cursor: pointer;
-            padding: 12px;
-            text-align: center;
-            font-weight: 700;
-        }
+        .btn-gold { background: var(--gold); color: #000; box-shadow: 0 5px 20px rgba(212,175,55,0.3); }
+        .btn-outline { background: var(--glass); color: #fff; border: 1px solid var(--border); backdrop-filter: blur(10px); }
+        .btn-luxe:active { transform: scale(0.95); }
 
-        /* QUIZ VISUAL UPGRADE */
+        /* Globus */
+        .atlas { font-size: 8rem; text-align: center; margin: 20px 0; animation: rotate 20s infinite linear; filter: drop-shadow(0 0 20px #00a3ff); }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Quiz UI */
         .q-visual-frame {
-            height: 260px;
-            border-radius: 36px;
-            border: 1px solid rgba(212,175,55,0.6);
-            background-size: cover;
-            background-position: center 30%;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            transition: 0.4s;
-        }
-        .q-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(145deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 90%);
-            z-index: 1;
-        }
-        .q-text {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            font-size: 1.55rem;
-            padding: 20px;
-            font-weight: 700;
-            text-shadow: 0 2px 15px #000;
-            letter-spacing: -0.2px;
-        }
-        .opt-visual {
-            height: 70px;
-            border-radius: 60px;
-            border: 1px solid rgba(255,215,0,0.3);
+            height: 220px;
+            border-radius: 25px;
+            border: 1px solid var(--border);
             background-size: cover;
             background-position: center;
             position: relative;
             overflow: hidden;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+            margin-bottom: 20px;
         }
-        .opt-visual:hover {
-            transform: translateX(6px) scale(1.02);
-            border-color: var(--gold-solid);
-            box-shadow: 0 0 18px rgba(212,175,55,0.4);
-        }
-        .opt-img-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 1;
-            transition: 0.2s;
-            backdrop-filter: blur(1px);
-        }
-        .opt-visual:hover .opt-img-overlay {
-            background: rgba(0,0,0,0.5);
-        }
-        .opt-label {
+        .q-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.9) 20%, transparent 100%); }
+        .q-text { position: absolute; bottom: 15px; left: 15px; right: 15px; font-size: 1.2rem; font-weight: 700; text-shadow: 0 2px 10px #000; }
+
+        .opt-visual {
+            height: 60px;
+            border-radius: 15px;
+            margin-bottom: 10px;
             position: relative;
-            z-index: 10;
-            padding-left: 25px;
-            font-weight: 800;
-            font-size: 1rem;
-            text-shadow: 0 2px 8px black;
-            letter-spacing: 0.5px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .opt-visual.correct .opt-img-overlay {
-            background: rgba(27, 77, 46, 0.85) !important;
-            backdrop-filter: blur(2px);
-        }
-        .opt-visual.correct { border-color: #2ecc71 !important; box-shadow: 0 0 15px #2ecc71; }
-        .opt-visual.wrong .opt-img-overlay {
-            background: rgba(100, 30, 30, 0.9) !important;
-        }
-        .opt-visual.wrong { border-color: #e74c3c !important; }
+        .opt-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.3; z-index: 1; }
+        .opt-label { position: relative; z-index: 2; font-weight: 600; font-size: 1rem; }
+
+        .correct { border-color: #2ecc71 !important; background: rgba(46, 204, 113, 0.2) !important; box-shadow: 0 0 15px #2ecc71; }
+        .wrong { border-color: #e74c3c !important; background: rgba(231, 76, 60, 0.2) !important; }
 
         /* Timer */
-        .timer-rail {
-            height: 8px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 10px;
-            margin: 8px 0 20px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 2px #000;
-        }
-        .timer-fill {
-            height: 100%;
-            width: 100%;
-            background: linear-gradient(90deg, #ff5e00, var(--red));
-            box-shadow: 0 0 12px #ff3c00;
-            transition: width 0.05s linear;
-        }
+        .timer-rail { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
+        .timer-fill { height: 100%; background: var(--red); width: 100%; transition: width 0.1s linear; }
 
-        /* Setup / Cards */
-        .player-card {
-            background: rgba(20,20,28,0.7);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(212,175,55,0.4);
-            border-radius: 30px;
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            gap: 12px;
-        }
-        .flag-plus {
-            width: 52px;
-            height: 52px;
-            background: #1a1a1a;
-            border: 2px dashed var(--gold-solid);
-            border-radius: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .input-luxe {
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
-            flex: 1;
-            outline: none;
-            font-weight: 600;
-        }
-        .lang-chip {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 10px 0;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-family: 'Syncopate';
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s;
-        }
-        .lang-chip.active {
-            background: var(--gold);
-            color: #000;
-            font-weight: 900;
-            border-color: #fff;
-            transform: scale(1.02);
-            box-shadow: 0 0 12px gold;
-        }
-        .rank-pill {
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 0.6rem;
-            font-family: 'Syncopate';
-            font-weight: 900;
-        }
-        .rank-master { background: #00d4ff; color: #000; box-shadow: 0 0 8px cyan; }
-        .rank-god { background: #ff3c00; color: #fff; box-shadow: 0 0 12px #ff3c00; }
-        .badge {
-            background: var(--gold);
-            color: #000;
-            padding: 6px 14px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 900;
-        }
-        footer {
-            text-align: center;
-            padding: 20px 0 10px;
-            font-size: 0.6rem;
-            opacity: 0.7;
-            letter-spacing: 2px;
-        }
+        /* Modal */
+        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-box { background: #111; border: 1px solid var(--gold-solid); padding: 25px; border-radius: 30px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 
-        /* Leaderboard & Achievements */
-        .rank-card {
-            background: rgba(20,20,28,0.7);
-            backdrop-filter: blur(5px);
-            border-radius: 28px;
-            padding: 14px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-left: 4px solid var(--gold-solid);
-        }
-        #modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.95);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(20px);
-        }
-        .modal-box {
-            background: #0e0e12;
-            border: 1px solid var(--gold-solid);
-            padding: 20px;
-            border-radius: 48px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-        }
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(212,175,55,0.2);
-            border-top-color: #d4af37;
-            border-radius: 50%;
-            animation: spin 1s infinite linear;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* Setup Cards */
+        .player-card { background: var(--glass); border: 1px solid var(--border); padding: 15px; border-radius: 20px; display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .flag-btn { width: 50px; height: 50px; background: #000; border: 1px dashed var(--gold-solid); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; }
+        .input-luxe { background: transparent; border: none; color: #fff; font-size: 1.1rem; flex: 1; outline: none; }
+
+        .lang-chip { padding: 10px; border-radius: 15px; background: #111; border: 1px solid #333; text-align: center; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        .lang-chip.active { background: var(--gold); color: #000; }
         
-        /* zusätzlicher Glanz */
-        .title-gold {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 3rem;
-            background: var(--gold);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 12px rgba(212,175,55,0.6));
-        }
-        .section-label {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: var(--gold-solid);
-            margin: 15px 0 10px;
-            text-transform: uppercase;
-        }
-        /* kein punkt an den seiten: verstecke Gold-Anzeige im Quiz */
-        #q-gold {
-            display: none;
-        }
-        /* entferne seitliche rahmen */
-        #app {
-            border-left: none;
-            border-right: none;
-        }
-        /* mehr grafik: schwebende partikel */
-        .glow-particle {
-            position: fixed;
-            pointer-events: none;
-            background: radial-gradient(circle, rgba(212,175,55,0.3) 0%, rgba(0,0,0,0) 80%);
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
+        footer { text-align: center; padding: 15px; font-size: 0.6rem; opacity: 0.5; letter-spacing: 2px; }
     </style>
 </head>
 <body>
-<div id="modal" onclick="this.style.display='none'">
-    <div class="modal-box" onclick="event.stopPropagation()">
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇯🇵')">🇯🇵</div>
-        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇧🇷')">🇧🇷</div>
+
+<div id="modal">
+    <div class="modal-box">
+        <div onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
+        <div onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
+        <div onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
+        <div onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
+        <div onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
+        <div onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
+        <div onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+        <div onclick="App.confirmFlag('🇯🇵')">🇯🇵</div>
+        <div onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
+        <div onclick="App.confirmFlag('🇮🇹')">🇮🇹</div>
+        <div onclick="App.confirmFlag('🇧🇷')">🇧🇷</div>
+        <div onclick="App.confirmFlag('🇨🇳')">🇨🇳</div>
     </div>
 </div>
 
 <div id="app">
     <section id="s-home" class="screen active">
-        <p class="branding-top" style="font-family:'Syncopate'; text-align:center; font-size:0.6rem; letter-spacing:6px;">ELITE PRESTIGE GAME</p>
-        <div class="home-center">
-            <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
-            <div class="atlas-box"><div class="atlas">🌍</div></div>
-        </div>
-        <p class="sub-title-low" style="font-family:'Syncopate'; text-align:center; font-weight:700;">Best World Quiz</p>
+        <h1 class="title-gold" style="font-size: 3.5rem; margin-top: 40px;">MORTAL<br>KOMBAT</h1>
+        <div class="atlas">🌍</div>
         <div style="margin-top: auto;">
             <button class="btn-luxe btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
-            <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge & Ränge ⚔️</button>
             <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
         </div>
-        <footer>⚡ GLOBAL GENESIS · WOWA & AMIAR ⚡</footer>
+        <footer>GLOBAL GENESIS · 2026</footer>
     </section>
 
     <section id="s-setup" class="screen">
-        <h2 class="title-gold" style="font-size: 2.2rem;">Krieger</h2>
-        <p class="section-label">Game Sprache</p>
-        <div class="lang-grid" style="display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:20px;">
-            <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
-            <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
-            <div class="lang-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
-            <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
-            <div class="lang-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
+        <h2 class="title-gold" style="font-size: 2rem;">Krieger</h2>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 20px 0;">
+            <div class="lang-chip active" id="l-de" onclick="App.setLang('de')">DE</div>
+            <div class="lang-chip" id="l-en" onclick="App.setLang('en')">EN</div>
+            <div class="lang-chip" id="l-ru" onclick="App.setLang('ru')">RU</div>
+            <div class="lang-chip" id="l-tr" onclick="App.setLang('tr')">TR</div>
+            <div class="lang-chip" id="l-ig" onclick="App.setLang('ig')">IG</div>
         </div>
-        <p class="section-label">Flagge & Name</p>
         <div id="player-list"></div>
-        <button class="btn-luxe btn-outline" style="font-size:0.6rem;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
+        <button class="btn-luxe btn-outline" style="font-size: 0.6rem;" onclick="App.addPlayerInput()">+ Krieger hinzufügen</button>
         <div style="margin-top: auto;">
-            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Generiere Kampf</button>
-            <button class="btn-back" onclick="App.go('home')">← Hauptmenü</button>
-        </div>
-    </section>
-
-    <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
-        <div class="spinner"></div>
-        <p style="font-family:'Syncopate'; margin-top:25px;">Lade Visuals ...</p>
-    </section>
-
-    <section id="s-vs" class="screen">
-        <div style="text-align: center; margin-top: 70px;">
-            <div id="vs-flag" style="font-size: 6rem; filter: drop-shadow(0 0 12px gold);"></div>
-            <h2 id="vs-name" class="title-gold" style="font-size: 2.5rem;">PLAYER</h2>
-            <div id="vs-info" style="margin-top:15px;"></div>
-        </div>
-        <div style="margin-top: auto; padding-bottom: 40px;">
-            <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
-            <button class="btn-back" onclick="App.go('setup')">← Team ändern</button>
+            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Kampf starten</button>
+            <button class="btn-luxe btn-outline" onclick="App.go('home')">Zurück</button>
         </div>
     </section>
 
     <section id="s-quiz" class="screen">
-        <div style="display: flex; justify-content: space-between; align-items: baseline;">
-            <span id="q-round" style="font-family:'Syncopate'; font-size:0.7rem; background:#00000080; padding:4px 10px; border-radius:40px;">Round 1/10</span>
-            <span id="q-gold" class="badge">💰 0</span>
+        <div style="display: flex; justify-content: space-between; font-family: 'Syncopate'; font-size: 0.7rem;">
+            <span id="q-player-name">PLAYER</span>
+            <span id="q-score">Runde: 1/5</span>
         </div>
         <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
+        
         <div id="q-frame" class="q-visual-frame">
             <div class="q-overlay"></div>
-            <h3 id="q-text" class="q-text">Lade Prüfung...</h3>
+            <div id="q-text" class="q-text">Frage wird geladen...</div>
         </div>
+        
         <div id="q-options"></div>
-        <div id="q-feedback" style="display:none; margin-top:12px;">
-            <div style="background: rgba(0,0,0,0.85); border-radius: 32px; padding: 20px; border:1px solid var(--border);">
-                <p id="q-expl" style="font-size: 0.9rem;"></p>
-                <button class="btn-luxe btn-gold" style="margin-top:15px;" onclick="App.nextStep()">Nächste Runde</button>
-            </div>
-        </div>
-        <button class="btn-back" style="margin-top:15px;" onclick="if(confirm('Kampf abbrechen?')) location.reload()">✕ Beenden</button>
     </section>
 
     <section id="s-result" class="screen">
-        <h1 class="title-gold" style="font-size: 2rem;">KAMPF ENDE</h1>
-        <div id="res-list" style="margin-top: 25px; flex:1;"></div>
-        <div style="margin-top: auto;">
-            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Nochmal Kämpfen</button>
-            <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
-        </div>
-        <footer>⚔️ Ehre & Wissen ⚔️</footer>
-    </section>
-
-    <section id="s-achievements" class="screen">
-        <h1 class="title-gold" style="font-size: 2rem;">ERFOLGE</h1>
-        <div id="ach-list" style="margin-top:30px; flex:1;"></div>
+        <h2 class="title-gold">ERGEBNIS</h2>
+        <div id="res-content" style="margin: 30px 0; flex: 1;"></div>
         <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
     </section>
 
     <section id="s-leaderboard" class="screen">
-        <h1 class="title-gold" style="font-size: 2rem;">BESTENLISTE</h1>
-        <div id="lb-list" style="margin-top:30px; flex:1;"></div>
-        <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
+        <h2 class="title-gold">BESTENLISTE</h2>
+        <div id="lb-content" style="margin: 20px 0; flex: 1;"></div>
+        <button class="btn-luxe btn-gold" onclick="App.go('home')">Zurück</button>
     </section>
 </div>
 
 <script>
-    // ERWEITERTE DATENBANK: JEDE SPRACHE MINDESTENS 10 FRAGEN (GRAFIK-OPTIMIERT)
     const DB = {
         de: [
-            { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst 17 Mio km²", kw: "russia winter landscape", imgKw: ["russia moscow", "canada rocky", "china greatwall", "usa newyork"] },
-            { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio – Megametropole", kw: "tokyo skyline night", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul namsan"] },
-            { id: "de3", q: "Längster Fluss Afrikas?", o: ["Nil", "Kongo", "Niger", "Sambesi"], c: 0, e: "Nil ~ 6650 km", kw: "nile river egypt", imgKw: ["nile cairo", "congo river", "niger river", "zambezi falls"] },
-            { id: "de4", q: "Wo stehen die Pyramiden von Gizeh?", o: ["Ägypten", "Mexiko", "Sudan", "China"], c: 0, e: "Gizeh, Ägypten", kw: "giza pyramids sunset", imgKw: ["giza pyramids", "mexico teotihuacan", "sudan pyramids", "china xian"] },
-            { id: "de5", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Pazifik 165 Mio km²", kw: "pacific ocean waves", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ice"] },
-            { id: "de6", q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Zugspitze"], c: 0, e: "Everest 8848m", kw: "mount everest himalaya", imgKw: ["everest summit", "k2 mountain", "mont blanc alps", "zugspitze"] },
-            { id: "de7", q: "Währung der USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "US-Dollar", kw: "us dollar currency", imgKw: ["dollar bills", "euro banknotes", "pound sterling", "yen coins"] },
-            { id: "de8", q: "Kleinster Kontinent?", o: ["Australien", "Europa", "Antarktis", "Südamerika"], c: 0, e: "Australien/Ozeanien", kw: "australia outback", imgKw: ["australia sydney", "europe alps", "antarctica ice", "south america amazon"] },
-            { id: "de9", q: "Eiffelturm Standort?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Paris, Frankreich", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin brandenburg", "london bridge", "rome colosseum"] },
-            { id: "de10", q: "Land der Kiwis & Haka?", o: ["Neuseeland", "Australien", "Fidschi", "Samoa"], c: 0, e: "Neuseeland", kw: "new zealand mountains", imgKw: ["new zealand kiwi", "australia kangaroo", "fiji beach", "samoa culture"] }
+            { q: "Größtes Land?", o: ["Russland", "Kanada", "China", "USA"], c: 0, kw: "russia" },
+            { q: "Hauptstadt Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, kw: "tokyo" },
+            { q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Lhotse"], c: 0, kw: "everest" },
+            { q: "Tiefster Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, kw: "ocean" },
+            { q: "Land der Pyramiden?", o: ["Ägypten", "Mexiko", "Sudan", "Peru"], c: 0, kw: "pyramids" }
         ],
         en: [
-            { id: "en1", q: "Largest country by area?", o: ["Russia", "Canada", "USA", "China"], c: 0, e: "Russia ~17M km²", kw: "russia landscape", imgKw: ["russia red square", "canada maple", "usa capitol", "china greatwall"] },
-            { id: "en2", q: "Capital of Brazil?", o: ["Brasília", "Rio", "São Paulo", "Salvador"], c: 0, e: "Brasília", kw: "brasilia city", imgKw: ["brasilia architecture", "rio christ", "saopaulo city", "salvador beach"] },
-            { id: "en3", q: "Longest river in the world?", o: ["Nile", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nile river", kw: "nile river africa", imgKw: ["nile egypt", "amazon rainforest", "yangtze china", "mississippi delta"] },
-            { id: "en4", q: "Home of the Great Pyramid?", o: ["Egypt", "Mexico", "Iraq", "Peru"], c: 0, e: "Giza, Egypt", kw: "pyramids egypt", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "peru machu picchu"] },
-            { id: "en5", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific Ocean", kw: "pacific ocean", imgKw: ["pacific waves", "atlantic ocean", "indian ocean", "arctic ice"] },
-            { id: "en6", q: "Highest mountain?", o: ["Everest", "K2", "Kangchenjunga", "Lhotse"], c: 0, e: "Mount Everest", kw: "everest mountain", imgKw: ["everest himalaya", "k2 pakistan", "kangchenjunga", "lhotse"] },
-            { id: "en7", q: "Currency of Japan?", o: ["Yen", "Won", "Yuan", "Dollar"], c: 0, e: "Japanese Yen", kw: "yen japan", imgKw: ["yen coins", "won south korea", "yuan china", "dollar"] },
-            { id: "en8", q: "Smallest continent?", o: ["Australia", "Europe", "Antarctica", "S America"], c: 0, e: "Australia", kw: "australia continent", imgKw: ["australia sydney", "europe map", "antarctica penguins", "south america"] },
-            { id: "en9", q: "Eiffel Tower location?", o: ["Paris", "London", "Berlin", "Madrid"], c: 0, e: "Paris", kw: "eiffel tower", imgKw: ["paris eiffel", "london eye", "berlin reichstag", "madrid plaza"] },
-            { id: "en10", q: "Which country has the most natural lakes?", o: ["Canada", "USA", "Russia", "Finland"], c: 0, e: "Canada", kw: "canada lakes", imgKw: ["canada lake", "usa great lakes", "russia baikal", "finland lake"] }
-        ],
-        ru: [
-            { id: "ru1", q: "Самая большая страна?", o: ["Россия", "Канада", "Китай", "США"], c: 0, e: "Россия", kw: "russia kremlin", imgKw: ["moscow kremlin", "canada nature", "china wall", "usa ny"] },
-            { id: "ru2", q: "Столица Франции?", o: ["Париж", "Лион", "Марсель", "Бордо"], c: 0, e: "Париж", kw: "paris france", imgKw: ["paris eiffel", "lyon", "marseille", "bordeaux"] },
-            { id: "ru3", q: "Самая длинная река?", o: ["Нил", "Амазонка", "Янцзы", "Миссисипи"], c: 0, e: "Нил", kw: "nile river", imgKw: ["nile egypt", "amazon", "yangtze", "mississippi"] },
-            { id: "ru4", q: "Высочайшая гора?", o: ["Эверест", "К2", "Канченджанга", "Лхоцзе"], c: 0, e: "Эверест", kw: "everest", imgKw: ["everest summit", "k2", "kangchenjunga", "lhotse"] },
-            { id: "ru5", q: "Валюта Японии?", o: ["Йена", "Вона", "Юань", "Доллар"], c: 0, e: "Йена", kw: "yen japan", imgKw: ["japan yen", "korean won", "chinese yuan", "us dollar"] },
-            { id: "ru6", q: "Где находится Эйфелева башня?", o: ["Париж", "Лондон", "Берлин", "Рим"], c: 0, e: "Париж", kw: "eiffel tower", imgKw: ["paris eiffel", "london big ben", "berlin gate", "rome colosseum"] },
-            { id: "ru7", q: "Самый большой океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный Ледовитый"], c: 0, e: "Тихий океан", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "ru8", q: "Столица Канады?", o: ["Оттава", "Торонто", "Ванкувер", "Монреаль"], c: 0, e: "Оттава", kw: "ottawa canada", imgKw: ["ottawa parliament", "toronto cn tower", "vancouver", "montreal"] },
-            { id: "ru9", q: "Континент Австралии?", o: ["Океания", "Азия", "Африка", "Антарктида"], c: 0, e: "Океания", kw: "australia continent", imgKw: ["australia outback", "asia map", "africa savanna", "antarctica"] },
-            { id: "ru10", q: "Пирамиды Гизы в какой стране?", o: ["Египет", "Мексика", "Ирак", "Судан"], c: 0, e: "Египет", kw: "giza pyramids", imgKw: ["egypt pyramids", "mexico teotihuacan", "iraq", "sudan pyramids"] }
-        ],
-        ig: [
-            { id: "ig1", q: "Isi obodo Naijiria?", o: ["Abuja", "Lagos", "Kano", "Ibadan"], c: 0, e: "Abuja bu isi obodo", kw: "abuja nigeria", imgKw: ["abuja city", "lagos nigeria", "kano nigeria", "ibadan"] },
-            { id: "ig2", q: "Osimiri kacha ogologo n'Africa?", o: ["Naịl", "Kongo", "Niger", "Zambezi"], c: 0, e: "Osimiri Naịl", kw: "nile river", imgKw: ["nile egypt", "congo river", "niger river", "zambezi"] },
-            { id: "ig3", q: "Isi obodo France?", o: ["Paris", "Lyon", "Marseille", "Bordeaux"], c: 0, e: "Paris", kw: "paris france", imgKw: ["paris tower", "lyon", "marseille", "bordeaux"] },
-            { id: "ig4", q: "Oke Osimiri kacha ibu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific Ocean", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic", "indian ocean", "arctic"] },
-            { id: "ig5", q: "Ugwu kacha elu n'ụwa?", o: ["Everest", "K2", "Kilimanjaro", "Elbrus"], c: 0, e: "Everest", kw: "mount everest", imgKw: ["everest", "k2", "kilimanjaro", "elbrus"] },
-            { id: "ig6", q: "Ebe a na-ahụ Eiffel Tower?", o: ["Paris", "Berlin", "London", "Rome"], c: 0, e: "Paris", kw: "eiffel tower", imgKw: ["eiffel paris", "berlin gate", "london bridge", "rome colosseum"] },
-            { id: "ig7", q: "Ego USA?", o: ["Dollar", "Euro", "Pounds", "Yen"], c: 0, e: "US Dollar", kw: "us dollar", imgKw: ["dollar currency", "euro", "british pounds", "yen"] },
-            { id: "ig8", q: "Obodo ukwu n'ụwa?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia", kw: "russia map", imgKw: ["russia moscow", "canada", "china beijing", "usa ny"] },
-            { id: "ig9", q: "Pyramid Giza dị na?", o: ["Egypt", "Mexico", "Sudan", "Ethiopia"], c: 0, e: "Egypt", kw: "pyramids egypt", imgKw: ["giza egypt", "mexico pyramid", "sudan", "ethiopia"] },
-            { id: "ig10", q: "Isi obodo Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo", kw: "tokyo city", imgKw: ["tokyo skyline", "osaka", "kyoto temple", "nagoya"] }
-        ],
-        tr: [
-            { id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Antalya"], c: 0, e: "Ankara", kw: "ankara turkey", imgKw: ["ankara anıtkabir", "istanbul", "izmir", "antalya"] },
-            { id: "tr2", q: "Dünyanın en uzun nehri?", o: ["Nil", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nil", kw: "nile river", imgKw: ["nile egypt", "amazon", "yangtze", "mississippi"] },
-            { id: "tr3", q: "En yüksek dağ?", o: ["Everest", "K2", "Ağrı Dağı", "Mont Blanc"], c: 0, e: "Everest", kw: "mount everest", imgKw: ["everest", "k2", "mount ararat", "mont blanc"] },
-            { id: "tr4", q: "Eyfel Kulesi nerede?", o: ["Paris", "Londra", "Berlin", "Roma"], c: 0, e: "Paris", kw: "eiffel tower paris", imgKw: ["paris eiffel", "london", "berlin", "rome"] },
-            { id: "tr5", q: "Japonya'nın başkenti?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo", kw: "tokyo japan", imgKw: ["tokyo tower", "osaka", "kyoto", "nagoya"] },
-            { id: "tr6", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "Dolar", kw: "us dollar", imgKw: ["dollar bill", "euro", "sterling", "yen"] },
-            { id: "tr7", q: "En büyük okyanus?", o: ["Pasifik", "Atlas", "Hint", "Arktik"], c: 0, e: "Pasifik", kw: "pacific ocean", imgKw: ["pacific", "atlantic ocean", "indian ocean", "arctic"] },
-            { id: "tr8", q: "Mısır Piramitleri hangi ülkede?", o: ["Mısır", "Meksika", "Irak", "Sudan"], c: 0, e: "Mısır", kw: "egypt pyramids", imgKw: ["giza egypt", "mexico pyramid", "irak", "sudan"] },
-            { id: "tr9", q: "Avustralya hangi kıtada?", o: ["Okyanusya", "Asya", "Afrika", "Güney Amerika"], c: 0, e: "Okyanusya", kw: "australia continent", imgKw: ["australia", "asia", "africa", "south america"] },
-            { id: "tr10", q: "Rusya'nın başkenti?", o: ["Moskova", "St.Petersburg", "Kazan", "Novosibirsk"], c: 0, e: "Moskova", kw: "moscow kremlin", imgKw: ["moscow red square", "st petersburg", "kazan", "novosibirsk"] }
+            { q: "Largest Country?", o: ["Russia", "Canada", "China", "USA"], c: 0, kw: "russia" },
+            { q: "Capital of France?", o: ["Paris", "Lyon", "Marseille", "Nice"], c: 0, kw: "paris" },
+            { q: "Longest River?", o: ["Nile", "Amazon", "Yangtze", "Mississippi"], c: 0, kw: "nile" }
         ]
+        // Weitere Sprachen analog befüllbar...
     };
 
     const App = {
-        profiles: JSON.parse(localStorage.getItem('mk_supreme_v9')) || {},
-        players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, currentLang: 'de', activeFlagIdx: null, activeQs: [],
-        save() { localStorage.setItem('mk_supreme_v9', JSON.stringify(this.profiles)); },
-        getProfile(name) {
-            let k = name.trim().toLowerCase();
-            if(!this.profiles[k]) this.profiles[k] = { name: name.trim(), xp: 0, gold: 0, level: 1, flag: '🐲', usedIds: [] };
-            return this.profiles[k];
+        lang: 'de',
+        players: [],
+        currentPlayerIdx: 0,
+        currentQIdx: 0,
+        score: 0,
+        timer: null,
+        timeLeft: 12,
+        activeFlagId: null,
+
+        init() {
+            this.addPlayerInput();
         },
-        getRank(lvl) {
-            if(lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
-            if(lvl >= 10) return { class: 'rank-master', label: 'Master' };
-            return { class: 'rank-warrior', label: 'Warrior' };
-        },
+
         go(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('s-' + id).classList.add('active');
-            if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
             if(id === 'leaderboard') this.renderLeaderboard();
-            if(id === 'achievements') this.renderAchievements();
         },
-        setLang(l) { this.currentLang = l; document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active')); document.getElementById('ln-' + l).classList.add('active'); },
+
+        setLang(l) {
+            this.lang = l;
+            document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
+            document.getElementById('l-' + l).classList.add('active');
+        },
+
         addPlayerInput() {
-            let cont = document.getElementById('player-list');
-            let id = Date.now();
-            let d = document.createElement('div');
-            d.className = 'player-card'; d.id = 'pc-' + id;
-            d.innerHTML = `<div class="flag-plus" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Kämpfername"><button class="btn-trash" onclick="document.getElementById('pc-${id}').remove()">🗑️</button>`;
-            cont.appendChild(d);
+            const id = Date.now();
+            const div = document.createElement('div');
+            div.className = 'player-card';
+            div.innerHTML = `
+                <div class="flag-btn" id="f-${id}" onclick="App.openFlag('${id}')">?</div>
+                <input type="text" class="input-luxe" placeholder="Kämpfer Name..." id="i-${id}">
+            `;
+            document.getElementById('player-list').appendChild(div);
         },
-        openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
-        confirmFlag(f) {
-            let card = document.getElementById('pc-' + this.activeFlagIdx);
-            if(card) { let btn = card.querySelector('.flag-plus'); btn.innerText = f; btn.style.borderStyle = 'solid'; }
+
+        openFlag(id) {
+            this.activeFlagId = id;
+            document.getElementById('modal').style.display = 'flex';
+        },
+
+        confirmFlag(emoji) {
+            document.getElementById('f-' + this.activeFlagId).innerText = emoji;
             document.getElementById('modal').style.display = 'none';
         },
-        async prepareBattle() {
-            let cards = document.querySelectorAll('.player-card');
-            if(cards.length === 0) return;
-            this.players = Array.from(cards).map(c => {
-                let name = c.querySelector('input').value.trim() || "Krieger";
-                let flag = c.querySelector('.flag-plus').innerText === '+' ? '🌍' : c.querySelector('.flag-plus').innerText;
-                let p = this.getProfile(name); p.flag = flag;
-                return { ...p, sessionScore: 0, sessionGold: 0 };
+
+        prepareBattle() {
+            this.players = [];
+            const cards = document.querySelectorAll('.player-card');
+            cards.forEach(card => {
+                const name = card.querySelector('input').value || "Unbekannt";
+                const flag = card.querySelector('.flag-btn').innerText;
+                this.players.push({ name, flag, score: 0 });
             });
-            this.pIdx = 0;
-            this.go('loading');
-            let bank = DB[this.currentLang] || DB.de;
-            let profile = this.getProfile(this.players[0].name);
-            let available = bank.filter(q => !profile.usedIds.includes(q.id));
-            if(available.length < 8) { profile.usedIds = []; available = bank; }
-            this.activeQs = available.sort(() => 0.5 - Math.random()).slice(0, 10);
-            setTimeout(() => this.showVS(), 1200);
+            
+            if(this.players.length === 0) return alert("Füge einen Kämpfer hinzu!");
+            
+            this.currentPlayerIdx = 0;
+            this.startPlayerTurn();
         },
-        showVS() {
-            let p = this.players[this.pIdx];
-            let r = this.getRank(p.level);
-            document.getElementById('vs-flag').innerText = p.flag;
-            document.getElementById('vs-name').innerText = p.name.toUpperCase();
-            document.getElementById('vs-info').innerHTML = `<span class="rank-pill ${r.class}">${r.label}</span> <span style="margin-left:12px; color:var(--gold-solid);">🏆 ${p.gold}</span>`;
-            this.go('vs');
+
+        startPlayerTurn() {
+            this.currentQIdx = 0;
+            this.score = 0;
+            this.go('quiz');
+            this.nextQuestion();
         },
-        startQuiz() { this.qIdx = 0; this.renderQuestion(); this.go('quiz'); },
-        renderQuestion() {
-            if(this.qIdx >= this.activeQs.length) { this.nextStep(); return; }
-            let q = this.activeQs[this.qIdx];
-            let p = this.players[this.pIdx];
-            document.getElementById('q-round').innerText = `Round ${this.qIdx+1}/10`;
-            document.getElementById('q-text').innerText = q.q;
-            let ts = Date.now();
-            document.getElementById('q-frame').style.backgroundImage = `url('https://source.unsplash.com/900x500/?${q.kw},landscape&t=${ts}')`;
-            let box = document.getElementById('q-options'); box.innerHTML = ''; 
-            document.getElementById('q-feedback').style.display = 'none'; box.style.display = 'block';
-            q.o.forEach((opt, i) => {
-                let div = document.createElement('div');
+
+        nextQuestion() {
+            if(this.currentQIdx >= 5) {
+                this.players[this.currentPlayerIdx].score = this.score;
+                this.currentPlayerIdx++;
+                if(this.currentPlayerIdx < this.players.length) {
+                    alert("Nächster Spieler!");
+                    this.startPlayerTurn();
+                } else {
+                    this.finishGame();
+                }
+                return;
+            }
+
+            const qData = DB[this.lang][this.currentQIdx % DB[this.lang].length];
+            document.getElementById('q-player-name').innerText = `${this.players[this.currentPlayerIdx].flag} ${this.players[this.currentPlayerIdx].name}`;
+            document.getElementById('q-score').innerText = `Frage ${this.currentQIdx + 1}/5`;
+            document.getElementById('q-text').innerText = qData.q;
+            document.getElementById('q-frame').style.backgroundImage = `url('https://source.unsplash.com/featured/?${qData.kw}')`;
+
+            const optCont = document.getElementById('q-options');
+            optCont.innerHTML = '';
+            qData.o.forEach((opt, i) => {
+                const div = document.createElement('div');
                 div.className = 'opt-visual';
-                let kwImg = (q.imgKw && q.imgKw[i]) ? q.imgKw[i] : `${opt},world`;
-                div.style.backgroundImage = `url('https://source.unsplash.com/500x200/?${kwImg}&t=${ts+i}')`;
-                div.innerHTML = `<div class="opt-img-overlay"></div><div class="opt-label">${opt}</div>`;
-                div.onclick = () => this.handleAnswer(i, div);
-                box.appendChild(div);
+                div.innerHTML = `<div class="opt-bg" style="background-image:url('https://source.unsplash.com/featured/?${opt}')"></div><span class="opt-label">${opt}</span>`;
+                div.onclick = () => this.check(i, qData.c, div);
+                optCont.appendChild(div);
             });
+
             this.startTimer();
         },
-        startTimer() { clearInterval(this.timer); this.timeLeft = 12; let bar = document.getElementById('timer-bar'); this.timer = setInterval(() => { this.timeLeft -= 0.1; bar.style.width = Math.max(0, (this.timeLeft/12)*100)+"%"; if(this.timeLeft <= 0) this.handleAnswer(-1); }, 100); },
-        handleAnswer(idx, el) {
+
+        startTimer() {
             clearInterval(this.timer);
-            let q = this.activeQs[this.qIdx];
-            let p = this.players[this.pIdx];
-            let prof = this.getProfile(p.name);
-            let opts = document.querySelectorAll('.opt-visual');
-            opts.forEach(o => o.style.pointerEvents = 'none');
-            if(!prof.usedIds.includes(q.id)) prof.usedIds.push(q.id);
-            if(idx === q.c) {
-                if(el) el.classList.add('correct');
-                p.sessionScore++;
-                let gain = Math.max(20, Math.floor(this.timeLeft * 28));
-                p.sessionGold += gain; prof.gold += gain; prof.xp += 110;
-                prof.level = Math.max(1, Math.floor(Math.sqrt(prof.xp / 360)) + 1);
+            this.timeLeft = 12;
+            const bar = document.getElementById('timer-bar');
+            this.timer = setInterval(() => {
+                this.timeLeft -= 0.1;
+                bar.style.width = (this.timeLeft / 12 * 100) + "%";
+                if(this.timeLeft <= 0) {
+                    clearInterval(this.timer);
+                    this.check(-1, 0, null);
+                }
+            }, 100);
+        },
+
+        check(idx, correct, el) {
+            clearInterval(this.timer);
+            const options = document.querySelectorAll('.opt-visual');
+            options.forEach(o => o.style.pointerEvents = 'none');
+
+            if(idx === correct) {
+                el.classList.add('correct');
+                this.score += 100;
             } else {
-                if(idx !== -1 && el) el.classList.add('wrong');
-                opts[q.c]?.classList.add('correct');
+                if(el) el.classList.add('wrong');
+                options[correct].classList.add('correct');
             }
-            this.save();
-            document.getElementById('q-expl').innerHTML = `<span style="color:var(--gold-solid);">📖 ${q.e}</span>`;
-            document.getElementById('q-feedback').style.display = 'block';
-            document.getElementById('q-options').style.display = 'none';
+
+            setTimeout(() => {
+                this.currentQIdx++;
+                this.nextQuestion();
+            }, 1500);
         },
-        nextStep() {
-            this.qIdx++;
-            if(this.qIdx < 10 && this.qIdx < this.activeQs.length) this.renderQuestion();
-            else {
-                this.pIdx++;
-                if(this.pIdx < this.players.length) this.prepareBattle();
-                else this.showResults();
-            }
-        },
-        renderLeaderboard() {
-            let sorted = Object.values(this.profiles).sort((a,b)=>b.xp - a.xp);
-            document.getElementById('lb-list').innerHTML = sorted.map((p,i)=>`<div class="rank-card"><div style="font-size:2rem;">${p.flag}</div><div><b>${p.name}</b><br>Lv.${p.level}</div><div style="margin-left:auto;color:gold;">💰 ${p.gold}</div></div>`).join('');
-        },
-        renderAchievements() {
-            let sorted = Object.values(this.profiles).sort((a,b)=>b.level - a.level);
-            document.getElementById('ach-list').innerHTML = sorted.map(p=>{ let r=this.getRank(p.level); return `<div class="rank-card"><div style="font-size:2rem;">${p.flag}</div><div><b>${p.name}</b><div><span class="rank-pill ${r.class}">${r.label}</span></div></div><div style="margin-left:auto;">LVL ${p.level}</div></div>`; }).join('');
-        },
-        showResults() {
+
+        finishGame() {
             this.go('result');
-            document.getElementById('res-list').innerHTML = this.players.map(p=>`<div class="rank-card"><div>${p.flag}</div><div><strong>${p.name}</strong><br>Punkte: ${p.sessionScore}/10</div><div style="margin-left:auto;color:gold;">⚡ ${p.sessionGold} Gold</div></div>`).join('');
+            const res = document.getElementById('res-content');
+            res.innerHTML = this.players.map(p => `
+                <div style="background:var(--glass); border:1px solid var(--border); padding:15px; border-radius:15px; margin-bottom:10px; display:flex; justify-content:space-between;">
+                    <span>${p.flag} ${p.name}</span>
+                    <span style="color:var(--gold-solid); font-weight:bold;">${p.score} PKT</span>
+                </div>
+            `).join('');
+
+            // Save to LocalStorage
+            let leader = JSON.parse(localStorage.getItem('mk_leader')) || [];
+            this.players.forEach(p => leader.push({n: p.name, f: p.flag, s: p.score}));
+            leader.sort((a,b) => b.s - a.s);
+            localStorage.setItem('mk_leader', JSON.stringify(leader.slice(0, 10)));
+        },
+
+        renderLeaderboard() {
+            const leader = JSON.parse(localStorage.getItem('mk_leader')) || [];
+            document.getElementById('lb-content').innerHTML = leader.map((p, i) => `
+                <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #222;">
+                    <span>${i+1}. ${p.f} ${p.n}</span>
+                    <span style="color:gold;">${p.s}</span>
+                </div>
+            `).join('');
         }
     };
-    App.go('home');
-    // permanenter Globus, keine Flaggenrotation
-    document.querySelector('.atlas') && (document.querySelector('.atlas').innerText = '🌍');
+
+    App.init();
 </script>
+
 </body>
 </html>
