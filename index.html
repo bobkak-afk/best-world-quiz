@@ -14,96 +14,144 @@
             --red: #ff3c00;
             --shadow: 0 0 20px rgba(0,0,0,0.8);
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        
         body {
             background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif;
             height: 100vh; overflow: hidden; display: flex; justify-content: center;
             background-image: radial-gradient(circle at 50% -20%, #2a1b00 0%, #050505 80%);
         }
-
         #app {
             width: 100%; max-width: 460px; height: 100vh; display: flex; flex-direction: column;
-            position: relative; z-index: 10; 
-            border-left: 1px solid rgba(255,255,255,0.05); 
-            border-right: 1px solid rgba(255,255,255,0.05);
+            position: relative; z-index: 10; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);
         }
-
-        .screen { 
-            display: none; flex: 1; padding: 25px; flex-direction: column; 
-            overflow-y: auto; position: relative; 
+        .screen { display: none; flex: 1; padding: 25px; flex-direction: column; overflow-y: auto; position: relative; }
+        .screen.active { display: flex; animation: screenIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        @keyframes screenIn { from { opacity: 0; transform: translateY(20px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        .branding-top {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 10px;
+            color: var(--gold-solid);
+            text-align: center;
+            margin-top: 10px;
+            text-transform: uppercase;
+            opacity: 0.9;
         }
-        .screen.active { 
-            display: flex; 
-            animation: screenIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; 
+        .home-center {
+            text-align: center;
+            margin-top: 30px;
         }
-
-        @keyframes screenIn { 
-            from { opacity: 0; transform: translateY(20px); filter: blur(10px); } 
-            to { opacity: 1; transform: translateY(0); filter: blur(0); } 
+        .title-gold {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.5rem;
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 0.85;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5));
+            letter-spacing: -2px;
         }
-
-        .branding-top { font-family: 'Syncopate', sans-serif; font-size: 0.6rem; letter-spacing: 10px; color: var(--gold-solid); text-align: center; margin-top: 10px; text-transform: uppercase; opacity: 0.9; }
-        .home-center { text-align: center; margin-top: 30px; }
-        .title-gold { font-family: 'Cinzel Decorative', serif; font-size: 3.5rem; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 0.85; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5)); letter-spacing: -2px; }
-        .atlas-box { display: flex; justify-content: center; margin: 20px 0; }
-        .atlas { font-size: 8.5rem; animation: rotateAtlas 20s linear infinite; filter: drop-shadow(0 0 40px rgba(0, 150, 255, 0.5)); user-select: none; }
-        @keyframes rotateAtlas { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .sub-title-low { font-family: 'Syncopate', sans-serif; font-size: 1.7rem; letter-spacing: 4px; color: #fff; text-align: center; text-transform: uppercase; margin-top: 60px; margin-bottom: 40px; font-weight: 700; text-shadow: 0 0 25px rgba(255,255,255,0.8); }
-
+        .atlas-box {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .atlas {
+            font-size: 8.5rem;
+            animation: rotateAtlas 20s linear infinite;
+            filter: drop-shadow(0 0 40px rgba(0, 150, 255, 0.5));
+            user-select: none;
+        }
+        @keyframes rotateAtlas { 
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(0.95); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(0.95); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        .sub-title-low {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.7rem;
+            letter-spacing: 4px;
+            color: #fff;
+            text-align: center;
+            text-transform: uppercase;
+            margin-top: 60px;
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-shadow: 0 0 25px rgba(255,255,255,0.8);
+        }
         .btn-luxe { appearance: none; border: none; padding: 20px; border-radius: 16px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-bottom: 15px; }
         .btn-gold { background: var(--gold); color: #000; font-weight: 900; box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
         .btn-gold:active { transform: scale(0.96); }
         .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
         .btn-back { background: transparent; color: rgba(255,255,255,0.5); border: none; font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; padding: 10px; text-align: center; font-weight: 700; }
-
-        .q-visual-frame { height: 240px; border-radius: 24px; border: 1px solid var(--border); background-size: cover; background-position: center; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: var(--shadow); }
+        .q-visual-frame {
+            height: 240px; border-radius: 24px; border: 1px solid var(--border);
+            background-size: cover; background-position: center; position: relative;
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; box-shadow: var(--shadow);
+        }
         .q-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)); z-index: 1; }
         .q-text { position: relative; z-index: 10; text-align: center; font-size: 1.4rem; padding: 20px; font-weight: 600; text-shadow: 0 2px 10px #000; }
-
-        .opt-visual { height: 65px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15); background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; transition: 0.3s; }
-        .opt-img-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 1; transition: 0.3s; }
+        .opt-visual {
+            height: 65px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15);
+            background-size: cover; background-position: center; position: relative;
+            overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .opt-visual:hover { transform: scale(1.03); border-color: var(--gold-solid); }
+        .opt-img-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 1; transition: 0.3s; }
+        .opt-visual:hover .opt-img-overlay { background: rgba(0,0,0,0.45); }
         .opt-label { position: relative; z-index: 10; padding-left: 20px; font-weight: 700; font-size: 1.1rem; text-shadow: 0 2px 5px #000; }
-
-        .correct { border-color: #2ecc71 !important; box-shadow: 0 0 15px #2ecc71; }
-        .wrong { border-color: #e74c3c !important; }
-
-        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; }
-        .flag-plus { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; color: var(--gold-solid); flex-shrink: 0; }
+        .opt-visual.correct .opt-img-overlay { background: rgba(27, 77, 46, 0.8) !important; }
+        .opt-visual.correct { border-color: #2ecc71 !important; }
+        .opt-visual.wrong .opt-img-overlay { background: rgba(77, 27, 27, 0.8) !important; }
+        .opt-visual.wrong { border-color: #e74c3c !important; }
+        .section-label {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: var(--gold-solid);
+            text-align: center;
+            margin: 20px 0 15px;
+            text-transform: uppercase;
+            font-weight: 700;
+            opacity: 0.95;
+        }
+        .player-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; align-items: center; margin-bottom: 12px; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
+        .flag-plus { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 2px dashed var(--gold-solid); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; color: var(--gold-solid); }
         .input-luxe { background: transparent; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 1.1rem; width: 100%; margin-left: 15px; outline: none; font-weight: 600; }
-        
+        .btn-trash { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; padding: 5px; opacity: 0.6; }
         .lang-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 25px; }
         .lang-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 12px 2px; border-radius: 12px; font-size: 0.55rem; font-family: 'Syncopate'; cursor: pointer; text-align: center; }
         .lang-chip.active { background: var(--gold); color: #000; font-weight: 900; }
-
         .rank-pill { padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; margin-right: 8px; }
-        .rank-master { background: #00d4ff; color: #000; }
-        .rank-god { background: #ff3c00; color: #fff; }
-
-        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+        .rank-master { background: #00d4ff; color: #000; box-shadow: 0 0 10px #00d4ff; }
+        .rank-god { background: #ff3c00; color: #fff; box-shadow: 0 0 15px #ff3c00; }
+        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(15px); }
         .modal-box { background: #111; border: 1px solid var(--gold-solid); padding: 30px; border-radius: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .modal-flag { font-size: 2.8rem; cursor: pointer; text-align: center; }
-
+        footer { text-align: center; padding: 25px; font-size: 0.75rem; color: #ffffff; font-family: 'Syncopate', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; }
+        .badge { background: var(--gold); color: #000; padding: 4px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; }
         .timer-rail { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 15px 0 25px; overflow: hidden; }
-        .timer-fill { height: 100%; width: 100%; background: var(--red); transition: width 0.1s linear; }
-
+        .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; }
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(212, 175, 55, 0.1); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s infinite linear; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div id="modal">
-    <div class="modal-box">
-        <div class="modal-flag" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+<div id="modal" onclick="this.style.display='none'">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
+        <div style="font-size:2.8rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
     </div>
 </div>
 
@@ -120,247 +168,439 @@
             <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge & Ränge ⚔️</button>
             <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
         </div>
-        <footer style="text-align:center; padding:15px; font-size:0.6rem; opacity:0.5;">Wowa & Amiar Kempf</footer>
+        <footer>Produziert von Wowa & Amiar Kempf</footer>
     </section>
 
     <section id="s-setup" class="screen">
         <h2 class="title-gold" style="font-size: 2.2rem;">Krieger</h2>
+        <p class="section-label">Game Sprache</p>
         <div class="lang-grid">
             <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
             <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
             <div class="lang-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
-            <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IG</div>
+            <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
             <div class="lang-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
         </div>
+        <p class="section-label">Flagge und Namen aussuchen</p>
         <div id="player-list"></div>
-        <button class="btn-luxe btn-outline" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
+        <button class="btn-luxe btn-outline" style="font-size:0.6rem; padding: 12px;" onclick="App.addPlayerInput()">+ Neuer Kämpfer</button>
         <div style="margin-top: auto;">
             <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Generiere Kampf</button>
-            <button class="btn-back" onclick="App.go('home')">← Zurück</button>
+            <button class="btn-back" onclick="App.go('home')">← Hauptmenü</button>
         </div>
+    </section>
+
+    <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
+        <div class="spinner"></div>
+        <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:25px;">Lade Game-Visuals...</p>
     </section>
 
     <section id="s-vs" class="screen">
         <div style="text-align: center; margin-top: 60px;">
-            <div id="vs-flag" style="font-size: 7.5rem;">🐲</div>
-            <h2 id="vs-name" class="title-gold">PLAYER</h2>
+            <div id="vs-flag" style="font-size: 7.5rem; margin-bottom: 15px;">🐲</div>
+            <h2 id="vs-name" class="title-gold" style="font-size: 2.8rem;">PLAYER</h2>
+            <div id="vs-info" style="margin-top:10px;"></div>
         </div>
-        <button class="btn-luxe btn-gold" style="margin-top: auto;" onclick="App.startQuiz()">FIGHT!</button>
+        <div style="margin-top: auto; padding-bottom: 40px;">
+            <button class="btn-luxe btn-gold" onclick="App.startQuiz()">FIGHT!</button>
+            <button class="btn-back" onclick="App.go('setup')">← Team ändern</button>
+        </div>
     </section>
 
     <section id="s-quiz" class="screen">
-        <div style="display: flex; justify-content: space-between;">
-            <span id="q-round" style="font-size:0.7rem;">Round 1/10</span>
-            <span id="q-gold" style="color:gold; font-weight:bold;">💰 0</span>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1/10</span>
+            <span id="q-gold" class="badge">💰 0</span>
         </div>
         <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
-        <div id="q-frame" class="q-visual-frame"><div class="q-overlay"></div><h3 id="q-text" class="q-text"></h3></div>
-        <div id="q-options"></div>
-        <div id="q-feedback" style="display:none; text-align:center; background:rgba(0,0,0,0.9); padding:15px; border-radius:15px;">
-            <p id="q-expl" style="margin-bottom:10px; font-size:0.9rem;"></p>
-            <button class="btn-luxe btn-gold" onclick="App.nextStep()">Weiter</button>
+        <div id="q-frame" class="q-visual-frame">
+            <div class="q-overlay"></div>
+            <h3 id="q-text" class="q-text">Lade Prüfung...</h3>
         </div>
+        <div id="q-options"></div>
+        <div id="q-feedback" style="display:none; margin-top:10px;">
+            <div style="background: rgba(10,10,10,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center;">
+                <p id="q-expl" style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 15px;"></p>
+                <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
+            </div>
+        </div>
+        <button class="btn-back" style="margin-top:15px;" onclick="if(confirm('Abbrechen?')) location.reload()">✕ Beenden</button>
     </section>
 
     <section id="s-result" class="screen">
-        <h1 class="title-gold">KAMPF ENDE</h1>
-        <div id="res-list" style="margin: 20px 0; flex:1;"></div>
-        <button class="btn-luxe btn-gold" onclick="location.reload()">Hauptmenü</button>
+        <h1 class="title-gold" style="font-size: 2.5rem;">KAMPF ENDE</h1>
+        <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
+        <div style="margin-top: auto;">
+            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Nochmal Kämpfen</button>
+            <button class="btn-luxe btn-outline" onclick="location.reload()">Hauptmenü</button>
+        </div>
+        <footer>Produziert von Wowa & Amiar Kempf</footer>
     </section>
 
     <section id="s-achievements" class="screen">
         <h1 class="title-gold" style="font-size: 2rem;">ERFOLGE</h1>
-        <div id="ach-list" style="margin-top:20px; flex:1;"></div>
-        <button class="btn-luxe btn-gold" onclick="App.go('home')">Zurück</button>
+        <div id="ach-list" style="margin-top:30px; flex:1;"></div>
+        <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
     </section>
 
     <section id="s-leaderboard" class="screen">
-        <h1 class="title-gold" style="font-size: 2rem;">TOP LISTE</h1>
-        <div id="lb-list" style="margin-top:20px; flex:1;"></div>
-        <button class="btn-luxe btn-gold" onclick="App.go('home')">Zurück</button>
+        <h1 class="title-gold" style="font-size: 2rem;">BESTENLISTE</h1>
+        <div id="lb-list" style="margin-top:30px; flex:1;"></div>
+        <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
     </section>
 </div>
 
 <script>
+    // --------------------------------------------------------------
+    // VERBESSERTER QUIZ-ENGINE – Globus dreht sich nur noch
+    // --------------------------------------------------------------
+    
     const DB = {
         de: [
-            { q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland hat 17 Mio km².", kw: "russia" },
-            { q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Stadt.", kw: "tokyo" },
-            { q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "Peru"], c: 0, e: "Die großen Pyramiden stehen in Ägypten.", kw: "pyramids" }
-        ],
-        en: [
-            { q: "Largest country?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia covers 11% of Earth's land.", kw: "russia" },
-            { q: "Capital of France?", o: ["Paris", "Lyon", "Marseille", "Nice"], c: 0, e: "Paris is the City of Light.", kw: "paris" }
+            { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "de3", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "de4", q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "China"], c: 0, e: "Sie stehen nahe Kairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "de5", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifik deckt 35% der Erde.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "de6", q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Er liegt im Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "de7", q: "Währung der USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist Weltleitwährung.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "de8", q: "Kontinent Australien?", o: ["Kleinster", "Größter", "Kältester", "Heißester"], c: 0, e: "Australien ist der kleinste Kontinent.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "de9", q: "Eiffelturm Standort?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Wahrzeichen von Frankreich.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
+            { id: "de10", q: "Farbe der UNO Flagge?", o: ["Blau-Weiß", "Rot-Gelb", "Schwarz-Rot", "Grün"], c: 0, e: "Blau und Weiß für den Frieden.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
         ],
         ru: [
-            { q: "Столица России?", o: ["Москва", "Питер", "Киев", "Минск"], c: 0, e: "Москва — сердце России.", kw: "moscow" }
+            { id: "ru1", q: "Самая большая страна в мире?", o: ["Россия", "Канада", "Китай", "США"], c: 0, e: "Россия занимает около 17 млн км².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "ru2", q: "Столица Японии?", o: ["Токио", "Киото", "Осака", "Сеул"], c: 0, e: "Токио — крупнейший мегаполис.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "ru3", q: "Какая река протекает через Египет?", o: ["Нил", "Амазонка", "Конго", "Ганг"], c: 0, e: "Нил — источник жизни.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "ru4", q: "Где находятся пирамиды?", o: ["Гиза", "Мексика", "Ирак", "Китай"], c: 0, e: "Они находятся недалеко от Каира.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "ru5", q: "Самый большой океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный Ледовитый"], c: 0, e: "Тихий океан покрывает 35% Земли.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "ru6", q: "Самая высокая гора?", o: ["Эверест", "К2", "Монблан", "Фудзияма"], c: 0, e: "Она находится в Гималаях.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "ru7", q: "Валюта США?", o: ["Доллар", "Евро", "Фунт", "Йена"], c: 0, e: "Доллар США — мировая резервная валюта.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "ru8", q: "Континент Австралии?", o: ["Самый маленький", "Самый большой", "Самый холодный", "Самый жаркий"], c: 0, e: "Австралия — самый маленький континент.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "ru9", q: "Где находится Эйфелева башня?", o: ["Париж", "Берлин", "Лондон", "Рим"], c: 0, e: "Символ Франции.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
+            { id: "ru10", q: "Цвет флага ООН?", o: ["Сине-белый", "Красно-желтый", "Черно-красный", "Зеленый"], c: 0, e: "Синий и белый символизируют мир.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
+        ],
+        en: [
+            { id: "en1", q: "Largest country in the world?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia covers about 17 million km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "en2", q: "Capital of Japan?", o: ["Tokyo", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokyo is the largest metropolis.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "en3", q: "Which river flows through Egypt?", o: ["Nile", "Amazon", "Congo", "Ganges"], c: 0, e: "The Nile is the lifeline.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "en4", q: "Where are the pyramids?", o: ["Giza", "Mexico", "Iraq", "China"], c: 0, e: "They are near Cairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "en5", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "The Pacific covers 35% of Earth.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "en6", q: "Highest mountain?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "It is in the Himalayas.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "en7", q: "Currency of USA?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar is the world's reserve currency.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "en8", q: "Continent Australia?", o: ["Smallest", "Largest", "Coldest", "Hottest"], c: 0, e: "Australia is the smallest continent.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "en9", q: "Eiffel Tower location?", o: ["Paris", "Berlin", "London", "Rome"], c: 0, e: "Symbol of France.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
+            { id: "en10", q: "Color of UN flag?", o: ["Blue-White", "Red-Yellow", "Black-Red", "Green"], c: 0, e: "Blue and white for peace.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
         ],
         ig: [
-            { q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "abuja" }
+            { id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "abuja nigeria", imgKw: ["abuja city", "lagos city", "enugu city", "kano city"] },
+            { id: "ig2", q: "Kedu mba kasị ukwuu n'ụwa?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia bụ mba kasị ukwuu.", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "ig3", q: "Isi obodo Japan?", o: ["Tokyo", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokyo bụ isi obodo Japan.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "ig4", q: "Osimiri dị n'Ijipt?", o: ["Nile", "Amazon", "Congo", "Ganges"], c: 0, e: "Osimiri Nile bụ ndụ.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "ig5", q: "Ebee pyramid dị?", o: ["Giza", "Mexico", "Iraq", "China"], c: 0, e: "Ha dị nso Cairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "ig6", q: "Oke osimiri kasị ukwuu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific kpuchiri 35% nke ụwa.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "ig7", q: "Ugwu kasị elu?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Ọ dị na Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "ig8", q: "Ego USA?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar bụ ego ụwa.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "ig9", q: "Kọntinent Australia?", o: ["Nke kasị nta", "Nke kasị ukwuu", "Nke kasị oyi", "Nke kasị ọkụ"], c: 0, e: "Australia bụ kọntinent kacha nta.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "ig10", q: "Eiffel Tower dị?", o: ["Paris", "Berlin", "London", "Rome"], c: 0, e: "Akara France.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] }
         ],
         tr: [
-            { q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara" }
+            { id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "bursa mosque"] },
+            { id: "tr2", q: "Dünyanın en büyük ülkesi?", o: ["Rusya", "Kanada", "Çin", "ABD"], c: 0, e: "Rusya yaklaşık 17 milyon km²'dir.", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
+            { id: "tr3", q: "Japonya'nın başkenti?", o: ["Tokyo", "Kyoto", "Osaka", "Seul"], c: 0, e: "Tokyo en büyük metropoldür.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
+            { id: "tr4", q: "Mısır'dan geçen nehir?", o: ["Nil", "Amazon", "Kongo", "Ganj"], c: 0, e: "Nil hayat kaynağıdır.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
+            { id: "tr5", q: "Piramitler nerede?", o: ["Gize", "Meksika", "Irak", "Çin"], c: 0, e: "Kahire yakınlarında.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
+            { id: "tr6", q: "En büyük okyanus?", o: ["Pasifik", "Atlas", "Hint", "Arktik"], c: 0, e: "Pasifik Dünya'nın %35'ini kaplar.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "tr7", q: "En yüksek dağ?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Himalayalar'da bulunur.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
+            { id: "tr8", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "ABD Doları dünya rezerv para birimidir.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
+            { id: "tr9", q: "Avustralya kıtası?", o: ["En küçük", "En büyük", "En soğuk", "En sıcak"], c: 0, e: "Avustralya en küçük kıtadır.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
+            { id: "tr10", q: "Eyfel Kulesi nerede?", o: ["Paris", "Berlin", "Londra", "Roma"], c: 0, e: "Fransa'nın sembolü.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] }
         ]
     };
 
     const App = {
-        profiles: JSON.parse(localStorage.getItem('mk_supreme_v10') || '{}'),
-        players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 10, currentLang: 'de', activeFlagIdx: null, activeQs: [], currentGold: 0,
+        profiles: {},
+        players: [],
+        pIdx: 0,
+        qIdx: 0,
+        timer: null,
+        timeLeft: 12,
+        currentLang: 'de',
+        activeFlagIdx: null,
+        activeQs: [],
+        answered: false,
+        sessionUsedIds: [],
 
-        init() { this.addPlayerInput(); },
+        save() {
+            try {
+                localStorage.setItem('mk_supreme_v9', JSON.stringify(this.profiles));
+            } catch(e) { console.warn("localStorage voll?", e); }
+        },
+
+        load() {
+            try {
+                const saved = localStorage.getItem('mk_supreme_v9');
+                if (saved) this.profiles = JSON.parse(saved);
+            } catch(e) { console.warn("Fehler beim Laden", e); this.profiles = {}; }
+        },
+
+        getProfile(name) {
+            const raw = name.trim();
+            const key = raw.toLowerCase();
+            if (!this.profiles[key]) {
+                this.profiles[key] = { 
+                    name: raw,
+                    displayName: raw,
+                    xp: 0, 
+                    gold: 0, 
+                    level: 1, 
+                    flag: '🐲',
+                    usedIds: []
+                };
+            } else {
+                this.profiles[key].name = raw;
+            }
+            return this.profiles[key];
+        },
+
+        getRank(lvl) {
+            if(lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
+            if(lvl >= 10) return { class: 'rank-master', label: 'Master' };
+            return { class: 'rank-warrior', label: 'Warrior' };
+        },
 
         go(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('s-' + id).classList.add('active');
+            if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
             if(id === 'leaderboard') this.renderLeaderboard();
             if(id === 'achievements') this.renderAchievements();
         },
 
-        setLang(l) { 
-            this.currentLang = l; 
+        setLang(l) {
+            this.currentLang = l;
             document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
             document.getElementById('ln-' + l).classList.add('active');
         },
 
         addPlayerInput() {
-            const id = Date.now();
+            const cont = document.getElementById('player-list');
+            const id = Date.now() + Math.random();
             const d = document.createElement('div');
             d.className = 'player-card'; d.id = 'pc-' + id;
-            d.innerHTML = `<div class="flag-plus" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Kämpfer Name..."><button onclick="this.parentElement.remove()" style="background:none; border:none; color:red; cursor:pointer;">✕</button>`;
-            document.getElementById('player-list').appendChild(d);
+            d.innerHTML = `<div class="flag-plus" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Name..."><button class="btn-trash" onclick="document.getElementById('pc-${id}').remove()">🗑️</button>`;
+            cont.appendChild(d);
         },
 
         openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
         confirmFlag(f) { 
-            const btn = document.getElementById('pc-' + this.activeFlagIdx).querySelector('.flag-plus');
+            const card = document.getElementById('pc-' + this.activeFlagIdx);
+            const btn = card.querySelector('.flag-plus');
             btn.innerText = f; btn.style.borderStyle = 'solid';
             document.getElementById('modal').style.display = 'none';
         },
 
-        prepareBattle() {
+        getQuestionsForLang(lang) {
+            let bank = DB[lang] || DB.en;
+            if (bank.length < 10) {
+                const fallback = DB.en.slice(0, 10 - bank.length);
+                bank = [...bank, ...fallback];
+            }
+            return bank;
+        },
+
+        async prepareBattle() {
+            const cards = document.querySelectorAll('.player-card');
+            if (cards.length === 0) return;
             this.players = [];
-            document.querySelectorAll('.player-card').forEach(card => {
-                const name = card.querySelector('input').value.trim();
-                const flag = card.querySelector('.flag-plus').innerText;
-                if(name) this.players.push({ name, flag, score: 0, gold: 0 });
-            });
-            if(this.players.length === 0) return alert("Mindestens ein Kämpfer benötigt!");
+            for (let c of cards) {
+                const name = c.querySelector('input').value || "Warrior";
+                const flag = c.querySelector('.flag-plus').innerText === '+' ? '🐲' : c.querySelector('.flag-plus').innerText;
+                const profile = this.getProfile(name);
+                profile.flag = flag;
+                profile.sessionScore = 0;
+                profile.sessionGold = 0;
+                this.players.push(profile);
+            }
             this.pIdx = 0;
-            this.showVS();
+            this.go('loading');
+            await this.prepareQuestionsForCurrentPlayer();
+            setTimeout(() => this.showVS(), 1500);
+        },
+
+        prepareQuestionsForCurrentPlayer() {
+            const bank = this.getQuestionsForLang(this.currentLang);
+            const available = bank.filter(q => !this.sessionUsedIds.includes(q.id));
+            if (available.length < 5) {
+                this.sessionUsedIds = [];
+                const freshAvailable = bank.filter(q => !this.sessionUsedIds.includes(q.id));
+                this.activeQs = freshAvailable.sort(() => 0.5 - Math.random()).slice(0, 10);
+            } else {
+                this.activeQs = available.sort(() => 0.5 - Math.random()).slice(0, 10);
+            }
         },
 
         showVS() {
             const p = this.players[this.pIdx];
+            const r = this.getRank(p.level);
             document.getElementById('vs-flag').innerText = p.flag;
-            document.getElementById('vs-name').innerText = p.name;
+            document.getElementById('vs-name').innerText = p.name.toUpperCase();
+            document.getElementById('vs-info').innerHTML = `<span class="rank-pill ${r.class}">${r.label}</span> <span style="font-size:0.85rem; color:var(--gold-solid);">GOLD: ${p.gold}</span>`;
             this.go('vs');
         },
 
         startQuiz() {
-            this.qIdx = 0; this.currentGold = 0;
-            this.activeQs = [...DB[this.currentLang]].sort(() => Math.random() - 0.5).slice(0, 10);
+            this.qIdx = 0;
+            this.answered = false;
+            this.renderQuestion();
             this.go('quiz');
-            this.nextQuestion();
         },
 
-        nextQuestion() {
-            if(this.qIdx >= this.activeQs.length) return this.finishTurn();
+        setBgWithFallback(element, url) {
+            element.style.backgroundImage = `url('${url}')`;
+            const img = new Image();
+            img.onerror = () => {
+                element.style.backgroundImage = "url('https://via.placeholder.com/800x450?text=Geography+Image')";
+            };
+            img.src = url;
+        },
+
+        renderQuestion() {
             const q = this.activeQs[this.qIdx];
-            document.getElementById('q-round').innerText = `RUNDE ${this.qIdx + 1}/10`;
+            const p = this.players[this.pIdx];
+            document.getElementById('q-round').innerText = `Round ${this.qIdx + 1}/10`;
+            document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
             document.getElementById('q-text').innerText = q.q;
-            document.getElementById('q-frame').style.backgroundImage = `url('https://source.unsplash.com/featured/?${q.kw}')`;
-            document.getElementById('q-options').innerHTML = '';
-            document.getElementById('q-feedback').style.display = 'none';
+
+            const imgUrl = `https://source.unsplash.com/800x450/?${encodeURIComponent(q.kw)}`;
+            const frame = document.getElementById('q-frame');
+            this.setBgWithFallback(frame, imgUrl);
             
+            const box = document.getElementById('q-options'); 
+            box.innerHTML = '';
+            document.getElementById('q-feedback').style.display = 'none';
+            box.style.display = 'block';
+            this.answered = false;
+
             q.o.forEach((opt, i) => {
-                const div = document.createElement('div');
-                div.className = 'opt-visual';
-                div.innerHTML = `<div class="opt-img-overlay"></div><span class="opt-label">${opt}</span>`;
-                div.onclick = () => this.check(i);
-                document.getElementById('q-options').appendChild(div);
+                const b = document.createElement('div');
+                b.className = 'opt-visual';
+                const imgKeyword = q.imgKw && q.imgKw[i] ? q.imgKw[i] : `${opt},landscape`;
+                const optImgUrl = `https://source.unsplash.com/400x150/?${encodeURIComponent(imgKeyword)}`;
+                b.style.backgroundImage = `url('${optImgUrl}')`;
+                const imgTest = new Image();
+                imgTest.onerror = () => {
+                    b.style.backgroundImage = "url('https://via.placeholder.com/400x150?text=Option')";
+                };
+                imgTest.src = optImgUrl;
+                b.innerHTML = `<div class="opt-img-overlay"></div><div class="opt-label">${opt}</div>`;
+                b.onclick = () => this.handleAnswer(i, b);
+                box.appendChild(b);
             });
             this.startTimer();
         },
 
         startTimer() {
-            clearInterval(this.timer); this.timeLeft = 10;
+            clearInterval(this.timer);
+            this.timeLeft = 12;
+            const bar = document.getElementById('timer-bar');
+            bar.style.width = "100%";
             this.timer = setInterval(() => {
-                this.timeLeft -= 0.1;
-                document.getElementById('timer-bar').style.width = (this.timeLeft * 10) + "%";
-                if(this.timeLeft <= 0) this.check(-1);
-            }, 100);
+                if (this.answered) return;
+                this.timeLeft -= 1;
+                bar.style.width = (this.timeLeft / 12 * 100) + "%";
+                if (this.timeLeft <= 0) {
+                    clearInterval(this.timer);
+                    if (!this.answered) this.handleAnswer(-1);
+                }
+            }, 1000);
         },
 
-        check(idx) {
+        handleAnswer(idx, b) {
+            if (this.answered) return;
+            this.answered = true;
             clearInterval(this.timer);
+            
             const q = this.activeQs[this.qIdx];
-            const opts = document.getElementById('q-options').children;
-            for(let o of opts) o.style.pointerEvents = 'none';
+            const p = this.players[this.pIdx];
+            const opts = document.querySelectorAll('.opt-visual');
+            opts.forEach(o => o.style.pointerEvents = 'none');
 
-            if(idx === q.c) {
-                opts[idx].classList.add('correct');
-                this.currentGold += 100;
-                document.getElementById('q-gold').innerText = `💰 ${this.currentGold}`;
+            this.sessionUsedIds.push(q.id);
+
+            if (idx === q.c) {
+                if(b) b.classList.add('correct');
+                p.sessionScore++;
+                const gain = Math.max(0, Math.round(this.timeLeft * 30));
+                p.sessionGold += gain;
+                p.gold += gain;
+                p.xp += 100;
+                p.level = Math.floor(Math.sqrt(p.xp / 350)) + 1;
             } else {
-                if(idx !== -1) opts[idx].classList.add('wrong');
-                opts[q.c].classList.add('correct');
+                if (idx !== -1 && b) b.classList.add('wrong');
+                if (opts[q.c]) opts[q.c].classList.add('correct');
             }
+            this.save();
             document.getElementById('q-expl').innerText = q.e;
             document.getElementById('q-feedback').style.display = 'block';
+            document.getElementById('q-options').style.display = 'none';
         },
 
-        nextStep() { this.qIdx++; this.nextQuestion(); },
-
-        finishTurn() {
-            const p = this.players[this.pIdx];
-            p.gold = this.currentGold;
-            const prof = this.getProfile(p.name);
-            prof.gold += p.gold; prof.xp += (p.gold / 2); prof.flag = p.flag;
-            prof.level = Math.floor(prof.xp / 500) + 1;
-            this.save();
-
-            this.pIdx++;
-            if(this.pIdx < this.players.length) this.showVS();
-            else this.showFinalResults();
-        },
-
-        getProfile(n) {
-            const k = n.toLowerCase();
-            if(!this.profiles[k]) this.profiles[k] = { name: n, xp: 0, gold: 0, level: 1, flag: '🐲' };
-            return this.profiles[k];
-        },
-
-        save() { localStorage.setItem('mk_supreme_v10', JSON.stringify(this.profiles)); },
-
-        showFinalResults() {
-            this.go('result');
-            document.getElementById('res-list').innerHTML = this.players.map(p => `
-                <div class="player-card">
-                    <span>${p.flag} ${p.name}</span>
-                    <span style="margin-left:auto; color:gold;">💰 ${p.gold}</span>
-                </div>
-            `).join('');
+        nextStep() {
+            this.qIdx++;
+            if (this.qIdx < 10 && this.qIdx < this.activeQs.length) {
+                this.answered = false;
+                this.renderQuestion();
+            } else {
+                this.pIdx++;
+                if (this.pIdx < this.players.length) {
+                    this.sessionUsedIds = [];
+                    this.prepareQuestionsForCurrentPlayer();
+                    this.showVS();
+                } else {
+                    this.showResults();
+                }
+            }
         },
 
         renderLeaderboard() {
-            const sorted = Object.values(this.profiles).sort((a,b) => b.gold - a.gold);
-            document.getElementById('lb-list').innerHTML = sorted.map((p, i) => `
-                <div style="display:flex; padding:10px; border-bottom:1px solid #222;">
-                    <span>${i+1}. ${p.flag} ${p.name}</span>
-                    <span style="margin-left:auto; color:gold;">💰 ${p.gold}</span>
+            const list = document.getElementById('lb-list');
+            const sorted = Object.values(this.profiles).sort((a,b) => b.xp - a.xp);
+            list.innerHTML = sorted.map((p, i) => `
+                <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; border-color:${i<3?'var(--gold-solid)':'rgba(255,255,255,0.1)'}">
+                    <div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b></div>
+                    <div style="text-align:right">LVL ${p.level}<br><span style="color:var(--gold-solid);">${p.gold} 💰</span></div>
                 </div>
             `).join('');
         },
 
         renderAchievements() {
-            document.getElementById('ach-list').innerHTML = Object.values(this.profiles).map(p => {
-                const rank = p.level > 10 ? 'rank-god' : 'rank-master';
-                return `<div class="player-card"><div><span class="rank-pill ${rank}">LVL ${p.level}</span> ${p.flag} ${p.name}</div></div>`;
+            const list = document.getElementById('ach-list');
+            const sorted = Object.values(this.profiles).sort((a,b) => b.level - a.level);
+            list.innerHTML = sorted.map(p => {
+                const r = this.getRank(p.level);
+                return `<div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;">
+                    <div style="font-size:2rem">${p.flag}</div>
+                    <div style="flex:1"><b>${p.name}</b><br><span class="rank-pill ${r.class}">${r.label}</span></div>
+                    <div style="text-align:right; font-weight:700; color:var(--gold-solid)">Lvl ${p.level}</div>
+                </div>`;
             }).join('');
+        },
+
+        showResults() {
+            this.go('result');
+            const list = document.getElementById('res-list');
+            list.innerHTML = this.players.map(p => `
+                <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;">
+                    <div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div>
+                    <div style="text-align:right"><div style="color:var(--gold-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div>
+                </div>`).join('');
         }
     };
 
-    App.init();
+    App.load();
+    App.go('home');
+    // KEIN setInterval mehr für den Globus – er dreht sich nur noch via CSS.
 </script>
 </body>
 </html>
