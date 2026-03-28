@@ -49,7 +49,7 @@
             to { opacity: 1; transform: translateY(0); filter: blur(0); } 
         }
 
-        /* --- HOME SCREEN mit modernem Prinzessin-Fokus --- */
+        /* --- HOME SCREEN mit Märchenschloss --- */
         .brand-top {
             text-align: center;
             margin-top: 15px;
@@ -85,136 +85,86 @@
         .home-center {
             text-align: center;
             margin-top: 20px;
-        }
-
-        .title-gold {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 2.8rem;
-            background: var(--purple);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 0.85;
-            filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.5));
-            letter-spacing: -2px;
-            margin-bottom: 15px;
-        }
-
-        /* --- MODERNE PRINZESSIN ILLUSTRATION (stilvoll & hübsch) --- */
-        .princess-illustration {
+            flex: 1;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
-            margin: 10px 0 15px;
+        }
+
+        /* Märchenschloss – groß, rosa, märchenhaft */
+        .castle-container {
             position: relative;
+            margin: 15px auto 20px;
+            width: 280px;
+            height: 200px;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2), 0 0 0 4px rgba(255,215,200,0.5);
             cursor: pointer;
-            animation: floatPrincess 3s ease-in-out infinite;
+            transition: transform 0.3s ease, box-shadow 0.3s;
         }
-        .princess-core {
-            font-size: 10rem;
-            filter: drop-shadow(0 0 25px rgba(192, 132, 252, 0.8));
-            transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
-            position: relative;
-            z-index: 2;
-            background: radial-gradient(circle at 30% 30%, #ffefd0, #ffe0b5);
-            border-radius: 50%;
-            padding: 20px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 180px;
-            height: 180px;
-            backdrop-filter: blur(2px);
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.4), inset 0 0 20px rgba(255,215,0,0.3);
-            border: 2px solid rgba(255,215,0,0.6);
-        }
-        .princess-illustration:hover .princess-core {
+        .castle-container:hover {
             transform: scale(1.02);
-            filter: drop-shadow(0 0 35px rgba(192, 132, 252, 1));
+            box-shadow: 0 25px 45px rgba(0,0,0,0.25), 0 0 0 6px rgba(255,200,150,0.7);
         }
-        /* Krone als extra Element */
-        .crown-icon {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2.8rem;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
-            animation: crownFloat 2s infinite ease-in-out;
-            z-index: 3;
-            pointer-events: none;
-        }
-        @keyframes crownFloat {
-            0% { top: -20px; }
-            50% { top: -28px; }
-            100% { top: -20px; }
-        }
-        /* Glitzer-Ring */
-        .sparkle-ring {
-            position: absolute;
+        .castle-image {
             width: 100%;
             height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.3s;
+        }
+        .castle-container:hover .castle-image {
+            filter: brightness(1.02) saturate(1.05);
+        }
+        /* Glitzer-Overlay für magischen Touch */
+        .castle-glow {
+            position: absolute;
             top: 0;
             left: 0;
-            pointer-events: none;
-            animation: rotateSparkle 12s linear infinite;
-        }
-        .sparkle-ring::before,
-        .sparkle-ring::after {
-            content: "✨";
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.7;
-        }
-        .sparkle-ring::before {
-            top: -15px;
-            left: 30%;
-            animation: sparkleMove 2s infinite alternate;
-        }
-        .sparkle-ring::after {
-            bottom: -10px;
-            right: 25%;
-            animation: sparkleMove 2.5s infinite alternate-reverse;
-        }
-        @keyframes rotateSparkle {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes sparkleMove {
-            0% { transform: translateY(0px) scale(1); opacity: 0.5; }
-            100% { transform: translateY(-10px) scale(1.2); opacity: 1; }
-        }
-        .extra-glitter {
-            position: absolute;
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
+            background: radial-gradient(circle at 50% 20%, rgba(255,220,180,0.3) 0%, rgba(255,200,150,0) 70%);
             pointer-events: none;
+            animation: sparkleGlow 3s infinite alternate;
         }
-        .glitter-dot {
-            position: absolute;
-            background: radial-gradient(circle, #ffd966, #ffb347);
-            border-radius: 50%;
-            width: 6px;
-            height: 6px;
-            animation: glitterPulse 1.5s infinite alternate;
+        @keyframes sparkleGlow {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.9; }
         }
-        @keyframes glitterPulse {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.3); }
+
+        /* NEUER pulsierender Titel */
+        .quiz-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b9d, #ff8cae, #ffb3c6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255,100,150,0.5);
+            animation: titlePulse 1.2s ease-in-out infinite;
+            margin: 10px 0 15px;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+        @keyframes titlePulse {
+            0% { transform: scale(1); text-shadow: 0 0 10px rgba(255,100,150,0.3); }
+            50% { transform: scale(1.03); text-shadow: 0 0 25px rgba(255,100,150,0.8); }
+            100% { transform: scale(1); text-shadow: 0 0 10px rgba(255,100,150,0.3); }
         }
 
         .sub-title-low {
             font-family: 'Syncopate', sans-serif;
-            font-size: 1.3rem;
-            letter-spacing: 3px;
-            color: #5b21b6;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: #a855f7;
             text-align: center;
             text-transform: uppercase;
-            margin: 15px 0 25px;
+            margin: 5px 0 20px;
             font-weight: 700;
-            text-shadow: 0 0 15px rgba(192, 132, 252, 0.8);
+            text-shadow: 0 0 8px rgba(192,132,252,0.6);
         }
 
         /* --- UI COMPONENTS (unverändert) --- */
@@ -390,7 +340,7 @@
             background: var(--purple-solid); border-radius: 10px; 
         }
 
-        /* ---- Kleine Prinzessin unten (Mascot, bleibt) ---- */
+        /* ---- Kleine Prinzessin unten (Mascot) ---- */
         .princess-mascot {
             position: fixed;
             bottom: 20px;
@@ -477,7 +427,7 @@
 <div class="princess-mascot" onclick="App.princessMagic()">👸</div>
 
 <div id="app">
-    <!-- SCREEN: HOME - NEU mit pulsierendem Alina & moderner Prinzessin -->
+    <!-- SCREEN: HOME - Märchenschloss & neuer Titel -->
     <section id="s-home" class="screen active">
         <div class="brand-top">
             <div class="alina-pulse">ALINA FRAIS</div>
@@ -485,17 +435,15 @@
         </div>
         
         <div class="home-center">
-            <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
-            
-            <!-- Moderne, hübsche Prinzessin Illustration -->
-            <div class="princess-illustration" onclick="App.princessMagic()">
-                <div class="crown-icon">👑</div>
-                <div class="princess-core">👸🏼✨</div>
-                <div class="sparkle-ring"></div>
-                <div class="extra-glitter" id="glitterContainer"></div>
+            <!-- Märchenschloss (großes, rosa Bild) -->
+            <div class="castle-container" onclick="App.castleMagic()">
+                <img class="castle-image" src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=600&auto=format" alt="Prinzessinnen Schloss" loading="lazy">
+                <div class="castle-glow"></div>
             </div>
-
-            <p class="sub-title-low">Best World Quiz</p>
+            
+            <!-- Neuer pulsierender Titel: ❤️ BEST ALINAS WORLD QUIZ ❤️ -->
+            <div class="quiz-title">❤️ BEST ALINAS WORLD QUIZ ❤️</div>
+            <div class="sub-title-low">Princess Knowledge Quest</div>
         </div>
 
         <div style="margin-top: auto;">
@@ -506,9 +454,9 @@
         <footer>Produziert von Wowa & Amiar Kempf & Alina Frais</footer>
     </section>
 
-    <!-- Weitere Screens bleiben unverändert (Setup, Loading, VS, Quiz, Result, Achievements, Leaderboard) -->
+    <!-- Alle anderen Screens bleiben exakt gleich (Setup, Loading, VS, Quiz, Result, Achievements, Leaderboard) -->
     <section id="s-setup" class="screen">
-        <h2 class="title-gold" style="font-size: 2.2rem;">Krieger</h2>
+        <h2 class="quiz-title" style="font-size: 2.2rem;">Krieger</h2>
         <p class="section-label">Game Sprache</p>
         <div class="lang-grid">
             <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
@@ -534,7 +482,7 @@
     <section id="s-vs" class="screen">
         <div style="text-align: center; margin-top: 60px;">
             <div id="vs-flag" style="font-size: 7.5rem; margin-bottom: 15px;">🐲</div>
-            <h2 id="vs-name" class="title-gold" style="font-size: 2.8rem;">PLAYER</h2>
+            <h2 id="vs-name" class="quiz-title" style="font-size: 2.8rem;">PLAYER</h2>
             <div id="vs-info" style="margin-top:10px;"></div>
         </div>
         <div style="margin-top: auto; padding-bottom: 40px;">
@@ -561,7 +509,7 @@
     </section>
 
     <section id="s-result" class="screen">
-        <h1 class="title-gold" style="font-size: 2.5rem;">KAMPF ENDE</h1>
+        <h1 class="quiz-title" style="font-size: 2.5rem;">KAMPF ENDE</h1>
         <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
         <div style="margin-top: auto;">
             <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Nochmal Kämpfen</button>
@@ -571,13 +519,13 @@
     </section>
 
     <section id="s-achievements" class="screen">
-        <h1 class="title-gold" style="font-size: 2rem;">ERFOLGE</h1>
+        <h1 class="quiz-title" style="font-size: 2rem;">ERFOLGE</h1>
         <div id="ach-list" style="margin-top:30px; flex:1;"></div>
         <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
     </section>
 
     <section id="s-leaderboard" class="screen">
-        <h1 class="title-gold" style="font-size: 2rem;">BESTENLISTE</h1>
+        <h1 class="quiz-title" style="font-size: 2rem;">BESTENLISTE</h1>
         <div id="lb-list" style="margin-top:30px; flex:1;"></div>
         <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
     </section>
@@ -642,6 +590,7 @@
         getProfile(name) { let k = name.trim().toLowerCase(); if(!this.profiles[k]) this.profiles[k] = { name: name.trim(), xp: 0, gold: 0, level: 1, flag: '🐲', usedIds: [] }; return this.profiles[k]; },
         getRank(lvl) { if(lvl>=50) return {class:'rank-god', label:'Elder God'}; if(lvl>=10) return {class:'rank-master', label:'Master'}; return {class:'rank-warrior', label:'Warrior'}; },
         princessMagic() { const messages=["✨👸✨","💖🎀💖","👑🌟👑","🌸👸🌸"]; const msg=messages[Math.floor(Math.random()*messages.length)]; const el=document.querySelector('.princess-mascot'); const heart=document.createElement('div'); heart.textContent=msg; heart.style.position='absolute'; heart.style.top='-30px'; heart.style.left='50%'; heart.style.transform='translateX(-50%)'; heart.style.fontSize='1rem'; heart.style.whiteSpace='nowrap'; heart.style.animation='heartFade 0.5s forwards'; heart.style.pointerEvents='none'; el.appendChild(heart); setTimeout(()=>heart.remove(),500); },
+        castleMagic() { this.princessMagic(); }, // Schloss klickbar für Magie
         go(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); const screen=document.getElementById('s-'+id); if(screen){ screen.classList.add('active'); if(id==='setup' && document.getElementById('player-list').children.length===0) this.addPlayerInput(); if(id==='leaderboard') this.renderLeaderboard(); if(id==='achievements') this.renderAchievements(); } },
         setLang(l) { this.currentLang=l; document.querySelectorAll('.lang-chip').forEach(c=>c.classList.remove('active')); const chip=document.getElementById('ln-'+l); if(chip) chip.classList.add('active'); },
         addPlayerInput() { const cont=document.getElementById('player-list'); const id=Date.now()+Math.random(); const d=document.createElement('div'); d.className='player-card'; d.id='pc-'+id; d.innerHTML=`<div class="flag-plus" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Name..."><button class="btn-trash" onclick="document.getElementById('pc-${id}').remove()">🗑️</button>`; cont.appendChild(d); },
@@ -659,8 +608,8 @@
         showResults() { this.go('result'); const list=document.getElementById('res-list'); list.innerHTML=this.players.map(p=>`<div style="background:rgba(255,255,255,0.8); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;"><div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div><div style="text-align:right"><div style="color:var(--purple-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div></div>`).join(''); }
     };
     
-    function createGlitter() { const container=document.getElementById('glitterContainer'); if(!container) return; for(let i=0;i<20;i++){ const dot=document.createElement('div'); dot.className='glitter-dot'; dot.style.top=Math.random()*100+'%'; dot.style.left=Math.random()*100+'%'; dot.style.animationDelay=Math.random()*2+'s'; container.appendChild(dot); } }
-    window.App=App; App.go('home'); createGlitter();
+    window.App = App;
+    App.go('home');
 </script>
 </body>
 </html>
