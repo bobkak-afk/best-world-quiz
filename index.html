@@ -1,596 +1,743 @@
+
 ```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · CRIMSON SOVEREIGN · OFFICIAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@200;400;600;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>World Quest · Sovereign Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: #050000;
-            font-family: 'Outfit', sans-serif;
-            height: 100dvh;
-            width: 100vw;
-            overflow: hidden;
+            background: linear-gradient(145deg, #f9f3e6 0%, #fff5e8 100%);
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            color: #fff;
+            align-items: center;
+            padding: 20px;
         }
 
-        :root {
-            --crimson-grad: linear-gradient(135deg, #ff1a1a 0%, #8b0000 60%, #3a0000 100%);
-            --gold-grad: linear-gradient(135deg, #ffdf91, #d4af37);
-            --border-red: rgba(255, 40, 40, 0.5);
-            --card-bg: rgba(10, 0, 0, 0.85);
-        }
-
-        /* DYNAMIC BACKGROUND WALL */
-        #crimson-cine-wall {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.25) saturate(1.4) blur(6px);
-            transition: background-image 1.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600');
-        }
-
-        #app {
+        /* Hauptcontainer */
+        .game-container {
+            max-width: 550px;
             width: 100%;
-            max-width: 500px;
-            height: 100dvh;
-            position: relative;
-            z-index: 20;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(18px);
-            border-left: 1px solid rgba(255, 0, 0, 0.25);
-            border-right: 1px solid rgba(255, 0, 0, 0.25);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 80px rgba(0,0,0,0.9);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
+        /* Screens */
         .screen {
             display: none;
-            flex: 1;
-            padding: 20px 20px 10px 20px;
-            flex-direction: column;
-            overflow-y: auto;
-            scrollbar-width: thin;
+            padding: 28px 24px 32px;
+            animation: fadeInUp 0.4s ease-out;
         }
-        .screen.active { display: flex; animation: rise 0.55s ease-out forwards; }
-        @keyframes rise {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
+        .screen.active {
+            display: block;
         }
 
-        /* TYPOGRAPHY */
-        .brand-header {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.55rem;
-            letter-spacing: 10px;
-            color: #ff4444;
-            text-align: center;
-            margin-top: 5px;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .title-main {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 3rem;
+
+        /* Typografie */
+        h1, h2 {
+            font-family: 'Fredoka One', cursive;
+            letter-spacing: -0.5px;
+        }
+        .brand {
             text-align: center;
-            background: var(--crimson-grad);
+            margin-bottom: 20px;
+        }
+        .brand h1 {
+            font-size: 2.4rem;
+            background: linear-gradient(135deg, #FF8C42, #FF3D6C);
             -webkit-background-clip: text;
             background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 12px #a00000);
-            line-height: 1;
+            color: transparent;
+            text-shadow: none;
         }
-
-        /* GLOBE */
-        .globe-vessel {
-            width: 220px;
-            height: 220px;
-            margin: 10px auto;
-            border-radius: 50%;
-            background: #000;
-            box-shadow: inset -30px -30px 50px #000, 0 0 50px rgba(255, 0, 0, 0.4);
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(255, 0, 0, 0.3);
-        }
-        .globe-map {
-            width: 200%;
-            height: 100%;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Blue_Marble_2002.png/1024px-Blue_Marble_2002.png') repeat-x;
-            background-size: cover;
-            animation: spinGlobe 40s linear infinite;
-            filter: sepia(0.8) hue-rotate(-30deg) saturate(1.6);
-        }
-        @keyframes spinGlobe { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .globe-shine {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,200,0.1), transparent 70%, #000 95%);
-        }
-
-        /* BUTTONS */
-        .btn-crimson {
-            width: 100%;
-            padding: 16px;
-            border-radius: 60px;
-            font-family: 'Syncopate', sans-serif;
-            font-weight: bold;
-            font-size: 0.7rem;
+        .brand p {
+            color: #f08a5d;
+            font-weight: 600;
+            font-size: 0.8rem;
             letter-spacing: 2px;
-            background: rgba(20, 0, 0, 0.7);
-            border: 1px solid var(--border-red);
-            color: white;
-            backdrop-filter: blur(12px);
+        }
+
+        /* Karten und Buttons */
+        .card-glow {
+            background: white;
+            border-radius: 32px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255, 140, 66, 0.2);
+        }
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 60px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
             transition: 0.2s;
+            text-align: center;
+            background: white;
+            color: #FF6B4A;
+            border: 1px solid #FFD1B5;
             margin-bottom: 12px;
         }
-        .btn-main {
-            background: var(--crimson-grad);
+        .btn-primary {
+            background: linear-gradient(95deg, #FF8C42, #FF3D6C);
             border: none;
-            box-shadow: 0 5px 20px #5a0000;
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 61, 108, 0.25);
         }
-        .btn-main:active { transform: scale(0.97); }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #FFB48A;
+            color: #FF6B4A;
+        }
 
-        /* PLAYER CARDS */
+        /* Spielerliste */
         .player-card {
-            background: rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,60,0,0.4);
-            border-radius: 50px;
-            padding: 6px 12px;
-            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 12px;
+            background: #fff9f0;
+            border-radius: 60px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ffe0c4;
         }
-        .flag-plus {
-            width: 48px;
-            height: 48px;
-            background: #1a0000;
-            border-radius: 30px;
+        .flag-selector {
+            width: 56px;
+            height: 56px;
+            background: #FFF0E0;
+            border-radius: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 2rem;
             cursor: pointer;
-            border: 1px dashed crimson;
             transition: 0.1s;
+            border: 1px dashed #FFB48A;
         }
-        .input-luxe {
+        .player-name-input {
             flex: 1;
-            background: transparent;
             border: none;
-            color: white;
-            font-size: 1rem;
-            font-weight: 500;
-            outline: none;
+            background: transparent;
+            font-size: 1.1rem;
+            font-weight: 600;
             padding: 12px 0;
+            outline: none;
+            font-family: 'Quicksand', sans-serif;
+            color: #4a3b2c;
         }
-        .remove-warrior {
+        .remove-player {
             background: none;
             border: none;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             cursor: pointer;
-            color: #aa2222;
+            color: #ff8a5c;
+            opacity: 0.7;
         }
 
-        /* VS SCREEN */
-        .vs-arena {
-            text-align: center;
-            margin: auto;
-            background: rgba(0,0,0,0.7);
-            padding: 35px 20px;
-            border-radius: 70px;
-            border: 1px solid red;
-            backdrop-filter: blur(10px);
-        }
-        .vs-flag { font-size: 5rem; }
-        .vs-name { font-size: 2rem; font-family: 'Cinzel Decorative', serif; margin: 20px 0; letter-spacing: 5px; text-shadow: 0 0 10px red; }
-        .countdown-number { font-size: 3.5rem; font-family: 'Syncopate'; color: #ff5555; }
-
-        /* QUIZ STYLES */
-        .q-window {
-            height: 210px;
-            border-radius: 36px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            margin-bottom: 25px;
-            overflow: hidden;
-            border: 1px solid rgba(255,0,0,0.5);
-        }
-        .q-overlay {
-            background: linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.3));
-            position: absolute;
-            inset: 0;
-        }
-        .q-text-p {
-            position: relative;
-            z-index: 2;
-            font-weight: 800;
-            font-size: 1.35rem;
-            text-align: center;
-            padding: 40px 20px;
-            text-shadow: 0 2px 15px black;
-        }
-        .opt-item-v {
-            height: 70px;
-            margin-bottom: 12px;
-            border-radius: 28px;
-            background-size: cover;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid rgba(255,80,80,0.3);
-        }
-        .opt-shade {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(3px);
-            transition: 0.1s;
-        }
-        .opt-label {
-            position: relative;
-            z-index: 2;
-            padding: 22px 20px;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-        .correct .opt-shade { background: rgba(0, 130, 0, 0.9) !important; border-left: 5px solid #0f0; }
-        .wrong .opt-shade { background: rgba(130, 0, 0, 0.9) !important; border-left: 5px solid red; }
-        .timer-rail { height: 6px; background: #2a0000; border-radius: 10px; margin: 8px 0 20px; }
-        .timer-fill { height: 100%; width: 100%; background: #ff3300; box-shadow: 0 0 10px #ff3300; transition: width 0.1s linear; }
-
-        .learn-box {
-            background: #080000dd;
-            border-radius: 28px;
-            padding: 20px;
-            backdrop-filter: blur(12px);
-            text-align: center;
-            border: 1px solid gold;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.6rem;
-            font-family: 'Syncopate';
-            letter-spacing: 4px;
-            padding: 15px 0 10px;
-            color: #ffaaaa;
-        }
-
-        #modal {
-            display: none;
+        /* Flaggen-Modal */
+        .flag-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.98);
-            z-index: 9999;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            display: none;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(20px);
+            z-index: 1000;
         }
         .flag-grid {
-            background: #0c0000;
+            background: white;
             border-radius: 48px;
-            padding: 25px;
+            padding: 24px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            border: 1px solid crimson;
+            gap: 16px;
+            max-width: 320px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
-        .flag-emoji { font-size: 3.5rem; cursor: pointer; transition: 0.1s; text-align: center; }
-        .spinner { width: 55px; height: 55px; border: 5px solid #300; border-top: 5px solid red; border-radius: 50%; animation: spin 0.9s linear infinite; margin: auto; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .flag-emoji {
+            font-size: 2.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        /* Quiz-Stile */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: #FF6B4A;
+        }
+        .timer-bar {
+            height: 8px;
+            background: #FFE0CF;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .timer-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #FF8C42, #FF3D6C);
+            transition: width 0.1s linear;
+        }
+        .question-card {
+            background: white;
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #ffe0cf;
+        }
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #3b2c20;
+            line-height: 1.3;
+        }
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .option {
+            background: white;
+            border-radius: 100px;
+            padding: 14px 20px;
+            border: 1px solid #FFD8C4;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #5a4a38;
+        }
+        .option.correct {
+            background: #c8e6df;
+            border-color: #2e7d64;
+            color: #1a4a3a;
+        }
+        .option.wrong {
+            background: #ffe0e0;
+            border-color: #ff8a8a;
+            color: #b33;
+        }
+        .explanation-box {
+            background: #fff3e8;
+            border-radius: 28px;
+            padding: 20px;
+            margin-top: 12px;
+            text-align: center;
+            border-left: 6px solid #FF8C42;
+        }
+
+        /* Ergebnis / Leaderboard */
+        .score-item {
+            background: white;
+            border-radius: 28px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #c7a67a;
+            margin-top: 28px;
+            font-weight: 500;
+        }
+        .language-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .lang-btn {
+            background: #ffe8dc;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.1s;
+            color: #c96f3e;
+        }
+        .lang-btn.active {
+            background: #FF8C42;
+            color: white;
+            box-shadow: 0 4px 10px #ff8c4266;
+        }
     </style>
 </head>
 <body>
 
-<div id="crimson-cine-wall"></div>
-<div id="modal">
-    <div class="flag-grid" onclick="event.stopPropagation()">
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇩🇪')">🇩🇪</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇷🇺')">🇷🇺</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇬🇧')">🇬🇧</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇳🇬')">🇳🇬</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇹🇷')">🇹🇷</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇫🇷')">🇫🇷</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇮🇹')">🇮🇹</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇺🇸')">🇺🇸</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🏴‍☠️')">🏴‍☠️</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇧🇷')">🇧🇷</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇨🇳')">🇨🇳</div>
-        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇯🇵')">🇯🇵</div>
+<div class="game-container" id="appRoot">
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="screen active">
+        <div class="brand">
+            <h1>🌍 WORLD QUEST</h1>
+            <p>SOVEREIGN CHALLENGE</p>
+        </div>
+        <div style="text-align: center; margin: 20px 0;">
+            <div style="font-size: 5rem;">🏆✨</div>
+            <p style="margin-top: 10px; color: #f08a5d;">Test your knowledge<br>across the globe</p>
+        </div>
+        <button class="btn btn-primary" id="startGameBtn">▶ BEGINNE REISE</button>
+        <button class="btn" id="leaderboardBtn">🏅 HALL OF FAME</button>
+        <footer>Wowa · Amiar · Alina Frais</footer>
+    </div>
+
+    <!-- SETUP SCREEN (Spieler erstellen) -->
+    <div id="setupScreen" class="screen">
+        <div class="brand">
+            <h2>👥 Wähle deine Krieger</h2>
+        </div>
+        <div class="language-row" id="langSelectRow">
+            <button data-lang="de" class="lang-btn active">🇩🇪 DE</button>
+            <button data-lang="en" class="lang-btn">🇬🇧 EN</button>
+            <button data-lang="tr" class="lang-btn">🇹🇷 TR</button>
+            <button data-lang="ig" class="lang-btn">🇳🇬 IG</button>
+            <button data-lang="ru" class="lang-btn">🇷🇺 RU</button>
+        </div>
+        <div id="playersContainer"></div>
+        <button class="btn btn-outline" id="addPlayerBtn">+ Neuen Kämpfer hinzufügen</button>
+        <button class="btn btn-primary" id="startBattleBtn" style="margin-top: 12px;">⚔️ KAMPF STARTEN</button>
+        <button class="btn" id="backHomeBtn">← Zurück</button>
+        <footer>Wowa · Amiar · Alina Frais</footer>
+    </div>
+
+    <!-- VS / LOADING SCREEN -->
+    <div id="vsScreen" class="screen">
+        <div style="text-align: center; padding: 30px 0;">
+            <div id="vsFlag" style="font-size: 5rem;">⚔️</div>
+            <h2 id="vsName" style="font-size: 2rem; margin: 20px 0;">WARRIOR</h2>
+            <div id="vsCountdown" style="font-size: 3rem; font-weight: 800; color: #FF8C42;">3</div>
+            <p style="color: #c07a4b;">Prepare for battle...</p>
+        </div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quizScreen" class="screen">
+        <div class="quiz-header">
+            <span id="roundIndicator">Runde 1/10</span>
+            <span id="timerDisplay">60s</span>
+        </div>
+        <div class="timer-bar"><div id="timerFill" class="timer-fill"></div></div>
+        <div class="question-card">
+            <div class="question-text" id="questionText">Lade Frage...</div>
+        </div>
+        <div id="optionsContainer" class="options-grid"></div>
+        <div id="explanationArea" style="display: none;">
+            <div class="explanation-box">
+                <p id="explanationText"></p>
+                <button class="btn btn-primary" id="nextQuestionBtn" style="margin-top: 16px;">Weiter ➡</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="resultScreen" class="screen">
+        <div class="brand"><h2>🏁 ENDBILANZ</h2></div>
+        <div id="finalScores"></div>
+        <button class="btn btn-primary" id="rematchBtn">🔄 REVANCHE</button>
+        <button class="btn" id="homeFromResultBtn">🏠 HAUPTMENÜ</button>
+        <footer>Wowa · Amiar · Alina Frais</footer>
+    </div>
+
+    <!-- LEADERBOARD SCREEN -->
+    <div id="leaderboardScreen" class="screen">
+        <div class="brand"><h2>🏆 BESTENLISTE</h2></div>
+        <div id="leaderboardList"></div>
+        <button class="btn" id="backFromLeaderboardBtn">← Zurück</button>
+        <footer>Wowa · Amiar · Alina Frais</footer>
+    </div>
+
+    <!-- FLAG MODAL (versteckt) -->
+    <div id="flagModal" class="flag-modal">
+        <div class="flag-grid" id="flagGrid">
+            <!-- Flags werden dynamisch eingefügt -->
+        </div>
     </div>
 </div>
 
-<div id="app">
-    <!-- HOME -->
-    <section id="s-home" class="screen active">
-        <div class="brand-header">CRIMSON SOVEREIGN</div>
-        <div class="title-main" style="font-size: 2.5rem;">MORTAL<br>KOMBAT</div>
-        <div class="globe-vessel"><div class="globe-map"></div><div class="globe-shine"></div></div>
-        <div style="margin-top: auto;">
-            <button class="btn-crimson btn-main" onclick="App.initGameFromSetup()">BEGINNE KAMPF</button>
-            <button class="btn-crimson" onclick="App.goToLeaderboard()">🏆 HALL OF SOVEREIGNS</button>
-        </div>
-        <footer>WOWA · AMIAR · ALINA FRAIS</footer>
-    </section>
-
-    <!-- SETUP -->
-    <section id="s-setup" class="screen">
-        <div class="title-main" style="font-size: 1.8rem;">WÄHLE KRIEGER</div>
-        <div style="display: flex; gap: 12px; justify-content: center; margin: 10px 0;">
-            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('de')">🇩🇪 DE</button>
-            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('en')">🇬🇧 EN</button>
-            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('tr')">🇹🇷 TR</button>
-            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('ig')">🇳🇬 IG</button>
-            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('ru')">🇷🇺 RU</button>
-        </div>
-        <div id="player-list-container"></div>
-        <button class="btn-crimson" style="margin-top: 8px;" onclick="App.addPlayerInput()">+ ADD WARRIOR</button>
-        <div style="margin-top: auto;">
-            <button class="btn-crimson btn-main" onclick="App.lockPlayersAndStart()">🔥 KAMPF STARTEN</button>
-            <button class="btn-crimson" onclick="App.goHome()">← ZURÜCK</button>
-        </div>
-        <footer>WOWA · AMIAR · ALINA FRAIS</footer>
-    </section>
-
-    <!-- VS screen -->
-    <section id="s-vs" class="screen">
-        <div class="vs-arena">
-            <div id="vsFlagDisplay" class="vs-flag">⚔️</div>
-            <div id="vsNameDisplay" class="vs-name">WARRIOR</div>
-            <div id="vsCountdown" class="countdown-number">3</div>
-            <div style="font-family: 'Syncopate'; margin-top: 20px;">GET READY TO FIGHT</div>
-        </div>
-    </section>
-
-    <!-- QUIZ -->
-    <section id="s-quiz" class="screen">
-        <div style="display: flex; justify-content: space-between;">
-            <span id="quizRoundLabel" style="font-family: 'Syncopate'; font-size: 0.7rem; color: #ff7777;">ROUND 0/10</span>
-            <span id="quizTimerLabel" style="font-family: monospace; font-weight: bold;">60s</span>
-        </div>
-        <div class="timer-rail"><div id="quizTimerFill" class="timer-fill"></div></div>
-        <div id="quizVisual" class="q-window"><div class="q-overlay"></div><h3 id="quizQuestionText" class="q-text-p">LOADING...</h3></div>
-        <div id="quizOptionsContainer"></div>
-        <div id="feedbackPanel" style="display: none;">
-            <div class="learn-box">
-                <p style="color: #ffaa33;">✦ SOVEREIGN WISDOM ✦</p>
-                <p id="explanationText" style="margin: 12px 0; line-height: 1.4;"></p>
-                <button class="btn-crimson btn-main" onclick="App.nextQuestionOrPlayer()">NÄCHSTE RUNDE</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- RESULT -->
-    <section id="s-result" class="screen">
-        <div class="title-main" style="font-size: 2rem;">KAMPF BEENDET</div>
-        <div id="finalScoresList" style="margin: 25px 0; flex:1;"></div>
-        <button class="btn-crimson btn-main" onclick="App.revanche()">REVANCHE ⚔️</button>
-        <button class="btn-crimson" onclick="location.reload()">HAUPTMENÜ</button>
-        <footer>WOWA · AMIAR · ALINA FRAIS</footer>
-    </section>
-
-    <!-- LEADERBOARD -->
-    <section id="s-leaderboard" class="screen">
-        <div class="title-main" style="font-size: 2rem;">BESTENLISTE</div>
-        <div id="leaderboardList" style="margin: 20px 0; flex:1;"></div>
-        <button class="btn-crimson btn-main" onclick="App.goHome()">ZURÜCK</button>
-        <footer>WOWA · AMIAR · ALINA FRAIS</footer>
-    </section>
-</div>
-
 <script>
-    // ======================== FULL DATABASE (10+ questions per language) ========================
-    const MASTER_DB = {
+    // ---------------------------- VOLLSTÄNDIGE FRAGEN-DATENBANK (je Sprache 10) ----------------------------
+    const DB = {
         de: [
-            { id: "de1", q: "Was ist das flächenmäßig größte Land?", o: ["Russland", "Kanada", "USA", "China"], c: 0, e: "Russland: 17,1 Mio km² – größter Staat der Erde.", kw: "russia" },
-            { id: "de2", q: "Längster Fluss der Welt?", o: ["Nil", "Amazonas", "Jangtse", "Mississippi"], c: 0, e: "Der Nil ist mit 6650 km der längste Fluss.", kw: "nile river" },
-            { id: "de3", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Pazifik bedeckt 46% der Wasserfläche.", kw: "pacific ocean" },
-            { id: "de4", q: "Kältester Kontinent?", o: ["Antarktis", "Arktis", "Asien", "Europa"], c: 0, e: "Antarktis: -89°C Rekord.", kw: "antarctica" },
-            { id: "de5", q: "Pyramiden von Gizeh stehen in ...?", o: ["Ägypten", "Mexiko", "Irak", "Sudan"], c: 0, e: "Ägypten, nahe Kairo.", kw: "pyramids egypt" },
-            { id: "de6", q: "Hauptstadt Japans?", o: ["Tokio", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo" },
-            { id: "de7", q: "Kleinster Staat der Welt?", o: ["Vatikanstadt", "Monaco", "San Marino", "Nauru"], c: 0, e: "Vatikan: 0,44 km².", kw: "vatican" },
-            { id: "de8", q: "Flüssiges Metall bei Raumtemperatur?", o: ["Quecksilber", "Gallium", "Blei", "Zinn"], c: 0, e: "Quecksilber (Hg) ist das einzige flüssige Metall.", kw: "mercury" },
-            { id: "de9", q: "Mona Lisa gemalt von?", o: ["Leonardo da Vinci", "Michelangelo", "Rembrandt", "Picasso"], c: 0, e: "Da Vinci, 16. Jahrhundert.", kw: "mona lisa" },
-            { id: "de10", q: "Währung der USA?", o: ["US-Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Dollar ($) – weltweite Leitwährung.", kw: "us dollar" }
+            { id: "de1", q: "Was ist das flächenmäßig größte Land der Welt?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland erstreckt sich über 17,1 Millionen km² – größter Staat der Erde." },
+            { id: "de2", q: "Welcher Fluss gilt als der längste der Erde?", o: ["Nil", "Amazonas", "Jangtsekiang", "Mississippi"], c: 0, e: "Der Nil ist mit etwa 6650 km der längste Fluss, obwohl der Amazonas mehr Wasser führt." },
+            { id: "de3", q: "Größter Ozean der Welt?", o: ["Pazifik", "Atlantik", "Indik", "Arktischer Ozean"], c: 0, e: "Der Pazifik bedeckt rund 46% der Wasserfläche und ist der tiefste Ozean." },
+            { id: "de4", q: "Welcher Kontinent ist am kältesten?", o: ["Antarktis", "Arktis", "Asien", "Europa"], c: 0, e: "In der Antarktis wurden Temperaturen bis -89°C gemessen." },
+            { id: "de5", q: "Wo stehen die Pyramiden von Gizeh?", o: ["Ägypten", "Mexiko", "Sudan", "Irak"], c: 0, e: "Die Pyramiden befinden sich in Ägypten, nahe Kairo." },
+            { id: "de6", q: "Hauptstadt von Japan?", o: ["Tokio", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokio ist die bevölkerungsreichste Metropolregion der Welt." },
+            { id: "de7", q: "Kleinster souveräner Staat der Welt?", o: ["Vatikanstadt", "Monaco", "Nauru", "San Marino"], c: 0, e: "Der Vatikan misst nur 0,44 km²." },
+            { id: "de8", q: "Welches Metall ist bei Raumtemperatur flüssig?", o: ["Quecksilber", "Gallium", "Blei", "Zinn"], c: 0, e: "Quecksilber (Hg) ist das einzige Metall, das bei Raumtemperatur flüssig ist." },
+            { id: "de9", q: "Wer malte die Mona Lisa?", o: ["Leonardo da Vinci", "Michelangelo", "Rembrandt", "Picasso"], c: 0, e: "Leonardo da Vinci schuf das Meisterwerk im 16. Jahrhundert." },
+            { id: "de10", q: "Währung der Vereinigten Staaten?", o: ["US-Dollar", "Euro", "Pfund Sterling", "Yen"], c: 0, e: "Der US-Dollar ist die wichtigste Reservewährung." }
         ],
         en: [
-            { id: "en1", q: "Largest country by area?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia covers 17.1 million km².", kw: "russia" },
-            { id: "en2", q: "Longest river?", o: ["Nile", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nile river, 6650 km.", kw: "nile" },
-            { id: "en3", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific Ocean, largest and deepest.", kw: "pacific" },
-            { id: "en4", q: "Coldest continent?", o: ["Antarctica", "Arctic", "Asia", "Europe"], c: 0, e: "Antarctica holds ice sheet.", kw: "antarctica" },
-            { id: "en5", q: "Where are the Pyramids of Giza?", o: ["Egypt", "Mexico", "Sudan", "Peru"], c: 0, e: "Egypt, near Cairo.", kw: "pyramids" },
-            { id: "en6", q: "Capital of Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Seoul"], c: 0, e: "Tokyo is world's largest metro.", kw: "tokyo" },
-            { id: "en7", q: "Smallest country?", o: ["Vatican City", "Monaco", "Nauru", "San Marino"], c: 0, e: "Vatican City: 0.44 km².", kw: "vatican" },
-            { id: "en8", q: "Liquid metal at room temp?", o: ["Mercury", "Gallium", "Lead", "Tin"], c: 0, e: "Mercury is the only liquid metal.", kw: "mercury" },
-            { id: "en9", q: "Who painted Mona Lisa?", o: ["Da Vinci", "Van Gogh", "Picasso", "Rembrandt"], c: 0, e: "Leonardo da Vinci.", kw: "mona lisa" },
-            { id: "en10", q: "USA currency?", o: ["US Dollar", "Euro", "Pound", "Yen"], c: 0, e: "United States Dollar.", kw: "dollar" }
-        ],
-        ru: [
-            { id: "ru1", q: "Самая большая страна в мире?", o: ["Россия", "Канада", "Китай", "США"], c: 0, e: "Россия — 17,1 млн км².", kw: "russia" },
-            { id: "ru2", q: "Самая длинная река?", o: ["Нил", "Амазонка", "Янцзы", "Миссисипи"], c: 0, e: "Нил, 6650 км.", kw: "nile" },
-            { id: "ru3", q: "Самый большой океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный Ледовитый"], c: 0, e: "Тихий океан.", kw: "pacific" },
-            { id: "ru4", q: "Самый холодный материк?", o: ["Антарктида", "Арктика", "Азия", "Евразия"], c: 0, e: "Антарктида.", kw: "antarctica" },
-            { id: "ru5", q: "Столица Японии?", o: ["Токио", "Осака", "Киото", "Нагоя"], c: 0, e: "Токио.", kw: "tokyo" },
-            { id: "ru6", q: "Где пирамиды Гизы?", o: ["Египет", "Мексика", "Ирак", "Китай"], c: 0, e: "Египет.", kw: "pyramids" },
-            { id: "ru7", q: "Самое маленькое государство?", o: ["Ватикан", "Монако", "Сан-Марино", "Науру"], c: 0, e: "Ватикан 0,44 км².", kw: "vatican" },
-            { id: "ru8", q: "Жидкий металл при 20°C?", o: ["Ртуть", "Галлий", "Свинец", "Цинк"], c: 0, e: "Ртуть.", kw: "mercury" },
-            { id: "ru9", q: "Кто написал Мона Лизу?", o: ["Да Винчи", "Ван Гог", "Пикассо", "Рембрандт"], c: 0, e: "Леонардо да Винчи.", kw: "mona lisa" },
-            { id: "ru10", q: "Валюта США?", o: ["Доллар", "Евро", "Фунт", "Йена"], c: 0, e: "Доллар США.", kw: "dollar" }
+            { id: "en1", q: "Largest country by land area?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia covers 17.1 million km²." },
+            { id: "en2", q: "Longest river in the world?", o: ["Nile", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "The Nile is approximately 6,650 km long." },
+            { id: "en3", q: "Largest ocean on Earth?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific Ocean covers 46% of Earth's water surface." },
+            { id: "en4", q: "Coldest continent?", o: ["Antarctica", "Arctic", "Asia", "Europe"], c: 0, e: "Antarctica holds the record of -89°C." },
+            { id: "en5", q: "Where are the Pyramids of Giza?", o: ["Egypt", "Mexico", "Sudan", "Peru"], c: 0, e: "The pyramids are in Egypt, near Cairo." },
+            { id: "en6", q: "Capital of Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo is the world's most populous metropolitan area." },
+            { id: "en7", q: "Smallest sovereign country?", o: ["Vatican City", "Monaco", "Nauru", "San Marino"], c: 0, e: "Vatican City is only 0.44 km²." },
+            { id: "en8", q: "Metal that is liquid at room temperature?", o: ["Mercury", "Gallium", "Lead", "Tin"], c: 0, e: "Mercury (Hg) remains liquid." },
+            { id: "en9", q: "Who painted the Mona Lisa?", o: ["Leonardo da Vinci", "Van Gogh", "Picasso", "Rembrandt"], c: 0, e: "Leonardo da Vinci painted it in the 16th century." },
+            { id: "en10", q: "Currency of the United States?", o: ["US Dollar", "Euro", "Pound", "Yen"], c: 0, e: "The US Dollar is the world's primary reserve currency." }
         ],
         tr: [
-            { id: "tr1", q: "Dünyanın en büyük ülkesi?", o: ["Rusya", "Kanada", "ABD", "Çin"], c: 0, e: "Rusya 17.1 milyon km².", kw: "russia" },
-            { id: "tr2", q: "En uzun nehir?", o: ["Nil", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nil Nehri 6650 km.", kw: "nile" },
-            { id: "tr3", q: "En büyük okyanus?", o: ["Pasifik", "Atlas", "Hint", "Arktik"], c: 0, e: "Pasifik Okyanusu.", kw: "pacific" },
-            { id: "tr4", q: "En soğuk kıta?", o: ["Antarktika", "Arktik", "Asya", "Avrupa"], c: 0, e: "Antarktika.", kw: "antarctica" },
-            { id: "tr5", q: "Japonya'nın başkenti?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo.", kw: "tokyo" },
-            { id: "tr6", q: "Keops Piramidi nerede?", o: ["Mısır", "Meksika", "Sudan", "Irak"], c: 0, e: "Mısır, Giza.", kw: "pyramids" },
-            { id: "tr7", q: "En küçük ülke?", o: ["Vatikan", "Monako", "San Marino", "Nauru"], c: 0, e: "Vatikan 0.44 km².", kw: "vatican" },
-            { id: "tr8", q: "Oda sıcaklığında sıvı metal?", o: ["Cıva", "Galium", "Kurşun", "Çinko"], c: 0, e: "Cıva.", kw: "mercury" },
-            { id: "tr9", q: "Mona Lisa'nın ressamı?", o: ["Da Vinci", "Van Gogh", "Picasso", "Rembrandt"], c: 0, e: "Leonardo da Vinci.", kw: "mona lisa" },
-            { id: "tr10", q: "ABD para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "Amerikan Doları.", kw: "dollar" }
+            { id: "tr1", q: "Yüzölçümü olarak dünyanın en büyük ülkesi?", o: ["Rusya", "Kanada", "Çin", "ABD"], c: 0, e: "Rusya 17,1 milyon km² ile en büyük ülkedir." },
+            { id: "tr2", q: "Dünyanın en uzun nehri?", o: ["Nil", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nil Nehri yaklaşık 6650 km uzunluğundadır." },
+            { id: "tr3", q: "En büyük okyanus?", o: ["Pasifik", "Atlas", "Hint", "Arktik"], c: 0, e: "Pasifik Okyanusu, su yüzeyinin %46'sını kaplar." },
+            { id: "tr4", q: "En soğuk kıta?", o: ["Antarktika", "Arktik", "Asya", "Avrupa"], c: 0, e: "Antarktika -89°C ile en düşük sıcaklığa sahiptir." },
+            { id: "tr5", q: "Keops Piramitleri nerededir?", o: ["Mısır", "Meksika", "Sudan", "Irak"], c: 0, e: "Gize Piramitleri Mısır'da, Kahire yakınlarındadır." },
+            { id: "tr6", q: "Japonya'nın başkenti?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo, dünyanın en kalabalık metropolüdür." },
+            { id: "tr7", q: "Dünyanın en küçük ülkesi?", o: ["Vatikan", "Monako", "Nauru", "San Marino"], c: 0, e: "Vatikan sadece 0,44 km² yüzölçümüne sahiptir." },
+            { id: "tr8", q: "Oda sıcaklığında sıvı olan metal?", o: ["Cıva", "Galium", "Kurşun", "Kalay"], c: 0, e: "Cıva oda sıcaklığında sıvıdır." },
+            { id: "tr9", q: "Mona Lisa tablosunu kim yaptı?", o: ["Leonardo da Vinci", "Van Gogh", "Picasso", "Rembrandt"], c: 0, e: "Leonardo da Vinci 16. yüzyılda bu eseri yarattı." },
+            { id: "tr10", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "ABD Doları dünyanın ana rezerv para birimidir." }
         ],
-        ig: [ // Igbo (world quiz in Igbo / english mix for clarity)
-            { id: "ig1", q: "Kènye obodo kasị ukwu n'ụwa?", o: ["Rọshịa", "Kanada", "China", "USA"], c: 0, e: "Rọshịa bụ 17.1 nde km².", kw: "russia" },
-            { id: "ig2", q: "Osimiri kacha ogologo?", o: ["Naịl", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Osimiri Naịl.", kw: "nile" },
-            { id: "ig3", q: "Oké osimiri kachasị ukwu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific Ocean.", kw: "pacific" },
-            { id: "ig4", q: "Kọntinent kachasị oyi?", o: ["Antarctica", "Arctic", "Asia", "Europe"], c: 0, e: "Antarctica.", kw: "antarctica" },
-            { id: "ig5", q: "Pyramid Giza dị n'ebe?", o: ["Egypt", "Mexico", "Sudan", "Ethiopia"], c: 0, e: "Egypt.", kw: "pyramids" },
-            { id: "ig6", q: "Isi obodo Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo.", kw: "tokyo" },
-            { id: "ig7", q: "Obodo kacha nta?", o: ["Vatican City", "Monaco", "Nauru", "San Marino"], c: 0, e: "Vatican City.", kw: "vatican" },
-            { id: "ig8", q: "Metal na-eme mmiri na okpomọkụ?", o: ["Mercury", "Gallium", "Lead", "Tin"], c: 0, e: "Mercury.", kw: "mercury" },
-            { id: "ig9", q: "Onye sere Mona Lisa?", o: ["Da Vinci", "Picasso", "Van Gogh", "Rembrandt"], c: 0, e: "Leonardo da Vinci.", kw: "mona lisa" },
-            { id: "ig10", q: "Ego US?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar.", kw: "dollar" }
+        ig: [
+            { id: "ig1", q: "Obodo kachasị ukwu n'ụwa?", o: ["Rọshịa", "Kanada", "China", "USA"], c: 0, e: "Rọshịa bụ 17.1 nde km²." },
+            { id: "ig2", q: "Osimiri kacha ogologo n'ụwa?", o: ["Naịl", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Osimiri Naịl dị ihe dịka 6650 km." },
+            { id: "ig3", q: "Oke osimiri kachasị ukwu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific Ocean kacha ukwu." },
+            { id: "ig4", q: "Kọntinent kachasị oyi?", o: ["Antarctica", "Arctic", "Asia", "Europe"], c: 0, e: "Antarctica nwere oyi kacha -89°C." },
+            { id: "ig5", q: "Pyramid Giza dị n'ebe?", o: ["Egypt", "Mexico", "Sudan", "Iraq"], c: 0, e: "Pyramid ndị ahụ dị n'Ijipt, nso Cairo." },
+            { id: "ig6", q: "Isi obodo Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo bụ obodo kacha nnukwu mmadụ." },
+            { id: "ig7", q: "Obodo kacha nta n'ụwa?", o: ["Vatican City", "Monaco", "Nauru", "San Marino"], c: 0, e: "Vatican City dị naanị 0.44 km²." },
+            { id: "ig8", q: "Metal na-eme mmiri na okpomọkụ ụlọ?", o: ["Mercury", "Gallium", "Lead", "Tin"], c: 0, e: "Mercury (Hg) bụ naanị ya." },
+            { id: "ig9", q: "Onye sere Mona Lisa?", o: ["Leonardo da Vinci", "Van Gogh", "Picasso", "Rembrandt"], c: 0, e: "Leonardo da Vinci mere ya." },
+            { id: "ig10", q: "Ego US?", o: ["US Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar bụ ego mba America." }
+        ],
+        ru: [
+            { id: "ru1", q: "Самая большая страна по площади?", o: ["Россия", "Канада", "Китай", "США"], c: 0, e: "Россия — 17,1 млн км²." },
+            { id: "ru2", q: "Самая длинная река в мире?", o: ["Нил", "Амазонка", "Янцзы", "Миссисипи"], c: 0, e: "Нил протяжённостью около 6650 км." },
+            { id: "ru3", q: "Самый большой океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный Ледовитый"], c: 0, e: "Тихий океан покрывает 46% водной поверхности." },
+            { id: "ru4", q: "Самый холодный материк?", o: ["Антарктида", "Арктика", "Азия", "Европа"], c: 0, e: "Антарктида, температура до -89°C." },
+            { id: "ru5", q: "Где находятся пирамиды Гизы?", o: ["Египет", "Мексика", "Судан", "Ирак"], c: 0, e: "В Египте, недалеко от Каира." },
+            { id: "ru6", q: "Столица Японии?", o: ["Токио", "Осака", "Киото", "Нагоя"], c: 0, e: "Токио — крупнейшая агломерация мира." },
+            { id: "ru7", q: "Самое маленькое государство?", o: ["Ватикан", "Монако", "Науру", "Сан-Марино"], c: 0, e: "Ватикан: 0,44 км²." },
+            { id: "ru8", q: "Металл, жидкий при комнатной температуре?", o: ["Ртуть", "Галлий", "Свинец", "Олово"], c: 0, e: "Ртуть (Hg) — единственный жидкий металл." },
+            { id: "ru9", q: "Кто нарисовал Мону Лизу?", o: ["Леонардо да Винчи", "Ван Гог", "Пикассо", "Рембрандт"], c: 0, e: "Леонардо да Винчи." },
+            { id: "ru10", q: "Валюта США?", o: ["Доллар США", "Евро", "Фунт", "Йена"], c: 0, e: "Доллар США — мировая резервная валюта." }
         ]
     };
 
-    const App = {
-        profiles: JSON.parse(localStorage.getItem("crimson_sov")) || {},
-        currentLang: "de",
-        players: [],          // [{ name, flag, sessionScore, profileRef }]
-        currentPlayerIdx: 0,
-        currentQuestions: [],
-        currentQindex: 0,
-        timerInterval: null,
-        timeLeft: 60,
-        activeFlagTarget: null,
+    // ---------------------------- App-State ----------------------------
+    let currentLang = "de";
+    let players = [];               // { name, flag, sessionScore, profileData }
+    let currentPlayerIndex = 0;
+    let currentQuestions = [];
+    let currentQIndex = 0;
+    let timerInterval = null;
+    let timeLeft = 60;
 
-        saveProfiles() { localStorage.setItem("crimson_sov", JSON.stringify(this.profiles)); },
-        getProfile(name) { let n = name.trim().toLowerCase(); if(!this.profiles[n]) this.profiles[n] = { name: name.trim(), xp: 0, usedIds: [], flag: "⚔️" }; return this.profiles[n]; },
+    // Profile Speicher (localStorage)
+    let profiles = JSON.parse(localStorage.getItem("worldQuestProfiles")) || {};
 
-        setLang(lang) { this.currentLang = lang; this.updateUITexts(); },
-        updateUITexts() { /* dynamic UI texts optional */ },
-        goHome() { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById('s-home').classList.add('active'); },
-        goToLeaderboard() { this.renderLeaderboard(); document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById('s-leaderboard').classList.add('active'); },
-        renderLeaderboard() { let sorted = Object.values(this.profiles).sort((a,b)=>b.xp - a.xp); document.getElementById("leaderboardList").innerHTML = sorted.map(p => `<div style="background:#100;border-radius:20px;padding:12px;margin:8px;display:flex;justify-content:space-between;"><span><span style="font-size:1.4rem;">${p.flag || "🏆"}</span> ${p.name}</span><span style="color:gold;">${p.xp} XP</span></div>`).join(""); },
-        
-        addPlayerInput() { let cont = document.getElementById("player-list-container"); let id = "pc_"+Date.now()+Math.random(); let html = `<div id="${id}" class="player-card"><div class="flag-plus" data-pid="${id}" onclick="App.openFlagModal('${id}')">+</div><input type="text" class="input-luxe" placeholder="Kämpfername" value="Krieger"><button class="remove-warrior" onclick="document.getElementById('${id}').remove()">🗑️</button></div>`; cont.insertAdjacentHTML('beforeend', html); },
-        openFlagModal(playerCardId) { this.activeFlagTarget = playerCardId; document.getElementById("modal").style.display = "flex"; },
-        pickFlagForPlayer(flag) { if(this.activeFlagTarget) { let card = document.getElementById(this.activeFlagTarget); let flagDiv = card.querySelector(".flag-plus"); if(flagDiv) flagDiv.innerText = flag; } document.getElementById("modal").style.display = "none"; this.activeFlagTarget = null; },
-        
-        lockPlayersAndStart() { 
-            let cards = document.querySelectorAll("#player-list-container .player-card");
-            if(cards.length === 0) { this.addPlayerInput(); cards = document.querySelectorAll("#player-list-container .player-card"); }
-            this.players = Array.from(cards).map(card => {
-                let flagDiv = card.querySelector(".flag-plus"); let flag = flagDiv.innerText === "+" ? "⚔️" : flagDiv.innerText;
-                let nameInput = card.querySelector("input"); let name = nameInput.value.trim() || "Unnamed";
-                let prof = this.getProfile(name); prof.flag = flag; this.saveProfiles();
-                return { name: name, flag: flag, sessionScore: 0, profile: prof };
+    function getProfile(name) {
+        let key = name.trim().toLowerCase();
+        if (!profiles[key]) profiles[key] = { name: name.trim(), xp: 0, usedIds: [], flag: "🌍" };
+        return profiles[key];
+    }
+    function saveProfiles() { localStorage.setItem("worldQuestProfiles", JSON.stringify(profiles)); }
+
+    // Hilfsfunktionen: UI Screens wechseln
+    function showScreen(screenId) {
+        document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+        document.getElementById(screenId + "Screen").classList.add("active");
+    }
+
+    // Spieler-Liste im Setup rendern
+    function renderPlayersUI() {
+        const container = document.getElementById("playersContainer");
+        container.innerHTML = "";
+        players.forEach((p, idx) => {
+            const div = document.createElement("div");
+            div.className = "player-card";
+            div.innerHTML = `
+                <div class="flag-selector" data-idx="${idx}">${p.flag}</div>
+                <input class="player-name-input" value="${escapeHtml(p.name)}" data-idx="${idx}">
+                <button class="remove-player" data-idx="${idx}">🗑️</button>
+            `;
+            container.appendChild(div);
+        });
+        // Event-Listener für Flaggen, Namensänderung, Löschen
+        document.querySelectorAll(".flag-selector").forEach(el => {
+            el.addEventListener("click", (e) => { openFlagModal(parseInt(el.dataset.idx)); });
+        });
+        document.querySelectorAll(".player-name-input").forEach(inp => {
+            inp.addEventListener("change", (e) => { players[inp.dataset.idx].name = inp.value || "Krieger"; });
+        });
+        document.querySelectorAll(".remove-player").forEach(btn => {
+            btn.addEventListener("click", (e) => { players.splice(btn.dataset.idx, 1); renderPlayersUI(); });
+        });
+    }
+
+    function openFlagModal(playerIdx) {
+        const modal = document.getElementById("flagModal");
+        const grid = document.getElementById("flagGrid");
+        const flags = ["🇩🇪","🇷🇺","🇬🇧","🇳🇬","🇹🇷","🇫🇷","🇮🇹","🇺🇸","🇧🇷","🇨🇳","🇯🇵","🏴‍☠️","🌍","⚔️"];
+        grid.innerHTML = flags.map(fl => `<div class="flag-emoji">${fl}</div>`).join("");
+        modal.style.display = "flex";
+        const flagDivs = grid.querySelectorAll(".flag-emoji");
+        flagDivs.forEach(flDiv => {
+            flDiv.addEventListener("click", () => {
+                players[playerIdx].flag = flDiv.innerText;
+                renderPlayersUI();
+                modal.style.display = "none";
             });
-            if(this.players.length === 0) return;
-            this.currentPlayerIdx = 0;
-            this.startBattleForCurrentPlayer();
-        },
-        
-        startBattleForCurrentPlayer() {
-            if(this.currentPlayerIdx >= this.players.length) { this.showFinalResults(); return; }
-            let p = this.players[this.currentPlayerIdx];
-            let langDB = MASTER_DB[this.currentLang] || MASTER_DB.de;
-            let used = p.profile.usedIds || [];
-            let available = langDB.filter(q => !used.includes(q.id));
-            if(available.length < 5) { p.profile.usedIds = []; used = []; available = langDB; }
-            let shuffled = [...available].sort(() => 0.5 - Math.random());
-            this.currentQuestions = shuffled.slice(0, 10);
-            this.currentQindex = 0;
-            this.showVSandStart();
-        },
-        
-        showVSandStart() {
-            let p = this.players[this.currentPlayerIdx];
-            document.getElementById("vsFlagDisplay").innerText = p.flag;
-            document.getElementById("vsNameDisplay").innerText = p.name.toUpperCase();
-            document.getElementById("vsCountdown").innerText = "3";
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('s-vs').classList.add('active');
-            let count = 3;
-            let counter = setInterval(() => {
-                count--;
-                if(count <= 0) { clearInterval(counter); this.launchQuiz(); }
-                else document.getElementById("vsCountdown").innerText = count;
-            }, 1000);
-        },
-        
-        launchQuiz() { this.renderCurrentQuestion(); document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById('s-quiz').classList.add('active'); },
-        
-        renderCurrentQuestion() {
-            if(this.currentQindex >= this.currentQuestions.length) { this.finishCurrentPlayer(); return; }
-            let q = this.currentQuestions[this.currentQindex];
-            let p = this.players[this.currentPlayerIdx];
-            let lang = this.currentLang;
-            let roundText = `ROUND ${this.currentQindex+1}/10`;
-            document.getElementById("quizRoundLabel").innerText = roundText;
-            document.getElementById("quizQuestionText").innerText = q.q;
-            let imgUrl = `https://source.unsplash.com/featured/800x450?${q.kw},world,landmark`;
-            document.getElementById("crimson-cine-wall").style.backgroundImage = `url('${imgUrl}')`;
-            document.getElementById("quizVisual").style.backgroundImage = `url('${imgUrl}')`;
-            let optsDiv = document.getElementById("quizOptionsContainer"); optsDiv.innerHTML = "";
-            document.getElementById("feedbackPanel").style.display = "none";
-            optsDiv.style.display = "block";
-            let shuffled = q.o.map((text, idx)=>({text, isCorrect: idx===q.c})).sort(()=>Math.random()-0.5);
-            shuffled.forEach(opt => {
-                let optDiv = document.createElement("div"); optDiv.className = "opt-item-v";
-                optDiv.style.backgroundImage = `url('https://source.unsplash.com/featured/400x150?${q.kw},dark,${Math.random()}')`;
-                optDiv.innerHTML = `<div class="opt-shade"></div><div class="opt-label">${opt.text}</div>`;
-                optDiv.onclick = () => this.handleAnswer(opt.isCorrect, optDiv, q);
-                optsDiv.appendChild(optDiv);
+        });
+        modal.addEventListener("click", (e) => { if(e.target === modal) modal.style.display = "none"; });
+    }
+
+    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+    // Sprachauswahl
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
+        document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add("active");
+    }
+
+    // Spiel starten: Fragen laden, VS anzeigen
+    async function startBattle() {
+        if (players.length === 0) {
+            alert("Bitte füge mindestens einen Krieger hinzu.");
+            return;
+        }
+        currentPlayerIndex = 0;
+        await loadNextPlayerQuestions();
+        showVS();
+    }
+
+    function loadNextPlayerQuestions() {
+        return new Promise((resolve) => {
+            let player = players[currentPlayerIndex];
+            let profile = getProfile(player.name);
+            player.profile = profile;
+            let bank = DB[currentLang] || DB.de;
+            let used = profile.usedIds || [];
+            let available = bank.filter(q => !used.includes(q.id));
+            if (available.length < 5) {
+                profile.usedIds = [];
+                available = bank;
+            }
+            let shuffled = [...available].sort(() => Math.random() - 0.5);
+            currentQuestions = shuffled.slice(0, 10);
+            currentQIndex = 0;
+            resolve();
+        });
+    }
+
+    function showVS() {
+        let player = players[currentPlayerIndex];
+        document.getElementById("vsFlag").innerText = player.flag;
+        document.getElementById("vsName").innerText = player.name.toUpperCase();
+        let count = 3;
+        document.getElementById("vsCountdown").innerText = count;
+        showScreen("vs");
+        let interval = setInterval(() => {
+            count--;
+            if (count <= 0) {
+                clearInterval(interval);
+                startQuizRound();
+            } else {
+                document.getElementById("vsCountdown").innerText = count;
+            }
+        }, 1000);
+    }
+
+    function startQuizRound() {
+        renderCurrentQuestion();
+        showScreen("quiz");
+    }
+
+    function renderCurrentQuestion() {
+        if (currentQIndex >= currentQuestions.length) {
+            finishPlayer();
+            return;
+        }
+        let q = currentQuestions[currentQIndex];
+        document.getElementById("roundIndicator").innerText = `Runde ${currentQIndex+1}/10`;
+        document.getElementById("questionText").innerText = q.q;
+        const optionsDiv = document.getElementById("optionsContainer");
+        optionsDiv.innerHTML = "";
+        document.getElementById("explanationArea").style.display = "none";
+        optionsDiv.style.display = "flex";
+        // Optionen mischen
+        let opts = q.o.map((opt, idx) => ({ text: opt, isCorrect: idx === q.c }));
+        opts.sort(() => Math.random() - 0.5);
+        opts.forEach(opt => {
+            let btn = document.createElement("div");
+            btn.className = "option";
+            btn.innerText = opt.text;
+            btn.addEventListener("click", () => handleAnswer(opt.isCorrect, q));
+            optionsDiv.appendChild(btn);
+        });
+        startTimer(60);
+    }
+
+    function startTimer(seconds) {
+        if (timerInterval) clearInterval(timerInterval);
+        timeLeft = seconds;
+        const fill = document.getElementById("timerFill");
+        const timerDisplay = document.getElementById("timerDisplay");
+        timerInterval = setInterval(() => {
+            timeLeft -= 0.1;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                handleAnswer(false, currentQuestions[currentQIndex]);
+            } else {
+                let percent = (timeLeft / 60) * 100;
+                fill.style.width = Math.max(0, percent) + "%";
+                timerDisplay.innerText = Math.ceil(timeLeft) + "s";
+            }
+        }, 100);
+    }
+
+    function handleAnswer(isCorrect, questionObj) {
+        if (timerInterval) clearInterval(timerInterval);
+        const player = players[currentPlayerIndex];
+        const profile = player.profile;
+        if (!profile.usedIds.includes(questionObj.id)) profile.usedIds.push(questionObj.id);
+        if (isCorrect) {
+            player.sessionScore = (player.sessionScore || 0) + 1;
+            profile.xp += 100;
+        }
+        saveProfiles();
+
+        // Markiere richtige/falsche Optionen visuell
+        const options = document.querySelectorAll(".option");
+        options.forEach(opt => {
+            if (opt.innerText === questionObj.o[questionObj.c]) opt.classList.add("correct");
+            else if (opt.innerText === questionObj.o[questionObj.c] === false && !isCorrect && opt.innerText === questionObj.o[questionObj.c]) {}
+            if (!isCorrect && opt.innerText === questionObj.o[questionObj.c]) opt.classList.add("correct");
+            else if (!isCorrect && opt.innerText === questionObj.o[questionObj.c]) {}
+        });
+        if (!isCorrect) {
+            // optional falsche hervorheben, aber keine spezifische
+        }
+        document.getElementById("explanationText").innerHTML = questionObj.e;
+        document.getElementById("explanationArea").style.display = "block";
+        document.getElementById("optionsContainer").style.display = "none";
+    }
+
+    function nextQuestion() {
+        currentQIndex++;
+        if (currentQIndex < currentQuestions.length) {
+            renderCurrentQuestion();
+        } else {
+            finishPlayer();
+        }
+    }
+
+    function finishPlayer() {
+        // speichere sessionScore im Player
+        currentPlayerIndex++;
+        if (currentPlayerIndex < players.length) {
+            loadNextPlayerQuestions().then(() => showVS());
+        } else {
+            showFinalResults();
+        }
+    }
+
+    function showFinalResults() {
+        const container = document.getElementById("finalScores");
+        container.innerHTML = "";
+        players.forEach(p => {
+            let score = p.sessionScore || 0;
+            let div = document.createElement("div");
+            div.className = "score-item";
+            div.innerHTML = `<span><span style="font-size:1.5rem;">${p.flag}</span> ${p.name}</span><span style="font-weight:800; color:#FF6B4A;">${score}/10</span>`;
+            container.appendChild(div);
+        });
+        showScreen("result");
+    }
+
+    function showLeaderboard() {
+        const sorted = Object.values(profiles).sort((a,b) => b.xp - a.xp);
+        const container = document.getElementById("leaderboardList");
+        container.innerHTML = sorted.map(p => `
+            <div class="score-item">
+                <span><span style="font-size:1.5rem;">${p.flag || "🏆"}</span> ${p.name}</span>
+                <span style="font-weight:bold;">${p.xp} XP</span>
+            </div>
+        `).join("");
+        showScreen("leaderboard");
+    }
+
+    function resetGame() {
+        players.forEach(p => { p.sessionScore = 0; });
+        currentPlayerIndex = 0;
+        startBattle();
+    }
+
+    // Event-Listener und Initialisierung
+    document.addEventListener("DOMContentLoaded", () => {
+        // Setup initial mit einem Spieler
+        players.push({ name: "Champion", flag: "⚔️", sessionScore: 0 });
+        renderPlayersUI();
+
+        document.getElementById("startGameBtn").onclick = () => { showScreen("setup"); };
+        document.getElementById("leaderboardBtn").onclick = () => showLeaderboard();
+        document.getElementById("addPlayerBtn").onclick = () => { players.push({ name: "Neuer Krieger", flag: "🌍", sessionScore: 0 }); renderPlayersUI(); };
+        document.getElementById("startBattleBtn").onclick = () => startBattle();
+        document.getElementById("backHomeBtn").onclick = () => showScreen("home");
+        document.getElementById("backFromLeaderboardBtn").onclick = () => showScreen("home");
+        document.getElementById("rematchBtn").onclick = () => resetGame();
+        document.getElementById("homeFromResultBtn").onclick = () => showScreen("home");
+        document.getElementById("nextQuestionBtn").onclick = () => nextQuestion();
+
+        // Sprachbuttons
+        document.querySelectorAll(".lang-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                setLanguage(btn.dataset.lang);
             });
-            this.startTimer(60);
-        },
-        
-        startTimer(sec) { this.timeLeft = sec; if(this.timerInterval) clearInterval(this.timerInterval); let fill = document.getElementById("quizTimerFill"); let label = document.getElementById("quizTimerLabel"); this.timerInterval = setInterval(() => { this.timeLeft -= 0.1; if(this.timeLeft <= 0) { clearInterval(this.timerInterval); this.handleAnswer(false, null, this.currentQuestions[this.currentQindex]); } else { let percent = Math.max(0, (this.timeLeft/60)*100); fill.style.width = percent+"%"; label.innerText = Math.ceil(this.timeLeft)+"s"; } }, 100); },
-        
-        handleAnswer(isCorrect, element, q) {
-            if(this.timerInterval) clearInterval(this.timerInterval);
-            let p = this.players[this.currentPlayerIdx];
-            if(isCorrect) { if(element) element.classList.add("correct"); p.sessionScore++; p.profile.xp += 100; this.saveProfiles(); }
-            else { if(element) element.classList.add("wrong"); let opts = document.querySelectorAll(".opt-item-v"); opts.forEach(opt => { if(opt.innerText.includes(q.o[q.c])) opt.classList.add("correct"); }); }
-            document.getElementById("explanationText").innerText = q.e;
-            document.getElementById("feedbackPanel").style.display = "block";
-            document.getElementById("quizOptionsContainer").style.display = "none";
-        },
-        
-        nextQuestionOrPlayer() {
-            this.currentQindex++;
-            if(this.currentQindex < this.currentQuestions.length) this.renderCurrentQuestion();
-            else this.finishCurrentPlayer();
-        },
-        
-        finishCurrentPlayer() {
-            this.currentPlayerIdx++;
-            if(this.currentPlayerIdx < this.players.length) this.startBattleForCurrentPlayer();
-            else this.showFinalResults();
-        },
-        
-        showFinalResults() {
-            document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-            let container = document.getElementById("finalScoresList");
-            container.innerHTML = this.players.map(p => `<div style="background:#160000; border-radius:30px; padding:15px; margin:8px; display:flex; justify-content:space-between;"><span><span style="font-size:1.8rem;">${p.flag}</span> ${p.name}</span><span style="color:#ffaa33; font-weight:bold;">${p.sessionScore}/10</span></div>`).join("");
-            document.getElementById('s-result').classList.add('active');
-        },
-        
-        revanche() { this.players.forEach(p => { p.sessionScore = 0; }); this.currentPlayerIdx = 0; this.startBattleForCurrentPlayer(); },
-        
-        initGameFromSetup() { this.goHome(); setTimeout(() => { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById('s-setup').classList.add('active'); if(document.querySelectorAll("#player-list-container .player-card").length===0) this.addPlayerInput(); }, 50); }
-    };
-    window.App = App;
-    App.goHome();
+        });
+        setLanguage("de");
+    });
 </script>
 </body>
 </html>
