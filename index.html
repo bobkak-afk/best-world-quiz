@@ -290,43 +290,72 @@
             background: var(--purple-solid); border-radius: 10px; 
         }
 
-        /* ----- kleine Prinzessin Animation ----- */
+        /* ----- HÜBSCHE PRINZESSIN mit Glitzer-Effekten ----- */
         .princess-mascot {
             position: fixed;
-            bottom: 15px;
-            right: 15px;
-            width: 45px;
-            height: 45px;
-            background: radial-gradient(circle, #ffd966, #f59e0b);
+            bottom: 20px;
+            right: 20px;
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle at 30% 30%, #ffdfbf, #f8b88b);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            font-size: 2.6rem;
+            box-shadow: 0 0 15px rgba(255, 200, 150, 0.8), 0 4px 12px rgba(0,0,0,0.2);
             cursor: pointer;
             z-index: 1000;
-            animation: float 3s ease-in-out infinite;
+            animation: floatPrincess 3s ease-in-out infinite, sparkle 1.5s infinite;
             backdrop-filter: blur(2px);
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid rgba(255, 215, 0, 0.5);
         }
         .princess-mascot:hover {
-            transform: scale(1.1);
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(255, 200, 100, 0.9);
         }
-        @keyframes float {
+        @keyframes floatPrincess {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-12px); }
             100% { transform: translateY(0px); }
         }
-        /* kleine Krone als Accessoire */
-        .princess-mascot::after {
-            content: "👸";
+        @keyframes sparkle {
+            0% { filter: drop-shadow(0 0 2px gold); }
+            50% { filter: drop-shadow(0 0 12px #ffb347); }
+            100% { filter: drop-shadow(0 0 2px gold); }
+        }
+        /* Krone als zusätzliches Element */
+        .princess-mascot::before {
+            content: "👑";
             position: absolute;
-            top: -10px;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            animation: crownFloat 2s infinite ease-in-out;
+        }
+        @keyframes crownFloat {
+            0% { top: -15px; }
+            50% { top: -20px; }
+            100% { top: -15px; }
+        }
+        /* Kleine Herzchen beim Klick */
+        .princess-mascot:active::after {
+            content: "✨💖✨";
+            position: absolute;
+            top: -30px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 1rem;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+            white-space: nowrap;
+            animation: heartFade 0.5s forwards;
+            pointer-events: none;
+        }
+        @keyframes heartFade {
+            0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
         }
     </style>
 </head>
@@ -346,8 +375,8 @@
     </div>
 </div>
 
-<!-- bewegliche Prinzessin -->
-<div class="princess-mascot" onclick="alert('✨ Magische Prinzessin wacht über dein Wissen ✨')"></div>
+<!-- hübsche Prinzessin mit Klick-Funktion -->
+<div class="princess-mascot" onclick="App.princessMagic()">👸</div>
 
 <div id="app">
     <!-- SCREEN: HOME -->
@@ -463,69 +492,96 @@
 
 <script>
     /**
-     * MK PRESTIGE GLOBAL ENGINE - LILA EDITION
-     * Voll funktionsfähig, alle Quiz-Fragen enthalten
+     * ERWEITERTE FRAGEN-DATENBANK (mindestens 15 pro Sprache) – keine Wiederholungen durch usedIds
      */
     const DB = {
         de: [
-            { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
-            { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
-            { id: "de3", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
-            { id: "de4", q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "China"], c: 0, e: "Sie stehen nahe Kairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
-            { id: "de5", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indischer", "Arktischer"], c: 0, e: "Der Pazifik deckt 35% der Erde.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "de6", q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Er liegt im Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
-            { id: "de7", q: "Währung der USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist Weltleitwährung.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
-            { id: "de8", q: "Kontinent Australien?", o: ["Kleinster", "Größter", "Kältester", "Heißester"], c: 0, e: "Australien ist der kleinste Kontinent.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
-            { id: "de9", q: "Eiffelturm Standort?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Wahrzeichen von Frankreich.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
-            { id: "de10", q: "Farbe der UNO Flagge?", o: ["Blau-Weiß", "Rot-Gelb", "Schwarz-Rot", "Grün-Gold"], c: 0, e: "Blau und Weiß für den Frieden.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] }
-        ],
-        ru: [
-            { id: "ru1", q: "Столица России?", o: ["Москва", "Санкт-Петербург", "Киев", "Минск"], c: 0, e: "Москва — сердце страны.", kw: "moscow kremlin", imgKw: ["moscow red square", "saint petersburg", "kiev ukraine", "minsk belarus"] },
-            { id: "ru2", q: "Самая длинная река России?", o: ["Лена", "Волга", "Енисей", "Обь"], c: 0, e: "Лена течет через Сибирь.", kw: "lena river siberia", imgKw: ["lena river", "volga river", "yenisei river", "ob river"] },
-            { id: "ru3", q: "Самая высокая гора в Европе?", o: ["Эльбрус", "Монблан", "Маттерхорн", "Олимп"], c: 0, e: "Эльбрус находится на Кавказе.", kw: "elbrus mountain", imgKw: ["mount elbrus", "mont blanc", "matterhorn", "mount olympus"] },
-            { id: "ru4", q: "Самое глубокое озеро мира?", o: ["Байкал", "Танганьика", "Виктория", "Каспий"], c: 0, e: "Байкал — природное чудо Сибири.", kw: "lake baikal", imgKw: ["baikal lake", "tanganyika lake", "victoria lake", "caspian sea"] },
-            { id: "ru5", q: "Столица Франции?", o: ["Париж", "Лион", "Марсель", "Ницца"], c: 0, e: "Париж — город света.", kw: "paris france", imgKw: ["paris city", "lyon france", "marseille port", "nice beach"] },
-            { id: "ru6", q: "Какой океан самый большой?", o: ["Тихий", "Атлантический", "Индийский", "Северный"], c: 0, e: "Тихий океан покрывает 35% планеты.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "ru7", q: "Валюта Японии?", o: ["Йена", "Доллар", "Евро", "Вона"], c: 0, e: "Йена — денежная единица Японии.", kw: "japanese yen", imgKw: ["yen currency", "dollar currency", "euro currency", "won currency"] },
-            { id: "ru8", q: "Где находится Статуя Свободы?", o: ["Нью-Йорк", "Вашингтон", "Лос-Анджелес", "Чикаго"], c: 0, e: "Символ свободы США.", kw: "statue liberty", imgKw: ["statue liberty nyc", "washington dc", "los angeles", "chicago skyline"] },
-            { id: "ru9", q: "Сколько континентов на Земле?", o: ["7", "5", "6", "8"], c: 0, e: "Европа, Азия, Африка, Америка (2), Австралия, Антарктида.", kw: "world continents", imgKw: ["world map", "globe continents", "earth continents", "geography map"] },
-            { id: "ru10", q: "Самая населенная страна?", o: ["Китай", "Индия", "США", "Россия"], c: 0, e: "Более 1.4 миллиарда жителей.", kw: "china population", imgKw: ["china city", "india crowd", "usa cities", "russia landscape"] }
+            { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia landscape" },
+            { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo skyline" },
+            { id: "de3", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader Ägyptens.", kw: "nile river" },
+            { id: "de4", q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "China"], c: 0, e: "Sie stehen nahe Kairo.", kw: "pyramids giza" },
+            { id: "de5", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indischer", "Arktischer"], c: 0, e: "Der Pazifik deckt 35% der Erde.", kw: "pacific ocean" },
+            { id: "de6", q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Er liegt im Himalaya.", kw: "mount everest" },
+            { id: "de7", q: "Währung der USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist Weltleitwährung.", kw: "dollar currency" },
+            { id: "de8", q: "Kontinent Australien?", o: ["Kleinster", "Größter", "Kältester", "Heißester"], c: 0, e: "Australien ist der kleinste Kontinent.", kw: "australia continent" },
+            { id: "de9", q: "Eiffelturm Standort?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Wahrzeichen von Frankreich.", kw: "eiffel tower paris" },
+            { id: "de10", q: "Farbe der UNO Flagge?", o: ["Blau-Weiß", "Rot-Gelb", "Schwarz-Rot", "Grün-Gold"], c: 0, e: "Blau und Weiß für den Frieden.", kw: "un flag" },
+            { id: "de11", q: "Längste Mauer der Welt?", o: ["Chinesische Mauer", "Hadrianswall", "Berliner Mauer", "Westwall"], c: 0, e: "Über 21.000 km lang.", kw: "great wall china" },
+            { id: "de12", q: "Hauptstadt von Brasilien?", o: ["Brasília", "Rio", "São Paulo", "Salvador"], c: 0, e: "Brasília wurde 1960 gegründet.", kw: "brasilia city" },
+            { id: "de13", q: "Welcher Wüste ist die größte (nicht polar)?", o: ["Sahara", "Gobi", "Arabische Wüste", "Kalahari"], c: 0, e: "Die Sahara erstreckt sich über Nordafrika.", kw: "sahara desert" },
+            { id: "de14", q: "Welches Tier ist das größte der Erde?", o: ["Blauwal", "Elefant", "Giraffe", "Weißer Hai"], c: 0, e: "Blauwale werden bis zu 30 Meter lang.", kw: "blue whale" },
+            { id: "de15", q: "Wie heißt die Hauptstadt von Kanada?", o: ["Ottawa", "Toronto", "Vancouver", "Montreal"], c: 0, e: "Ottawa liegt in der Provinz Ontario.", kw: "ottawa canada" },
+            { id: "de16", q: "Welches Land hat die meisten Inseln?", o: ["Schweden", "Norwegen", "Finnland", "Kanada"], c: 0, e: "Schweden hat über 267.000 Inseln.", kw: "sweden archipelago" },
+            { id: "de17", q: "Welcher Vulkan zerstörte Pompeji?", o: ["Vesuv", "Ätna", "Stromboli", "Vulkan"], c: 0, e: "Ausbruch 79 n. Chr.", kw: "mount vesuvius" }
         ],
         en: [
-            { id: "en1", q: "Largest country by area?", o: ["Russia", "Canada", "USA", "China"], c: 0, e: "Russia covers 17 million km².", kw: "russia landscape", imgKw: ["russia landscape", "canada nature", "usa map", "china landscape"] },
-            { id: "en2", q: "Capital of France?", o: ["Paris", "Lyon", "Marseille", "Nice"], c: 0, e: "Paris is the City of Light.", kw: "paris eiffel", imgKw: ["paris eiffel tower", "lyon france", "marseille port", "nice beach"] },
-            { id: "en3", q: "Longest river in the world?", o: ["Nile", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "The Nile flows through Egypt.", kw: "nile river", imgKw: ["nile river egypt", "amazon rainforest", "yangtze river", "mississippi river"] },
-            { id: "en4", q: "Tallest mountain?", o: ["Everest", "K2", "Kilimanjaro", "Mont Blanc"], c: 0, e: "Located in the Himalayas.", kw: "mount everest", imgKw: ["everest peak", "k2 mountain", "kilimanjaro", "mont blanc"] },
-            { id: "en5", q: "How many continents are there?", o: ["7", "5", "6", "8"], c: 0, e: "Europe, Asia, Africa, North & South America, Australia, Antarctica.", kw: "world continents", imgKw: ["world map", "continents globe", "geography map", "earth continents"] },
-            { id: "en6", q: "Currency of Japan?", o: ["Yen", "Dollar", "Euro", "Won"], c: 0, e: "Yen is Japan's currency.", kw: "japanese yen", imgKw: ["yen currency", "dollar bills", "euro notes", "won currency"] },
-            { id: "en7", q: "Where is the Statue of Liberty?", o: ["New York", "Washington", "Los Angeles", "Chicago"], c: 0, e: "Symbol of American freedom.", kw: "statue liberty", imgKw: ["statue liberty nyc", "washington monument", "hollywood sign", "chicago skyline"] },
-            { id: "en8", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "The Pacific covers 35% of Earth.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ice"] },
-            { id: "en9", q: "Most populated country?", o: ["China", "India", "USA", "Indonesia"], c: 0, e: "Over 1.4 billion people.", kw: "china population", imgKw: ["china city", "india crowd", "usa cities", "indonesia jakarta"] },
-            { id: "en10", q: "Capital of Egypt?", o: ["Cairo", "Alexandria", "Luxor", "Aswan"], c: 0, e: "Cairo is near the pyramids.", kw: "cairo egypt", imgKw: ["cairo city", "alexandria egypt", "luxor temple", "aswan dam"] }
+            { id: "en1", q: "Largest country by area?", o: ["Russia", "Canada", "USA", "China"], c: 0, e: "Russia covers 17 million km².", kw: "russia landscape" },
+            { id: "en2", q: "Capital of France?", o: ["Paris", "Lyon", "Marseille", "Nice"], c: 0, e: "Paris is the City of Light.", kw: "paris eiffel" },
+            { id: "en3", q: "Longest river in the world?", o: ["Nile", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "The Nile flows through Egypt.", kw: "nile river" },
+            { id: "en4", q: "Tallest mountain?", o: ["Everest", "K2", "Kilimanjaro", "Mont Blanc"], c: 0, e: "Located in the Himalayas.", kw: "mount everest" },
+            { id: "en5", q: "How many continents are there?", o: ["7", "5", "6", "8"], c: 0, e: "Europe, Asia, Africa, North & South America, Australia, Antarctica.", kw: "world continents" },
+            { id: "en6", q: "Currency of Japan?", o: ["Yen", "Dollar", "Euro", "Won"], c: 0, e: "Yen is Japan's currency.", kw: "japanese yen" },
+            { id: "en7", q: "Where is the Statue of Liberty?", o: ["New York", "Washington", "Los Angeles", "Chicago"], c: 0, e: "Symbol of American freedom.", kw: "statue liberty" },
+            { id: "en8", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "The Pacific covers 35% of Earth.", kw: "pacific ocean" },
+            { id: "en9", q: "Most populated country?", o: ["China", "India", "USA", "Indonesia"], c: 0, e: "Over 1.4 billion people.", kw: "china population" },
+            { id: "en10", q: "Capital of Egypt?", o: ["Cairo", "Alexandria", "Luxor", "Aswan"], c: 0, e: "Cairo is near the pyramids.", kw: "cairo egypt" },
+            { id: "en11", q: "Longest wall in the world?", o: ["Great Wall of China", "Hadrian's Wall", "Berlin Wall", "Western Wall"], c: 0, e: "Over 21,000 km long.", kw: "great wall china" },
+            { id: "en12", q: "Capital of Brazil?", o: ["Brasília", "Rio de Janeiro", "São Paulo", "Salvador"], c: 0, e: "Brasília was founded in 1960.", kw: "brasilia city" },
+            { id: "en13", q: "Largest desert (non-polar)?", o: ["Sahara", "Gobi", "Arabian", "Kalahari"], c: 0, e: "The Sahara covers most of North Africa.", kw: "sahara desert" },
+            { id: "en14", q: "Largest animal on Earth?", o: ["Blue whale", "Elephant", "Giraffe", "Great white shark"], c: 0, e: "Blue whales reach 30 meters.", kw: "blue whale" },
+            { id: "en15", q: "Capital of Canada?", o: ["Ottawa", "Toronto", "Vancouver", "Montreal"], c: 0, e: "Ottawa is in Ontario.", kw: "ottawa canada" },
+            { id: "en16", q: "Country with most islands?", o: ["Sweden", "Norway", "Finland", "Canada"], c: 0, e: "Sweden has over 267,000 islands.", kw: "sweden archipelago" }
+        ],
+        ru: [
+            { id: "ru1", q: "Столица России?", o: ["Москва", "Санкт-Петербург", "Киев", "Минск"], c: 0, e: "Москва — сердце страны.", kw: "moscow kremlin" },
+            { id: "ru2", q: "Самая длинная река России?", o: ["Лена", "Волга", "Енисей", "Обь"], c: 0, e: "Лена течет через Сибирь.", kw: "lena river" },
+            { id: "ru3", q: "Самая высокая гора в Европе?", o: ["Эльбрус", "Монблан", "Маттерхорн", "Олимп"], c: 0, e: "Эльбрус находится на Кавказе.", kw: "elbrus mountain" },
+            { id: "ru4", q: "Самое глубокое озеро мира?", o: ["Байкал", "Танганьика", "Виктория", "Каспий"], c: 0, e: "Байкал — природное чудо.", kw: "lake baikal" },
+            { id: "ru5", q: "Столица Франции?", o: ["Париж", "Лион", "Марсель", "Ницца"], c: 0, e: "Париж — город света.", kw: "paris france" },
+            { id: "ru6", q: "Какой океан самый большой?", o: ["Тихий", "Атлантический", "Индийский", "Северный"], c: 0, e: "Тихий океан покрывает 35% планеты.", kw: "pacific ocean" },
+            { id: "ru7", q: "Валюта Японии?", o: ["Йена", "Доллар", "Евро", "Вона"], c: 0, e: "Йена — денежная единица Японии.", kw: "japanese yen" },
+            { id: "ru8", q: "Где находится Статуя Свободы?", o: ["Нью-Йорк", "Вашингтон", "Лос-Анджелес", "Чикаго"], c: 0, e: "Символ свободы США.", kw: "statue liberty" },
+            { id: "ru9", q: "Сколько континентов на Земле?", o: ["7", "5", "6", "8"], c: 0, e: "Европа, Азия, Африка, Америка (2), Австралия, Антарктида.", kw: "world continents" },
+            { id: "ru10", q: "Самая населенная страна?", o: ["Китай", "Индия", "США", "Россия"], c: 0, e: "Более 1.4 миллиарда жителей.", kw: "china population" },
+            { id: "ru11", q: "Самая длинная стена в мире?", o: ["Великая Китайская", "Стена Адриана", "Берлинская стена", "Западная стена"], c: 0, e: "Более 21 000 км.", kw: "great wall china" },
+            { id: "ru12", q: "Столица Бразилии?", o: ["Бразилиа", "Рио-де-Жанейро", "Сан-Паулу", "Сальвадор"], c: 0, e: "Основана в 1960 году.", kw: "brasilia city" },
+            { id: "ru13", q: "Самая большая пустыня (не полярная)?", o: ["Сахара", "Гоби", "Аравийская", "Калахари"], c: 0, e: "Сахара покрывает Северную Африку.", kw: "sahara desert" },
+            { id: "ru14", q: "Самое большое животное на Земле?", o: ["Синий кит", "Слон", "Жираф", "Белая акула"], c: 0, e: "Синие киты достигают 30 метров.", kw: "blue whale" },
+            { id: "ru15", q: "Столица Канады?", o: ["Оттава", "Торонто", "Ванкувер", "Монреаль"], c: 0, e: "Оттава находится в провинции Онтарио.", kw: "ottawa canada" }
         ],
         ig: [
-            { id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "abuja nigeria", imgKw: ["abuja city", "lagos skyline", "enugu city", "kano city"] },
-            { id: "ig2", q: "Kedu osimiri kacha ogologo n'ụwa?", o: ["Nile", "Amazon", "Niger", "Congo"], c: 0, e: "Osimiri Nile dị n'Egypt.", kw: "nile river", imgKw: ["nile river", "amazon river", "niger river", "congo river"] },
-            { id: "ig3", q: "Kedu ugwu kacha elu n'ụwa?", o: ["Everest", "Kilimanjaro", "K2", "Kenya"], c: 0, e: "Ugwu Everest dị na Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "kilimanjaro peak", "k2 mountain", "mount kenya"] },
-            { id: "ig4", q: "Kedu ego ha na-eji na USA?", o: ["Dollar", "Euro", "Naira", "Pound"], c: 0, e: "Dollar bụ ego ụwa.", kw: "dollar currency", imgKw: ["dollar bills", "euro notes", "naira currency", "pound sterling"] },
-            { id: "ig5", q: "Kedu isi obodo France?", o: ["Paris", "Lyon", "Marseille", "Nice"], c: 0, e: "Paris bụ obodo ọkụ.", kw: "paris france", imgKw: ["paris eiffel", "lyon city", "marseille port", "nice beach"] },
-            { id: "ig6", q: "Ole kontinenti dị n'ụwa?", o: ["7", "5", "6", "8"], c: 0, e: "Africa, Asia, Europe, na ndị ọzọ.", kw: "world continents", imgKw: ["world map", "africa map", "asia map", "europe map"] },
-            { id: "ig7", q: "Kedu oke osimiri kacha ukwu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific kpuchiri 35% nke ụwa.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ice"] },
-            { id: "ig8", q: "Ebe Pyramids dị?", o: ["Egypt", "Mexico", "Sudan", "Peru"], c: 0, e: "Giza pyramids dị na Cairo.", kw: "pyramids egypt", imgKw: ["egypt pyramids", "mexico pyramid", "sudan pyramids", "peru machu"] },
-            { id: "ig9", q: "Obodo kacha nwee mmadụ?", o: ["China", "India", "Nigeria", "USA"], c: 0, e: "China nwere ihe karịrị ijeri 1.4.", kw: "china population", imgKw: ["china city", "india crowd", "nigeria lagos", "usa cities"] },
-            { id: "ig10", q: "Isi obodo Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo bụ obodo kacha ukwu.", kw: "tokyo japan", imgKw: ["tokyo tower", "osaka castle", "kyoto temple", "nagoya city"] }
+            { id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "abuja nigeria" },
+            { id: "ig2", q: "Kedu osimiri kacha ogologo n'ụwa?", o: ["Nile", "Amazon", "Niger", "Congo"], c: 0, e: "Osimiri Nile dị n'Egypt.", kw: "nile river" },
+            { id: "ig3", q: "Kedu ugwu kacha elu n'ụwa?", o: ["Everest", "Kilimanjaro", "K2", "Kenya"], c: 0, e: "Ugwu Everest dị na Himalaya.", kw: "mount everest" },
+            { id: "ig4", q: "Kedu ego ha na-eji na USA?", o: ["Dollar", "Euro", "Naira", "Pound"], c: 0, e: "Dollar bụ ego ụwa.", kw: "dollar currency" },
+            { id: "ig5", q: "Kedu isi obodo France?", o: ["Paris", "Lyon", "Marseille", "Nice"], c: 0, e: "Paris bụ obodo ọkụ.", kw: "paris france" },
+            { id: "ig6", q: "Ole kontinenti dị n'ụwa?", o: ["7", "5", "6", "8"], c: 0, e: "Africa, Asia, Europe, na ndị ọzọ.", kw: "world continents" },
+            { id: "ig7", q: "Kedu oke osimiri kacha ukwu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific kpuchiri 35% nke ụwa.", kw: "pacific ocean" },
+            { id: "ig8", q: "Ebe Pyramids dị?", o: ["Egypt", "Mexico", "Sudan", "Peru"], c: 0, e: "Giza pyramids dị na Cairo.", kw: "pyramids egypt" },
+            { id: "ig9", q: "Obodo kacha nwee mmadụ?", o: ["China", "India", "Nigeria", "USA"], c: 0, e: "China nwere ihe karịrị ijeri 1.4.", kw: "china population" },
+            { id: "ig10", q: "Isi obodo Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo bụ obodo kacha ukwu.", kw: "tokyo japan" },
+            { id: "ig11", q: "Kedu mgbidi kacha ogologo n'ụwa?", o: ["Great Wall China", "Hadrian Wall", "Berlin Wall", "Western Wall"], c: 0, e: "Ihe karịrị 21,000 km.", kw: "great wall china" },
+            { id: "ig12", q: "Isi obodo Brazil?", o: ["Brasília", "Rio de Janeiro", "São Paulo", "Salvador"], c: 0, e: "E hiwere Brasília na 1960.", kw: "brasilia city" },
+            { id: "ig13", q: "Kedu ọzara kacha ukwu (abụghị polar)?", o: ["Sahara", "Gobi", "Arabian", "Kalahari"], c: 0, e: "Sahara kpuchiri North Africa.", kw: "sahara desert" },
+            { id: "ig14", q: "Kedu anụmanụ kacha ukwu n'ụwa?", o: ["Blue whale", "Elephant", "Giraffe", "Great white shark"], c: 0, e: "Blue whale ruru 30 mita.", kw: "blue whale" },
+            { id: "ig15", q: "Isi obodo Canada?", o: ["Ottawa", "Toronto", "Vancouver", "Montreal"], c: 0, e: "Ottawa dị na Ontario.", kw: "ottawa canada" }
         ],
         tr: [
-            { id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara Türkiye'nin başkentidir.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "bursa mosque"] },
-            { id: "tr2", q: "Dünyanın en büyük okyanusu?", o: ["Pasifik", "Atlantik", "Hint", "Kuzey Buz"], c: 0, e: "Pasifik Okyanusu dünya yüzeyinin %35'ini kaplar.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "tr3", q: "En uzun nehir?", o: ["Nil", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nil Nehri Mısır'dan akar.", kw: "nile river", imgKw: ["nile egypt", "amazon river", "yangtze china", "mississippi river"] },
-            { id: "tr4", q: "Dünyanın en yüksek dağı?", o: ["Everest", "K2", "Ağrı", "Mont Blanc"], c: 0, e: "Himalayalar'da yer alır.", kw: "mount everest", imgKw: ["everest peak", "k2 mountain", "mount ararat", "mont blanc"] },
-            { id: "tr5", q: "Fransa'nın başkenti?", o: ["Paris", "Lyon", "Marsilya", "Nice"], c: 0, e: "Paris aydınlık şehridir.", kw: "paris france", imgKw: ["paris eiffel", "lyon france", "marseille port", "nice beach"] },
-            { id: "tr6", q: "Kaç kıta var?", o: ["7", "5", "6", "8"], c: 0, e: "Avrupa, Asya, Afrika, Amerika (2), Avustralya, Antarktika.", kw: "world continents", imgKw: ["world map", "continents globe", "geography map", "earth map"] },
-            { id: "tr7", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "Dolar dünya para birimidir.", kw: "dollar currency", imgKw: ["dollar bills", "euro notes", "pound sterling", "yen currency"] },
-            { id: "tr8", q: "Özgürlük Heykeli nerede?", o: ["New York", "Washington", "Los Angeles", "Chicago"], c: 0, e: "Amerika'nın özgürlük sembolü.", kw: "statue liberty", imgKw: ["statue liberty nyc", "washington dc", "los angeles", "chicago skyline"] },
-            { id: "tr9", q: "En kalabalık ülke?", o: ["Çin", "Hindistan", "ABD", "Endonezya"], c: 0, e: "1.4 milyardan fazla insan.", kw: "china population", imgKw: ["china city", "india crowd", "usa cities", "indonesia jakarta"] },
-            { id: "tr10", q: "Piramitler nerede?", o: ["Mısır", "Meksika", "Sudan", "Peru"], c: 0, e: "Giza piramitleri Kahire yakınında.", kw: "pyramids egypt", imgKw: ["giza pyramids", "mexico pyramid", "sudan pyramids", "peru machu"] }
+            { id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara Türkiye'nin başkentidir.", kw: "ankara turkey" },
+            { id: "tr2", q: "Dünyanın en büyük okyanusu?", o: ["Pasifik", "Atlantik", "Hint", "Kuzey Buz"], c: 0, e: "Pasifik Okyanusu dünya yüzeyinin %35'ini kaplar.", kw: "pacific ocean" },
+            { id: "tr3", q: "En uzun nehir?", o: ["Nil", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nil Nehri Mısır'dan akar.", kw: "nile river" },
+            { id: "tr4", q: "Dünyanın en yüksek dağı?", o: ["Everest", "K2", "Ağrı", "Mont Blanc"], c: 0, e: "Himalayalar'da yer alır.", kw: "mount everest" },
+            { id: "tr5", q: "Fransa'nın başkenti?", o: ["Paris", "Lyon", "Marsilya", "Nice"], c: 0, e: "Paris aydınlık şehridir.", kw: "paris france" },
+            { id: "tr6", q: "Kaç kıta var?", o: ["7", "5", "6", "8"], c: 0, e: "Avrupa, Asya, Afrika, Amerika (2), Avustralya, Antarktika.", kw: "world continents" },
+            { id: "tr7", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "Dolar dünya para birimidir.", kw: "dollar currency" },
+            { id: "tr8", q: "Özgürlük Heykeli nerede?", o: ["New York", "Washington", "Los Angeles", "Chicago"], c: 0, e: "Amerika'nın özgürlük sembolü.", kw: "statue liberty" },
+            { id: "tr9", q: "En kalabalık ülke?", o: ["Çin", "Hindistan", "ABD", "Endonezya"], c: 0, e: "1.4 milyardan fazla insan.", kw: "china population" },
+            { id: "tr10", q: "Piramitler nerede?", o: ["Mısır", "Meksika", "Sudan", "Peru"], c: 0, e: "Giza piramitleri Kahire yakınında.", kw: "pyramids egypt" },
+            { id: "tr11", q: "Dünyanın en uzun duvarı?", o: ["Çin Seddi", "Hadrian Duvarı", "Berlin Duvarı", "Batı Duvarı"], c: 0, e: "21.000 km'den uzun.", kw: "great wall china" },
+            { id: "tr12", q: "Brezilya'nın başkenti?", o: ["Brasília", "Rio de Janeiro", "São Paulo", "Salvador"], c: 0, e: "Brasília 1960'ta kuruldu.", kw: "brasilia city" },
+            { id: "tr13", q: "En büyük çöl (kutup değil)?", o: ["Sahra", "Gobi", "Arabistan", "Kalahari"], c: 0, e: "Sahra, Kuzey Afrika'yı kaplar.", kw: "sahara desert" },
+            { id: "tr14", q: "Dünyanın en büyük hayvanı?", o: ["Mavi balina", "Fil", "Zürafa", "Beyaz köpekbalığı"], c: 0, e: "Mavi balinalar 30 metreye ulaşır.", kw: "blue whale" },
+            { id: "tr15", q: "Kanada'nın başkenti?", o: ["Ottawa", "Toronto", "Vancouver", "Montreal"], c: 0, e: "Ottawa, Ontario'da bulunur.", kw: "ottawa canada" }
         ]
     };
 
@@ -565,6 +621,25 @@
             if (lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
             if (lvl >= 10) return { class: 'rank-master', label: 'Master' };
             return { class: 'rank-warrior', label: 'Warrior' };
+        },
+
+        princessMagic() {
+            // Magische Reaktion: kleines Herzchen + zufälliger Spruch
+            const messages = ["✨✨", "👸💖", "🌟👑", "💜✨", "🎀👸"];
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            const el = document.querySelector('.princess-mascot');
+            const heart = document.createElement('div');
+            heart.textContent = randomMsg;
+            heart.style.position = 'absolute';
+            heart.style.top = '-30px';
+            heart.style.left = '50%';
+            heart.style.transform = 'translateX(-50%)';
+            heart.style.fontSize = '1.2rem';
+            heart.style.whiteSpace = 'nowrap';
+            heart.style.animation = 'heartFade 0.5s forwards';
+            heart.style.pointerEvents = 'none';
+            el.appendChild(heart);
+            setTimeout(() => heart.remove(), 500);
         },
 
         go(id) {
@@ -684,8 +759,7 @@
             q.o.forEach((opt, i) => {
                 const b = document.createElement('div');
                 b.className = 'opt-visual';
-                const imgKeyword = q.imgKw && q.imgKw[i] ? q.imgKw[i] : `${opt},landscape`;
-                b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?${imgKeyword}&t=${timestamp + i}')`;
+                b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?${q.kw},${opt}&t=${timestamp + i}')`;
                 b.innerHTML = `
                     <div class="opt-img-overlay"></div>
                     <div class="opt-label">${opt}</div>
@@ -719,7 +793,7 @@
             const opts = document.querySelectorAll('.opt-visual');
             opts.forEach(o => o.style.pointerEvents = 'none');
 
-            prof.usedIds.push(q.id);
+            if (!prof.usedIds.includes(q.id)) prof.usedIds.push(q.id);
 
             if (idx === q.c) {
                 if (b) b.classList.add('correct');
@@ -831,7 +905,7 @@
     // Initialisierung
     App.go('home');
 
-    // Globus-Animation mit Lila-Flags
+    // Globus-Animation mit diversen Emojis
     const countryEmojis = ['🌍', '🇩🇪', '🇷🇺', '🇬🇧', '🇳🇬', '🇹🇷', '🇫🇷', '🇺🇦', '🇺🇸', '👸'];
     let currentEmojiIndex = 0;
     
