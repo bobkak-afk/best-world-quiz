@@ -1,1454 +1,404 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · GLOBAL GENESIS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;400;500;600;700;800&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <title>MK · APEX AETERNA · OFFICIAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@100;300;400;600;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: linear-gradient(135deg, #ffd700 0%, #ffed4e 45%, #d4af37 100%);
-            --gold-solid: #ffd700;
-            --gold-dark: #d4af37;
-            --bg: #0a0a0f;
-            --bg-secondary: #151520;
-            --border: rgba(255, 215, 0, 0.3);
-            --border-strong: rgba(255, 215, 0, 0.6);
+            --gold: linear-gradient(135deg, #ffdf91 0%, #d4af37 45%, #b38728 70%, #8a6d1c 100%);
+            --gold-solid: #d4af37;
+            --bg: #010103;
+            --glass: rgba(10, 10, 15, 0.92);
+            --border: rgba(212, 175, 55, 0.4);
             --red: #ff3c00;
             --blue: #00d4ff;
-            --purple: #a855f7;
-            --green: #10b981;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --glow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
-```
-    * { 
-        box-sizing: border-box; 
-        margin: 0; 
-        padding: 0; 
-        -webkit-tap-highlight-color: transparent; 
-    }
-    
-    body {
-        background: var(--bg); 
-        color: #fff; 
-        font-family: 'Outfit', sans-serif;
-        height: 100vh; 
-        overflow: hidden; 
-        display: flex; 
-        justify-content: center;
-        position: relative;
-    }
-
-    /* Animated Background Particles */
-    .particles {
-        position: fixed;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-        background: 
-            radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.03) 0%, transparent 50%);
-        animation: particleFloat 20s ease-in-out infinite;
-    }
-
-    @keyframes particleFloat {
-        0%, 100% { transform: translateY(0) scale(1); }
-        50% { transform: translateY(-20px) scale(1.05); }
-    }
-
-    #app {
-        width: 100%; 
-        max-width: 460px; 
-        height: 100vh; 
-        display: flex; 
-        flex-direction: column;
-        position: relative; 
-        z-index: 10;
-        background: rgba(10, 10, 15, 0.5);
-        backdrop-filter: blur(20px);
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .screen { 
-        display: none; 
-        flex: 1; 
-        padding: 30px 25px; 
-        flex-direction: column; 
-        overflow-y: auto; 
-        position: relative; 
-    }
-    
-    .screen.active { 
-        display: flex; 
-        animation: screenSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-    }
-
-    @keyframes screenSlideIn { 
-        from { 
-            opacity: 0; 
-            transform: translateY(30px) scale(0.95); 
-        } 
-        to { 
-            opacity: 1; 
-            transform: translateY(0) scale(1); 
-        } 
-    }
-
-    /* Premium Glass Card */
-    .glass-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .glass-card:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: var(--border-strong);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow), var(--glow);
-    }
-
-    /* HOME SCREEN */
-    .branding-top {
-        font-family: 'Syncopate', sans-serif;
-        font-size: 0.55rem;
-        letter-spacing: 12px;
-        background: linear-gradient(90deg, var(--gold-solid), var(--blue));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-align: center;
-        margin-top: 15px;
-        text-transform: uppercase;
-        font-weight: 700;
-        animation: shimmer 3s ease-in-out infinite;
-    }
-
-    @keyframes shimmer {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
-    }
-
-    .home-center {
-        text-align: center;
-        margin-top: 40px;
-    }
-
-    .title-gold {
-        font-family: 'Cinzel Decorative', serif;
-        font-size: 3.8rem;
-        background: var(--gold);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        line-height: 0.9;
-        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
-        letter-spacing: -3px;
-        font-weight: 900;
-        animation: titlePulse 4s ease-in-out infinite;
-    }
-
-    @keyframes titlePulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.02); }
-    }
-
-    .atlas-box {
-        display: flex;
-        justify-content: center;
-        margin: 25px 0;
-        position: relative;
-    }
-
-    .atlas {
-        font-size: 9rem;
-        animation: rotateAtlas 20s linear infinite;
-        filter: drop-shadow(0 0 50px rgba(0, 212, 255, 0.6));
-        user-select: none;
-        position: relative;
-        z-index: 2;
-    }
-
-    .atlas::before {
-        content: '';
-        position: absolute;
-        inset: -20px;
-        background: radial-gradient(circle, rgba(0, 212, 255, 0.2), transparent);
-        border-radius: 50%;
-        z-index: -1;
-        animation: pulse 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); opacity: 0.5; }
-        50% { transform: scale(1.2); opacity: 0.8; }
-    }
-
-    @keyframes rotateAtlas { 
-        0% { transform: rotate(0deg) scale(1); }
-        25% { transform: rotate(90deg) scale(0.95); }
-        50% { transform: rotate(180deg) scale(1); }
-        75% { transform: rotate(270deg) scale(0.95); }
-        100% { transform: rotate(360deg) scale(1); }
-    }
-
-    .sub-title-low {
-        font-family: 'Syncopate', sans-serif;
-        font-size: 1.5rem;
-        letter-spacing: 6px;
-        background: linear-gradient(90deg, #fff, var(--blue), #fff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-align: center;
-        text-transform: uppercase;
-        margin-top: 50px;
-        margin-bottom: 40px;
-        font-weight: 700;
-        animation: textGlow 2s ease-in-out infinite;
-    }
-
-    @keyframes textGlow {
-        0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); }
-        50% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6)); }
-    }
-
-    /* Premium Buttons */
-    .btn-luxe { 
-        appearance: none; 
-        border: none; 
-        padding: 22px 28px; 
-        border-radius: 18px; 
-        font-family: 'Syncopate', sans-serif; 
-        font-weight: 700; 
-        font-size: 0.7rem; 
-        cursor: pointer; 
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-        text-transform: uppercase; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        gap: 12px; 
-        width: 100%; 
-        margin-bottom: 12px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .btn-luxe::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transform: translateX(-100%);
-        transition: transform 0.6s;
-    }
-
-    .btn-luxe:hover::before {
-        transform: translateX(100%);
-    }
-
-    .btn-gold { 
-        background: var(--gold); 
-        color: #000; 
-        font-weight: 900; 
-        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-        border: 2px solid transparent;
-    }
-
-    .btn-gold:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
-    }
-
-    .btn-gold:active { 
-        transform: translateY(-1px) scale(0.98); 
-    }
-
-    .btn-outline { 
-        background: rgba(255, 255, 255, 0.03); 
-        color: #fff; 
-        border: 2px solid var(--border);
-        backdrop-filter: blur(10px);
-    }
-
-    .btn-outline:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: var(--border-strong);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.2);
-    }
-
-    .btn-online {
-        background: linear-gradient(135deg, var(--blue), var(--purple));
-        color: #fff;
-        font-weight: 900;
-        box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
-    }
-
-    .btn-online:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(0, 212, 255, 0.6);
-    }
-
-    .btn-back { 
-        background: transparent; 
-        color: rgba(255, 255, 255, 0.5); 
-        border: none; 
-        font-family: 'Syncopate'; 
-        font-size: 0.65rem; 
-        cursor: pointer; 
-        padding: 12px; 
-        text-align: center; 
-        font-weight: 700;
-        transition: 0.3s;
-    }
-
-    .btn-back:hover {
-        color: rgba(255, 255, 255, 0.9);
-    }
-
-    /* QUIZ VISUALS */
-    .q-visual-frame {
-        height: 250px; 
-        border-radius: 28px; 
-        border: 2px solid var(--border);
-        background-size: cover; 
-        background-position: center; 
-        position: relative;
-        overflow: hidden; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-        margin-bottom: 20px; 
-        box-shadow: var(--shadow), inset 0 0 80px rgba(0, 0, 0, 0.5);
-    }
-
-    .q-overlay { 
-        position: absolute; 
-        inset: 0; 
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.85)); 
-        z-index: 1; 
-    }
-
-    .q-text { 
-        position: relative; 
-        z-index: 10; 
-        text-align: center; 
-        font-size: 1.5rem; 
-        padding: 25px; 
-        font-weight: 700; 
-        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-        line-height: 1.4;
-    }
-
-    .opt-visual {
-        height: 70px; 
-        border-radius: 18px; 
-        border: 2px solid rgba(255, 255, 255, 0.15);
-        background-size: cover; 
-        background-position: center; 
-        position: relative;
-        overflow: hidden; 
-        margin-bottom: 12px; 
-        cursor: pointer; 
-        display: flex; 
-        align-items: center;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .opt-visual:hover { 
-        transform: translateX(8px) scale(1.02); 
-        border-color: var(--gold-solid);
-        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-    }
-
-    .opt-img-overlay { 
-        position: absolute; 
-        inset: 0; 
-        background: rgba(0, 0, 0, 0.65); 
-        z-index: 1; 
-        transition: 0.3s; 
-    }
-
-    .opt-visual:hover .opt-img-overlay { 
-        background: rgba(0, 0, 0, 0.4); 
-    }
-
-    .opt-label { 
-        position: relative; 
-        z-index: 10; 
-        padding-left: 22px; 
-        font-weight: 700; 
-        font-size: 1.15rem; 
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9); 
-    }
-
-    .opt-visual.correct .opt-img-overlay { 
-        background: rgba(16, 185, 129, 0.85) !important; 
-    }
-    .opt-visual.correct { 
-        border-color: var(--green) !important;
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.6) !important;
-    }
-
-    .opt-visual.wrong .opt-img-overlay { 
-        background: rgba(239, 68, 68, 0.85) !important; 
-    }
-    .opt-visual.wrong { 
-        border-color: #ef4444 !important;
-        box-shadow: 0 0 25px rgba(239, 68, 68, 0.6) !important;
-    }
-
-    /* SETUP */
-    .section-label {
-        font-family: 'Syncopate', sans-serif;
-        font-size: 0.7rem;
-        letter-spacing: 4px;
-        color: var(--gold-solid);
-        text-align: center;
-        margin: 25px 0 18px;
-        text-transform: uppercase;
-        font-weight: 700;
-    }
-
-    .player-card { 
-        background: rgba(255, 255, 255, 0.04); 
-        border: 2px solid rgba(255, 255, 255, 0.1); 
-        border-radius: 20px; 
-        padding: 16px; 
-        display: flex; 
-        align-items: center; 
-        margin-bottom: 12px; 
-        animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-        transition: all 0.3s;
-    }
-
-    .player-card:hover {
-        background: rgba(255, 255, 255, 0.06);
-        border-color: var(--border);
-        transform: translateX(4px);
-    }
-
-    @keyframes slideIn { 
-        from { opacity: 0; transform: translateX(-30px); } 
-    }
-    
-    .flag-plus { 
-        width: 50px; 
-        height: 50px; 
-        background: rgba(0, 0, 0, 0.6); 
-        border: 2px dashed var(--gold-solid); 
-        border-radius: 12px; 
-        display: flex; 
-        justify-content: center; 
-        align-items: center; 
-        font-size: 1.3rem; 
-        cursor: pointer; 
-        color: var(--gold-solid); 
-        flex-shrink: 0;
-        transition: all 0.3s;
-    }
-
-    .flag-plus:hover {
-        transform: scale(1.1) rotate(5deg);
-        background: rgba(255, 215, 0, 0.1);
-    }
-
-    .input-luxe { 
-        background: transparent; 
-        border: none; 
-        color: #fff; 
-        font-family: 'Outfit', sans-serif; 
-        font-size: 1.1rem; 
-        width: 100%; 
-        margin-left: 16px; 
-        outline: none; 
-        font-weight: 600; 
-    }
-
-    .input-luxe::placeholder {
-        color: rgba(255, 255, 255, 0.3);
-    }
-
-    .btn-trash { 
-        background: none; 
-        border: none; 
-        color: #ef4444; 
-        font-size: 1.3rem; 
-        cursor: pointer; 
-        padding: 6px; 
-        opacity: 0.5; 
-        flex-shrink: 0;
-        transition: all 0.3s;
-    }
-
-    .btn-trash:hover { 
-        opacity: 1;
-        transform: scale(1.2) rotate(10deg);
-    }
-
-    .lang-grid { 
-        display: grid; 
-        grid-template-columns: repeat(5, 1fr); 
-        gap: 8px; 
-        margin-bottom: 25px; 
-    }
-
-    .lang-chip { 
-        background: rgba(255, 255, 255, 0.05); 
-        border: 2px solid rgba(255, 255, 255, 0.1); 
-        padding: 14px 4px; 
-        border-radius: 14px; 
-        font-size: 0.6rem; 
-        font-family: 'Syncopate'; 
-        cursor: pointer; 
-        text-align: center;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        font-weight: 700;
-    }
-
-    .lang-chip:hover { 
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-2px);
-        border-color: var(--border);
-    }
-
-    .lang-chip.active { 
-        background: var(--gold); 
-        color: #000; 
-        font-weight: 900;
-        border-color: var(--gold-solid);
-        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-    }
-
-    /* ACHIEVEMENTS */
-    .rank-pill { 
-        padding: 6px 12px; 
-        border-radius: 8px; 
-        font-size: 0.6rem; 
-        font-family: 'Syncopate'; 
-        font-weight: 900; 
-        text-transform: uppercase; 
-        margin-right: 8px; 
-        display: inline-block;
-    }
-
-    .rank-master { 
-        background: linear-gradient(135deg, var(--blue), #06b6d4); 
-        color: #000; 
-        box-shadow: 0 0 15px rgba(0, 212, 255, 0.5); 
-    }
-
-    .rank-god { 
-        background: linear-gradient(135deg, var(--red), #f97316); 
-        color: #fff; 
-        box-shadow: 0 0 20px rgba(255, 60, 0, 0.6); 
-    }
-
-    .rank-warrior { 
-        background: rgba(255, 255, 255, 0.15); 
-        color: #fff; 
-    }
-
-    /* MODAL */
-    #modal { 
-        display: none; 
-        position: fixed; 
-        inset: 0; 
-        background: rgba(0, 0, 0, 0.95); 
-        z-index: 2000; 
-        align-items: center; 
-        justify-content: center; 
-        backdrop-filter: blur(20px); 
-    }
-
-    .modal-box { 
-        background: rgba(21, 21, 32, 0.95); 
-        border: 2px solid var(--gold-solid); 
-        padding: 35px; 
-        border-radius: 32px; 
-        display: grid; 
-        grid-template-columns: repeat(4, 1fr); 
-        gap: 18px; 
-        max-width: 90%;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), var(--glow);
-    }
-
-    .modal-flag { 
-        font-size: 3rem; 
-        cursor: pointer; 
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-        text-align: center; 
-        padding: 12px;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.02);
-    }
-
-    .modal-flag:hover { 
-        transform: scale(1.3) rotate(10deg); 
-        background: rgba(255, 215, 0, 0.1);
-    }
-
-    footer { 
-        text-align: center; 
-        padding: 25px; 
-        font-size: 0.7rem; 
-        color: rgba(255, 255, 255, 0.6); 
-        font-family: 'Syncopate', sans-serif; 
-        font-weight: 700; 
-        text-transform: uppercase; 
-        letter-spacing: 2px; 
-    }
-
-    .badge { 
-        background: var(--gold); 
-        color: #000; 
-        padding: 6px 14px; 
-        border-radius: 100px; 
-        font-size: 0.75rem; 
-        font-weight: 800;
-        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
-    }
-    
-    .timer-rail { 
-        height: 8px; 
-        background: rgba(255, 255, 255, 0.1); 
-        border-radius: 100px; 
-        margin: 18px 0 25px; 
-        overflow: hidden;
-        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
-    }
-
-    .timer-fill { 
-        height: 100%; 
-        width: 100%; 
-        background: linear-gradient(90deg, var(--red), #f97316); 
-        box-shadow: 0 0 20px var(--red); 
-        transition: width 0.1s linear;
-        border-radius: 100px;
-    }
-
-    .spinner { 
-        width: 60px; 
-        height: 60px; 
-        border: 5px solid rgba(255, 215, 0, 0.1); 
-        border-top-color: var(--gold-solid); 
-        border-radius: 50%; 
-        animation: spin 0.8s linear infinite; 
-    }
-
-    @keyframes spin { 
-        to { transform: rotate(360deg); } 
-    }
-
-    /* Scrollbar */
-    .screen::-webkit-scrollbar { 
-        width: 6px; 
-    }
-
-    .screen::-webkit-scrollbar-track { 
-        background: rgba(0, 0, 0, 0.3); 
-    }
-
-    .screen::-webkit-scrollbar-thumb { 
-        background: var(--gold-solid); 
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-    }
-
-    .screen::-webkit-scrollbar-thumb:hover {
-        background: var(--gold-dark);
-    }
-
-    /* Stats Display */
-    .stat-card {
-        background: rgba(255, 255, 255, 0.04);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        border-radius: 18px;
-        padding: 18px;
-        margin-bottom: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: all 0.3s;
-    }
-
-    .stat-card:hover {
-        background: rgba(255, 255, 255, 0.06);
-        border-color: var(--border);
-        transform: translateX(4px);
-    }
-
-    .stat-highlight {
-        color: var(--gold-solid);
-        font-weight: 700;
-        font-size: 1.1rem;
-    }
-</style>
-```
-
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; }
+        
+        body {
+            background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif;
+            height: 100dvh; width: 100vw; overflow: hidden; display: flex; justify-content: center;
+        }
+
+        /* --- DYNAMISCHE HINTERGRUND-WALL --- */
+        #master-cine-wall {
+            position: fixed; inset: 0; z-index: 1;
+            background-size: cover; background-position: center;
+            filter: brightness(0.3) saturate(1.1) blur(4px);
+            transition: background-image 2s ease-in-out;
+            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000');
+        }
+
+        #app {
+            width: 100%; max-width: 480px; height: 100dvh; display: flex; flex-direction: column;
+            position: relative; z-index: 10; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.45); backdrop-filter: blur(25px);
+            box-shadow: 0 0 100px #000;
+        }
+
+        .screen { display: none; flex: 1; padding: 25px; flex-direction: column; overflow-y: auto; overflow-x: hidden; position: relative; }
+        .screen.active { display: flex; animation: revealIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes revealIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        /* --- LOGO & BRANDING --- */
+        .branding-top { font-family: 'Syncopate', sans-serif; font-size: 0.65rem; letter-spacing: 12px; color: var(--gold-solid); text-align: center; margin-top: 15px; text-transform: uppercase; text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); font-weight: 700; }
+        .logo-box { text-align: center; margin-top: 30px; }
+        .title-gold { font-family: 'Cinzel Decorative', serif; font-size: 3.5rem; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 0.85; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5)); letter-spacing: -2px; }
+
+        /* --- GIGANTIC 3D GLOBE --- */
+        .globe-center {
+            width: 260px; height: 260px; margin: 25px auto;
+            position: relative; border-radius: 50%; background: #000;
+            box-shadow: inset -40px -40px 80px #000, inset 20px 20px 50px rgba(255,255,255,0.1), 0 0 80px rgba(0, 212, 255, 0.2);
+            overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .globe-map { width: 200%; height: 100%; position: absolute; background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Blue_Marble_2002.png/1024px-Blue_Marble_2002.png'); background-size: cover; animation: rotateGlobe 45s linear infinite; opacity: 0.95; }
+        .globe-glare { position: absolute; inset: 0; background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.2) 0%, transparent 75%, rgba(0,0,0,0.9) 100%); z-index: 5; }
+        @keyframes rotateGlobe { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        .sub-title-main { font-family: 'Syncopate', sans-serif; font-size: 1.7rem; letter-spacing: 3px; color: #fff; text-align: center; text-transform: uppercase; margin-top: auto; padding-bottom: 30px; font-weight: 700; text-shadow: 0 0 35px rgba(255,255,255,0.9); }
+
+        /* --- BUTTONS --- */
+        .btn-apex { appearance: none; border: none; padding: 22px; border-radius: 20px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-bottom: 15px; position: relative; overflow: hidden; background: rgba(255,255,255,0.03); color: #fff; border: 1px solid var(--border); backdrop-filter: blur(10px); }
+        .btn-gold { background: var(--gold); color: #000; font-weight: 900; border: none; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        .btn-gold::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transform: translateX(-100%); animation: sweep 5s infinite; }
+        @keyframes sweep { 0% { transform: translateX(-100%); } 20% { transform: translateX(100%); } 100% { transform: translateX(100%); } }
+        .btn-back { background: transparent; border: none; color: rgba(255,255,255,0.5); font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; padding: 15px; width: 100%; text-align: center; letter-spacing: 4px; }
+
+        /* --- SETUP INTERFACE --- */
+        .fighter-slot { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 18px; display: flex; align-items: center; margin-bottom: 12px; position: relative; animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
+        .f-select { width: 52px; height: 52px; background: #000; border: 2px dashed var(--gold-solid); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; color: var(--gold-solid); transition: 0.3s; }
+        .f-select.active { border-style: solid; background: rgba(212, 175, 55, 0.1); }
+        .n-input { background: transparent; border: none; color: #fff; font-family: 'Outfit'; font-size: 1.25rem; width: 100%; margin-left: 15px; outline: none; font-weight: 700; letter-spacing: 0.5px; }
+        .btn-del { background: none; border: none; color: #ff4d4d; font-size: 1.5rem; cursor: pointer; opacity: 0.6; }
+
+        /* --- VISUAL QUIZ HUD --- */
+        .q-window { height: 240px; border-radius: 35px; border: 1px solid var(--border); background-size: cover; background-position: center; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
+        .q-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)); z-index: 1; }
+        .q-text-p { position: relative; z-index: 5; text-align: center; font-size: 1.55rem; padding: 25px; font-weight: 800; text-shadow: 0 4px 15px #000; line-height: 1.2; letter-spacing: -0.5px; }
+
+        .o-item-v { height: 75px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .o-item-v:hover { transform: scale(1.03) translateX(10px); border-color: var(--gold-solid); }
+        .o-blur { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(3px); z-index: 1; transition: 0.3s; }
+        .o-txt { position: relative; z-index: 5; padding-left: 25px; font-weight: 800; font-size: 1.25rem; text-shadow: 0 2px 10px #000; }
+
+        .correct .o-blur { background: rgba(27, 77, 46, 0.95) !important; }
+        .wrong .o-blur { background: rgba(77, 27, 27, 0.95) !important; }
+
+        .learn-card { background: rgba(0,0,0,0.98); border: 1px solid var(--gold-solid); border-radius: 35px; padding: 30px; text-align: center; margin-top: 5px; animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; box-shadow: 0 0 50px #000; }
+        @keyframes popUp { from { transform: translateY(80px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .timer-rail { height: 10px; background: rgba(255,255,255,0.08); border-radius: 100px; margin: 15px 0 25px; overflow: hidden; }
+        .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 25px var(--red); transition: width 0.1s linear; }
+
+        /* --- CREDITS --- */
+        footer { 
+            text-align: center; padding: 20px; margin-top: auto; 
+            font-size: 0.85rem; color: #fff; font-family: 'Syncopate'; 
+            letter-spacing: 3px; text-transform: uppercase; font-weight: 700;
+            text-shadow: 0 0 12px #fff; 
+        }
+
+        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.98); z-index:5000; align-items:center; justify-content:center; backdrop-filter: blur(25px); }
+        .modal-box { background: #08080a; border: 1px solid var(--gold-solid); padding: 40px; border-radius: 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; box-shadow: 0 0 120px rgba(212, 175, 55, 0.3); }
+        .spinner { width: 60px; height: 60px; border: 4px solid rgba(212, 175, 55, 0.1); border-top-color: #d4af37; border-radius: 50%; animation: spin 0.8s infinite linear; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
-    <div class="particles"></div>
 
-```
-<!-- MODAL -->
-<div id="modal" onclick="this.style.display='none'">
-    <div class="modal-box" onclick="event.stopPropagation()">
-        <div class="modal-flag" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇺🇦')">🇺🇦</div>
-        <div class="modal-flag" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+    <div id="master-cine-wall"></div>
+
+    <div id="modal" onclick="this.style.display='none'">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
+            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
+            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
+            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
+            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
+            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
+            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇮🇹')">🇮🇹</div>
+            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+        </div>
     </div>
-</div>
 
-<div id="app">
-    <!-- SCREEN: HOME -->
-    <section id="s-home" class="screen active">
-        <p class="branding-top">Elite Prestige Game</p>
-        
-        <div class="home-center">
-            <h1 class="title-gold">MORTAL<br>KOMBAT</h1>
-            <div class="atlas-box"><div class="atlas">🌍</div></div>
-        </div>
-
-        <p class="sub-title-low">Best World Quiz</p>
-
-        <div style="margin-top: auto;">
-            <button class="btn-luxe btn-gold" onclick="App.go('setup')">
-                ⚔️ Solo Kampf
-            </button>
-            <button class="btn-luxe btn-online" onclick="alert('Online-Modus erfordert einen Server. Kontaktieren Sie die Entwickler für die Vollversion!')">
-                🌐 Online Battle (Coming Soon)
-            </button>
-            <button class="btn-luxe btn-outline" onclick="App.go('achievements')">
-                ⚔️ Erfolge & Ränge
-            </button>
-            <button class="btn-luxe btn-outline" onclick="App.go('leaderboard')">
-                🏆 Bestenliste
-            </button>
-        </div>
-        <footer>Produziert von Wowa & Amiar Kempf & Alina Frais</footer>
-    </section>
-
-    <!-- SCREEN: SETUP -->
-    <section id="s-setup" class="screen">
-        <h2 class="title-gold" style="font-size: 2.4rem;">Krieger</h2>
-        
-        <p class="section-label">Game Sprache</p>
-        <div class="lang-grid">
-            <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
-            <div class="lang-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
-            <div class="lang-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
-            <div class="lang-chip" id="ln-ig" onclick="App.setLang('ig')">IGBO</div>
-            <div class="lang-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
-        </div>
-
-        <p class="section-label">Flagge und Namen aussuchen</p>
-        <div id="player-list"></div>
-        <button class="btn-luxe btn-outline" style="font-size:0.65rem; padding: 14px;" onclick="App.addPlayerInput()">
-            + Neuer Kämpfer
-        </button>
-
-        <div style="margin-top: auto;">
-            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">
-                ⚡ Generiere Kampf
-            </button>
-            <button class="btn-back" onclick="App.go('home')">← Hauptmenü</button>
-        </div>
-    </section>
-
-    <!-- SCREEN: LOADING -->
-    <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
-        <div class="spinner"></div>
-        <p style="font-family:'Syncopate'; font-size:0.65rem; letter-spacing:4px; margin-top:30px; color:var(--gold-solid);">
-            Lade Game-Visuals...
-        </p>
-    </section>
-
-    <!-- SCREEN: VS -->
-    <section id="s-vs" class="screen">
-        <div style="text-align: center; margin-top: 80px;">
-            <div id="vs-flag" style="font-size: 8rem; margin-bottom: 20px; filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));">🐲</div>
-            <h2 id="vs-name" class="title-gold" style="font-size: 3rem;">PLAYER</h2>
-            <div id="vs-info" style="margin-top:15px;"></div>
-        </div>
-        <div style="margin-top: auto; padding-bottom: 40px;">
-            <button class="btn-luxe btn-gold" onclick="App.startQuiz()">
-                ⚡ FIGHT!
-            </button>
-            <button class="btn-back" onclick="App.go('setup')">← Team ändern</button>
-        </div>
-    </section>
-
-    <!-- SCREEN: QUIZ -->
-    <section id="s-quiz" class="screen">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span id="q-round" style="font-family:'Syncopate'; font-size:0.65rem; color:var(--gold-solid); font-weight:700;">Round 1/10</span>
-            <span id="q-gold" class="badge">💰 0</span>
-        </div>
-        <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
-        
-        <div id="q-frame" class="q-visual-frame">
-            <div class="q-overlay"></div>
-            <h3 id="q-text" class="q-text">Lade Prüfung...</h3>
-        </div>
-
-        <div id="q-options"></div>
-
-        <div id="q-feedback" style="display:none; margin-top:12px;">
-            <div class="glass-card" style="text-align: center; padding: 25px;">
-                <p id="q-expl" style="font-size: 1rem; opacity: 0.9; margin-bottom: 18px; line-height: 1.6;"></p>
-                <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">
-                    Nächste Runde →
-                </button>
+    <div id="app">
+        <!-- SCREEN: HOME -->
+        <section id="s-home" class="screen active">
+            <p class="branding-top">Elite Prestige Game</p>
+            <div class="logo-box"><h1 class="title-gold">MORTAL<br>KOMBAT</h1></div>
+            
+            <div class="globe-center">
+                <div class="globe-map"></div>
+                <div class="globe-glare"></div>
             </div>
-        </div>
-        <button class="btn-back" style="margin-top:18px;" onclick="if(confirm('Abbrechen?')) location.reload()">
-            ✕ Beenden
-        </button>
-    </section>
 
-    <!-- SCREEN: RESULT -->
-    <section id="s-result" class="screen">
-        <h1 class="title-gold" style="font-size: 2.8rem;">KAMPF ENDE</h1>
-        <div id="res-list" style="margin-top: 35px; flex: 1;"></div>
-        <div style="margin-top: auto;">
-            <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">
-                🔄 Nochmal Kämpfen
-            </button>
-            <button class="btn-luxe btn-outline" onclick="location.reload()">
-                🏠 Hauptmenü
-            </button>
-        </div>
-        <footer>Produziert von Wowa & Amiar Kempf & Alina Frais</footer>
-    </section>
+            <p class="sub-title-main">Best World Quiz</p>
 
-    <!-- SCREEN: ACHIEVEMENTS -->
-    <section id="s-achievements" class="screen">
-        <h1 class="title-gold" style="font-size: 2.2rem;">ERFOLGE</h1>
-        <div id="ach-list" style="margin-top:35px; flex:1;"></div>
-        <button class="btn-luxe btn-gold" onclick="App.go('home')">🏠 Hauptmenü</button>
-    </section>
+            <div style="margin-top: auto;">
+                <button class="btn-apex btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
+                <button class="btn-apex btn-outline" onclick="App.go('online-hub')">Online Hub 🌐</button>
+                <button class="btn-apex btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
+            </div>
+            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
+        </section>
 
-    <!-- SCREEN: LEADERBOARD -->
-    <section id="s-leaderboard" class="screen">
-        <h1 class="title-gold" style="font-size: 2.2rem;">BESTENLISTE</h1>
-        <div id="lb-list" style="margin-top:35px; flex:1;"></div>
-        <button class="btn-luxe btn-gold" onclick="App.go('home')">🏠 Hauptmenü</button>
-    </section>
-</div>
+        <!-- SCREEN: SETUP -->
+        <section id="s-setup" class="screen">
+            <h2 class="title-gold" style="font-size: 2.2rem; margin-top: 0; color:var(--gold-solid);">Warrior</h2>
+            <p style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid); text-align:center; margin:15px 0;">Sprache wählen</p>
+            <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 30px;">
+                <div class="l-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
+                <div class="l-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
+                <div class="l-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
+                <div class="l-chip" id="ln-ig" onclick="App.setLang('ig')">IBO</div>
+                <div class="l-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
+            </div>
 
-<script>
-    // EXPANDED QUESTION DATABASE - 50+ questions per language
-    const DB = {
-        de: [
-            { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia landscape", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
-            { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo skyline", imgKw: ["tokyo tower", "kyoto temple", "osaka castle", "seoul city"] },
-            { id: "de3", q: "Welcher Fluss fließt durch Ägypten?", o: ["Nil", "Amazonas", "Kongo", "Ganges"], c: 0, e: "Der Nil ist die Lebensader.", kw: "egypt nile", imgKw: ["nile river", "amazon river", "congo river", "ganges river"] },
-            { id: "de4", q: "Wo stehen die Pyramiden?", o: ["Gizeh", "Mexiko", "Irak", "China"], c: 0, e: "Sie stehen nahe Kairo.", kw: "pyramids giza", imgKw: ["giza pyramids", "mexico pyramid", "iraq ziggurat", "china architecture"] },
-            { id: "de5", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indischer", "Arktischer"], c: 0, e: "Der Pazifik deckt 35% der Erde.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "de6", q: "Höchster Berg?", o: ["Everest", "K2", "Mont Blanc", "Fuji"], c: 0, e: "Er liegt im Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "k2 mountain", "mont blanc", "mount fuji"] },
-            { id: "de7", q: "Währung der USA?", o: ["Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Der US-Dollar ist Weltleitwährung.", kw: "dollar currency", imgKw: ["dollar bills", "euro currency", "pound sterling", "yen currency"] },
-            { id: "de8", q: "Kontinent Australien?", o: ["Kleinster", "Größter", "Kältester", "Heißester"], c: 0, e: "Australien ist der kleinste Kontinent.", kw: "australia continent", imgKw: ["australia outback", "world map", "antarctica ice", "desert heat"] },
-            { id: "de9", q: "Eiffelturm Standort?", o: ["Paris", "Berlin", "London", "Rom"], c: 0, e: "Wahrzeichen von Frankreich.", kw: "eiffel tower paris", imgKw: ["paris eiffel", "berlin gate", "london bridge", "rome colosseum"] },
-            { id: "de10", q: "Farbe der UNO Flagge?", o: ["Blau-Weiß", "Rot-Gelb", "Schwarz-Rot", "Grün-Gold"], c: 0, e: "Blau und Weiß für den Frieden.", kw: "un flag", imgKw: ["un flag blue", "flag red yellow", "flag black red", "flag green"] },
-            { id: "de11", q: "Hauptstadt von Deutschland?", o: ["Berlin", "München", "Hamburg", "Köln"], c: 0, e: "Berlin ist seit 1990 wieder Hauptstadt.", kw: "berlin germany", imgKw: ["berlin gate", "munich city", "hamburg port", "cologne cathedral"] },
-            { id: "de12", q: "Längster Fluss Europas?", o: ["Wolga", "Donau", "Rhein", "Elbe"], c: 0, e: "Die Wolga fließt durch Russland.", kw: "volga river", imgKw: ["volga river", "danube river", "rhine river", "elbe river"] },
-            { id: "de13", q: "Wie viele Kontinente gibt es?", o: ["7", "5", "6", "8"], c: 0, e: "Europa, Asien, Afrika, Nord- und Südamerika, Australien, Antarktis.", kw: "world continents", imgKw: ["world map", "continents globe", "geography", "earth map"] },
-            { id: "de14", q: "Hauptstadt von Italien?", o: ["Rom", "Mailand", "Venedig", "Florenz"], c: 0, e: "Rom ist die ewige Stadt.", kw: "rome italy", imgKw: ["rome colosseum", "milan cathedral", "venice canal", "florence dome"] },
-            { id: "de15", q: "Größte Wüste der Welt?", o: ["Sahara", "Gobi", "Atacama", "Kalahari"], c: 0, e: "Die Sahara erstreckt sich über Nordafrika.", kw: "sahara desert", imgKw: ["sahara dunes", "gobi desert", "atacama desert", "kalahari desert"] },
-            { id: "de16", q: "Hauptstadt von Spanien?", o: ["Madrid", "Barcelona", "Valencia", "Sevilla"], c: 0, e: "Madrid liegt im Zentrum Spaniens.", kw: "madrid spain", imgKw: ["madrid city", "barcelona sagrada", "valencia port", "sevilla cathedral"] },
-            { id: "de17", q: "Welcher Planet ist der Erde am nächsten?", o: ["Venus", "Mars", "Merkur", "Jupiter"], c: 0, e: "Venus ist unser Nachbarplanet.", kw: "venus planet", imgKw: ["venus planet", "mars surface", "mercury planet", "jupiter planet"] },
-            { id: "de18", q: "Hauptstadt von Griechenland?", o: ["Athen", "Thessaloniki", "Sparta", "Korinth"], c: 0, e: "Athen ist die Wiege der Demokratie.", kw: "athens greece", imgKw: ["athens acropolis", "thessaloniki city", "sparta ruins", "corinth temple"] },
-            { id: "de19", q: "Größte Insel der Welt?", o: ["Grönland", "Madagaskar", "Borneo", "Neuguinea"], c: 0, e: "Grönland gehört zu Dänemark.", kw: "greenland island", imgKw: ["greenland ice", "madagascar island", "borneo jungle", "new guinea"] },
-            { id: "de20", q: "Welches Land hat die meisten Einwohner?", o: ["China", "Indien", "USA", "Indonesien"], c: 0, e: "China hat über 1,4 Milliarden Menschen.", kw: "china population", imgKw: ["china city", "india crowd", "usa cities", "indonesia jakarta"] },
-            { id: "de21", q: "Hauptstadt von Kanada?", o: ["Ottawa", "Toronto", "Montreal", "Vancouver"], c: 0, e: "Ottawa liegt in Ontario.", kw: "ottawa canada", imgKw: ["ottawa parliament", "toronto skyline", "montreal city", "vancouver harbor"] },
-            { id: "de22", q: "Tiefster Ozean?", o: ["Pazifik", "Atlantik", "Indischer", "Arktischer"], c: 0, e: "Der Marianengraben im Pazifik ist der tiefste Punkt.", kw: "pacific ocean deep", imgKw: ["ocean deep", "atlantic sea", "indian ocean", "arctic ice"] },
-            { id: "de23", q: "Hauptstadt von Brasilien?", o: ["Brasília", "Rio", "São Paulo", "Salvador"], c: 0, e: "Brasília wurde 1960 Hauptstadt.", kw: "brasilia brazil", imgKw: ["brasilia architecture", "rio beach", "sao paulo skyline", "salvador beach"] },
-            { id: "de24", q: "Welcher Kontinent ist am kältesten?", o: ["Antarktis", "Europa", "Asien", "Nordamerika"], c: 0, e: "Antarktis hat Temperaturen bis -89°C.", kw: "antarctica ice", imgKw: ["antarctica landscape", "europe winter", "asia snow", "north america cold"] },
-            { id: "de25", q: "Hauptstadt von Ägypten?", o: ["Kairo", "Alexandria", "Luxor", "Assuan"], c: 0, e: "Kairo liegt am Nil.", kw: "cairo egypt", imgKw: ["cairo city", "alexandria port", "luxor temple", "aswan dam"] },
-            { id: "de26", q: "Größter Kontinent?", o: ["Asien", "Afrika", "Nordamerika", "Südamerika"], c: 0, e: "Asien macht 30% der Landmasse aus.", kw: "asia continent", imgKw: ["asia map", "africa safari", "north america", "south america"] },
-            { id: "de27", q: "Hauptstadt von Türkei?", o: ["Ankara", "Istanbul", "Izmir", "Antalya"], c: 0, e: "Ankara ist seit 1923 Hauptstadt.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "antalya beach"] },
-            { id: "de28", q: "Längste Mauer der Welt?", o: ["Chinesische Mauer", "Hadrianswall", "Berliner Mauer", "Klagemauer"], c: 0, e: "Über 21.000 km lang.", kw: "great wall china", imgKw: ["great wall", "hadrian wall", "berlin wall", "wailing wall"] },
-            { id: "de29", q: "Hauptstadt von Australien?", o: ["Canberra", "Sydney", "Melbourne", "Brisbane"], c: 0, e: "Canberra liegt im Landesinneren.", kw: "canberra australia", imgKw: ["canberra city", "sydney opera", "melbourne skyline", "brisbane river"] },
-            { id: "de30", q: "Schnellster Vogel der Welt?", o: ["Wanderfalke", "Adler", "Albatros", "Strauß"], c: 0, e: "Bis zu 320 km/h im Sturzflug.", kw: "peregrine falcon", imgKw: ["falcon bird", "eagle flight", "albatross bird", "ostrich bird"] },
-            { id: "de31", q: "Hauptstadt von Schweden?", o: ["Stockholm", "Göteborg", "Malmö", "Uppsala"], c: 0, e: "Stockholm liegt auf 14 Inseln.", kw: "stockholm sweden", imgKw: ["stockholm city", "gothenburg port", "malmo bridge", "uppsala cathedral"] },
-            { id: "de32", q: "Höchster Wasserfall?", o: ["Angel Falls", "Niagara", "Victoria", "Iguazu"], c: 0, e: "979 Meter hoch in Venezuela.", kw: "angel falls", imgKw: ["angel falls venezuela", "niagara falls", "victoria falls", "iguazu falls"] },
-            { id: "de33", q: "Hauptstadt von Norwegen?", o: ["Oslo", "Bergen", "Trondheim", "Stavanger"], c: 0, e: "Oslo liegt am Oslofjord.", kw: "oslo norway", imgKw: ["oslo city", "bergen harbor", "trondheim cathedral", "stavanger fjord"] },
-            { id: "de34", q: "Größtes Säugetier?", o: ["Blauwal", "Elefant", "Giraffe", "Nashorn"], c: 0, e: "Bis zu 200 Tonnen schwer.", kw: "blue whale", imgKw: ["blue whale", "elephant africa", "giraffe savanna", "rhino wildlife"] },
-            { id: "de35", q: "Hauptstadt von Österreich?", o: ["Wien", "Salzburg", "Graz", "Innsbruck"], c: 0, e: "Wien war Zentrum des Habsburgerreichs.", kw: "vienna austria", imgKw: ["vienna palace", "salzburg fortress", "graz city", "innsbruck alps"] },
-            { id: "de36", q: "Heißester Ort der Erde?", o: ["Death Valley", "Sahara", "Australien", "Arabien"], c: 0, e: "56,7°C gemessen.", kw: "death valley", imgKw: ["death valley desert", "sahara heat", "australia outback", "arabian desert"] },
-            { id: "de37", q: "Hauptstadt von Polen?", o: ["Warschau", "Krakau", "Danzig", "Breslau"], c: 0, e: "Warschau wurde nach dem Krieg wiederaufgebaut.", kw: "warsaw poland", imgKw: ["warsaw city", "krakow market", "gdansk port", "wroclaw square"] },
-            { id: "de38", q: "Größter See der Welt?", o: ["Kaspisches Meer", "Baikalsee", "Victoriasee", "Great Lakes"], c: 0, e: "371.000 km² groß.", kw: "caspian sea", imgKw: ["caspian sea", "baikal lake", "victoria lake", "great lakes"] },
-            { id: "de39", q: "Hauptstadt von Südafrika?", o: ["Pretoria", "Kapstadt", "Johannesburg", "Durban"], c: 0, e: "Südafrika hat 3 Hauptstädte.", kw: "pretoria south africa", imgKw: ["pretoria city", "cape town mountain", "johannesburg skyline", "durban beach"] },
-            { id: "de40", q: "Schnellstes Landtier?", o: ["Gepard", "Löwe", "Gazelle", "Pferd"], c: 0, e: "Bis zu 120 km/h schnell.", kw: "cheetah running", imgKw: ["cheetah speed", "lion hunt", "gazelle run", "horse gallop"] },
-            { id: "de41", q: "Hauptstadt von Thailand?", o: ["Bangkok", "Phuket", "Chiang Mai", "Pattaya"], c: 0, e: "Bangkok heißt offiziell Krung Thep.", kw: "bangkok thailand", imgKw: ["bangkok temple", "phuket beach", "chiang mai mountain", "pattaya coast"] },
-            { id: "de42", q: "Größter Regenwald?", o: ["Amazonas", "Kongo", "Borneo", "Australien"], c: 0, e: "5,5 Millionen km² groß.", kw: "amazon rainforest", imgKw: ["amazon jungle", "congo forest", "borneo rainforest", "australian forest"] },
-            { id: "de43", q: "Hauptstadt von Argentinien?", o: ["Buenos Aires", "Córdoba", "Rosario", "Mendoza"], c: 0, e: "Buenos Aires bedeutet 'gute Lüfte'.", kw: "buenos aires", imgKw: ["buenos aires obelisk", "cordoba cathedral", "rosario flag", "mendoza andes"] },
-            { id: "de44", q: "Längster Fluss der Welt?", o: ["Nil", "Amazonas", "Yangtze", "Mississippi"], c: 0, e: "6.650 km lang.", kw: "nile river", imgKw: ["nile egypt", "amazon brazil", "yangtze china", "mississippi usa"] },
-            { id: "de45", q: "Hauptstadt von Südkorea?", o: ["Seoul", "Busan", "Incheon", "Daegu"], c: 0, e: "Seoul hat über 10 Millionen Einwohner.", kw: "seoul korea", imgKw: ["seoul skyline", "busan beach", "incheon port", "daegu city"] },
-            { id: "de46", q: "Größte Katzenart?", o: ["Sibirischer Tiger", "Löwe", "Jaguar", "Leopard"], c: 0, e: "Bis zu 300 kg schwer.", kw: "siberian tiger", imgKw: ["siberian tiger", "lion pride", "jaguar jungle", "leopard tree"] },
-            { id: "de47", q: "Hauptstadt von Mexiko?", o: ["Mexiko-Stadt", "Guadalajara", "Monterrey", "Cancún"], c: 0, e: "Eine der größten Städte der Welt.", kw: "mexico city", imgKw: ["mexico city cathedral", "guadalajara square", "monterrey mountain", "cancun beach"] },
-            { id: "de48", q: "Tiefster See der Welt?", o: ["Baikalsee", "Tanganjikasee", "Kaspisches Meer", "Malawisee"], c: 0, e: "1.642 Meter tief.", kw: "lake baikal", imgKw: ["baikal ice", "tanganyika lake", "caspian sea", "malawi lake"] },
-            { id: "de49", q: "Hauptstadt von Nigeria?", o: ["Abuja", "Lagos", "Kano", "Ibadan"], c: 0, e: "Abuja wurde 1991 Hauptstadt.", kw: "abuja nigeria", imgKw: ["abuja mosque", "lagos city", "kano market", "ibadan university"] },
-            { id: "de50", q: "Größtes Korallenriff?", o: ["Great Barrier Reef", "Rotes Meer", "Karibik", "Malediven"], c: 0, e: "Über 2.300 km lang.", kw: "great barrier reef", imgKw: ["barrier reef coral", "red sea reef", "caribbean coral", "maldives reef"] }
-        ],
-        ru: [
-            { id: "ru1", q: "Столица России?", o: ["Москва", "Санкт-Петербург", "Киев", "Минск"], c: 0, e: "Москва — сердце страны.", kw: "moscow kremlin", imgKw: ["moscow red square", "saint petersburg", "kiev ukraine", "minsk belarus"] },
-            { id: "ru2", q: "Самая длинная река России?", o: ["Лена", "Волга", "Енисей", "Обь"], c: 0, e: "Лена течет через Сибирь.", kw: "lena river siberia", imgKw: ["lena river", "volga river", "yenisei river", "ob river"] },
-            { id: "ru3", q: "Самая высокая гора в Европе?", o: ["Эльбрус", "Монблан", "Маттерхорн", "Олимп"], c: 0, e: "Эльбрус находится на Кавказе.", kw: "elbrus mountain", imgKw: ["mount elbrus", "mont blanc", "matterhorn", "mount olympus"] },
-            { id: "ru4", q: "Самое глубокое озеро мира?", o: ["Байкал", "Танганьика", "Виктория", "Каспий"], c: 0, e: "Байкал — природное чудо Сибири.", kw: "lake baikal", imgKw: ["baikal lake", "tanganyika lake", "victoria lake", "caspian sea"] },
-            { id: "ru5", q: "Столица Франции?", o: ["Париж", "Лион", "Марсель", "Ницца"], c: 0, e: "Париж — город света.", kw: "paris france", imgKw: ["paris city", "lyon france", "marseille port", "nice beach"] },
-            { id: "ru6", q: "Какой океан самый большой?", o: ["Тихий", "Атлантический", "Индийский", "Северный"], c: 0, e: "Тихий океан покрывает 35% планеты.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "ru7", q: "Валюта Японии?", o: ["Йена", "Доллар", "Евро", "Вона"], c: 0, e: "Йена — денежная единица Японии.", kw: "japanese yen", imgKw: ["yen currency", "dollar currency", "euro currency", "won currency"] },
-            { id: "ru8", q: "Где находится Статуя Свободы?", o: ["Нью-Йорк", "Вашингтон", "Лос-Анджелес", "Чикаго"], c: 0, e: "Символ свободы США.", kw: "statue liberty", imgKw: ["statue liberty nyc", "washington dc", "los angeles", "chicago skyline"] },
-            { id: "ru9", q: "Сколько континентов на Земле?", o: ["7", "5", "6", "8"], c: 0, e: "Европа, Азия, Африка, Америка (2), Австралия, Антарктида.", kw: "world continents", imgKw: ["world map", "globe continents", "earth continents", "geography map"] },
-            { id: "ru10", q: "Самая населенная страна?", o: ["Китай", "Индия", "США", "Россия"], c: 0, e: "Более 1.4 миллиарда жителей.", kw: "china population", imgKw: ["china city", "india crowd", "usa cities", "russia landscape"] },
-            { id: "ru11", q: "Столица Германии?", o: ["Берлин", "Мюнхен", "Гамбург", "Кёльн"], c: 0, e: "Берлин снова столица с 1990 года.", kw: "berlin germany", imgKw: ["berlin gate", "munich city", "hamburg port", "cologne cathedral"] },
-            { id: "ru12", q: "Самая большая пустыня?", o: ["Сахара", "Гоби", "Атакама", "Калахари"], c: 0, e: "Сахара расположена в Северной Африке.", kw: "sahara desert", imgKw: ["sahara dunes", "gobi desert", "atacama desert", "kalahari desert"] },
-            { id: "ru13", q: "Столица Италии?", o: ["Рим", "Милан", "Венеция", "Флоренция"], c: 0, e: "Рим — вечный город.", kw: "rome italy", imgKw: ["rome colosseum", "milan cathedral", "venice canal", "florence dome"] },
-            { id: "ru14", q: "Самая длинная река в мире?", o: ["Нил", "Амазонка", "Янцзы", "Миссисипи"], c: 0, e: "6650 километров длиной.", kw: "nile river", imgKw: ["nile egypt", "amazon brazil", "yangtze china", "mississippi usa"] },
-            { id: "ru15", q: "Столица Испании?", o: ["Мадрид", "Барселона", "Валенсия", "Севилья"], c: 0, e: "Мадрид в центре Испании.", kw: "madrid spain", imgKw: ["madrid city", "barcelona sagrada", "valencia port", "sevilla cathedral"] },
-            { id: "ru16", q: "Какая планета ближе всего к Земле?", o: ["Венера", "Марс", "Меркурий", "Юпитер"], c: 0, e: "Венера — наш сосед.", kw: "venus planet", imgKw: ["venus planet", "mars surface", "mercury planet", "jupiter planet"] },
-            { id: "ru17", q: "Столица Греции?", o: ["Афины", "Салоники", "Спарта", "Коринф"], c: 0, e: "Афины — колыбель демократии.", kw: "athens greece", imgKw: ["athens acropolis", "thessaloniki city", "sparta ruins", "corinth temple"] },
-            { id: "ru18", q: "Самый большой остров?", o: ["Гренландия", "Мадагаскар", "Борнео", "Новая Гвинея"], c: 0, e: "Гренландия принадлежит Дании.", kw: "greenland island", imgKw: ["greenland ice", "madagascar island", "borneo jungle", "new guinea"] },
-            { id: "ru19", q: "Столица Канады?", o: ["Оттава", "Торонто", "Монреаль", "Ванкувер"], c: 0, e: "Оттава в провинции Онтарио.", kw: "ottawa canada", imgKw: ["ottawa parliament", "toronto skyline", "montreal city", "vancouver harbor"] },
-            { id: "ru20", q: "Самый глубокий океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный"], c: 0, e: "Марианская впадина в Тихом океане.", kw: "pacific ocean deep", imgKw: ["ocean deep", "atlantic sea", "indian ocean", "arctic ice"] },
-            { id: "ru21", q: "Столица Бразилии?", o: ["Бразилиа", "Рио", "Сан-Паулу", "Салвадор"], c: 0, e: "Бразилиа стала столицей в 1960.", kw: "brasilia brazil", imgKw: ["brasilia architecture", "rio beach", "sao paulo skyline", "salvador beach"] },
-            { id: "ru22", q: "Самый холодный континент?", o: ["Антарктида", "Европа", "Азия", "Северная Америка"], c: 0, e: "Температура до -89°C.", kw: "antarctica ice", imgKw: ["antarctica landscape", "europe winter", "asia snow", "north america cold"] },
-            { id: "ru23", q: "Столица Египта?", o: ["Каир", "Александрия", "Луксор", "Асуан"], c: 0, e: "Каир на реке Нил.", kw: "cairo egypt", imgKw: ["cairo city", "alexandria port", "luxor temple", "aswan dam"] },
-            { id: "ru24", q: "Самый большой континент?", o: ["Азия", "Африка", "Северная Америка", "Южная Америка"], c: 0, e: "Азия занимает 30% суши.", kw: "asia continent", imgKw: ["asia map", "africa safari", "north america", "south america"] },
-            { id: "ru25", q: "Столица Турции?", o: ["Анкара", "Стамбул", "Измир", "Анталья"], c: 0, e: "Анкара — столица с 1923.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "antalya beach"] },
-            { id: "ru26", q: "Самая длинная стена?", o: ["Великая Китайская", "Стена Адриана", "Берлинская", "Стена Плача"], c: 0, e: "Более 21000 км длиной.", kw: "great wall china", imgKw: ["great wall", "hadrian wall", "berlin wall", "wailing wall"] },
-            { id: "ru27", q: "Столица Австралии?", o: ["Канберра", "Сидней", "Мельбурн", "Брисбен"], c: 0, e: "Канберра внутри страны.", kw: "canberra australia", imgKw: ["canberra city", "sydney opera", "melbourne skyline", "brisbane river"] },
-            { id: "ru28", q: "Самая быстрая птица?", o: ["Сапсан", "Орёл", "Альбатрос", "Страус"], c: 0, e: "До 320 км/ч в пикировании.", kw: "peregrine falcon", imgKw: ["falcon bird", "eagle flight", "albatross bird", "ostrich bird"] },
-            { id: "ru29", q: "Столица Швеции?", o: ["Стокгольм", "Гётеборг", "Мальмё", "Уппсала"], c: 0, e: "Стокгольм на 14 островах.", kw: "stockholm sweden", imgKw: ["stockholm city", "gothenburg port", "malmo bridge", "uppsala cathedral"] },
-            { id: "ru30", q: "Самый высокий водопад?", o: ["Анхель", "Ниагара", "Виктория", "Игуасу"], c: 0, e: "979 метров в Венесуэле.", kw: "angel falls", imgKw: ["angel falls venezuela", "niagara falls", "victoria falls", "iguazu falls"] },
-            { id: "ru31", q: "Столица Норвегии?", o: ["Осло", "Берген", "Тронхейм", "Ставангер"], c: 0, e: "Осло на Осло-фьорде.", kw: "oslo norway", imgKw: ["oslo city", "bergen harbor", "trondheim cathedral", "stavanger fjord"] },
-            { id: "ru32", q: "Самое большое млекопитающее?", o: ["Синий кит", "Слон", "Жираф", "Носорог"], c: 0, e: "До 200 тонн весом.", kw: "blue whale", imgKw: ["blue whale", "elephant africa", "giraffe savanna", "rhino wildlife"] },
-            { id: "ru33", q: "Столица Австрии?", o: ["Вена", "Зальцбург", "Грац", "Инсбрук"], c: 0, e: "Вена — центр Габсбургов.", kw: "vienna austria", imgKw: ["vienna palace", "salzburg fortress", "graz city", "innsbruck alps"] },
-            { id: "ru34", q: "Самое жаркое место?", o: ["Долина Смерти", "Сахара", "Австралия", "Аравия"], c: 0, e: "56,7°C зафиксировано.", kw: "death valley", imgKw: ["death valley desert", "sahara heat", "australia outback", "arabian desert"] },
-            { id: "ru35", q: "Столица Польши?", o: ["Варшава", "Краков", "Гданьск", "Вроцлав"], c: 0, e: "Варшава восстановлена после войны.", kw: "warsaw poland", imgKw: ["warsaw city", "krakow market", "gdansk port", "wroclaw square"] },
-            { id: "ru36", q: "Самое большое озеро?", o: ["Каспийское море", "Байкал", "Виктория", "Великие озёра"], c: 0, e: "371000 км² площадь.", kw: "caspian sea", imgKw: ["caspian sea", "baikal lake", "victoria lake", "great lakes"] },
-            { id: "ru37", q: "Столица ЮАР?", o: ["Претория", "Кейптаун", "Йоханнесбург", "Дурбан"], c: 0, e: "У ЮАР три столицы.", kw: "pretoria south africa", imgKw: ["pretoria city", "cape town mountain", "johannesburg skyline", "durban beach"] },
-            { id: "ru38", q: "Самое быстрое наземное животное?", o: ["Гепард", "Лев", "Газель", "Лошадь"], c: 0, e: "До 120 км/ч скорость.", kw: "cheetah running", imgKw: ["cheetah speed", "lion hunt", "gazelle run", "horse gallop"] },
-            { id: "ru39", q: "Столица Таиланда?", o: ["Бангкок", "Пхукет", "Чиангмай", "Паттайя"], c: 0, e: "Бангкок официально Крунг Тхеп.", kw: "bangkok thailand", imgKw: ["bangkok temple", "phuket beach", "chiang mai mountain", "pattaya coast"] },
-            { id: "ru40", q: "Самый большой тропический лес?", o: ["Амазонка", "Конго", "Борнео", "Австралия"], c: 0, e: "5,5 миллионов км².", kw: "amazon rainforest", imgKw: ["amazon jungle", "congo forest", "borneo rainforest", "australian forest"] },
-            { id: "ru41", q: "Столица Аргентины?", o: ["Буэнос-Айрес", "Кордова", "Росарио", "Мендоса"], c: 0, e: "Буэнос-Айрес — 'хорошие ветры'.", kw: "buenos aires", imgKw: ["buenos aires obelisk", "cordoba cathedral", "rosario flag", "mendoza andes"] },
-            { id: "ru42", q: "Столица Южной Кореи?", o: ["Сеул", "Пусан", "Инчхон", "Тэгу"], c: 0, e: "Сеул — более 10 миллионов жителей.", kw: "seoul korea", imgKw: ["seoul skyline", "busan beach", "incheon port", "daegu city"] },
-            { id: "ru43", q: "Самая большая кошка?", o: ["Амурский тигр", "Лев", "Ягуар", "Леопард"], c: 0, e: "До 300 кг весом.", kw: "siberian tiger", imgKw: ["siberian tiger", "lion pride", "jaguar jungle", "leopard tree"] },
-            { id: "ru44", q: "Столица Мексики?", o: ["Мехико", "Гвадалахара", "Монтеррей", "Канкун"], c: 0, e: "Один из крупнейших городов мира.", kw: "mexico city", imgKw: ["mexico city cathedral", "guadalajara square", "monterrey mountain", "cancun beach"] },
-            { id: "ru45", q: "Самое глубокое озеро?", o: ["Байкал", "Танганьика", "Каспийское море", "Малави"], c: 0, e: "1642 метра глубиной.", kw: "lake baikal", imgKw: ["baikal ice", "tanganyika lake", "caspian sea", "malawi lake"] },
-            { id: "ru46", q: "Столица Нигерии?", o: ["Абуджа", "Лагос", "Кано", "Ибадан"], c: 0, e: "Абуджа — столица с 1991.", kw: "abuja nigeria", imgKw: ["abuja mosque", "lagos city", "kano market", "ibadan university"] },
-            { id: "ru47", q: "Самый большой коралловый риф?", o: ["Большой Барьерный", "Красное море", "Карибы", "Мальдивы"], c: 0, e: "Более 2300 км длиной.", kw: "great barrier reef", imgKw: ["barrier reef coral", "red sea reef", "caribbean coral", "maldives reef"] },
-            { id: "ru48", q: "Столица Индии?", o: ["Нью-Дели", "Мумбаи", "Калькутта", "Бангалор"], c: 0, e: "Нью-Дели — с 1911 года.", kw: "new delhi india", imgKw: ["delhi gate", "mumbai skyline", "kolkata temple", "bangalore tech"] },
-            { id: "ru49", q: "Самое высокое здание в мире?", o: ["Бурдж-Халифа", "Шанхайская башня", "Абрадж аль-Бейт", "Пинг Ань"], c: 0, e: "828 метров в Дубае.", kw: "burj khalifa", imgKw: ["burj khalifa dubai", "shanghai tower", "makkah tower", "ping an tower"] },
-            { id: "ru50", q: "Столица Вьетнама?", o: ["Ханой", "Хошимин", "Дананг", "Хайфон"], c: 0, e: "Ханой на Красной реке.", kw: "hanoi vietnam", imgKw: ["hanoi temple", "ho chi minh city", "danang beach", "haiphong port"] }
-        ],
-        en: [
-            { id: "en1", q: "Largest country by area?", o: ["Russia", "Canada", "USA", "China"], c: 0, e: "Russia covers 17 million km².", kw: "russia landscape", imgKw: ["russia landscape", "canada nature", "usa map", "china landscape"] },
-            { id: "en2", q: "Capital of France?", o: ["Paris", "Lyon", "Marseille", "Nice"], c: 0, e: "Paris is the City of Light.", kw: "paris eiffel", imgKw: ["paris eiffel tower", "lyon france", "marseille port", "nice beach"] },
-            { id: "en3", q: "Longest river in the world?", o: ["Nile", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "The Nile flows through Egypt.", kw: "nile river", imgKw: ["nile river egypt", "amazon rainforest", "yangtze river", "mississippi river"] },
-            { id: "en4", q: "Tallest mountain?", o: ["Everest", "K2", "Kilimanjaro", "Mont Blanc"], c: 0, e: "Located in the Himalayas.", kw: "mount everest", imgKw: ["everest peak", "k2 mountain", "kilimanjaro", "mont blanc"] },
-            { id: "en5", q: "How many continents are there?", o: ["7", "5", "6", "8"], c: 0, e: "Europe, Asia, Africa, North & South America, Australia, Antarctica.", kw: "world continents", imgKw: ["world map", "continents globe", "geography map", "earth continents"] },
-            { id: "en6", q: "Currency of Japan?", o: ["Yen", "Dollar", "Euro", "Won"], c: 0, e: "Yen is Japan's currency.", kw: "japanese yen", imgKw: ["yen currency", "dollar bills", "euro notes", "won currency"] },
-            { id: "en7", q: "Where is the Statue of Liberty?", o: ["New York", "Washington", "Los Angeles", "Chicago"], c: 0, e: "Symbol of American freedom.", kw: "statue liberty", imgKw: ["statue liberty nyc", "washington monument", "hollywood sign", "chicago skyline"] },
-            { id: "en8", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "The Pacific covers 35% of Earth.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ice"] },
-            { id: "en9", q: "Most populated country?", o: ["China", "India", "USA", "Indonesia"], c: 0, e: "Over 1.4 billion people.", kw: "china population", imgKw: ["china city", "india crowd", "usa cities", "indonesia jakarta"] },
-            { id: "en10", q: "Capital of Egypt?", o: ["Cairo", "Alexandria", "Luxor", "Aswan"], c: 0, e: "Cairo is near the pyramids.", kw: "cairo egypt", imgKw: ["cairo city", "alexandria egypt", "luxor temple", "aswan dam"] },
-            { id: "en11", q: "Capital of Germany?", o: ["Berlin", "Munich", "Hamburg", "Cologne"], c: 0, e: "Berlin reunified capital since 1990.", kw: "berlin germany", imgKw: ["berlin gate", "munich city", "hamburg port", "cologne cathedral"] },
-            { id: "en12", q: "Largest desert?", o: ["Sahara", "Gobi", "Atacama", "Kalahari"], c: 0, e: "Sahara in North Africa.", kw: "sahara desert", imgKw: ["sahara dunes", "gobi desert", "atacama desert", "kalahari desert"] },
-            { id: "en13", q: "Capital of Italy?", o: ["Rome", "Milan", "Venice", "Florence"], c: 0, e: "Rome is the Eternal City.", kw: "rome italy", imgKw: ["rome colosseum", "milan cathedral", "venice canal", "florence dome"] },
-            { id: "en14", q: "Capital of Spain?", o: ["Madrid", "Barcelona", "Valencia", "Seville"], c: 0, e: "Madrid is in central Spain.", kw: "madrid spain", imgKw: ["madrid city", "barcelona sagrada", "valencia port", "sevilla cathedral"] },
-            { id: "en15", q: "Which planet is closest to Earth?", o: ["Venus", "Mars", "Mercury", "Jupiter"], c: 0, e: "Venus is our neighbor.", kw: "venus planet", imgKw: ["venus planet", "mars surface", "mercury planet", "jupiter planet"] },
-            { id: "en16", q: "Capital of Greece?", o: ["Athens", "Thessaloniki", "Sparta", "Corinth"], c: 0, e: "Athens is cradle of democracy.", kw: "athens greece", imgKw: ["athens acropolis", "thessaloniki city", "sparta ruins", "corinth temple"] },
-            { id: "en17", q: "Largest island in the world?", o: ["Greenland", "Madagascar", "Borneo", "New Guinea"], c: 0, e: "Greenland belongs to Denmark.", kw: "greenland island", imgKw: ["greenland ice", "madagascar island", "borneo jungle", "new guinea"] },
-            { id: "en18", q: "Capital of Canada?", o: ["Ottawa", "Toronto", "Montreal", "Vancouver"], c: 0, e: "Ottawa is in Ontario.", kw: "ottawa canada", imgKw: ["ottawa parliament", "toronto skyline", "montreal city", "vancouver harbor"] },
-            { id: "en19", q: "Deepest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Mariana Trench in Pacific.", kw: "pacific ocean deep", imgKw: ["ocean deep", "atlantic sea", "indian ocean", "arctic ice"] },
-            { id: "en20", q: "Capital of Brazil?", o: ["Brasília", "Rio", "São Paulo", "Salvador"], c: 0, e: "Brasília became capital in 1960.", kw: "brasilia brazil", imgKw: ["brasilia architecture", "rio beach", "sao paulo skyline", "salvador beach"] },
-            { id: "en21", q: "Coldest continent?", o: ["Antarctica", "Europe", "Asia", "North America"], c: 0, e: "Temperatures to -89°C.", kw: "antarctica ice", imgKw: ["antarctica landscape", "europe winter", "asia snow", "north america cold"] },
-            { id: "en22", q: "Largest continent?", o: ["Asia", "Africa", "North America", "South America"], c: 0, e: "Asia is 30% of land.", kw: "asia continent", imgKw: ["asia map", "africa safari", "north america", "south america"] },
-            { id: "en23", q: "Capital of Turkey?", o: ["Ankara", "Istanbul", "Izmir", "Antalya"], c: 0, e: "Ankara capital since 1923.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "antalya beach"] },
-            { id: "en24", q: "Longest wall in the world?", o: ["Great Wall", "Hadrian's Wall", "Berlin Wall", "Wailing Wall"], c: 0, e: "Over 21,000 km long.", kw: "great wall china", imgKw: ["great wall", "hadrian wall", "berlin wall", "wailing wall"] },
-            { id: "en25", q: "Capital of Australia?", o: ["Canberra", "Sydney", "Melbourne", "Brisbane"], c: 0, e: "Canberra is inland.", kw: "canberra australia", imgKw: ["canberra city", "sydney opera", "melbourne skyline", "brisbane river"] },
-            { id: "en26", q: "Fastest bird in the world?", o: ["Peregrine Falcon", "Eagle", "Albatross", "Ostrich"], c: 0, e: "Up to 320 km/h diving.", kw: "peregrine falcon", imgKw: ["falcon bird", "eagle flight", "albatross bird", "ostrich bird"] },
-            { id: "en27", q: "Capital of Sweden?", o: ["Stockholm", "Gothenburg", "Malmö", "Uppsala"], c: 0, e: "Stockholm on 14 islands.", kw: "stockholm sweden", imgKw: ["stockholm city", "gothenburg port", "malmo bridge", "uppsala cathedral"] },
-            { id: "en28", q: "Highest waterfall?", o: ["Angel Falls", "Niagara", "Victoria", "Iguazu"], c: 0, e: "979 meters in Venezuela.", kw: "angel falls", imgKw: ["angel falls venezuela", "niagara falls", "victoria falls", "iguazu falls"] },
-            { id: "en29", q: "Capital of Norway?", o: ["Oslo", "Bergen", "Trondheim", "Stavanger"], c: 0, e: "Oslo on Oslo Fjord.", kw: "oslo norway", imgKw: ["oslo city", "bergen harbor", "trondheim cathedral", "stavanger fjord"] },
-            { id: "en30", q: "Largest mammal?", o: ["Blue Whale", "Elephant", "Giraffe", "Rhino"], c: 0, e: "Up to 200 tons.", kw: "blue whale", imgKw: ["blue whale", "elephant africa", "giraffe savanna", "rhino wildlife"] },
-            { id: "en31", q: "Capital of Austria?", o: ["Vienna", "Salzburg", "Graz", "Innsbruck"], c: 0, e: "Vienna was Habsburg center.", kw: "vienna austria", imgKw: ["vienna palace", "salzburg fortress", "graz city", "innsbruck alps"] },
-            { id: "en32", q: "Hottest place on Earth?", o: ["Death Valley", "Sahara", "Australia", "Arabia"], c: 0, e: "56.7°C recorded.", kw: "death valley", imgKw: ["death valley desert", "sahara heat", "australia outback", "arabian desert"] },
-            { id: "en33", q: "Capital of Poland?", o: ["Warsaw", "Krakow", "Gdansk", "Wroclaw"], c: 0, e: "Warsaw rebuilt after war.", kw: "warsaw poland", imgKw: ["warsaw city", "krakow market", "gdansk port", "wroclaw square"] },
-            { id: "en34", q: "Largest lake in the world?", o: ["Caspian Sea", "Lake Baikal", "Lake Victoria", "Great Lakes"], c: 0, e: "371,000 km² area.", kw: "caspian sea", imgKw: ["caspian sea", "baikal lake", "victoria lake", "great lakes"] },
-            { id: "en35", q: "Capital of South Africa?", o: ["Pretoria", "Cape Town", "Johannesburg", "Durban"], c: 0, e: "South Africa has 3 capitals.", kw: "pretoria south africa", imgKw: ["pretoria city", "cape town mountain", "johannesburg skyline", "durban beach"] },
-            { id: "en36", q: "Fastest land animal?", o: ["Cheetah", "Lion", "Gazelle", "Horse"], c: 0, e: "Up to 120 km/h.", kw: "cheetah running", imgKw: ["cheetah speed", "lion hunt", "gazelle run", "horse gallop"] },
-            { id: "en37", q: "Capital of Thailand?", o: ["Bangkok", "Phuket", "Chiang Mai", "Pattaya"], c: 0, e: "Bangkok officially Krung Thep.", kw: "bangkok thailand", imgKw: ["bangkok temple", "phuket beach", "chiang mai mountain", "pattaya coast"] },
-            { id: "en38", q: "Largest rainforest?", o: ["Amazon", "Congo", "Borneo", "Australia"], c: 0, e: "5.5 million km².", kw: "amazon rainforest", imgKw: ["amazon jungle", "congo forest", "borneo rainforest", "australian forest"] },
-            { id: "en39", q: "Capital of Argentina?", o: ["Buenos Aires", "Córdoba", "Rosario", "Mendoza"], c: 0, e: "Buenos Aires means 'good airs'.", kw: "buenos aires", imgKw: ["buenos aires obelisk", "cordoba cathedral", "rosario flag", "mendoza andes"] },
-            { id: "en40", q: "Capital of South Korea?", o: ["Seoul", "Busan", "Incheon", "Daegu"], c: 0, e: "Seoul over 10 million people.", kw: "seoul korea", imgKw: ["seoul skyline", "busan beach", "incheon port", "daegu city"] },
-            { id: "en41", q: "Largest cat species?", o: ["Siberian Tiger", "Lion", "Jaguar", "Leopard"], c: 0, e: "Up to 300 kg.", kw: "siberian tiger", imgKw: ["siberian tiger", "lion pride", "jaguar jungle", "leopard tree"] },
-            { id: "en42", q: "Capital of Mexico?", o: ["Mexico City", "Guadalajara", "Monterrey", "Cancún"], c: 0, e: "One of world's largest cities.", kw: "mexico city", imgKw: ["mexico city cathedral", "guadalajara square", "monterrey mountain", "cancun beach"] },
-            { id: "en43", q: "Deepest lake in the world?", o: ["Lake Baikal", "Lake Tanganyika", "Caspian Sea", "Lake Malawi"], c: 0, e: "1,642 meters deep.", kw: "lake baikal", imgKw: ["baikal ice", "tanganyika lake", "caspian sea", "malawi lake"] },
-            { id: "en44", q: "Capital of Nigeria?", o: ["Abuja", "Lagos", "Kano", "Ibadan"], c: 0, e: "Abuja capital since 1991.", kw: "abuja nigeria", imgKw: ["abuja mosque", "lagos city", "kano market", "ibadan university"] },
-            { id: "en45", q: "Largest coral reef?", o: ["Great Barrier Reef", "Red Sea", "Caribbean", "Maldives"], c: 0, e: "Over 2,300 km long.", kw: "great barrier reef", imgKw: ["barrier reef coral", "red sea reef", "caribbean coral", "maldives reef"] },
-            { id: "en46", q: "Capital of India?", o: ["New Delhi", "Mumbai", "Kolkata", "Bangalore"], c: 0, e: "New Delhi since 1911.", kw: "new delhi india", imgKw: ["delhi gate", "mumbai skyline", "kolkata temple", "bangalore tech"] },
-            { id: "en47", q: "Tallest building in the world?", o: ["Burj Khalifa", "Shanghai Tower", "Abraj Al-Bait", "Ping An"], c: 0, e: "828 meters in Dubai.", kw: "burj khalifa", imgKw: ["burj khalifa dubai", "shanghai tower", "makkah tower", "ping an tower"] },
-            { id: "en48", q: "Capital of Vietnam?", o: ["Hanoi", "Ho Chi Minh", "Da Nang", "Haiphong"], c: 0, e: "Hanoi on Red River.", kw: "hanoi vietnam", imgKw: ["hanoi temple", "ho chi minh city", "danang beach", "haiphong port"] },
-            { id: "en49", q: "Smallest country?", o: ["Vatican City", "Monaco", "San Marino", "Liechtenstein"], c: 0, e: "0.44 km² area.", kw: "vatican city", imgKw: ["vatican st peter", "monaco harbor", "san marino castle", "liechtenstein alps"] },
-            { id: "en50", q: "Capital of Portugal?", o: ["Lisbon", "Porto", "Faro", "Coimbra"], c: 0, e: "Lisbon on Atlantic coast.", kw: "lisbon portugal", imgKw: ["lisbon tram", "porto bridge", "faro beach", "coimbra university"] }
-        ],
-        ig: [
-            { id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo.", kw: "abuja nigeria", imgKw: ["abuja city", "lagos skyline", "enugu city", "kano city"] },
-            { id: "ig2", q: "Kedu osimiri kacha ogologo n'ụwa?", o: ["Nile", "Amazon", "Niger", "Congo"], c: 0, e: "Osimiri Nile dị n'Egypt.", kw: "nile river", imgKw: ["nile river", "amazon river", "niger river", "congo river"] },
-            { id: "ig3", q: "Kedu ugwu kacha elu n'ụwa?", o: ["Everest", "Kilimanjaro", "K2", "Kenya"], c: 0, e: "Ugwu Everest dị na Himalaya.", kw: "mount everest", imgKw: ["everest mountain", "kilimanjaro peak", "k2 mountain", "mount kenya"] },
-            { id: "ig4", q: "Kedu ego ha na-eji na USA?", o: ["Dollar", "Euro", "Naira", "Pound"], c: 0, e: "Dollar bụ ego ụwa.", kw: "dollar currency", imgKw: ["dollar bills", "euro notes", "naira currency", "pound sterling"] },
-            { id: "ig5", q: "Kedu isi obodo France?", o: ["Paris", "Lyon", "Marseille", "Nice"], c: 0, e: "Paris bụ obodo ọkụ.", kw: "paris france", imgKw: ["paris eiffel", "lyon city", "marseille port", "nice beach"] },
-            { id: "ig6", q: "Ole kontinenti dị n'ụwa?", o: ["7", "5", "6", "8"], c: 0, e: "Africa, Asia, Europe, na ndị ọzọ.", kw: "world continents", imgKw: ["world map", "africa map", "asia map", "europe map"] },
-            { id: "ig7", q: "Kedu oke osimiri kacha ukwu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific kpuchiri 35% nke ụwa.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ice"] },
-            { id: "ig8", q: "Ebe Pyramids dị?", o: ["Egypt", "Mexico", "Sudan", "Peru"], c: 0, e: "Giza pyramids dị na Cairo.", kw: "pyramids egypt", imgKw: ["egypt pyramids", "mexico pyramid", "sudan pyramids", "peru machu"] },
-            { id: "ig9", q: "Obodo kacha nwee mmadụ?", o: ["China", "India", "Nigeria", "USA"], c: 0, e: "China nwere ihe karịrị ijeri 1.4.", kw: "china population", imgKw: ["china city", "india crowd", "nigeria lagos", "usa cities"] },
-            { id: "ig10", q: "Isi obodo Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo bụ obodo kacha ukwu.", kw: "tokyo japan", imgKw: ["tokyo tower", "osaka castle", "kyoto temple", "nagoya city"] },
-            { id: "ig11", q: "Isi obodo Germany?", o: ["Berlin", "Munich", "Hamburg", "Cologne"], c: 0, e: "Berlin bụ isi obodo kemgbe 1990.", kw: "berlin germany", imgKw: ["berlin gate", "munich city", "hamburg port", "cologne cathedral"] },
-            { id: "ig12", "Kedu ọzara kacha ukwu?", o: ["Sahara", "Gobi", "Atacama", "Kalahari"], c: 0, e: "Sahara dị na North Africa.", kw: "sahara desert", imgKw: ["sahara dunes", "gobi desert", "atacama desert", "kalahari desert"] },
-            { id: "ig13", q: "Isi obodo Italy?", o: ["Rome", "Milan", "Venice", "Florence"], c: 0, e: "Rome bụ obodo ebighi ebi.", kw: "rome italy", imgKw: ["rome colosseum", "milan cathedral", "venice canal", "florence dome"] },
-            { id: "ig14", q: "Isi obodo Spain?", o: ["Madrid", "Barcelona", "Valencia", "Seville"], c: 0, e: "Madrid dị n'etiti Spain.", kw: "madrid spain", imgKw: ["madrid city", "barcelona sagrada", "valencia port", "sevilla cathedral"] },
-            { id: "ig15", q: "Kedu mbara ala kacha nso ụwa?", o: ["Venus", "Mars", "Mercury", "Jupiter"], c: 0, e: "Venus bụ onye agbata obi anyị.", kw: "venus planet", imgKw: ["venus planet", "mars surface", "mercury planet", "jupiter planet"] },
-            { id: "ig16", q: "Isi obodo Greece?", o: ["Athens", "Thessaloniki", "Sparta", "Corinth"], c: 0, e: "Athens bụ nna ọchịchị onye kwuo uche ya.", kw: "athens greece", imgKw: ["athens acropolis", "thessaloniki city", "sparta ruins", "corinth temple"] },
-            { id: "ig17", q: "Kedu agwaetiti kacha ukwu?", o: ["Greenland", "Madagascar", "Borneo", "New Guinea"], c: 0, e: "Greenland bụ nke Denmark.", kw: "greenland island", imgKw: ["greenland ice", "madagascar island", "borneo jungle", "new guinea"] },
-            { id: "ig18", q: "Isi obodo Canada?", o: ["Ottawa", "Toronto", "Montreal", "Vancouver"], c: 0, e: "Ottawa dị na Ontario.", kw: "ottawa canada", imgKw: ["ottawa parliament", "toronto skyline", "montreal city", "vancouver harbor"] },
-            { id: "ig19", q: "Kedu oke osimiri kacha miri emi?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Mariana Trench dị na Pacific.", kw: "pacific ocean deep", imgKw: ["ocean deep", "atlantic sea", "indian ocean", "arctic ice"] },
-            { id: "ig20", q: "Isi obodo Brazil?", o: ["Brasília", "Rio", "São Paulo", "Salvador"], c: 0, e: "Brasília ghọrọ isi obodo na 1960.", kw: "brasilia brazil", imgKw: ["brasilia architecture", "rio beach", "sao paulo skyline", "salvador beach"] },
-            { id: "ig21", q: "Kedu kọntinent kacha oyi?", o: ["Antarctica", "Europe", "Asia", "North America"], c: 0, e: "Okpomọkụ ruru -89°C.", kw: "antarctica ice", imgKw: ["antarctica landscape", "europe winter", "asia snow", "north america cold"] },
-            { id: "ig22", q: "Kedu kọntinent kacha ukwu?", o: ["Asia", "Africa", "North America", "South America"], c: 0, e: "Asia bụ 30% nke ala.", kw: "asia continent", imgKw: ["asia map", "africa safari", "north america", "south america"] },
-            { id: "ig23", q: "Isi obodo Turkey?", o: ["Ankara", "Istanbul", "Izmir", "Antalya"], c: 0, e: "Ankara bụ isi obodo kemgbe 1923.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "antalya beach"] },
-            { id: "ig24", q: "Kedu mgbidi kacha ogologo?", o: ["Great Wall", "Hadrian's Wall", "Berlin Wall", "Wailing Wall"], c: 0, e: "Karịrị 21,000 km ogologo.", kw: "great wall china", imgKw: ["great wall", "hadrian wall", "berlin wall", "wailing wall"] },
-            { id: "ig25", q: "Isi obodo Australia?", o: ["Canberra", "Sydney", "Melbourne", "Brisbane"], c: 0, e: "Canberra dị n'ime ala.", kw: "canberra australia", imgKw: ["canberra city", "sydney opera", "melbourne skyline", "brisbane river"] },
-            { id: "ig26", q: "Kedu nnụnụ kacha ọsọ?", o: ["Peregrine Falcon", "Eagle", "Albatross", "Ostrich"], c: 0, e: "Ruo 320 km/h mgbe ọ na-ada.", kw: "peregrine falcon", imgKw: ["falcon bird", "eagle flight", "albatross bird", "ostrich bird"] },
-            { id: "ig27", q: "Isi obodo Sweden?", o: ["Stockholm", "Gothenburg", "Malmö", "Uppsala"], c: 0, e: "Stockholm dị na agwaetiti 14.", kw: "stockholm sweden", imgKw: ["stockholm city", "gothenburg port", "malmo bridge", "uppsala cathedral"] },
-            { id: "ig28", q: "Kedu mmiri ozuzo kacha elu?", o: ["Angel Falls", "Niagara", "Victoria", "Iguazu"], c: 0, e: "979 mita na Venezuela.", kw: "angel falls", imgKw: ["angel falls venezuela", "niagara falls", "victoria falls", "iguazu falls"] },
-            { id: "ig29", q: "Isi obodo Norway?", o: ["Oslo", "Bergen", "Trondheim", "Stavanger"], c: 0, e: "Oslo dị na Oslo Fjord.", kw: "oslo norway", imgKw: ["oslo city", "bergen harbor", "trondheim cathedral", "stavanger fjord"] },
-            { id: "ig30", q: "Kedu anụmanụ ara ara kacha ukwu?", o: ["Blue Whale", "Elephant", "Giraffe", "Rhino"], c: 0, e: "Ruo 200 tọn.", kw: "blue whale", imgKw: ["blue whale", "elephant africa", "giraffe savanna", "rhino wildlife"] },
-            { id: "ig31", q: "Isi obodo Austria?", o: ["Vienna", "Salzburg", "Graz", "Innsbruck"], c: 0, e: "Vienna bụ isi Habsburg.", kw: "vienna austria", imgKw: ["vienna palace", "salzburg fortress", "graz city", "innsbruck alps"] },
-            { id: "ig32", q: "Kedu ebe kacha ekpo ọkụ n'ụwa?", o: ["Death Valley", "Sahara", "Australia", "Arabia"], c: 0, e: "56.7°C e dere.", kw: "death valley", imgKw: ["death valley desert", "sahara heat", "australia outback", "arabian desert"] },
-            { id: "ig33", q: "Isi obodo Poland?", o: ["Warsaw", "Krakow", "Gdansk", "Wroclaw"], c: 0, e: "E wughachiri Warsaw mgbe agha gasịrị.", kw: "warsaw poland", imgKw: ["warsaw city", "krakow market", "gdansk port", "wroclaw square"] },
-            { id: "ig34", q: "Kedu ọdọ mmiri kacha ukwu?", o: ["Caspian Sea", "Lake Baikal", "Lake Victoria", "Great Lakes"], c: 0, e: "371,000 km² mpaghara.", kw: "caspian sea", imgKw: ["caspian sea", "baikal lake", "victoria lake", "great lakes"] },
-            { id: "ig35", q: "Isi obodo South Africa?", o: ["Pretoria", "Cape Town", "Johannesburg", "Durban"], c: 0, e: "South Africa nwere isi obodo 3.", kw: "pretoria south africa", imgKw: ["pretoria city", "cape town mountain", "johannesburg skyline", "durban beach"] },
-            { id: "ig36", q: "Kedu anụmanụ kacha ọsọ n'ala?", o: ["Cheetah", "Lion", "Gazelle", "Horse"], c: 0, e: "Ruo 120 km/h.", kw: "cheetah running", imgKw: ["cheetah speed", "lion hunt", "gazelle run", "horse gallop"] },
-            { id: "ig37", q: "Isi obodo Thailand?", o: ["Bangkok", "Phuket", "Chiang Mai", "Pattaya"], c: 0, e: "Bangkok bụ Krung Thep n'ezie.", kw: "bangkok thailand", imgKw: ["bangkok temple", "phuket beach", "chiang mai mountain", "pattaya coast"] },
-            { id: "ig38", q: "Kedu ọhịa mmiri ozuzo kacha ukwu?", o: ["Amazon", "Congo", "Borneo", "Australia"], c: 0, e: "5.5 nde km².", kw: "amazon rainforest", imgKw: ["amazon jungle", "congo forest", "borneo rainforest", "australian forest"] },
-            { id: "ig39", q: "Isi obodo Argentina?", o: ["Buenos Aires", "Córdoba", "Rosario", "Mendoza"], c: 0, e: "Buenos Aires pụtara 'ikuku ọma'.", kw: "buenos aires", imgKw: ["buenos aires obelisk", "cordoba cathedral", "rosario flag", "mendoza andes"] },
-            { id: "ig40", q: "Isi obodo South Korea?", o: ["Seoul", "Busan", "Incheon", "Daegu"], c: 0, e: "Seoul nwere mmadụ karịrị 10 nde.", kw: "seoul korea", imgKw: ["seoul skyline", "busan beach", "incheon port", "daegu city"] },
-            { id: "ig41", q: "Kedu ụdị nwamba kacha ukwu?", o: ["Siberian Tiger", "Lion", "Jaguar", "Leopard"], c: 0, e: "Ruo 300 kg.", kw: "siberian tiger", imgKw: ["siberian tiger", "lion pride", "jaguar jungle", "leopard tree"] },
-            { id: "ig42", q: "Isi obodo Mexico?", o: ["Mexico City", "Guadalajara", "Monterrey", "Cancún"], c: 0, e: "Otu n'ime obodo kachasị ukwu n'ụwa.", kw: "mexico city", imgKw: ["mexico city cathedral", "guadalajara square", "monterrey mountain", "cancun beach"] },
-            { id: "ig43", q: "Kedu ọdọ mmiri kacha miri emi?", o: ["Lake Baikal", "Lake Tanganyika", "Caspian Sea", "Lake Malawi"], c: 0, e: "1,642 mita miri emi.", kw: "lake baikal", imgKw: ["baikal ice", "tanganyika lake", "caspian sea", "malawi lake"] },
-            { id: "ig44", q: "Kedu ụlọ kacha elu n'ụwa?", o: ["Burj Khalifa", "Shanghai Tower", "Abraj Al-Bait", "Ping An"], c: 0, e: "828 mita na Dubai.", kw: "burj khalifa", imgKw: ["burj khalifa dubai", "shanghai tower", "makkah tower", "ping an tower"] },
-            { id: "ig45", q: "Isi obodo Vietnam?", o: ["Hanoi", "Ho Chi Minh", "Da Nang", "Haiphong"], c: 0, e: "Hanoi dị na Red River.", kw: "hanoi vietnam", imgKw: ["hanoi temple", "ho chi minh city", "danang beach", "haiphong port"] },
-            { id: "ig46", q: "Kedu obodo kacha nta?", o: ["Vatican City", "Monaco", "San Marino", "Liechtenstein"], c: 0, e: "0.44 km² mpaghara.", kw: "vatican city", imgKw: ["vatican st peter", "monaco harbor", "san marino castle", "liechtenstein alps"] },
-            { id: "ig47", q: "Isi obodo Portugal?", o: ["Lisbon", "Porto", "Faro", "Coimbra"], c: 0, e: "Lisbon dị n'ụsọ mmiri Atlantic.", kw: "lisbon portugal", imgKw: ["lisbon tram", "porto bridge", "faro beach", "coimbra university"] },
-            { id: "ig48", q: "Isi obodo India?", o: ["New Delhi", "Mumbai", "Kolkata", "Bangalore"], c: 0, e: "New Delhi kemgbe 1911.", kw: "new delhi india", imgKw: ["delhi gate", "mumbai skyline", "kolkata temple", "bangalore tech"] },
-            { id: "ig49", q: "Kedu ụdị anụmanụ kacha ike?", o: ["Elephant", "Rhino", "Hippo", "Buffalo"], c: 0, e: "Enyi nwere ike ibuli tọn 6.", kw: "elephant strength", imgKw: ["elephant lifting", "rhino power", "hippo strong", "buffalo strong"] },
-            { id: "ig50", q: "Isi obodo Chile?", o: ["Santiago", "Valparaíso", "Concepción", "Viña del Mar"], c: 0, e: "Santiago dị n'etiti Chile.", kw: "santiago chile", imgKw: ["santiago andes", "valparaiso port", "concepcion city", "vina del mar beach"] }
-        ],
-        tr: [
-            { id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara Türkiye'nin başkentidir.", kw: "ankara turkey", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "bursa mosque"] },
-            { id: "tr2", q: "Dünyanın en büyük okyanusu?", o: ["Pasifik", "Atlantik", "Hint", "Kuzey Buz"], c: 0, e: "Pasifik Okyanusu dünya yüzeyinin %35'ini kaplar.", kw: "pacific ocean", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
-            { id: "tr3", q: "En uzun nehir?", o: ["Nil", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nil Nehri Mısır'dan akar.", kw: "nile river", imgKw: ["nile egypt", "amazon river", "yangtze china", "mississippi river"] },
-            { id: "tr4", q: "Dünyanın en yüksek dağı?", o: ["Everest", "K2", "Ağrı", "Mont Blanc"], c: 0, e: "Himalayalar'da yer alır.", kw: "mount everest", imgKw: ["everest peak", "k2 mountain", "mount ararat", "mont blanc"] },
-            { id: "tr5", q: "Fransa'nın başkenti?", o: ["Paris", "Lyon", "Marsilya", "Nice"], c: 0, e: "Paris aydınlık şehridir.", kw: "paris france", imgKw: ["paris eiffel", "lyon france", "marseille port", "nice beach"] },
-            { id: "tr6", q: "Kaç kıta var?", o: ["7", "5", "6", "8"], c: 0, e: "Avrupa, Asya, Afrika, Amerika (2), Avustralya, Antarktika.", kw: "world continents", imgKw: ["world map", "continents globe", "geography map", "earth map"] },
-            { id: "tr7", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "Dolar dünya para birimidir.", kw: "dollar currency", imgKw: ["dollar bills", "euro notes", "pound sterling", "yen currency"] },
-            { id: "tr8", q: "Özgürlük Heykeli nerede?", o: ["New York", "Washington", "Los Angeles", "Chicago"], c: 0, e: "Amerika'nın özgürlük sembolü.", kw: "statue liberty", imgKw: ["statue liberty nyc", "washington dc", "los angeles", "chicago skyline"] },
-            { id: "tr9", q: "En kalabalık ülke?", o: ["Çin", "Hindistan", "ABD", "Endonezya"], c: 0, e: "1.4 milyardan fazla insan.", kw: "china population", imgKw: ["china city", "india crowd", "usa cities", "indonesia jakarta"] },
-            { id: "tr10", q: "Piramitler nerede?", o: ["Mısır", "Meksika", "Sudan", "Peru"], c: 0, e: "Giza piramitleri Kahire yakınında.", kw: "pyramids egypt", imgKw: ["giza pyramids", "mexico pyramid", "sudan pyramids", "peru machu"] },
-            { id: "tr11", q: "Almanya'nın başkenti?", o: ["Berlin", "Münih", "Hamburg", "Köln"], c: 0, e: "Berlin 1990'dan beri yeniden başkent.", kw: "berlin germany", imgKw: ["berlin gate", "munich city", "hamburg port", "cologne cathedral"] },
-            { id: "tr12", q: "En büyük çöl?", o: ["Sahra", "Gobi", "Atacama", "Kalahari"], c: 0, e: "Sahra Kuzey Afrika'dadır.", kw: "sahara desert", imgKw: ["sahara dunes", "gobi desert", "atacama desert", "kalahari desert"] },
-            { id: "tr13", q: "İtalya'nın başkenti?", o: ["Roma", "Milano", "Venedik", "Floransa"], c: 0, e: "Roma ebedi şehirdir.", kw: "rome italy", imgKw: ["rome colosseum", "milan cathedral", "venice canal", "florence dome"] },
-            { id: "tr14", q: "İspanya'nın başkenti?", o: ["Madrid", "Barselona", "Valencia", "Sevilla"], c: 0, e: "Madrid İspanya'nın merkezindedir.", kw: "madrid spain", imgKw: ["madrid city", "barcelona sagrada", "valencia port", "sevilla cathedral"] },
-            { id: "tr15", q: "Dünya'ya en yakın gezegen?", o: ["Venüs", "Mars", "Merkür", "Jüpiter"], c: 0, e: "Venüs komşumuzdur.", kw: "venus planet", imgKw: ["venus planet", "mars surface", "mercury planet", "jupiter planet"] },
-            { id: "tr16", q: "Yunanistan'ın başkenti?", o: ["Atina", "Selanik", "Sparta", "Korint"], c: 0, e: "Atina demokrasinin beşiğidir.", kw: "athens greece", imgKw: ["athens acropolis", "thessaloniki city", "sparta ruins", "corinth temple"] },
-            { id: "tr17", q: "En büyük ada?", o: ["Grönland", "Madagaskar", "Borneo", "Yeni Gine"], c: 0, e: "Grönland Danimarka'ya aittir.", kw: "greenland island", imgKw: ["greenland ice", "madagascar island", "borneo jungle", "new guinea"] },
-            { id: "tr18", q: "Kanada'nın başkenti?", o: ["Ottawa", "Toronto", "Montreal", "Vancouver"], c: 0, e: "Ottawa Ontario'dadır.", kw: "ottawa canada", imgKw: ["ottawa parliament", "toronto skyline", "montreal city", "vancouver harbor"] },
-            { id: "tr19", q: "En derin okyanus?", o: ["Pasifik", "Atlantik", "Hint", "Kuzey Buz"], c: 0, e: "Mariana Çukuru Pasifik'tedir.", kw: "pacific ocean deep", imgKw: ["ocean deep", "atlantic sea", "indian ocean", "arctic ice"] },
-            { id: "tr20", q: "Brezilya'nın başkenti?", o: ["Brasília", "Rio", "São Paulo", "Salvador"], c: 0, e: "Brasília 1960'ta başkent oldu.", kw: "brasilia brazil", imgKw: ["brasilia architecture", "rio beach", "sao paulo skyline", "salvador beach"] },
-            { id: "tr21", q: "En soğuk kıta?", o: ["Antarktika", "Avrupa", "Asya", "Kuzey Amerika"], c: 0, e: "-89°C'ye kadar sıcaklık.", kw: "antarctica ice", imgKw: ["antarctica landscape", "europe winter", "asia snow", "north america cold"] },
-            { id: "tr22", q: "En büyük kıta?", o: ["Asya", "Afrika", "Kuzey Amerika", "Güney Amerika"], c: 0, e: "Asya karanın %30'udur.", kw: "asia continent", imgKw: ["asia map", "africa safari", "north america", "south america"] },
-            { id: "tr23", q: "En uzun duvar?", o: ["Çin Seddi", "Hadrian Duvarı", "Berlin Duvarı", "Ağlama Duvarı"], c: 0, e: "21.000 km'den fazla uzunlukta.", kw: "great wall china", imgKw: ["great wall", "hadrian wall", "berlin wall", "wailing wall"] },
-            { id: "tr24", q: "Avustralya'nın başkenti?", o: ["Canberra", "Sidney", "Melbourne", "Brisbane"], c: 0, e: "Canberra iç kısımdadır.", kw: "canberra australia", imgKw: ["canberra city", "sydney opera", "melbourne skyline", "brisbane river"] },
-            { id: "tr25", q: "En hızlı kuş?", o: ["Doğan", "Kartal", "Albatros", "Deve Kuşu"], c: 0, e: "Dalışta 320 km/s'ye kadar.", kw: "peregrine falcon", imgKw: ["falcon bird", "eagle flight", "albatross bird", "ostrich bird"] },
-            { id: "tr26", q: "İsveç'in başkenti?", o: ["Stockholm", "Göteborg", "Malmö", "Uppsala"], c: 0, e: "Stockholm 14 adada.", kw: "stockholm sweden", imgKw: ["stockholm city", "gothenburg port", "malmo bridge", "uppsala cathedral"] },
-            { id: "tr27", q: "En yüksek şelale?", o: ["Angel Şelalesi", "Niagara", "Victoria", "Iguazu"], c: 0, e: "Venezuela'da 979 metre.", kw: "angel falls", imgKw: ["angel falls venezuela", "niagara falls", "victoria falls", "iguazu falls"] },
-            { id: "tr28", q: "Norveç'in başkenti?", o: ["Oslo", "Bergen", "Trondheim", "Stavanger"], c: 0, e: "Oslo Oslo Fiyordu'nda.", kw: "oslo norway", imgKw: ["oslo city", "bergen harbor", "trondheim cathedral", "stavanger fjord"] },
-            { id: "tr29", q: "En büyük memeli?", o: ["Mavi Balina", "Fil", "Zürafa", "Gergedan"], c: 0, e: "200 tona kadar ağırlık.", kw: "blue whale", imgKw: ["blue whale", "elephant africa", "giraffe savanna", "rhino wildlife"] },
-            { id: "tr30", q: "Avusturya'nın başkenti?", o: ["Viyana", "Salzburg", "Graz", "Innsbruck"], c: 0, e: "Viyana Habsburg merkeziydi.", kw: "vienna austria", imgKw: ["vienna palace", "salzburg fortress", "graz city", "innsbruck alps"] },
-            { id: "tr31", q: "Dünyanın en sıcak yeri?", o: ["Ölüm Vadisi", "Sahra", "Avustralya", "Arabistan"], c: 0, e: "56.7°C kaydedildi.", kw: "death valley", imgKw: ["death valley desert", "sahara heat", "australia outback", "arabian desert"] },
-            { id: "tr32", q: "Polonya'nın başkenti?", o: ["Varşova", "Krakow", "Gdansk", "Wroclaw"], c: 0, e: "Varşova savaştan sonra yeniden inşa edildi.", kw: "warsaw poland", imgKw: ["warsaw city", "krakow market", "gdansk port", "wroclaw square"] },
-            { id: "tr33", q: "En büyük göl?", o: ["Hazar Denizi", "Baykal Gölü", "Victoria Gölü", "Büyük Göller"], c: 0, e: "371.000 km² alan.", kw: "caspian sea", imgKw: ["caspian sea", "baikal lake", "victoria lake", "great lakes"] },
-            { id: "tr34", q: "Güney Afrika'nın başkenti?", o: ["Pretoria", "Cape Town", "Johannesburg", "Durban"], c: 0, e: "Güney Afrika'nın 3 başkenti var.", kw: "pretoria south africa", imgKw: ["pretoria city", "cape town mountain", "johannesburg skyline", "durban beach"] },
-            { id: "tr35", q: "En hızlı kara hayvanı?", o: ["Çita", "Aslan", "Gazelle", "At"], c: 0, e: "120 km/s'ye kadar.", kw: "cheetah running", imgKw: ["cheetah speed", "lion hunt", "gazelle run", "horse gallop"] },
-            { id: "tr36", q: "Tayland'ın başkenti?", o: ["Bangkok", "Phuket", "Chiang Mai", "Pattaya"], c: 0, e: "Bangkok resmi adı Krung Thep.", kw: "bangkok thailand", imgKw: ["bangkok temple", "phuket beach", "chiang mai mountain", "pattaya coast"] },
-            { id: "tr37", q: "En büyük yağmur ormanı?", o: ["Amazon", "Kongo", "Borneo", "Avustralya"], c: 0, e: "5.5 milyon km².", kw: "amazon rainforest", imgKw: ["amazon jungle", "congo forest", "borneo rainforest", "australian forest"] },
-            { id: "tr38", q: "Arjantin'in başkenti?", o: ["Buenos Aires", "Córdoba", "Rosario", "Mendoza"], c: 0, e: "Buenos Aires 'iyi rüzgarlar' demektir.", kw: "buenos aires", imgKw: ["buenos aires obelisk", "cordoba cathedral", "rosario flag", "mendoza andes"] },
-            { id: "tr39", q: "Güney Kore'nin başkenti?", o: ["Seul", "Busan", "Incheon", "Daegu"], c: 0, e: "Seul 10 milyondan fazla nüfusa sahip.", kw: "seoul korea", imgKw: ["seoul skyline", "busan beach", "incheon port", "daegu city"] },
-            { id: "tr40", q: "En büyük kedi türü?", o: ["Sibirya Kaplanı", "Aslan", "Jaguar", "Leopar"], c: 0, e: "300 kg'a kadar.", kw: "siberian tiger", imgKw: ["siberian tiger", "lion pride", "jaguar jungle", "leopard tree"] },
-            { id: "tr41", q: "Meksika'nın başkenti?", o: ["Mexico City", "Guadalajara", "Monterrey", "Cancún"], c: 0, e: "Dünyanın en büyük şehirlerinden biri.", kw: "mexico city", imgKw: ["mexico city cathedral", "guadalajara square", "monterrey mountain", "cancun beach"] },
-            { id: "tr42", q: "En derin göl?", o: ["Baykal Gölü", "Tanganyika Gölü", "Hazar Denizi", "Malawi Gölü"], c: 0, e: "1.642 metre derinlik.", kw: "lake baikal", imgKw: ["baikal ice", "tanganyika lake", "caspian sea", "malawi lake"] },
-            { id: "tr43", q: "Nijerya'nın başkenti?", o: ["Abuja", "Lagos", "Kano", "Ibadan"], c: 0, e: "Abuja 1991'den beri başkent.", kw: "abuja nigeria", imgKw: ["abuja mosque", "lagos city", "kano market", "ibadan university"] },
-            { id: "tr44", q: "En büyük mercan resifi?", o: ["Büyük Bariyer Resifi", "Kızıl Deniz", "Karayipler", "Maldivler"], c: 0, e: "2.300 km'den fazla uzunlukta.", kw: "great barrier reef", imgKw: ["barrier reef coral", "red sea reef", "caribbean coral", "maldives reef"] },
-            { id: "tr45", q: "Hindistan'ın başkenti?", o: ["Yeni Delhi", "Mumbai", "Kalküta", "Bangalore"], c: 0, e: "Yeni Delhi 1911'den beri.", kw: "new delhi india", imgKw: ["delhi gate", "mumbai skyline", "kolkata temple", "bangalore tech"] },
-            { id: "tr46", q: "Dünyanın en yüksek binası?", o: ["Burj Khalifa", "Şangay Kulesi", "Abraj Al-Bait", "Ping An"], c: 0, e: "Dubai'de 828 metre.", kw: "burj khalifa", imgKw: ["burj khalifa dubai", "shanghai tower", "makkah tower", "ping an tower"] },
-            { id: "tr47", q: "Vietnam'ın başkenti?", o: ["Hanoi", "Ho Chi Minh", "Da Nang", "Haiphong"], c: 0, e: "Hanoi Kızıl Nehir üzerinde.", kw: "hanoi vietnam", imgKw: ["hanoi temple", "ho chi minh city", "danang beach", "haiphong port"] },
-            { id: "tr48", q: "En küçük ülke?", o: ["Vatikan", "Monako", "San Marino", "Lihtenştayn"], c: 0, e: "0.44 km² alan.", kw: "vatican city", imgKw: ["vatican st peter", "monaco harbor", "san marino castle", "liechtenstein alps"] },
-            { id: "tr49", q: "Portekiz'in başkenti?", o: ["Lizbon", "Porto", "Faro", "Coimbra"], c: 0, e: "Lizbon Atlantik kıyısında.", kw: "lisbon portugal", imgKw: ["lisbon tram", "porto bridge", "faro beach", "coimbra university"] },
-            { id: "tr50", q: "Şili'nin başkenti?", o: ["Santiago", "Valparaíso", "Concepción", "Viña del Mar"], c: 0, e: "Santiago Şili'nin merkezinde.", kw: "santiago chile", imgKw: ["santiago andes", "valparaiso port", "concepcion city", "vina del mar beach"] }
-        ]
-    };
+            <div id="player-list"></div>
+            <p style="text-align:center; font-size:0.95rem; color:var(--gold-solid); margin: 20px 0; font-weight:800; letter-spacing:1px;">Flagge und Namen aussuchen</p>
+            <button class="btn-apex btn-outline" style="font-size:0.7rem;" onclick="App.addPlayerInput()">+ Warrior hinzufügen</button>
 
-    const App = {
-        profiles: JSON.parse(localStorage.getItem('mk_supreme_v11') || '{}'),
-        players: [], 
-        pIdx: 0, 
-        qIdx: 0, 
-        timer: null, 
-        timeLeft: 12, 
-        currentLang: 'de', 
-        activeFlagIdx: null, 
-        activeQs: [],
+            <div style="margin-top: auto;">
+                <button class="btn-apex btn-gold" onclick="App.prepareBattle()">Kampf Starten</button>
+                <button class="btn-back" onclick="App.go('home')">← Hauptmenü</button>
+            </div>
+            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
+        </section>
 
-        save() { 
-            try {
-                localStorage.setItem('mk_supreme_v11', JSON.stringify(this.profiles)); 
-            } catch (e) {
-                console.error('Save failed:', e);
-            }
-        },
+        <!-- SCREEN: ONLINE HUB -->
+        <section id="s-online-hub" class="screen">
+            <h2 class="title-gold" style="font-size: 2.5rem; margin-top: 0;">Online</h2>
+            <div style="background:rgba(255,255,255,0.05); padding:30px; border-radius:30px; border:1px solid var(--border); margin-top:20px;">
+                <button class="btn-apex btn-gold">Raum Erstellen</button>
+                <input type="text" class="btn-apex btn-outline" placeholder="RAUM-CODE" style="text-align:center; font-family:'Syncopate';">
+                <button class="btn-apex btn-outline">Beitreten</button>
+            </div>
+            <button class="btn-back" onclick="App.go('home')">← Zurück</button>
+            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
+        </section>
 
-        getProfile(name) {
-            const k = name.trim().toLowerCase();
-            if (!this.profiles[k]) {
-                this.profiles[k] = { 
-                    name: name.trim(), 
-                    xp: 0, 
-                    gold: 0, 
-                    level: 1, 
-                    flag: '🐲', 
-                    usedIds: [] 
-                };
-            }
-            return this.profiles[k];
-        },
+        <!-- SCREEN: LOADING -->
+        <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
+            <div class="spinner"></div>
+            <p style="font-family:'Syncopate'; font-size:0.75rem; letter-spacing:6px; margin-top:35px; text-align:center;">Syncing Visuals...</p>
+        </section>
 
-        getRank(lvl) {
-            if (lvl >= 50) return { class: 'rank-god', label: 'Elder God' };
-            if (lvl >= 10) return { class: 'rank-master', label: 'Master' };
-            return { class: 'rank-warrior', label: 'Warrior' };
-        },
-
-        go(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const screen = document.getElementById('s-' + id);
-            if (screen) {
-                screen.classList.add('active');
-                if (id === 'setup' && document.getElementById('player-list').children.length === 0) {
-                    this.addPlayerInput();
-                }
-                if (id === 'leaderboard') this.renderLeaderboard();
-                if (id === 'achievements') this.renderAchievements();
-            }
-        },
-
-        setLang(l) {
-            this.currentLang = l;
-            document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
-            const chip = document.getElementById('ln-' + l);
-            if (chip) chip.classList.add('active');
-        },
-
-        addPlayerInput() {
-            const cont = document.getElementById('player-list');
-            const id = Date.now() + Math.random();
-            const d = document.createElement('div');
-            d.className = 'player-card'; 
-            d.id = 'pc-' + id;
-            d.innerHTML = `
-                <div class="flag-plus" onclick="App.openFlag('${id}')">+</div>
-                <input type="text" class="input-luxe" placeholder="Name...">
-                <button class="btn-trash" onclick="document.getElementById('pc-${id}').remove()">🗑️</button>
-            `;
-            cont.appendChild(d);
-        },
-
-        openFlag(id) { 
-            this.activeFlagIdx = id; 
-            document.getElementById('modal').style.display = 'flex'; 
-        },
-
-        confirmFlag(f) { 
-            const card = document.getElementById('pc-' + this.activeFlagIdx);
-            if (card) {
-                const btn = card.querySelector('.flag-plus');
-                btn.innerText = f; 
-                btn.style.borderStyle = 'solid';
-                btn.style.borderColor = 'var(--gold-solid)';
-            }
-            document.getElementById('modal').style.display = 'none';
-        },
-
-        async prepareBattle() {
-            const cards = document.querySelectorAll('.player-card');
-            this.players = Array.from(cards).map(c => {
-                const name = c.querySelector('input').value.trim() || "Warrior";
-                const flag = c.querySelector('.flag-plus').innerText === '+' ? '🐲' : c.querySelector('.flag-plus').innerText;
-                const p = this.getProfile(name); 
-                p.flag = flag;
-                return { ...p, sessionScore: 0, sessionGold: 0 };
-            });
+        <!-- SCREEN: QUIZ -->
+        <section id="s-quiz" class="screen">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span id="q-round" style="font-family:'Syncopate'; font-size:0.7rem; color:var(--gold-solid);">Round 1/10</span>
+                <span id="q-timer" style="font-family:'Syncopate'; font-size:0.85rem; color:var(--blue);">60s</span>
+            </div>
+            <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
             
-            if (this.players.length === 0) {
-                alert('Bitte mindestens einen Kämpfer hinzufügen!');
-                return;
-            }
-            
-            this.pIdx = 0; 
-            this.go('loading');
-            
-            // Advanced shuffle algorithm for maximum randomization
-            const p = this.getProfile(this.players[0].name);
-            const bank = DB[this.currentLang] || DB.de;
-            
-            // Reset used IDs if player has used most questions
-            if (p.usedIds.length >= bank.length * 0.8) {
-                p.usedIds = [];
-            }
-            
-            // Get available questions
-            let available = bank.filter(q => !p.usedIds.includes(q.id));
-            
-            // Fisher-Yates shuffle for true randomization
-            for (let i = available.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [available[i], available[j]] = [available[j], available[i]];
-            }
-            
-            this.activeQs = available.slice(0, 10);
+            <div id="q-frame" class="q-window"><div class="q-overlay"></div><h3 id="q-text" class="q-text-p">Lade...</h3></div>
+            <div id="q-options"></div>
 
-            setTimeout(() => this.showVS(), 1500);
-        },
+            <div id="q-feedback" style="display:none; margin-top:10px;">
+                <div class="learn-card">
+                    <p style="color:var(--gold-solid); font-family:'Syncopate'; font-size:1.15rem; opacity: 0.9; margin-bottom: 20px; line-height:1.5; font-weight:400;"></p>
+                    <p id="q-expl" style="font-size: 1.15rem; opacity: 0.9; margin-bottom: 20px; line-height:1.5; font-weight:400;"></p>
+                    <button class="btn-apex btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
+                </div>
+            </div>
+        </section>
 
-        showVS() {
-            const p = this.players[this.pIdx];
-            const r = this.getRank(p.level);
-            document.getElementById('vs-flag').innerText = p.flag;
-            document.getElementById('vs-name').innerText = p.name.toUpperCase();
-            document.getElementById('vs-info').innerHTML = `
-                <span class="rank-pill ${r.class}">${r.label}</span> 
-                <span style="font-size:0.9rem; color:var(--gold-solid); font-weight:700;">GOLD: ${p.gold}</span>
-            `;
-            this.go('vs');
-        },
+        <!-- RESULT SCREEN -->
+        <section id="s-result" class="screen">
+            <h1 class="title-gold" style="font-size: 3.2rem; text-align:center;">FINISHED</h1>
+            <div id="res-list" style="margin-top: 40px; flex: 1;"></div>
+            <div style="margin-top: auto;">
+                <button class="btn-apex btn-gold" onclick="App.prepareBattle()">Revanche</button>
+                <button class="btn-apex btn-outline" onclick="location.reload()">Hauptmenü</button>
+            </div>
+            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
+        </section>
 
-        startQuiz() { 
-            this.qIdx = 0; 
-            this.renderQuestion(); 
-            this.go('quiz'); 
-        },
+        <!-- LEADERBOARD -->
+        <section id="s-leaderboard" class="screen">
+            <h1 class="title-gold" style="font-size: 2.5rem; text-align:center;">Bestenliste</h1>
+            <div id="lb-list" style="margin-top:30px; flex:1;"></div>
+            <button class="btn-apex btn-gold" onclick="App.go('home')">Zurück</button>
+            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
+        </section>
+    </div>
 
-        renderQuestion() {
-            const q = this.activeQs[this.qIdx];
-            const p = this.players[this.pIdx];
-            
-            document.getElementById('q-round').innerText = `Round ${this.qIdx + 1}/10`;
-            document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
-            document.getElementById('q-text').innerText = q.q;
+    <script>
+        const DB = {
+            de: [
+                { id: "de1", q: "Welches Land hat die meisten Inseln weltweit?", o: ["Schweden", "Norwegen", "Philippinen", "Indonesien"], c: 0, e: "Schweden besitzt über 267.000 Inseln. Die meisten sind unbewohnt, aber Teil der beeindruckenden Schärenlandschaften.", kw: "sweden island" },
+                { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die bevölkerungsreichste Metropolregion der Welt und das Herz der japanischen Technologie.", kw: "tokyo" },
+                { id: "de3", q: "Was ist das flächenmäßig kleinste Land der Welt?", o: ["Vatikanstadt", "Monaco", "Nauru", "San Marino"], c: 0, e: "Vatikanstadt ist mit nur 0,44 km² der kleinste souveräne Staat der Erde und Sitz des Papstes.", kw: "vatican" },
+                { id: "de4", q: "Größter Ozean der Erde?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifische Ozean bedeckt fast ein Drittel der Erdoberfläche und ist tiefer als jedes andere Weltmeer.", kw: "ocean" },
+                { id: "de5", q: "In welchem Land stehen die Ruinen von Machu Picchu?", o: ["Peru", "Mexiko", "Chile", "Brasilien"], c: 0, e: "Die Inkastadt Machu Picchu liegt in den Anden Perus auf 2430 Metern Höhe und gehört zum Weltkulturerbe.", kw: "peru" }
+            ],
+            ru: [{ id: "ru1", q: "Столица России?", o: ["Москва", "Питер", "Киев", "Минск"], c: 0, e: "Москва — столица России.", kw: "moscow" }],
+            en: [{ id: "en1", q: "Largest country?", o: ["Russia", "USA", "China", "Canada"], c: 0, e: "Russia is the largest by land area.", kw: "russia" }],
+            ig: [{ id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo Nigeria.", kw: "nigeria" }],
+            tr: [{ id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara" }]
+        };
 
-            // Background image for question
-            const timestamp = Date.now();
-            document.getElementById('q-frame').style.backgroundImage = 
-                `url('https://source.unsplash.com/800x450/?${q.kw}&t=${timestamp}')`;
-            
-            const box = document.getElementById('q-options'); 
-            box.innerHTML = '';
-            document.getElementById('q-feedback').style.display = 'none';
-            box.style.display = 'block';
+        const App = {
+            profiles: JSON.parse(localStorage.getItem('mk_ethereal_final')) || {},
+            players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 60, currentLang: 'de', activeFlagIdx: null, activeQs: [],
 
-            // Answer options with background images
-            q.o.forEach((opt, i) => {
-                const b = document.createElement('div');
-                b.className = 'opt-visual';
-                const imgKeyword = q.imgKw && q.imgKw[i] ? q.imgKw[i] : `${opt},landscape`;
-                b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?${imgKeyword}&t=${timestamp + i}')`;
-                b.innerHTML = `
-                    <div class="opt-img-overlay"></div>
-                    <div class="opt-label">${opt}</div>
-                `;
-                b.onclick = () => this.handleAnswer(i, b);
-                box.appendChild(b);
-            });
-            
-            this.startTimer();
-        },
+            save() { localStorage.setItem('mk_ethereal_final', JSON.stringify(this.profiles)); },
+            getProfile(name) {
+                const k = name.trim().toLowerCase();
+                if(!this.profiles[k]) this.profiles[k] = { name: name.trim(), xp: 0, usedIds: [], flag: '🐲' };
+                return this.profiles[k];
+            },
 
-        startTimer() {
-            clearInterval(this.timer); 
-            this.timeLeft = 12;
-            const bar = document.getElementById('timer-bar');
-            this.timer = setInterval(() => {
-                this.timeLeft -= 0.1;
-                bar.style.width = (this.timeLeft / 12 * 100) + "%";
-                if (this.timeLeft <= 0) {
-                    clearInterval(this.timer);
-                    this.handleAnswer(-1);
-                }
-            }, 100);
-        },
+            go(id) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById('s-' + id).classList.add('active');
+                if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
+                if(id === 'leaderboard') this.renderLeaderboard();
+                if(id === 'home') this.setGlobalBg("https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000");
+            },
 
-        handleAnswer(idx, b) {
-            clearInterval(this.timer);
-            const q = this.activeQs[this.qIdx];
-            const p = this.players[this.pIdx];
-            const prof = this.getProfile(p.name);
-            const opts = document.querySelectorAll('.opt-visual');
-            opts.forEach(o => o.style.pointerEvents = 'none');
+            setGlobalBg(url) { document.getElementById('master-cine-wall').style.backgroundImage = `url('${url}')`; },
 
-            prof.usedIds.push(q.id);
+            setLang(l) {
+                this.currentLang = l;
+                document.querySelectorAll('.l-chip').forEach(c => c.classList.remove('active'));
+                document.getElementById('ln-' + l).classList.add('active');
+            },
 
-            if (idx === q.c) {
-                if (b) b.classList.add('correct');
-                p.sessionScore++;
-                const gain = Math.round(this.timeLeft * 30);
-                p.sessionGold += gain; 
-                prof.gold += gain; 
-                prof.xp += 100;
-                prof.level = Math.floor(Math.sqrt(prof.xp / 350)) + 1;
-            } else {
-                if (idx !== -1 && b) b.classList.add('wrong');
-                opts[q.c].classList.add('correct');
-            }
-            
-            this.save();
-            document.getElementById('q-expl').innerText = q.e;
-            document.getElementById('q-feedback').style.display = 'block';
-            document.getElementById('q-options').style.display = 'none';
-        },
+            addPlayerInput() {
+                const cont = document.getElementById('player-list');
+                const id = Date.now() + Math.random();
+                const d = document.createElement('div');
+                d.id = 'pc-' + id;
+                d.innerHTML = `<div class="fighter-slot"><div class="f-select" onclick="App.openFlag('${id}')">+</div><input type="text" class="i-name" placeholder="Warrior Name..."><button onclick="document.getElementById('pc-${id}').remove()" style="background:none; border:none; color:#ff4d4d; font-size:1.5rem; cursor:pointer; opacity:0.6;">🗑️</button></div>`;
+                cont.appendChild(d);
+            },
 
-        nextStep() {
-            this.qIdx++;
-            if (this.qIdx < 10 && this.qIdx < this.activeQs.length) {
-                this.renderQuestion();
-            } else { 
-                this.pIdx++; 
-                if (this.pIdx < this.players.length) {
-                    this.prepareBattle();
+            openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
+            confirmFlag(f) { 
+                const card = document.getElementById('pc-' + this.activeFlagIdx);
+                const btn = card.querySelector('.f-select');
+                btn.innerText = f; btn.style.borderStyle = 'solid';
+                document.getElementById('modal').style.display = 'none';
+            },
+
+            async prepareBattle() {
+                const cards = document.querySelectorAll('.player-card');
+                this.players = Array.from(cards).map(c => {
+                    const name = c.querySelector('input').value || "Warrior";
+                    const flag = c.querySelector('.f-select').innerText === '+' ? '🐲' : c.querySelector('.f-select').innerText;
+                    const p = this.getProfile(name); p.flag = flag;
+                    return { ...p, sessionScore: 0 };
+                });
+                if(this.players.length === 0) return;
+                this.pIdx = 0; this.go('loading');
+                
+                const bank = DB[this.currentLang] || DB.de;
+                const p = this.getProfile(this.players[0].name);
+                // Infinity Memory logic
+                let available = bank.filter(q => !p.usedIds.includes(q.id));
+                if(available.length < 3) { p.usedIds = []; available = bank; }
+                this.activeQs = available.sort(() => 0.5 - Math.random()).slice(0, 10);
+                
+                setTimeout(() => { this.qIdx = 0; this.renderQuestion(); this.go('quiz'); }, 1500);
+            },
+
+            renderQuestion() {
+                const q = this.activeQs[this.qIdx];
+                const p = this.players[this.pIdx];
+                const sig = Math.random();
+                
+                document.getElementById('q-round').innerText = `Round ${this.qIdx + 1}/10`;
+                document.getElementById('q-text').innerText = q.q;
+
+                const imgUrl = `https://loremflickr.com/800/450/${encodeURIComponent(q.kw)}?sig=${sig}`;
+                this.setGlobalBg(imgUrl);
+                document.getElementById('q-frame').style.backgroundImage = `url('${imgUrl}')`;
+                
+                const box = document.getElementById('q-options'); box.innerHTML = '';
+                document.getElementById('q-feedback').style.display = 'none';
+                box.style.display = 'block';
+
+                // Answer Shuffling
+                const shuffledOpts = q.o.map((text, index) => ({ text, isCorrect: index === q.c }));
+                shuffledOpts.sort(() => 0.5 - Math.random());
+
+                shuffledOpts.forEach((opt, i) => {
+                    const b = document.createElement('div');
+                    b.className = 'o-item-v';
+                    b.style.backgroundImage = `url('https://loremflickr.com/400/150/${encodeURIComponent(opt.text)},nature?sig=${sig+i}')`;
+                    b.innerHTML = `<div class="o-blur"></div><div class="o-txt">${opt.text}</div>`;
+                    b.onclick = () => this.handleAnswer(opt.isCorrect, b);
+                    box.appendChild(b);
+                });
+                this.startTimer();
+            },
+
+            startTimer() {
+                clearInterval(this.timer); this.timeLeft = 60;
+                const bar = document.getElementById('timer-bar');
+                const txt = document.getElementById('q-timer');
+                this.timer = setInterval(() => {
+                    this.timeLeft -= 0.1;
+                    bar.style.width = (this.timeLeft / 60 * 100) + "%";
+                    txt.innerText = Math.ceil(this.timeLeft) + "s";
+                    if(this.timeLeft <= 0) this.handleAnswer(false, null);
+                }, 100);
+            },
+
+            handleAnswer(isCorrect, b) {
+                clearInterval(this.timer);
+                const q = this.activeQs[this.qIdx];
+                const p = this.players[this.pIdx];
+                const prof = this.getProfile(p.name);
+                const opts = document.querySelectorAll('.o-item-v');
+                opts.forEach(o => o.style.pointerEvents = 'none');
+
+                if(!prof.usedIds.includes(q.id)) prof.usedIds.push(q.id);
+
+                if(isCorrect) {
+                    if(b) b.classList.add('correct');
+                    p.sessionScore++; prof.xp += 100;
                 } else {
-                    this.showResults();
+                    if(b) b.classList.add('wrong');
+                    opts.forEach(el => {
+                        if(el.innerText.trim() === q.o[q.c]) el.classList.add('correct');
+                    });
                 }
+                this.save();
+                document.getElementById('q-expl').innerText = q.e;
+                document.getElementById('q-feedback').style.display = 'block';
+                document.getElementById('q-options').style.display = 'none';
+            },
+
+            nextStep() {
+                this.qIdx++;
+                if(this.qIdx < 10 && this.qIdx < this.activeQs.length) this.renderQuestion();
+                else { 
+                    this.pIdx++; 
+                    if(this.pIdx < this.players.length) this.prepareBattle(); 
+                    else this.showResults(); 
+                }
+            },
+
+            renderLeaderboard() {
+                const list = document.getElementById('lb-list');
+                const sorted = Object.values(this.profiles).sort((a,b) => b.xp - a.xp);
+                list.innerHTML = sorted.map(p => `
+                    <div style="background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:20px; display:flex; justify-content:space-between; align-items:center; padding:18px; margin-bottom:12px;">
+                        <div><span style="font-size:1.6rem; margin-right:15px;">${p.flag}</span><b>${p.name}</b></div>
+                        <div style="text-align:right">XP ${p.xp}</div>
+                    </div>`).join('');
             }
-        },
+        };
 
-        renderLeaderboard() {
-            const list = document.getElementById('lb-list');
-            const sorted = Object.values(this.profiles).sort((a, b) => b.xp - a.xp);
-            
-            if (sorted.length === 0) {
-                list.innerHTML = '<p style="text-align:center; opacity:0.5; margin-top:50px; font-size:1.1rem;">Noch keine Kämpfer</p>';
-                return;
-            }
-            
-            list.innerHTML = sorted.map((p, i) => `
-                <div class="stat-card" style="border-color:${i < 3 ? 'var(--gold-solid)' : 'rgba(255,255,255,0.1)'};">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <span style="font-size:2rem;">${p.flag}</span>
-                        <div>
-                            <b style="font-size:1.1rem;">${p.name}</b><br>
-                            <span style="color:rgba(255,255,255,0.6); font-size:0.85rem;">Level ${p.level}</span>
-                        </div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div class="stat-highlight">${p.gold} 💰</div>
-                        <span style="color:rgba(255,255,255,0.5); font-size:0.8rem;">${p.xp} XP</span>
-                    </div>
-                </div>
-            `).join('');
-        },
-
-        renderAchievements() {
-            const list = document.getElementById('ach-list');
-            const sorted = Object.values(this.profiles).sort((a, b) => b.level - a.level);
-            
-            if (sorted.length === 0) {
-                list.innerHTML = '<p style="text-align:center; opacity:0.5; margin-top:50px; font-size:1.1rem;">Noch keine Erfolge</p>';
-                return;
-            }
-            
-            list.innerHTML = sorted.map(p => {
-                const r = this.getRank(p.level);
-                return `
-                    <div class="stat-card">
-                        <div style="display:flex; align-items:center; gap:18px; flex:1;">
-                            <div style="font-size:2.5rem;">${p.flag}</div>
-                            <div style="flex:1;">
-                                <b style="font-size:1.15rem;">${p.name}</b><br>
-                                <span class="rank-pill ${r.class}">${r.label}</span>
-                            </div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div class="stat-highlight">Lvl ${p.level}</div>
-                            <span style="color:rgba(255,255,255,0.5); font-size:0.8rem;">${p.xp} XP</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        },
-
-        showResults() {
-            this.go('result');
-            const list = document.getElementById('res-list');
-            list.innerHTML = this.players.map((p, idx) => `
-                <div class="stat-card" style="border-color:${idx === 0 ? 'var(--gold-solid)' : 'rgba(255,255,255,0.1)'};">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <span style="font-size:2rem;">${p.flag}</span>
-                        <b style="font-size:1.1rem;">${p.name}</b>
-                    </div>
-                    <div style="text-align:right;">
-                        <div class="stat-highlight">${p.sessionScore}/10 PKT</div>
-                        <span style="color:rgba(255,255,255,0.5); font-size:0.85rem;">+${p.sessionGold} 💰</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-    };
-
-    // Initialize app
-    App.go('home');
-
-    // Cycle through country emojis (only flags from modal)
-    const countryEmojis = ['🌍', '🇩🇪', '🇷🇺', '🇬🇧', '🇳🇬', '🇹🇷', '🇫🇷', '🇺🇦', '🇺🇸'];
-    let currentEmojiIndex = 0;
-    
-    setInterval(() => {
-        const atlasElement = document.querySelector('.atlas');
-        if (atlasElement && document.getElementById('s-home').classList.contains('active')) {
-            currentEmojiIndex = (currentEmojiIndex + 1) % countryEmojis.length;
-            atlasElement.innerText = countryEmojis[currentEmojiIndex];
-        }
-    }, 2000);
-</script>
-```
-
+        App.go('home');
+        App.setLang('de');
+    </script>
 </body>
 </html>
