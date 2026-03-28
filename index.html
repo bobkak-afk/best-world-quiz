@@ -1,294 +1,337 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · GLOBAL GENESIS</title>
+    <title>MK · PRINCESS EDITION · World Quiz</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #aa771c 100%);
-            --gold-solid: #d4af37;
-            --bg: #050505;
-            --border: rgba(212, 175, 55, 0.4);
-            --red: #ff3c00;
-            --shadow: 0 0 20px rgba(0,0,0,0.8);
+            --purple: linear-gradient(135deg, #c084fc 0%, #a855f7 45%, #7c3aed 100%);
+            --purple-solid: #c084fc;
+            --bg: #faf5ff;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --border: rgba(168, 85, 247, 0.4);
+            --glow: rgba(168, 85, 247, 0.6);
+            --shadow: 0 20px 35px rgba(0, 0, 0, 0.05);
         }
 
-```
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    
-    body {
-        background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif;
-        height: 100vh; overflow: hidden; display: flex; justify-content: center;
-        background-image: radial-gradient(circle at 50% -20%, #2a1b00 0%, #050505 80%);
-    }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background: linear-gradient(145deg, #f3e8ff 0%, #e9d5ff 100%);
+            color: #2d1b3e; font-family: 'Outfit', sans-serif;
+            height: 100vh; overflow: hidden; display: flex; justify-content: center;
+        }
 
-    #app {
-        width: 100%; max-width: 460px; height: 100vh; display: flex; flex-direction: column;
-        position: relative; z-index: 10; 
-        border-left: 1px solid rgba(255,255,255,0.05); 
-        border-right: 1px solid rgba(255,255,255,0.05);
-    }
+        #app {
+            width: 100%; max-width: 460px; height: 100vh; display: flex; flex-direction: column;
+            position: relative; z-index: 10; 
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 0;
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.15);
+            border-left: 1px solid rgba(168, 85, 247, 0.3);
+            border-right: 1px solid rgba(168, 85, 247, 0.3);
+        }
 
-    .screen { 
-        display: none; flex: 1; padding: 25px; flex-direction: column; 
-        overflow-y: auto; position: relative; 
-    }
-    .screen.active { 
-        display: flex; 
-        animation: screenIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; 
-    }
+        .screen { 
+            display: none; flex: 1; padding: 25px; flex-direction: column; 
+            overflow-y: auto; position: relative; 
+        }
+        .screen.active { 
+            display: flex; 
+            animation: screenIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; 
+        }
 
-    @keyframes screenIn { 
-        from { opacity: 0; transform: translateY(20px); filter: blur(10px); } 
-        to { opacity: 1; transform: translateY(0); filter: blur(0); } 
-    }
+        @keyframes screenIn { 
+            from { opacity: 0; transform: translateY(20px); filter: blur(5px); } 
+            to { opacity: 1; transform: translateY(0); filter: blur(0); } 
+        }
 
-    /* --- HOME SCREEN LAYOUT --- */
-    .branding-top {
-        font-family: 'Syncopate', sans-serif;
-        font-size: 0.6rem;
-        letter-spacing: 10px;
-        color: var(--gold-solid);
-        text-align: center;
-        margin-top: 10px;
-        text-transform: uppercase;
-        opacity: 0.9;
-    }
+        /* --- HOME SCREEN LAYOUT --- */
+        .branding-top {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 10px;
+            color: var(--purple-solid);
+            text-align: center;
+            margin-top: 10px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
 
-    .home-center {
-        text-align: center;
-        margin-top: 30px;
-    }
+        .home-center {
+            text-align: center;
+            margin-top: 30px;
+        }
 
-    .title-gold {
-        font-family: 'Cinzel Decorative', serif;
-        font-size: 3.5rem;
-        background: var(--gold);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        line-height: 0.85;
-        filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5));
-        letter-spacing: -2px;
-    }
+        .title-gold {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.5rem;
+            background: var(--purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 0.85;
+            filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.5));
+            letter-spacing: -2px;
+        }
 
-    .atlas-box {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-    }
+        .atlas-box {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
 
-    .atlas {
-        font-size: 8.5rem;
-        animation: rotateAtlas 20s linear infinite;
-        filter: drop-shadow(0 0 40px rgba(0, 150, 255, 0.5));
-        user-select: none;
-    }
+        .atlas {
+            font-size: 8.5rem;
+            animation: rotateAtlas 20s linear infinite;
+            filter: drop-shadow(0 0 40px rgba(168, 85, 247, 0.6));
+            user-select: none;
+        }
 
-    @keyframes rotateAtlas { 
-        0% { transform: rotate(0deg) scale(1); }
-        25% { transform: rotate(90deg) scale(0.95); }
-        50% { transform: rotate(180deg) scale(1); }
-        75% { transform: rotate(270deg) scale(0.95); }
-        100% { transform: rotate(360deg) scale(1); }
-    }
+        @keyframes rotateAtlas { 
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(0.95); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(0.95); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
 
-    .sub-title-low {
-        font-family: 'Syncopate', sans-serif;
-        font-size: 1.7rem;
-        letter-spacing: 4px;
-        color: #fff;
-        text-align: center;
-        text-transform: uppercase;
-        margin-top: 60px;
-        margin-bottom: 40px;
-        font-weight: 700;
-        text-shadow: 0 0 25px rgba(255,255,255,0.8);
-    }
+        .sub-title-low {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.7rem;
+            letter-spacing: 4px;
+            color: #5b21b6;
+            text-align: center;
+            text-transform: uppercase;
+            margin-top: 60px;
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(192, 132, 252, 0.8);
+        }
 
-    /* --- UI COMPONENTS --- */
-    .btn-luxe { 
-        appearance: none; border: none; padding: 20px; border-radius: 16px; 
-        font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; 
-        cursor: pointer; transition: 0.3s; text-transform: uppercase; 
-        display: flex; align-items: center; justify-content: center; gap: 12px; 
-        width: 100%; margin-bottom: 15px; 
-    }
-    .btn-gold { 
-        background: var(--gold); color: #000; font-weight: 900; 
-        box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); 
-    }
-    .btn-gold:active { transform: scale(0.96); }
-    .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
-    .btn-back { 
-        background: transparent; color: rgba(255,255,255,0.5); border: none; 
-        font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; 
-        padding: 10px; text-align: center; font-weight: 700; 
-    }
+        /* --- UI COMPONENTS --- */
+        .btn-luxe { 
+            appearance: none; border: none; padding: 20px; border-radius: 16px; 
+            font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; 
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; 
+            display: flex; align-items: center; justify-content: center; gap: 12px; 
+            width: 100%; margin-bottom: 15px; 
+        }
+        .btn-gold { 
+            background: var(--purple); color: white; font-weight: 900; 
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); 
+        }
+        .btn-gold:active { transform: scale(0.96); }
+        .btn-outline { background: rgba(168, 85, 247, 0.1); color: #5b21b6; border: 1px solid var(--border); }
+        .btn-back { 
+            background: transparent; color: rgba(91, 33, 182, 0.6); border: none; 
+            font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; 
+            padding: 10px; text-align: center; font-weight: 700; 
+        }
 
-    /* --- VISUAL QUIZ ENGINE --- */
-    .q-visual-frame {
-        height: 240px; border-radius: 24px; border: 1px solid var(--border);
-        background-size: cover; background-position: center; position: relative;
-        overflow: hidden; display: flex; align-items: center; justify-content: center;
-        margin-bottom: 20px; box-shadow: var(--shadow);
-    }
-    .q-overlay { 
-        position: absolute; inset: 0; 
-        background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)); 
-        z-index: 1; 
-    }
-    .q-text { 
-        position: relative; z-index: 10; text-align: center; 
-        font-size: 1.4rem; padding: 20px; font-weight: 600; 
-        text-shadow: 0 2px 10px #000; 
-    }
+        /* --- VISUAL QUIZ ENGINE --- */
+        .q-visual-frame {
+            height: 240px; border-radius: 24px; border: 1px solid var(--border);
+            background-size: cover; background-position: center; position: relative;
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; box-shadow: var(--shadow);
+            background-color: #f5eaff;
+        }
+        .q-overlay { 
+            position: absolute; inset: 0; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6)); 
+            z-index: 1; 
+        }
+        .q-text { 
+            position: relative; z-index: 10; text-align: center; 
+            font-size: 1.4rem; padding: 20px; font-weight: 600; 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            color: white;
+        }
 
-    .opt-visual {
-        height: 65px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15);
-        background-size: cover; background-position: center; position: relative;
-        overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; 
-        align-items: center; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .opt-visual:hover { transform: scale(1.03); border-color: var(--gold-solid); }
-    .opt-img-overlay { 
-        position: absolute; inset: 0; background: rgba(0,0,0,0.7); 
-        z-index: 1; transition: 0.3s; 
-    }
-    .opt-visual:hover .opt-img-overlay { background: rgba(0,0,0,0.45); }
-    .opt-label { 
-        position: relative; z-index: 10; padding-left: 20px; 
-        font-weight: 700; font-size: 1.1rem; text-shadow: 0 2px 5px #000; 
-    }
+        .opt-visual {
+            height: 65px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.3);
+            background-size: cover; background-position: center; position: relative;
+            overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; 
+            align-items: center; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .opt-visual:hover { transform: scale(1.03); border-color: var(--purple-solid); }
+        .opt-img-overlay { 
+            position: absolute; inset: 0; background: rgba(0,0,0,0.6); 
+            z-index: 1; transition: 0.3s; 
+        }
+        .opt-visual:hover .opt-img-overlay { background: rgba(0,0,0,0.4); }
+        .opt-label { 
+            position: relative; z-index: 10; padding-left: 20px; 
+            font-weight: 700; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            color: white;
+        }
 
-    .opt-visual.correct .opt-img-overlay { background: rgba(27, 77, 46, 0.8) !important; }
-    .opt-visual.correct { border-color: #2ecc71 !important; }
-    .opt-visual.wrong .opt-img-overlay { background: rgba(77, 27, 27, 0.8) !important; }
-    .opt-visual.wrong { border-color: #e74c3c !important; }
+        .opt-visual.correct .opt-img-overlay { background: rgba(76, 175, 80, 0.85) !important; }
+        .opt-visual.correct { border-color: #4caf50 !important; }
+        .opt-visual.wrong .opt-img-overlay { background: rgba(244, 67, 54, 0.85) !important; }
+        .opt-visual.wrong { border-color: #f44336 !important; }
 
-    /* --- SETUP --- */
-    .section-label {
-        font-family: 'Syncopate', sans-serif;
-        font-size: 0.7rem;
-        letter-spacing: 3px;
-        color: var(--gold-solid);
-        text-align: center;
-        margin: 20px 0 15px;
-        text-transform: uppercase;
-        font-weight: 700;
-        opacity: 0.95;
-    }
+        /* --- SETUP --- */
+        .section-label {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: var(--purple-solid);
+            text-align: center;
+            margin: 20px 0 15px;
+            text-transform: uppercase;
+            font-weight: 700;
+            opacity: 0.95;
+        }
 
-    .player-card { 
-        background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
-        border-radius: 20px; padding: 15px; display: flex; align-items: center; 
-        margin-bottom: 12px; animation: slideIn 0.4s ease; 
-    }
-    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
-    
-    .flag-plus { 
-        width: 45px; height: 45px; background: rgba(0,0,0,0.5); 
-        border: 2px dashed var(--gold-solid); border-radius: 10px; 
-        display: flex; justify-content: center; align-items: center; 
-        font-size: 1.2rem; cursor: pointer; color: var(--gold-solid); 
-        flex-shrink: 0;
-    }
-    .input-luxe { 
-        background: transparent; border: none; color: #fff; 
-        font-family: 'Outfit', sans-serif; font-size: 1.1rem; 
-        width: 100%; margin-left: 15px; outline: none; font-weight: 600; 
-    }
-    .btn-trash { 
-        background: none; border: none; color: #ff4d4d; 
-        font-size: 1.2rem; cursor: pointer; padding: 5px; 
-        opacity: 0.6; flex-shrink: 0;
-    }
-    .btn-trash:hover { opacity: 1; }
+        .player-card { 
+            background: var(--card-bg); border: 1px solid var(--border); 
+            border-radius: 20px; padding: 15px; display: flex; align-items: center; 
+            margin-bottom: 12px; animation: slideIn 0.4s ease; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
+        
+        .flag-plus { 
+            width: 45px; height: 45px; background: rgba(168,85,247,0.1); 
+            border: 2px dashed var(--purple-solid); border-radius: 10px; 
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 1.2rem; cursor: pointer; color: var(--purple-solid); 
+            flex-shrink: 0;
+        }
+        .input-luxe { 
+            background: transparent; border: none; color: #2d1b3e; 
+            font-family: 'Outfit', sans-serif; font-size: 1.1rem; 
+            width: 100%; margin-left: 15px; outline: none; font-weight: 600; 
+        }
+        .btn-trash { 
+            background: none; border: none; color: #f44336; 
+            font-size: 1.2rem; cursor: pointer; padding: 5px; 
+            opacity: 0.6; flex-shrink: 0;
+        }
+        .btn-trash:hover { opacity: 1; }
 
-    .lang-grid { 
-        display: grid; grid-template-columns: repeat(5, 1fr); 
-        gap: 6px; margin-bottom: 25px; 
-    }
-    .lang-chip { 
-        background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
-        padding: 12px 2px; border-radius: 12px; font-size: 0.55rem; 
-        font-family: 'Syncopate'; cursor: pointer; text-align: center; 
-        transition: 0.3s;
-    }
-    .lang-chip:hover { background: rgba(255,255,255,0.1); }
-    .lang-chip.active { background: var(--gold); color: #000; font-weight: 900; }
+        .lang-grid { 
+            display: grid; grid-template-columns: repeat(5, 1fr); 
+            gap: 6px; margin-bottom: 25px; 
+        }
+        .lang-chip { 
+            background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); 
+            padding: 12px 2px; border-radius: 12px; font-size: 0.55rem; 
+            font-family: 'Syncopate'; cursor: pointer; text-align: center; 
+            transition: 0.3s; color: #5b21b6;
+        }
+        .lang-chip:hover { background: rgba(168,85,247,0.2); }
+        .lang-chip.active { background: var(--purple); color: white; font-weight: 900; border: none; }
 
-    /* --- ACHIEVEMENTS --- */
-    .rank-pill { 
-        padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; 
-        font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; 
-        margin-right: 8px; display: inline-block;
-    }
-    .rank-master { background: #00d4ff; color: #000; box-shadow: 0 0 10px #00d4ff; }
-    .rank-god { background: #ff3c00; color: #fff; box-shadow: 0 0 15px #ff3c00; }
-    .rank-warrior { background: rgba(255,255,255,0.1); color: #fff; }
+        /* --- ACHIEVEMENTS --- */
+        .rank-pill { 
+            padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; 
+            font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; 
+            margin-right: 8px; display: inline-block;
+        }
+        .rank-master { background: #c084fc; color: white; box-shadow: 0 0 8px #c084fc; }
+        .rank-god { background: #a855f7; color: white; box-shadow: 0 0 12px #a855f7; }
+        .rank-warrior { background: #e9d5ff; color: #5b21b6; }
 
-    /* --- MODAL --- */
-    #modal { 
-        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); 
-        z-index: 2000; align-items: center; justify-content: center; 
-        backdrop-filter: blur(15px); 
-    }
-    .modal-box { 
-        background: #111; border: 1px solid var(--gold-solid); 
-        padding: 30px; border-radius: 28px; 
-        display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; 
-        max-width: 90%;
-    }
-    .modal-flag { 
-        font-size: 2.8rem; cursor: pointer; transition: 0.3s; 
-        text-align: center; padding: 10px;
-    }
-    .modal-flag:hover { transform: scale(1.2); }
+        /* --- MODAL --- */
+        #modal { 
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); 
+            z-index: 2000; align-items: center; justify-content: center; 
+            backdrop-filter: blur(12px); 
+        }
+        .modal-box { 
+            background: white; border: 1px solid var(--purple-solid); 
+            padding: 30px; border-radius: 28px; 
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; 
+            max-width: 90%;
+        }
+        .modal-flag { 
+            font-size: 2.8rem; cursor: pointer; transition: 0.3s; 
+            text-align: center; padding: 10px;
+        }
+        .modal-flag:hover { transform: scale(1.2); }
 
-    footer { 
-        text-align: center; padding: 25px; font-size: 0.75rem; 
-        color: #ffffff; font-family: 'Syncopate', sans-serif; 
-        font-weight: 700; text-transform: uppercase; letter-spacing: 3px; 
-    }
-    .badge { 
-        background: var(--gold); color: #000; padding: 4px 12px; 
-        border-radius: 100px; font-size: 0.7rem; font-weight: 800; 
-    }
-    
-    .timer-rail { 
-        height: 6px; background: rgba(255,255,255,0.1); 
-        border-radius: 10px; margin: 15px 0 25px; overflow: hidden; 
-    }
-    .timer-fill { 
-        height: 100%; width: 100%; background: var(--red); 
-        box-shadow: 0 0 15px var(--red); transition: width 0.1s linear; 
-    }
+        footer { 
+            text-align: center; padding: 25px; font-size: 0.75rem; 
+            color: #5b21b6; font-family: 'Syncopate', sans-serif; 
+            font-weight: 700; text-transform: uppercase; letter-spacing: 3px; 
+        }
+        .badge { 
+            background: var(--purple); color: white; padding: 4px 12px; 
+            border-radius: 100px; font-size: 0.7rem; font-weight: 800; 
+        }
+        
+        .timer-rail { 
+            height: 6px; background: rgba(168,85,247,0.2); 
+            border-radius: 10px; margin: 15px 0 25px; overflow: hidden; 
+        }
+        .timer-fill { 
+            height: 100%; width: 100%; background: var(--purple-solid); 
+            box-shadow: 0 0 15px var(--purple-solid); transition: width 0.1s linear; 
+        }
 
-    .spinner { 
-        width: 50px; height: 50px; 
-        border: 4px solid rgba(212, 175, 55, 0.1); 
-        border-top-color: #d4af37; border-radius: 50%; 
-        animation: spin 1s infinite linear; 
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner { 
+            width: 50px; height: 50px; 
+            border: 4px solid rgba(168,85,247,0.2); 
+            border-top-color: #a855f7; border-radius: 50%; 
+            animation: spin 1s infinite linear; 
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Scrollbar Styling */
-    .screen::-webkit-scrollbar { width: 6px; }
-    .screen::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
-    .screen::-webkit-scrollbar-thumb { 
-        background: var(--gold-solid); border-radius: 10px; 
-    }
-</style>
-```
+        /* Scrollbar Styling */
+        .screen::-webkit-scrollbar { width: 6px; }
+        .screen::-webkit-scrollbar-track { background: rgba(168,85,247,0.1); }
+        .screen::-webkit-scrollbar-thumb { 
+            background: var(--purple-solid); border-radius: 10px; 
+        }
 
+        /* ----- kleine Prinzessin Animation ----- */
+        .princess-mascot {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            width: 45px;
+            height: 45px;
+            background: radial-gradient(circle, #ffd966, #f59e0b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            animation: float 3s ease-in-out infinite;
+            backdrop-filter: blur(2px);
+            transition: transform 0.2s;
+        }
+        .princess-mascot:hover {
+            transform: scale(1.1);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        /* kleine Krone als Accessoire */
+        .princess-mascot::after {
+            content: "👸";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+        }
+    </style>
 </head>
 <body>
 
-```
 <!-- MODAL -->
 <div id="modal" onclick="this.style.display='none'">
     <div class="modal-box" onclick="event.stopPropagation()">
@@ -302,6 +345,9 @@
         <div class="modal-flag" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
     </div>
 </div>
+
+<!-- bewegliche Prinzessin -->
+<div class="princess-mascot" onclick="alert('✨ Magische Prinzessin wacht über dein Wissen ✨')"></div>
 
 <div id="app">
     <!-- SCREEN: HOME -->
@@ -368,7 +414,7 @@
     <!-- SCREEN: QUIZ -->
     <section id="s-quiz" class="screen">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid);">Round 1/10</span>
+            <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--purple-solid);">Round 1/10</span>
             <span id="q-gold" class="badge">💰 0</span>
         </div>
         <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
@@ -381,7 +427,7 @@
         <div id="q-options"></div>
 
         <div id="q-feedback" style="display:none; margin-top:10px;">
-            <div style="background: rgba(10,10,10,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center;">
+            <div style="background: rgba(255,255,240,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center;">
                 <p id="q-expl" style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 15px;"></p>
                 <button class="btn-luxe btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
             </div>
@@ -417,7 +463,8 @@
 
 <script>
     /**
-     * MK PRESTIGE GLOBAL ENGINE - OPTIMIZED VERSION
+     * MK PRESTIGE GLOBAL ENGINE - LILA EDITION
+     * Voll funktionsfähig, alle Quiz-Fragen enthalten
      */
     const DB = {
         de: [
@@ -496,9 +543,7 @@
         save() { 
             try {
                 localStorage.setItem('mk_supreme_v10', JSON.stringify(this.profiles)); 
-            } catch (e) {
-                console.error('Save failed:', e);
-            }
+            } catch (e) {}
         },
 
         getProfile(name) {
@@ -589,7 +634,6 @@
             this.pIdx = 0; 
             this.go('loading');
             
-            // Fetch Questions
             const p = this.getProfile(this.players[0].name);
             const bank = DB[this.currentLang] || DB.de;
             let available = bank.filter(q => !p.usedIds.includes(q.id));
@@ -609,7 +653,7 @@
             document.getElementById('vs-name').innerText = p.name.toUpperCase();
             document.getElementById('vs-info').innerHTML = `
                 <span class="rank-pill ${r.class}">${r.label}</span> 
-                <span style="font-size:0.85rem; color:var(--gold-solid);">GOLD: ${p.gold}</span>
+                <span style="font-size:0.85rem; color:var(--purple-solid);">GOLD: ${p.gold}</span>
             `;
             this.go('vs');
         },
@@ -628,7 +672,6 @@
             document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
             document.getElementById('q-text').innerText = q.q;
 
-            // Background image for question
             const timestamp = Date.now();
             document.getElementById('q-frame').style.backgroundImage = 
                 `url('https://source.unsplash.com/800x450/?${q.kw}&t=${timestamp}')`;
@@ -638,7 +681,6 @@
             document.getElementById('q-feedback').style.display = 'none';
             box.style.display = 'block';
 
-            // Answer options with background images
             q.o.forEach((opt, i) => {
                 const b = document.createElement('div');
                 b.className = 'opt-visual';
@@ -722,16 +764,16 @@
             }
             
             list.innerHTML = sorted.map((p, i) => `
-                <div style="background:rgba(20,20,20,0.9); border:1px solid ${i < 3 ? 'var(--gold-solid)' : 'var(--border)'}; 
+                <div style="background:rgba(255,255,255,0.8); border:1px solid ${i < 3 ? 'var(--purple-solid)' : 'var(--border)'}; 
                      border-radius:15px; display:flex; justify-content:space-between; align-items:center; 
-                     padding:15px; margin-bottom:10px;">
+                     padding:15px; margin-bottom:10px; backdrop-filter: blur(4px);">
                     <div>
                         <span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span>
                         <b>${p.name}</b>
                     </div>
                     <div style="text-align:right">
                         LVL ${p.level}<br>
-                        <span style="color:var(--gold-solid);">${p.gold} 💰</span>
+                        <span style="color:var(--purple-solid);">${p.gold} 💰</span>
                     </div>
                 </div>
             `).join('');
@@ -749,7 +791,7 @@
             list.innerHTML = sorted.map(p => {
                 const r = this.getRank(p.level);
                 return `
-                    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); 
+                    <div style="background:rgba(255,255,255,0.8); border:1px solid var(--border); 
                          border-radius:15px; padding:15px; margin-bottom:12px; 
                          display:flex; align-items:center; gap:15px;">
                         <div style="font-size:2rem">${p.flag}</div>
@@ -757,7 +799,7 @@
                             <b>${p.name}</b><br>
                             <span class="rank-pill ${r.class}">${r.label}</span>
                         </div>
-                        <div style="text-align:right; font-weight:700; color:var(--gold-solid)">
+                        <div style="text-align:right; font-weight:700; color:var(--purple-solid)">
                             Lvl ${p.level}
                         </div>
                     </div>
@@ -769,7 +811,7 @@
             this.go('result');
             const list = document.getElementById('res-list');
             list.innerHTML = this.players.map(p => `
-                <div style="background:rgba(20,20,20,0.9); border:1px solid var(--border); 
+                <div style="background:rgba(255,255,255,0.8); border:1px solid var(--border); 
                      border-radius:15px; display:flex; justify-content:space-between; 
                      align-items:center; padding:20px; margin-bottom:10px;">
                     <div>
@@ -777,7 +819,7 @@
                         <b style="margin-left:10px">${p.name}</b>
                     </div>
                     <div style="text-align:right">
-                        <div style="color:var(--gold-solid); font-weight:900;">
+                        <div style="color:var(--purple-solid); font-weight:900;">
                             ${p.sessionScore}/10 PKT
                         </div>
                     </div>
@@ -786,11 +828,11 @@
         }
     };
 
-    // Initialize app
+    // Initialisierung
     App.go('home');
 
-    // Cycle through different country emojis for the globe (only flags from modal)
-    const countryEmojis = ['🌍', '🇩🇪', '🇷🇺', '🇬🇧', '🇳🇬', '🇹🇷', '🇫🇷', '🇺🇦', '🇺🇸'];
+    // Globus-Animation mit Lila-Flags
+    const countryEmojis = ['🌍', '🇩🇪', '🇷🇺', '🇬🇧', '🇳🇬', '🇹🇷', '🇫🇷', '🇺🇦', '🇺🇸', '👸'];
     let currentEmojiIndex = 0;
     
     setInterval(() => {
@@ -801,7 +843,5 @@
         }
     }, 2000);
 </script>
-```
-
 </body>
 </html>
