@@ -279,14 +279,15 @@
         .lang-chip:hover { background: rgba(168,85,247,0.2); }
         .lang-chip.active { background: var(--purple); color: white; font-weight: 900; border: none; }
 
+        /* Mädchenhafte Rang-Buttons */
         .rank-pill { 
             padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; 
             font-family: 'Syncopate'; font-weight: 900; text-transform: uppercase; 
             margin-right: 8px; display: inline-block;
         }
-        .rank-master { background: #c084fc; color: white; box-shadow: 0 0 8px #c084fc; }
-        .rank-god { background: #a855f7; color: white; box-shadow: 0 0 12px #a855f7; }
-        .rank-warrior { background: #e9d5ff; color: #5b21b6; }
+        .rank-princess { background: #ffb7c5; color: #a12a4a; box-shadow: 0 0 8px #ff99b0; }
+        .rank-royal { background: #ff99cc; color: #8b2c5e; box-shadow: 0 0 12px #ff66aa; }
+        .rank-queen { background: #ff66aa; color: #fff0f5; box-shadow: 0 0 15px #ff3399; }
 
         #modal { 
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); 
@@ -620,7 +621,14 @@
         players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, currentLang: 'de', activeFlagIdx: null, activeQs: [],
         save() { try { localStorage.setItem('alina_princess_elite', JSON.stringify(this.profiles)); } catch(e){} },
         getProfile(name) { let k = name.trim().toLowerCase(); if(!this.profiles[k]) this.profiles[k] = { name: name.trim(), xp: 0, gold: 0, level: 1, flag: '🐲', usedIds: [] }; return this.profiles[k]; },
-        getRank(lvl) { if(lvl>=50) return {class:'rank-god', label:'Elder God'}; if(lvl>=10) return {class:'rank-master', label:'Master'}; return {class:'rank-warrior', label:'Warrior'}; },
+        
+        // Mädchenhafte Rangbezeichnungen
+        getRank(lvl) { 
+            if(lvl >= 50) return { class: 'rank-queen', label: '👑 Crystal Queen' };
+            if(lvl >= 10) return { class: 'rank-royal', label: '💖 Royal Maiden' };
+            return { class: 'rank-princess', label: '🌸 Princess' };
+        },
+        
         princessMagic() { const messages=["✨👸✨","💖🎀💖","👑🌟👑","🌸👸🌸"]; const msg=messages[Math.floor(Math.random()*messages.length)]; const el=document.querySelector('.princess-mascot'); const heart=document.createElement('div'); heart.textContent=msg; heart.style.position='absolute'; heart.style.top='-30px'; heart.style.left='50%'; heart.style.transform='translateX(-50%)'; heart.style.fontSize='1rem'; heart.style.whiteSpace='nowrap'; heart.style.animation='heartFade 0.5s forwards'; heart.style.pointerEvents='none'; el.appendChild(heart); setTimeout(()=>heart.remove(),500); },
         castleMagic() { this.princessMagic(); },
         go(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); const screen=document.getElementById('s-'+id); if(screen){ screen.classList.add('active'); if(id==='setup' && document.getElementById('player-list').children.length===0) this.addPlayerInput(); if(id==='leaderboard') this.renderLeaderboard(); if(id==='achievements') this.renderAchievements(); } },
@@ -631,13 +639,96 @@
         async prepareBattle() { const cards=document.querySelectorAll('.player-card'); this.players=Array.from(cards).map(c=>{ const name=c.querySelector('input').value.trim()||"Warrior"; const flag=c.querySelector('.flag-plus').innerText==='+'?'🐲':c.querySelector('.flag-plus').innerText; const p=this.getProfile(name); p.flag=flag; return {...p, sessionScore:0, sessionGold:0}; }); if(this.players.length===0){ alert('Bitte mindestens einen Kämpfer hinzufügen!'); return; } this.pIdx=0; this.go('loading'); const p=this.getProfile(this.players[0].name); const bank=DB[this.currentLang]||DB.de; let available=bank.filter(q=>!p.usedIds.includes(q.id)); if(available.length<5){ p.usedIds=[]; available=bank; } this.activeQs=available.sort(()=>0.5-Math.random()).slice(0,10); setTimeout(()=>this.showVS(),1500); },
         showVS() { const p=this.players[this.pIdx]; const r=this.getRank(p.level); document.getElementById('vs-flag').innerText=p.flag; document.getElementById('vs-name').innerText=p.name.toUpperCase(); document.getElementById('vs-info').innerHTML=`<span class="rank-pill ${r.class}">${r.label}</span> <span style="font-size:0.85rem; color:var(--purple-solid);">GOLD: ${p.gold}</span>`; this.go('vs'); },
         startQuiz() { this.qIdx=0; this.renderQuestion(); this.go('quiz'); },
-        renderQuestion() { const q=this.activeQs[this.qIdx]; const p=this.players[this.pIdx]; document.getElementById('q-round').innerText=`Round ${this.qIdx+1}/10`; document.getElementById('q-gold').innerText=`💰 ${p.sessionGold}`; document.getElementById('q-text').innerText=q.q; const timestamp=Date.now(); document.getElementById('q-frame').style.backgroundImage=`url('https://source.unsplash.com/800x450/?${q.kw}&t=${timestamp}')`; const box=document.getElementById('q-options'); box.innerHTML=''; document.getElementById('q-feedback').style.display='none'; box.style.display='block'; q.o.forEach((opt,i)=>{ const b=document.createElement('div'); b.className='opt-visual'; let imgKeyword=q.imgKw&&q.imgKw[i]?q.imgKw[i]:`${opt},${q.kw}`; b.style.backgroundImage=`url('https://source.unsplash.com/400x150/?${imgKeyword}&t=${timestamp+i}')`; b.innerHTML=`<div class="opt-img-overlay"></div><div class="opt-label">${opt}</div>`; b.onclick=()=>this.handleAnswer(i,b); box.appendChild(b); }); this.startTimer(); },
-        startTimer() { clearInterval(this.timer); this.timeLeft=12; const bar=document.getElementById('timer-bar'); this.timer=setInterval(()=>{ this.timeLeft-=0.1; bar.style.width=(this.timeLeft/12*100)+"%"; if(this.timeLeft<=0){ clearInterval(this.timer); this.handleAnswer(-1); } },100); },
-        handleAnswer(idx,b) { clearInterval(this.timer); const q=this.activeQs[this.qIdx]; const p=this.players[this.pIdx]; const prof=this.getProfile(p.name); const opts=document.querySelectorAll('.opt-visual'); opts.forEach(o=>o.style.pointerEvents='none'); if(!prof.usedIds.includes(q.id)) prof.usedIds.push(q.id); if(idx===q.c){ if(b) b.classList.add('correct'); p.sessionScore++; const gain=Math.round(this.timeLeft*30); p.sessionGold+=gain; prof.gold+=gain; prof.xp+=100; prof.level=Math.floor(Math.sqrt(prof.xp/350))+1; } else { if(idx!==-1&&b) b.classList.add('wrong'); opts[q.c].classList.add('correct'); } this.save(); document.getElementById('q-expl').innerText=q.e; document.getElementById('q-feedback').style.display='block'; document.getElementById('q-options').style.display='none'; },
-        nextStep() { this.qIdx++; if(this.qIdx<10 && this.qIdx<this.activeQs.length) this.renderQuestion(); else { this.pIdx++; if(this.pIdx<this.players.length) this.prepareBattle(); else this.showResults(); } },
-        renderLeaderboard() { const list=document.getElementById('lb-list'); const sorted=Object.values(this.profiles).sort((a,b)=>b.xp-a.xp); if(sorted.length===0){ list.innerHTML='<p style="text-align:center; opacity:0.5; margin-top:50px;">Noch keine Kämpfer</p>'; return; } list.innerHTML=sorted.map((p,i)=>`<div style="background:rgba(255,255,255,0.8); border:1px solid ${i<3?'var(--purple-solid)':'var(--border)'}; border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; backdrop-filter: blur(4px);"><div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b></div><div style="text-align:right">LVL ${p.level}<br><span style="color:var(--purple-solid);">${p.gold} 💰</span></div></div>`).join(''); },
-        renderAchievements() { const list=document.getElementById('ach-list'); const sorted=Object.values(this.profiles).sort((a,b)=>b.level-a.level); if(sorted.length===0){ list.innerHTML='<p style="text-align:center; opacity:0.5; margin-top:50px;">Noch keine Erfolge</p>'; return; } list.innerHTML=sorted.map(p=>{ const r=this.getRank(p.level); return `<div style="background:rgba(255,255,255,0.8); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;"><div style="font-size:2rem">${p.flag}</div><div style="flex:1"><b>${p.name}</b><br><span class="rank-pill ${r.class}">${r.label}</span></div><div style="text-align:right; font-weight:700; color:var(--purple-solid)">Lvl ${p.level}</div></div>`; }).join(''); },
-        showResults() { this.go('result'); const list=document.getElementById('res-list'); list.innerHTML=this.players.map(p=>`<div style="background:rgba(255,255,255,0.8); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;"><div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div><div style="text-align:right"><div style="color:var(--purple-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div></div>`).join(''); }
+        renderQuestion() { 
+            const q = this.activeQs[this.qIdx];
+            const p = this.players[this.pIdx];
+            document.getElementById('q-round').innerText = `Round ${this.qIdx+1}/10`;
+            document.getElementById('q-gold').innerText = `💰 ${p.sessionGold}`;
+            document.getElementById('q-text').innerText = q.q;
+            const timestamp = Date.now();
+            document.getElementById('q-frame').style.backgroundImage = `url('https://source.unsplash.com/800x450/?${q.kw}&t=${timestamp}')`;
+            const box = document.getElementById('q-options');
+            box.innerHTML = '';
+            document.getElementById('q-feedback').style.display = 'none';
+            box.style.display = 'block';
+            
+            // 🔀 ZUFÄLLIGE ANTWORTREIHENFOLGE 🔀
+            const optionsWithIndex = q.o.map((text, idx) => ({ text, idx, isCorrect: idx === q.c }));
+            const shuffled = [...optionsWithIndex];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            
+            shuffled.forEach((opt, i) => {
+                const b = document.createElement('div');
+                b.className = 'opt-visual';
+                let imgKeyword = q.imgKw && q.imgKw[opt.idx] ? q.imgKw[opt.idx] : `${opt.text},${q.kw}`;
+                b.style.backgroundImage = `url('https://source.unsplash.com/400x150/?${imgKeyword}&t=${timestamp+i}')`;
+                b.innerHTML = `<div class="opt-img-overlay"></div><div class="opt-label">${opt.text}</div>`;
+                b.onclick = () => this.handleAnswer(opt.isCorrect, b);
+                box.appendChild(b);
+            });
+            this.startTimer();
+        },
+        startTimer() { clearInterval(this.timer); this.timeLeft=12; const bar=document.getElementById('timer-bar'); this.timer=setInterval(()=>{ this.timeLeft-=0.1; bar.style.width=(this.timeLeft/12*100)+"%"; if(this.timeLeft<=0){ clearInterval(this.timer); this.handleAnswer(false); } },100); },
+        handleAnswer(isCorrect, b) { 
+            clearInterval(this.timer);
+            const q = this.activeQs[this.qIdx];
+            const p = this.players[this.pIdx];
+            const prof = this.getProfile(p.name);
+            const opts = document.querySelectorAll('.opt-visual');
+            opts.forEach(o => o.style.pointerEvents = 'none');
+            if(!prof.usedIds.includes(q.id)) prof.usedIds.push(q.id);
+            if(isCorrect){ 
+                if(b) b.classList.add('correct');
+                p.sessionScore++; 
+                const gain = Math.round(this.timeLeft * 30);
+                p.sessionGold += gain; 
+                prof.gold += gain; 
+                prof.xp += 100; 
+                prof.level = Math.floor(Math.sqrt(prof.xp / 350)) + 1;
+            } else { 
+                if(b) b.classList.add('wrong');
+                // Zeige richtige Antwort visuell an
+                opts.forEach(opt => {
+                    if(opt.innerText.trim() === q.o[q.c]) opt.classList.add('correct');
+                });
+            }
+            this.save();
+            document.getElementById('q-expl').innerText = q.e;
+            document.getElementById('q-feedback').style.display = 'block';
+            document.getElementById('q-options').style.display = 'none';
+        },
+        nextStep() { 
+            this.qIdx++; 
+            if(this.qIdx < 10 && this.qIdx < this.activeQs.length) this.renderQuestion(); 
+            else { 
+                this.pIdx++; 
+                if(this.pIdx < this.players.length) this.prepareBattle(); 
+                else this.showResults(); 
+            } 
+        },
+        renderLeaderboard() { 
+            const list = document.getElementById('lb-list'); 
+            const sorted = Object.values(this.profiles).sort((a,b)=>b.xp - a.xp); 
+            if(sorted.length===0){ list.innerHTML='<p style="text-align:center; opacity:0.5; margin-top:50px;">Noch keine Kämpfer</p>'; return; } 
+            list.innerHTML = sorted.map((p,i)=>`<div style="background:rgba(255,255,255,0.8); border:1px solid ${i<3?'var(--purple-solid)':'var(--border)'}; border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:15px; margin-bottom:10px; backdrop-filter: blur(4px);"><div><span style="font-size:1.2rem; margin-right:10px;">${p.flag}</span><b>${p.name}</b></div><div style="text-align:right">LVL ${p.level}<br><span style="color:var(--purple-solid);">${p.gold} 💰</span></div></div>`).join(''); 
+        },
+        renderAchievements() { 
+            const list = document.getElementById('ach-list'); 
+            const sorted = Object.values(this.profiles).sort((a,b)=>b.level - a.level); 
+            if(sorted.length===0){ list.innerHTML='<p style="text-align:center; opacity:0.5; margin-top:50px;">Noch keine Erfolge</p>'; return; } 
+            list.innerHTML = sorted.map(p=>{ 
+                const r = this.getRank(p.level); 
+                return `<div style="background:rgba(255,255,255,0.8); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;"><div style="font-size:2rem">${p.flag}</div><div style="flex:1"><b>${p.name}</b><br><span class="rank-pill ${r.class}">${r.label}</span></div><div style="text-align:right; font-weight:700; color:var(--purple-solid)">Lvl ${p.level}</div></div>`; 
+            }).join(''); 
+        },
+        showResults() { 
+            this.go('result'); 
+            const list = document.getElementById('res-list'); 
+            list.innerHTML = this.players.map(p=>`<div style="background:rgba(255,255,255,0.8); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;"><div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div><div style="text-align:right"><div style="color:var(--purple-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div></div>`).join(''); 
+        }
     };
 
     window.App = App;
