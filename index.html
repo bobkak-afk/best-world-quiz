@@ -117,7 +117,6 @@
         .castle-container:hover .castle-image {
             filter: brightness(1.02) saturate(1.05);
         }
-        /* Glitzer-Overlay für magischen Touch */
         .castle-glow {
             position: absolute;
             top: 0;
@@ -133,7 +132,6 @@
             100% { opacity: 0.9; }
         }
 
-        /* NEUER pulsierender Titel */
         .quiz-title {
             font-family: 'Cinzel Decorative', serif;
             font-size: 2.2rem;
@@ -167,7 +165,7 @@
             text-shadow: 0 0 8px rgba(192,132,252,0.6);
         }
 
-        /* --- UI COMPONENTS (unverändert) --- */
+        /* --- UI COMPONENTS --- */
         .btn-luxe { 
             appearance: none; border: none; padding: 20px; border-radius: 16px; 
             font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.75rem; 
@@ -340,7 +338,7 @@
             background: var(--purple-solid); border-radius: 10px; 
         }
 
-        /* ---- Kleine Prinzessin unten (Mascot) ---- */
+        /* --- Kleine Prinzessin (Mascot) --- */
         .princess-mascot {
             position: fixed;
             bottom: 20px;
@@ -423,29 +421,24 @@
     </div>
 </div>
 
-<!-- kleine Prinzessin unten -->
+<!-- Prinzessin-Maskottchen -->
 <div class="princess-mascot" onclick="App.princessMagic()">👸</div>
 
 <div id="app">
-    <!-- SCREEN: HOME - Märchenschloss & neuer Titel -->
+    <!-- HOME Screen mit Märchenschloss -->
     <section id="s-home" class="screen active">
         <div class="brand-top">
             <div class="alina-pulse">ALINA FRAIS</div>
             <div class="prestige-line">✨ PRESTIGE PRINZESSINNEN ELITE GAME ✨</div>
         </div>
-        
         <div class="home-center">
-            <!-- Märchenschloss (großes, rosa Bild) -->
             <div class="castle-container" onclick="App.castleMagic()">
-                <img class="castle-image" src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=600&auto=format" alt="Prinzessinnen Schloss" loading="lazy">
+                <img class="castle-image" src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=600&auto=format" alt="Märchenschloss">
                 <div class="castle-glow"></div>
             </div>
-            
-            <!-- Neuer pulsierender Titel: ❤️ BEST ALINAS WORLD QUIZ ❤️ -->
             <div class="quiz-title">❤️ BEST ALINAS WORLD QUIZ ❤️</div>
             <div class="sub-title-low">Princess Knowledge Quest</div>
         </div>
-
         <div style="margin-top: auto;">
             <button class="btn-luxe btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
             <button class="btn-luxe btn-outline" onclick="App.go('achievements')">Erfolge & Ränge ⚔️</button>
@@ -454,9 +447,9 @@
         <footer>Produziert von Wowa & Amiar Kempf & Alina Frais</footer>
     </section>
 
-    <!-- Alle anderen Screens bleiben exakt gleich (Setup, Loading, VS, Quiz, Result, Achievements, Leaderboard) -->
+    <!-- SETUP Screen -->
     <section id="s-setup" class="screen">
-        <h2 class="quiz-title" style="font-size: 2.2rem;">Krieger</h2>
+        <div class="quiz-title" style="font-size: 2rem;">👑 Krieger</div>
         <p class="section-label">Game Sprache</p>
         <div class="lang-grid">
             <div class="lang-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
@@ -474,11 +467,13 @@
         </div>
     </section>
 
+    <!-- LOADING Screen -->
     <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
         <div class="spinner"></div>
-        <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:25px;">Lade Game-Visuals...</p>
+        <p style="font-family:'Syncopate'; font-size:0.6rem; letter-spacing:3px; margin-top:25px;">✨ Magie wird entfaltet...</p>
     </section>
 
+    <!-- VS Screen -->
     <section id="s-vs" class="screen">
         <div style="text-align: center; margin-top: 60px;">
             <div id="vs-flag" style="font-size: 7.5rem; margin-bottom: 15px;">🐲</div>
@@ -491,6 +486,7 @@
         </div>
     </section>
 
+    <!-- QUIZ Screen -->
     <section id="s-quiz" class="screen">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <span id="q-round" style="font-family:'Syncopate'; font-size:0.6rem; color:var(--purple-solid);">Round 1/10</span>
@@ -508,8 +504,9 @@
         <button class="btn-back" style="margin-top:15px;" onclick="if(confirm('Abbrechen?')) location.reload()">✕ Beenden</button>
     </section>
 
+    <!-- RESULT Screen -->
     <section id="s-result" class="screen">
-        <h1 class="quiz-title" style="font-size: 2.5rem;">KAMPF ENDE</h1>
+        <div class="quiz-title" style="font-size: 2.5rem;">🏆 KAMPF ENDE</div>
         <div id="res-list" style="margin-top: 30px; flex: 1;"></div>
         <div style="margin-top: auto;">
             <button class="btn-luxe btn-gold" onclick="App.prepareBattle()">Nochmal Kämpfen</button>
@@ -518,21 +515,23 @@
         <footer>Produziert von Wowa & Amiar Kempf & Alina Frais</footer>
     </section>
 
+    <!-- ACHIEVEMENTS Screen -->
     <section id="s-achievements" class="screen">
-        <h1 class="quiz-title" style="font-size: 2rem;">ERFOLGE</h1>
+        <div class="quiz-title" style="font-size: 2rem;">🌟 ERFOLGE</div>
         <div id="ach-list" style="margin-top:30px; flex:1;"></div>
         <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
     </section>
 
+    <!-- LEADERBOARD Screen -->
     <section id="s-leaderboard" class="screen">
-        <h1 class="quiz-title" style="font-size: 2rem;">BESTENLISTE</h1>
+        <div class="quiz-title" style="font-size: 2rem;">🏅 BESTENLISTE</div>
         <div id="lb-list" style="margin-top:30px; flex:1;"></div>
         <button class="btn-luxe btn-gold" onclick="App.go('home')">Hauptmenü</button>
     </section>
 </div>
 
 <script>
-    // ======================== VOLLSTÄNDIGE FRAGEN-DATENBANK (20 pro Sprache) ========================
+    // ======================== VOLLSTÄNDIGE FRAGEN-DATENBANK (mehr als 15 pro Sprache) ========================
     const DB = {
         de: [
             { id: "de1", q: "Größtes Land der Erde?", o: ["Russland", "Kanada", "China", "USA"], c: 0, e: "Russland umfasst ca. 17 Mio km².", kw: "russia", imgKw: ["russia kremlin", "canada nature", "china wall", "usa flag"] },
@@ -578,19 +577,52 @@
             { id: "en19", q: "Largest planet?", o: ["Jupiter", "Saturn", "Neptune", "Uranus"], c: 0, e: "Jupiter is the most massive.", kw: "jupiter", imgKw: ["jupiter planet", "saturn rings", "neptune", "uranus"] },
             { id: "en20", q: "Longest railway route?", o: ["Trans-Siberian", "Orient Express", "Eurostar", "California Zephyr"], c: 0, e: "From Moscow to Vladivostok.", kw: "transsiberian", imgKw: ["transsiberian railway", "orient express", "eurostar train", "california zephyr"] }
         ],
-        ru: DB.de.map((q, i) => ({ ...q, id: "ru"+i })),
-        ig: DB.de.map((q, i) => ({ ...q, id: "ig"+i })),
-        tr: DB.de.map((q, i) => ({ ...q, id: "tr"+i }))
+        ru: [
+            { id: "ru1", q: "Столица России?", o: ["Москва", "Санкт-Петербург", "Киев", "Минск"], c: 0, e: "Москва — сердце страны.", kw: "moscow", imgKw: ["moscow kremlin", "saint petersburg", "kiev ukraine", "minsk belarus"] },
+            { id: "ru2", q: "Самая длинная река в мире?", o: ["Нил", "Амазонка", "Янцзы", "Миссисипи"], c: 0, e: "Нил протяжённостью около 6650 км.", kw: "nile", imgKw: ["nile river", "amazon river", "yangtze river", "mississippi river"] },
+            { id: "ru3", q: "Самая высокая гора?", o: ["Эверест", "К2", "Килиманджаро", "Монблан"], c: 0, e: "Эверест в Гималаях.", kw: "everest", imgKw: ["everest mountain", "k2 mountain", "kilimanjaro", "mont blanc"] },
+            { id: "ru4", q: "Сколько континентов?", o: ["7", "5", "6", "8"], c: 0, e: "Европа, Азия, Африка, Америка (2), Австралия, Антарктида.", kw: "continents", imgKw: ["world map", "continents globe", "geography map", "earth map"] },
+            { id: "ru5", q: "Валюта США?", o: ["Доллар", "Евро", "Фунт", "Йена"], c: 0, e: "Доллар США — мировая валюта.", kw: "dollar", imgKw: ["dollar bills", "euro notes", "pound sterling", "yen currency"] },
+            { id: "ru6", q: "Где находятся пирамиды Гизы?", o: ["Египет", "Мексика", "Судан", "Перу"], c: 0, e: "В Египте, недалеко от Каира.", kw: "pyramids", imgKw: ["egypt pyramids", "mexico pyramid", "sudan pyramids", "peru machu picchu"] },
+            { id: "ru7", q: "Самый большой океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный Ледовитый"], c: 0, e: "Тихий океан покрывает 35% Земли.", kw: "pacific", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "ru8", q: "Столица Франции?", o: ["Париж", "Лион", "Марсель", "Ницца"], c: 0, e: "Париж — город света.", kw: "paris", imgKw: ["paris eiffel", "lyon france", "marseille port", "nice beach"] },
+            { id: "ru9", q: "Самая населённая страна?", o: ["Китай", "Индия", "США", "Индонезия"], c: 0, e: "Более 1,4 миллиарда человек.", kw: "china", imgKw: ["china city", "india crowd", "usa cities", "indonesia jakarta"] },
+            { id: "ru10", q: "Столица Канады?", o: ["Оттава", "Торонто", "Ванкувер", "Монреаль"], c: 0, e: "Оттава находится в провинции Онтарио.", kw: "ottawa", imgKw: ["ottawa canada", "toronto skyline", "vancouver", "montreal"] }
+        ],
+        ig: [
+            { id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo Nigeria.", kw: "abuja", imgKw: ["abuja city", "lagos skyline", "enugu city", "kano city"] },
+            { id: "ig2", q: "Kedu osimiri kacha ogologo n'ụwa?", o: ["Nile", "Amazon", "Niger", "Congo"], c: 0, e: "Osimiri Nile dị n'Egypt.", kw: "nile", imgKw: ["nile river", "amazon river", "niger river", "congo river"] },
+            { id: "ig3", q: "Kedu ugwu kacha elu n'ụwa?", o: ["Everest", "Kilimanjaro", "K2", "Kenya"], c: 0, e: "Ugwu Everest dị na Himalaya.", kw: "everest", imgKw: ["everest mountain", "kilimanjaro peak", "k2 mountain", "mount kenya"] },
+            { id: "ig4", q: "Kedu ego USA?", o: ["Dollar", "Euro", "Naira", "Pound"], c: 0, e: "Dollar bụ ego US.", kw: "dollar", imgKw: ["dollar bills", "euro notes", "naira currency", "pound sterling"] },
+            { id: "ig5", q: "Kedu isi obodo France?", o: ["Paris", "Lyon", "Marseille", "Nice"], c: 0, e: "Paris bụ isi obodo France.", kw: "paris", imgKw: ["paris eiffel", "lyon city", "marseille port", "nice beach"] },
+            { id: "ig6", q: "Ole kontinenti dị?", o: ["7", "5", "6", "8"], c: 0, e: "Afrika, Asia, Europe, America, Australia, Antarctica.", kw: "continents", imgKw: ["world map", "africa map", "asia map", "europe map"] },
+            { id: "ig7", q: "Kedu oke osimiri kacha ukwu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific kpuchiri 35% nke ụwa.", kw: "pacific", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ice"] },
+            { id: "ig8", q: "Ebe Pyramids dị?", o: ["Egypt", "Mexico", "Sudan", "Peru"], c: 0, e: "Giza pyramids dị na Cairo.", kw: "pyramids", imgKw: ["egypt pyramids", "mexico pyramid", "sudan pyramids", "peru machu"] },
+            { id: "ig9", q: "Obodo kacha nwee mmadụ?", o: ["China", "India", "Nigeria", "USA"], c: 0, e: "China nwere ihe karịrị ijeri 1.4.", kw: "china", imgKw: ["china city", "india crowd", "nigeria lagos", "usa cities"] },
+            { id: "ig10", q: "Isi obodo Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo bụ isi obodo Japan.", kw: "tokyo", imgKw: ["tokyo tower", "osaka castle", "kyoto temple", "nagoya city"] }
+        ],
+        tr: [
+            { id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara Türkiye'nin başkentidir.", kw: "ankara", imgKw: ["ankara city", "istanbul bosphorus", "izmir coast", "bursa mosque"] },
+            { id: "tr2", q: "Dünyanın en uzun nehri?", o: ["Nil", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nil Nehri Mısır'dan akar.", kw: "nile", imgKw: ["nile river", "amazon river", "yangtze river", "mississippi river"] },
+            { id: "tr3", q: "En yüksek dağ?", o: ["Everest", "K2", "Ağrı", "Mont Blanc"], c: 0, e: "Everest Himalayalar'da.", kw: "everest", imgKw: ["everest peak", "k2 mountain", "mount ararat", "mont blanc"] },
+            { id: "tr4", q: "Kaç kıta var?", o: ["7", "5", "6", "8"], c: 0, e: "Avrupa, Asya, Afrika, Amerika, Avustralya, Antarktika.", kw: "continents", imgKw: ["world map", "continents globe", "geography map", "earth map"] },
+            { id: "tr5", q: "ABD'nin para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "Dolar ABD para birimidir.", kw: "dollar", imgKw: ["dollar bills", "euro notes", "pound sterling", "yen currency"] },
+            { id: "tr6", q: "Piramitler nerede?", o: ["Mısır", "Meksika", "Sudan", "Peru"], c: 0, e: "Giza piramitleri Kahire'de.", kw: "pyramids", imgKw: ["giza pyramids", "mexico pyramid", "sudan pyramids", "peru machu picchu"] },
+            { id: "tr7", q: "En büyük okyanus?", o: ["Pasifik", "Atlantik", "Hint", "Arktik"], c: 0, e: "Pasifik Okyanusu dünya yüzeyinin %35'ini kaplar.", kw: "pacific", imgKw: ["pacific ocean", "atlantic ocean", "indian ocean", "arctic ocean"] },
+            { id: "tr8", q: "Fransa'nın başkenti?", o: ["Paris", "Lyon", "Marsilya", "Nice"], c: 0, e: "Paris Fransa'nın başkentidir.", kw: "paris", imgKw: ["paris eiffel", "lyon france", "marseille port", "nice beach"] },
+            { id: "tr9", q: "En kalabalık ülke?", o: ["Çin", "Hindistan", "ABD", "Endonezya"], c: 0, e: "Çin'de 1.4 milyardan fazla insan var.", kw: "china", imgKw: ["china city", "india crowd", "usa cities", "indonesia jakarta"] },
+            { id: "tr10", q: "Kanada'nın başkenti?", o: ["Ottawa", "Toronto", "Vancouver", "Montreal"], c: 0, e: "Ottawa Kanada'nın başkentidir.", kw: "ottawa", imgKw: ["ottawa canada", "toronto skyline", "vancouver", "montreal"] }
+        ]
     };
 
     const App = {
-        profiles: JSON.parse(localStorage.getItem('mk_supreme_v10') || '{}'),
+        profiles: JSON.parse(localStorage.getItem('alina_princess_elite') || '{}'),
         players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 12, currentLang: 'de', activeFlagIdx: null, activeQs: [],
-        save() { try { localStorage.setItem('mk_supreme_v10', JSON.stringify(this.profiles)); } catch(e){} },
+        save() { try { localStorage.setItem('alina_princess_elite', JSON.stringify(this.profiles)); } catch(e){} },
         getProfile(name) { let k = name.trim().toLowerCase(); if(!this.profiles[k]) this.profiles[k] = { name: name.trim(), xp: 0, gold: 0, level: 1, flag: '🐲', usedIds: [] }; return this.profiles[k]; },
         getRank(lvl) { if(lvl>=50) return {class:'rank-god', label:'Elder God'}; if(lvl>=10) return {class:'rank-master', label:'Master'}; return {class:'rank-warrior', label:'Warrior'}; },
         princessMagic() { const messages=["✨👸✨","💖🎀💖","👑🌟👑","🌸👸🌸"]; const msg=messages[Math.floor(Math.random()*messages.length)]; const el=document.querySelector('.princess-mascot'); const heart=document.createElement('div'); heart.textContent=msg; heart.style.position='absolute'; heart.style.top='-30px'; heart.style.left='50%'; heart.style.transform='translateX(-50%)'; heart.style.fontSize='1rem'; heart.style.whiteSpace='nowrap'; heart.style.animation='heartFade 0.5s forwards'; heart.style.pointerEvents='none'; el.appendChild(heart); setTimeout(()=>heart.remove(),500); },
-        castleMagic() { this.princessMagic(); }, // Schloss klickbar für Magie
+        castleMagic() { this.princessMagic(); },
         go(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); const screen=document.getElementById('s-'+id); if(screen){ screen.classList.add('active'); if(id==='setup' && document.getElementById('player-list').children.length===0) this.addPlayerInput(); if(id==='leaderboard') this.renderLeaderboard(); if(id==='achievements') this.renderAchievements(); } },
         setLang(l) { this.currentLang=l; document.querySelectorAll('.lang-chip').forEach(c=>c.classList.remove('active')); const chip=document.getElementById('ln-'+l); if(chip) chip.classList.add('active'); },
         addPlayerInput() { const cont=document.getElementById('player-list'); const id=Date.now()+Math.random(); const d=document.createElement('div'); d.className='player-card'; d.id='pc-'+id; d.innerHTML=`<div class="flag-plus" onclick="App.openFlag('${id}')">+</div><input type="text" class="input-luxe" placeholder="Name..."><button class="btn-trash" onclick="document.getElementById('pc-${id}').remove()">🗑️</button>`; cont.appendChild(d); },
@@ -607,7 +639,7 @@
         renderAchievements() { const list=document.getElementById('ach-list'); const sorted=Object.values(this.profiles).sort((a,b)=>b.level-a.level); if(sorted.length===0){ list.innerHTML='<p style="text-align:center; opacity:0.5; margin-top:50px;">Noch keine Erfolge</p>'; return; } list.innerHTML=sorted.map(p=>{ const r=this.getRank(p.level); return `<div style="background:rgba(255,255,255,0.8); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:15px;"><div style="font-size:2rem">${p.flag}</div><div style="flex:1"><b>${p.name}</b><br><span class="rank-pill ${r.class}">${r.label}</span></div><div style="text-align:right; font-weight:700; color:var(--purple-solid)">Lvl ${p.level}</div></div>`; }).join(''); },
         showResults() { this.go('result'); const list=document.getElementById('res-list'); list.innerHTML=this.players.map(p=>`<div style="background:rgba(255,255,255,0.8); border:1px solid var(--border); border-radius:15px; display:flex; justify-content:space-between; align-items:center; padding:20px; margin-bottom:10px;"><div><span>${p.flag}</span> <b style="margin-left:10px">${p.name}</b></div><div style="text-align:right"><div style="color:var(--purple-solid); font-weight:900;">${p.sessionScore}/10 PKT</div></div></div>`).join(''); }
     };
-    
+
     window.App = App;
     App.go('home');
 </script>
