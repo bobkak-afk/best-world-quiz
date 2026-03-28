@@ -1,404 +1,597 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>MK · APEX AETERNA · OFFICIAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@100;300;400;600;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <title>MK · CRIMSON SOVEREIGN · OFFICIAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@200;400;600;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: linear-gradient(135deg, #ffdf91 0%, #d4af37 45%, #b38728 70%, #8a6d1c 100%);
-            --gold-solid: #d4af37;
-            --bg: #010103;
-            --glass: rgba(10, 10, 15, 0.92);
-            --border: rgba(212, 175, 55, 0.4);
-            --red: #ff3c00;
-            --blue: #00d4ff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; }
-        
         body {
-            background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif;
-            height: 100dvh; width: 100vw; overflow: hidden; display: flex; justify-content: center;
+            background: #050000;
+            font-family: 'Outfit', sans-serif;
+            height: 100dvh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            color: #fff;
         }
 
-        /* --- DYNAMISCHE HINTERGRUND-WALL --- */
-        #master-cine-wall {
-            position: fixed; inset: 0; z-index: 1;
-            background-size: cover; background-position: center;
-            filter: brightness(0.3) saturate(1.1) blur(4px);
-            transition: background-image 2s ease-in-out;
-            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000');
+        :root {
+            --crimson-grad: linear-gradient(135deg, #ff1a1a 0%, #8b0000 60%, #3a0000 100%);
+            --gold-grad: linear-gradient(135deg, #ffdf91, #d4af37);
+            --border-red: rgba(255, 40, 40, 0.5);
+            --card-bg: rgba(10, 0, 0, 0.85);
+        }
+
+        /* DYNAMIC BACKGROUND WALL */
+        #crimson-cine-wall {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.25) saturate(1.4) blur(6px);
+            transition: background-image 1.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600');
         }
 
         #app {
-            width: 100%; max-width: 480px; height: 100dvh; display: flex; flex-direction: column;
-            position: relative; z-index: 10; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);
-            background: rgba(0,0,0,0.45); backdrop-filter: blur(25px);
-            box-shadow: 0 0 100px #000;
+            width: 100%;
+            max-width: 500px;
+            height: 100dvh;
+            position: relative;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(18px);
+            border-left: 1px solid rgba(255, 0, 0, 0.25);
+            border-right: 1px solid rgba(255, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 80px rgba(0,0,0,0.9);
         }
 
-        .screen { display: none; flex: 1; padding: 25px; flex-direction: column; overflow-y: auto; overflow-x: hidden; position: relative; }
-        .screen.active { display: flex; animation: revealIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-        @keyframes revealIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-
-        /* --- LOGO & BRANDING --- */
-        .branding-top { font-family: 'Syncopate', sans-serif; font-size: 0.65rem; letter-spacing: 12px; color: var(--gold-solid); text-align: center; margin-top: 15px; text-transform: uppercase; text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); font-weight: 700; }
-        .logo-box { text-align: center; margin-top: 30px; }
-        .title-gold { font-family: 'Cinzel Decorative', serif; font-size: 3.5rem; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 0.85; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5)); letter-spacing: -2px; }
-
-        /* --- GIGANTIC 3D GLOBE --- */
-        .globe-center {
-            width: 260px; height: 260px; margin: 25px auto;
-            position: relative; border-radius: 50%; background: #000;
-            box-shadow: inset -40px -40px 80px #000, inset 20px 20px 50px rgba(255,255,255,0.1), 0 0 80px rgba(0, 212, 255, 0.2);
-            overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+        .screen {
+            display: none;
+            flex: 1;
+            padding: 20px 20px 10px 20px;
+            flex-direction: column;
+            overflow-y: auto;
+            scrollbar-width: thin;
         }
-        .globe-map { width: 200%; height: 100%; position: absolute; background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Blue_Marble_2002.png/1024px-Blue_Marble_2002.png'); background-size: cover; animation: rotateGlobe 45s linear infinite; opacity: 0.95; }
-        .globe-glare { position: absolute; inset: 0; background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.2) 0%, transparent 75%, rgba(0,0,0,0.9) 100%); z-index: 5; }
-        @keyframes rotateGlobe { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-        .sub-title-main { font-family: 'Syncopate', sans-serif; font-size: 1.7rem; letter-spacing: 3px; color: #fff; text-align: center; text-transform: uppercase; margin-top: auto; padding-bottom: 30px; font-weight: 700; text-shadow: 0 0 35px rgba(255,255,255,0.9); }
-
-        /* --- BUTTONS --- */
-        .btn-apex { appearance: none; border: none; padding: 22px; border-radius: 20px; font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-bottom: 15px; position: relative; overflow: hidden; background: rgba(255,255,255,0.03); color: #fff; border: 1px solid var(--border); backdrop-filter: blur(10px); }
-        .btn-gold { background: var(--gold); color: #000; font-weight: 900; border: none; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
-        .btn-gold::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transform: translateX(-100%); animation: sweep 5s infinite; }
-        @keyframes sweep { 0% { transform: translateX(-100%); } 20% { transform: translateX(100%); } 100% { transform: translateX(100%); } }
-        .btn-back { background: transparent; border: none; color: rgba(255,255,255,0.5); font-family: 'Syncopate'; font-size: 0.65rem; cursor: pointer; padding: 15px; width: 100%; text-align: center; letter-spacing: 4px; }
-
-        /* --- SETUP INTERFACE --- */
-        .fighter-slot { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 18px; display: flex; align-items: center; margin-bottom: 12px; position: relative; animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
-        .f-select { width: 52px; height: 52px; background: #000; border: 2px dashed var(--gold-solid); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; color: var(--gold-solid); transition: 0.3s; }
-        .f-select.active { border-style: solid; background: rgba(212, 175, 55, 0.1); }
-        .n-input { background: transparent; border: none; color: #fff; font-family: 'Outfit'; font-size: 1.25rem; width: 100%; margin-left: 15px; outline: none; font-weight: 700; letter-spacing: 0.5px; }
-        .btn-del { background: none; border: none; color: #ff4d4d; font-size: 1.5rem; cursor: pointer; opacity: 0.6; }
-
-        /* --- VISUAL QUIZ HUD --- */
-        .q-window { height: 240px; border-radius: 35px; border: 1px solid var(--border); background-size: cover; background-position: center; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
-        .q-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.9)); z-index: 1; }
-        .q-text-p { position: relative; z-index: 5; text-align: center; font-size: 1.55rem; padding: 25px; font-weight: 800; text-shadow: 0 4px 15px #000; line-height: 1.2; letter-spacing: -0.5px; }
-
-        .o-item-v { height: 75px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .o-item-v:hover { transform: scale(1.03) translateX(10px); border-color: var(--gold-solid); }
-        .o-blur { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(3px); z-index: 1; transition: 0.3s; }
-        .o-txt { position: relative; z-index: 5; padding-left: 25px; font-weight: 800; font-size: 1.25rem; text-shadow: 0 2px 10px #000; }
-
-        .correct .o-blur { background: rgba(27, 77, 46, 0.95) !important; }
-        .wrong .o-blur { background: rgba(77, 27, 27, 0.95) !important; }
-
-        .learn-card { background: rgba(0,0,0,0.98); border: 1px solid var(--gold-solid); border-radius: 35px; padding: 30px; text-align: center; margin-top: 5px; animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; box-shadow: 0 0 50px #000; }
-        @keyframes popUp { from { transform: translateY(80px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        .timer-rail { height: 10px; background: rgba(255,255,255,0.08); border-radius: 100px; margin: 15px 0 25px; overflow: hidden; }
-        .timer-fill { height: 100%; width: 100%; background: var(--red); box-shadow: 0 0 25px var(--red); transition: width 0.1s linear; }
-
-        /* --- CREDITS --- */
-        footer { 
-            text-align: center; padding: 20px; margin-top: auto; 
-            font-size: 0.85rem; color: #fff; font-family: 'Syncopate'; 
-            letter-spacing: 3px; text-transform: uppercase; font-weight: 700;
-            text-shadow: 0 0 12px #fff; 
+        .screen.active { display: flex; animation: rise 0.55s ease-out forwards; }
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.98); z-index:5000; align-items:center; justify-content:center; backdrop-filter: blur(25px); }
-        .modal-box { background: #08080a; border: 1px solid var(--gold-solid); padding: 40px; border-radius: 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; box-shadow: 0 0 120px rgba(212, 175, 55, 0.3); }
-        .spinner { width: 60px; height: 60px; border: 4px solid rgba(212, 175, 55, 0.1); border-top-color: #d4af37; border-radius: 50%; animation: spin 0.8s infinite linear; }
+        /* TYPOGRAPHY */
+        .brand-header {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.55rem;
+            letter-spacing: 10px;
+            color: #ff4444;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .title-main {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3rem;
+            text-align: center;
+            background: var(--crimson-grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px #a00000);
+            line-height: 1;
+        }
+
+        /* GLOBE */
+        .globe-vessel {
+            width: 220px;
+            height: 220px;
+            margin: 10px auto;
+            border-radius: 50%;
+            background: #000;
+            box-shadow: inset -30px -30px 50px #000, 0 0 50px rgba(255, 0, 0, 0.4);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+        .globe-map {
+            width: 200%;
+            height: 100%;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Blue_Marble_2002.png/1024px-Blue_Marble_2002.png') repeat-x;
+            background-size: cover;
+            animation: spinGlobe 40s linear infinite;
+            filter: sepia(0.8) hue-rotate(-30deg) saturate(1.6);
+        }
+        @keyframes spinGlobe { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .globe-shine {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,200,0.1), transparent 70%, #000 95%);
+        }
+
+        /* BUTTONS */
+        .btn-crimson {
+            width: 100%;
+            padding: 16px;
+            border-radius: 60px;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: bold;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            background: rgba(20, 0, 0, 0.7);
+            border: 1px solid var(--border-red);
+            color: white;
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 12px;
+        }
+        .btn-main {
+            background: var(--crimson-grad);
+            border: none;
+            box-shadow: 0 5px 20px #5a0000;
+        }
+        .btn-main:active { transform: scale(0.97); }
+
+        /* PLAYER CARDS */
+        .player-card {
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,60,0,0.4);
+            border-radius: 50px;
+            padding: 6px 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .flag-plus {
+            width: 48px;
+            height: 48px;
+            background: #1a0000;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            border: 1px dashed crimson;
+            transition: 0.1s;
+        }
+        .input-luxe {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            padding: 12px 0;
+        }
+        .remove-warrior {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: #aa2222;
+        }
+
+        /* VS SCREEN */
+        .vs-arena {
+            text-align: center;
+            margin: auto;
+            background: rgba(0,0,0,0.7);
+            padding: 35px 20px;
+            border-radius: 70px;
+            border: 1px solid red;
+            backdrop-filter: blur(10px);
+        }
+        .vs-flag { font-size: 5rem; }
+        .vs-name { font-size: 2rem; font-family: 'Cinzel Decorative', serif; margin: 20px 0; letter-spacing: 5px; text-shadow: 0 0 10px red; }
+        .countdown-number { font-size: 3.5rem; font-family: 'Syncopate'; color: #ff5555; }
+
+        /* QUIZ STYLES */
+        .q-window {
+            height: 210px;
+            border-radius: 36px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            margin-bottom: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(255,0,0,0.5);
+        }
+        .q-overlay {
+            background: linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.3));
+            position: absolute;
+            inset: 0;
+        }
+        .q-text-p {
+            position: relative;
+            z-index: 2;
+            font-weight: 800;
+            font-size: 1.35rem;
+            text-align: center;
+            padding: 40px 20px;
+            text-shadow: 0 2px 15px black;
+        }
+        .opt-item-v {
+            height: 70px;
+            margin-bottom: 12px;
+            border-radius: 28px;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(255,80,80,0.3);
+        }
+        .opt-shade {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(3px);
+            transition: 0.1s;
+        }
+        .opt-label {
+            position: relative;
+            z-index: 2;
+            padding: 22px 20px;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .correct .opt-shade { background: rgba(0, 130, 0, 0.9) !important; border-left: 5px solid #0f0; }
+        .wrong .opt-shade { background: rgba(130, 0, 0, 0.9) !important; border-left: 5px solid red; }
+        .timer-rail { height: 6px; background: #2a0000; border-radius: 10px; margin: 8px 0 20px; }
+        .timer-fill { height: 100%; width: 100%; background: #ff3300; box-shadow: 0 0 10px #ff3300; transition: width 0.1s linear; }
+
+        .learn-box {
+            background: #080000dd;
+            border-radius: 28px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            text-align: center;
+            border: 1px solid gold;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.6rem;
+            font-family: 'Syncopate';
+            letter-spacing: 4px;
+            padding: 15px 0 10px;
+            color: #ffaaaa;
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.98);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(20px);
+        }
+        .flag-grid {
+            background: #0c0000;
+            border-radius: 48px;
+            padding: 25px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            border: 1px solid crimson;
+        }
+        .flag-emoji { font-size: 3.5rem; cursor: pointer; transition: 0.1s; text-align: center; }
+        .spinner { width: 55px; height: 55px; border: 5px solid #300; border-top: 5px solid red; border-radius: 50%; animation: spin 0.9s linear infinite; margin: auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="master-cine-wall"></div>
+<div id="crimson-cine-wall"></div>
+<div id="modal">
+    <div class="flag-grid" onclick="event.stopPropagation()">
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇩🇪')">🇩🇪</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇷🇺')">🇷🇺</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇬🇧')">🇬🇧</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇳🇬')">🇳🇬</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇹🇷')">🇹🇷</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇫🇷')">🇫🇷</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇮🇹')">🇮🇹</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇺🇸')">🇺🇸</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🏴‍☠️')">🏴‍☠️</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇧🇷')">🇧🇷</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇨🇳')">🇨🇳</div>
+        <div class="flag-emoji" onclick="App.pickFlagForPlayer('🇯🇵')">🇯🇵</div>
+    </div>
+</div>
 
-    <div id="modal" onclick="this.style.display='none'">
-        <div class="modal-box" onclick="event.stopPropagation()">
-            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇩🇪')">🇩🇪</div>
-            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇷🇺')">🇷🇺</div>
-            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇬🇧')">🇬🇧</div>
-            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇳🇬')">🇳🇬</div>
-            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇹🇷')">🇹🇷</div>
-            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇫🇷')">🇫🇷</div>
-            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇮🇹')">🇮🇹</div>
-            <div style="font-size:3.5rem; cursor:pointer;" onclick="App.confirmFlag('🇺🇸')">🇺🇸</div>
+<div id="app">
+    <!-- HOME -->
+    <section id="s-home" class="screen active">
+        <div class="brand-header">CRIMSON SOVEREIGN</div>
+        <div class="title-main" style="font-size: 2.5rem;">MORTAL<br>KOMBAT</div>
+        <div class="globe-vessel"><div class="globe-map"></div><div class="globe-shine"></div></div>
+        <div style="margin-top: auto;">
+            <button class="btn-crimson btn-main" onclick="App.initGameFromSetup()">BEGINNE KAMPF</button>
+            <button class="btn-crimson" onclick="App.goToLeaderboard()">🏆 HALL OF SOVEREIGNS</button>
         </div>
-    </div>
+        <footer>WOWA · AMIAR · ALINA FRAIS</footer>
+    </section>
 
-    <div id="app">
-        <!-- SCREEN: HOME -->
-        <section id="s-home" class="screen active">
-            <p class="branding-top">Elite Prestige Game</p>
-            <div class="logo-box"><h1 class="title-gold">MORTAL<br>KOMBAT</h1></div>
-            
-            <div class="globe-center">
-                <div class="globe-map"></div>
-                <div class="globe-glare"></div>
+    <!-- SETUP -->
+    <section id="s-setup" class="screen">
+        <div class="title-main" style="font-size: 1.8rem;">WÄHLE KRIEGER</div>
+        <div style="display: flex; gap: 12px; justify-content: center; margin: 10px 0;">
+            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('de')">🇩🇪 DE</button>
+            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('en')">🇬🇧 EN</button>
+            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('tr')">🇹🇷 TR</button>
+            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('ig')">🇳🇬 IG</button>
+            <button class="btn-crimson" style="padding: 8px;" onclick="App.setLang('ru')">🇷🇺 RU</button>
+        </div>
+        <div id="player-list-container"></div>
+        <button class="btn-crimson" style="margin-top: 8px;" onclick="App.addPlayerInput()">+ ADD WARRIOR</button>
+        <div style="margin-top: auto;">
+            <button class="btn-crimson btn-main" onclick="App.lockPlayersAndStart()">🔥 KAMPF STARTEN</button>
+            <button class="btn-crimson" onclick="App.goHome()">← ZURÜCK</button>
+        </div>
+        <footer>WOWA · AMIAR · ALINA FRAIS</footer>
+    </section>
+
+    <!-- VS screen -->
+    <section id="s-vs" class="screen">
+        <div class="vs-arena">
+            <div id="vsFlagDisplay" class="vs-flag">⚔️</div>
+            <div id="vsNameDisplay" class="vs-name">WARRIOR</div>
+            <div id="vsCountdown" class="countdown-number">3</div>
+            <div style="font-family: 'Syncopate'; margin-top: 20px;">GET READY TO FIGHT</div>
+        </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="s-quiz" class="screen">
+        <div style="display: flex; justify-content: space-between;">
+            <span id="quizRoundLabel" style="font-family: 'Syncopate'; font-size: 0.7rem; color: #ff7777;">ROUND 0/10</span>
+            <span id="quizTimerLabel" style="font-family: monospace; font-weight: bold;">60s</span>
+        </div>
+        <div class="timer-rail"><div id="quizTimerFill" class="timer-fill"></div></div>
+        <div id="quizVisual" class="q-window"><div class="q-overlay"></div><h3 id="quizQuestionText" class="q-text-p">LOADING...</h3></div>
+        <div id="quizOptionsContainer"></div>
+        <div id="feedbackPanel" style="display: none;">
+            <div class="learn-box">
+                <p style="color: #ffaa33;">✦ SOVEREIGN WISDOM ✦</p>
+                <p id="explanationText" style="margin: 12px 0; line-height: 1.4;"></p>
+                <button class="btn-crimson btn-main" onclick="App.nextQuestionOrPlayer()">NÄCHSTE RUNDE</button>
             </div>
+        </div>
+    </section>
 
-            <p class="sub-title-main">Best World Quiz</p>
+    <!-- RESULT -->
+    <section id="s-result" class="screen">
+        <div class="title-main" style="font-size: 2rem;">KAMPF BEENDET</div>
+        <div id="finalScoresList" style="margin: 25px 0; flex:1;"></div>
+        <button class="btn-crimson btn-main" onclick="App.revanche()">REVANCHE ⚔️</button>
+        <button class="btn-crimson" onclick="location.reload()">HAUPTMENÜ</button>
+        <footer>WOWA · AMIAR · ALINA FRAIS</footer>
+    </section>
 
-            <div style="margin-top: auto;">
-                <button class="btn-apex btn-gold" onclick="App.go('setup')">Beginne Kampf</button>
-                <button class="btn-apex btn-outline" onclick="App.go('online-hub')">Online Hub 🌐</button>
-                <button class="btn-apex btn-outline" onclick="App.go('leaderboard')">Bestenliste 🏆</button>
-            </div>
-            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
-        </section>
+    <!-- LEADERBOARD -->
+    <section id="s-leaderboard" class="screen">
+        <div class="title-main" style="font-size: 2rem;">BESTENLISTE</div>
+        <div id="leaderboardList" style="margin: 20px 0; flex:1;"></div>
+        <button class="btn-crimson btn-main" onclick="App.goHome()">ZURÜCK</button>
+        <footer>WOWA · AMIAR · ALINA FRAIS</footer>
+    </section>
+</div>
 
-        <!-- SCREEN: SETUP -->
-        <section id="s-setup" class="screen">
-            <h2 class="title-gold" style="font-size: 2.2rem; margin-top: 0; color:var(--gold-solid);">Warrior</h2>
-            <p style="font-family:'Syncopate'; font-size:0.6rem; color:var(--gold-solid); text-align:center; margin:15px 0;">Sprache wählen</p>
-            <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 30px;">
-                <div class="l-chip active" id="ln-de" onclick="App.setLang('de')">DE</div>
-                <div class="l-chip" id="ln-ru" onclick="App.setLang('ru')">RU</div>
-                <div class="l-chip" id="ln-en" onclick="App.setLang('en')">EN</div>
-                <div class="l-chip" id="ln-ig" onclick="App.setLang('ig')">IBO</div>
-                <div class="l-chip" id="ln-tr" onclick="App.setLang('tr')">TR</div>
-            </div>
+<script>
+    // ======================== FULL DATABASE (10+ questions per language) ========================
+    const MASTER_DB = {
+        de: [
+            { id: "de1", q: "Was ist das flächenmäßig größte Land?", o: ["Russland", "Kanada", "USA", "China"], c: 0, e: "Russland: 17,1 Mio km² – größter Staat der Erde.", kw: "russia" },
+            { id: "de2", q: "Längster Fluss der Welt?", o: ["Nil", "Amazonas", "Jangtse", "Mississippi"], c: 0, e: "Der Nil ist mit 6650 km der längste Fluss.", kw: "nile river" },
+            { id: "de3", q: "Größter Ozean?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Pazifik bedeckt 46% der Wasserfläche.", kw: "pacific ocean" },
+            { id: "de4", q: "Kältester Kontinent?", o: ["Antarktis", "Arktis", "Asien", "Europa"], c: 0, e: "Antarktis: -89°C Rekord.", kw: "antarctica" },
+            { id: "de5", q: "Pyramiden von Gizeh stehen in ...?", o: ["Ägypten", "Mexiko", "Irak", "Sudan"], c: 0, e: "Ägypten, nahe Kairo.", kw: "pyramids egypt" },
+            { id: "de6", q: "Hauptstadt Japans?", o: ["Tokio", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokio ist die größte Metropole.", kw: "tokyo" },
+            { id: "de7", q: "Kleinster Staat der Welt?", o: ["Vatikanstadt", "Monaco", "San Marino", "Nauru"], c: 0, e: "Vatikan: 0,44 km².", kw: "vatican" },
+            { id: "de8", q: "Flüssiges Metall bei Raumtemperatur?", o: ["Quecksilber", "Gallium", "Blei", "Zinn"], c: 0, e: "Quecksilber (Hg) ist das einzige flüssige Metall.", kw: "mercury" },
+            { id: "de9", q: "Mona Lisa gemalt von?", o: ["Leonardo da Vinci", "Michelangelo", "Rembrandt", "Picasso"], c: 0, e: "Da Vinci, 16. Jahrhundert.", kw: "mona lisa" },
+            { id: "de10", q: "Währung der USA?", o: ["US-Dollar", "Euro", "Pfund", "Yen"], c: 0, e: "Dollar ($) – weltweite Leitwährung.", kw: "us dollar" }
+        ],
+        en: [
+            { id: "en1", q: "Largest country by area?", o: ["Russia", "Canada", "China", "USA"], c: 0, e: "Russia covers 17.1 million km².", kw: "russia" },
+            { id: "en2", q: "Longest river?", o: ["Nile", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nile river, 6650 km.", kw: "nile" },
+            { id: "en3", q: "Largest ocean?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific Ocean, largest and deepest.", kw: "pacific" },
+            { id: "en4", q: "Coldest continent?", o: ["Antarctica", "Arctic", "Asia", "Europe"], c: 0, e: "Antarctica holds ice sheet.", kw: "antarctica" },
+            { id: "en5", q: "Where are the Pyramids of Giza?", o: ["Egypt", "Mexico", "Sudan", "Peru"], c: 0, e: "Egypt, near Cairo.", kw: "pyramids" },
+            { id: "en6", q: "Capital of Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Seoul"], c: 0, e: "Tokyo is world's largest metro.", kw: "tokyo" },
+            { id: "en7", q: "Smallest country?", o: ["Vatican City", "Monaco", "Nauru", "San Marino"], c: 0, e: "Vatican City: 0.44 km².", kw: "vatican" },
+            { id: "en8", q: "Liquid metal at room temp?", o: ["Mercury", "Gallium", "Lead", "Tin"], c: 0, e: "Mercury is the only liquid metal.", kw: "mercury" },
+            { id: "en9", q: "Who painted Mona Lisa?", o: ["Da Vinci", "Van Gogh", "Picasso", "Rembrandt"], c: 0, e: "Leonardo da Vinci.", kw: "mona lisa" },
+            { id: "en10", q: "USA currency?", o: ["US Dollar", "Euro", "Pound", "Yen"], c: 0, e: "United States Dollar.", kw: "dollar" }
+        ],
+        ru: [
+            { id: "ru1", q: "Самая большая страна в мире?", o: ["Россия", "Канада", "Китай", "США"], c: 0, e: "Россия — 17,1 млн км².", kw: "russia" },
+            { id: "ru2", q: "Самая длинная река?", o: ["Нил", "Амазонка", "Янцзы", "Миссисипи"], c: 0, e: "Нил, 6650 км.", kw: "nile" },
+            { id: "ru3", q: "Самый большой океан?", o: ["Тихий", "Атлантический", "Индийский", "Северный Ледовитый"], c: 0, e: "Тихий океан.", kw: "pacific" },
+            { id: "ru4", q: "Самый холодный материк?", o: ["Антарктида", "Арктика", "Азия", "Евразия"], c: 0, e: "Антарктида.", kw: "antarctica" },
+            { id: "ru5", q: "Столица Японии?", o: ["Токио", "Осака", "Киото", "Нагоя"], c: 0, e: "Токио.", kw: "tokyo" },
+            { id: "ru6", q: "Где пирамиды Гизы?", o: ["Египет", "Мексика", "Ирак", "Китай"], c: 0, e: "Египет.", kw: "pyramids" },
+            { id: "ru7", q: "Самое маленькое государство?", o: ["Ватикан", "Монако", "Сан-Марино", "Науру"], c: 0, e: "Ватикан 0,44 км².", kw: "vatican" },
+            { id: "ru8", q: "Жидкий металл при 20°C?", o: ["Ртуть", "Галлий", "Свинец", "Цинк"], c: 0, e: "Ртуть.", kw: "mercury" },
+            { id: "ru9", q: "Кто написал Мона Лизу?", o: ["Да Винчи", "Ван Гог", "Пикассо", "Рембрандт"], c: 0, e: "Леонардо да Винчи.", kw: "mona lisa" },
+            { id: "ru10", q: "Валюта США?", o: ["Доллар", "Евро", "Фунт", "Йена"], c: 0, e: "Доллар США.", kw: "dollar" }
+        ],
+        tr: [
+            { id: "tr1", q: "Dünyanın en büyük ülkesi?", o: ["Rusya", "Kanada", "ABD", "Çin"], c: 0, e: "Rusya 17.1 milyon km².", kw: "russia" },
+            { id: "tr2", q: "En uzun nehir?", o: ["Nil", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Nil Nehri 6650 km.", kw: "nile" },
+            { id: "tr3", q: "En büyük okyanus?", o: ["Pasifik", "Atlas", "Hint", "Arktik"], c: 0, e: "Pasifik Okyanusu.", kw: "pacific" },
+            { id: "tr4", q: "En soğuk kıta?", o: ["Antarktika", "Arktik", "Asya", "Avrupa"], c: 0, e: "Antarktika.", kw: "antarctica" },
+            { id: "tr5", q: "Japonya'nın başkenti?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo.", kw: "tokyo" },
+            { id: "tr6", q: "Keops Piramidi nerede?", o: ["Mısır", "Meksika", "Sudan", "Irak"], c: 0, e: "Mısır, Giza.", kw: "pyramids" },
+            { id: "tr7", q: "En küçük ülke?", o: ["Vatikan", "Monako", "San Marino", "Nauru"], c: 0, e: "Vatikan 0.44 km².", kw: "vatican" },
+            { id: "tr8", q: "Oda sıcaklığında sıvı metal?", o: ["Cıva", "Galium", "Kurşun", "Çinko"], c: 0, e: "Cıva.", kw: "mercury" },
+            { id: "tr9", q: "Mona Lisa'nın ressamı?", o: ["Da Vinci", "Van Gogh", "Picasso", "Rembrandt"], c: 0, e: "Leonardo da Vinci.", kw: "mona lisa" },
+            { id: "tr10", q: "ABD para birimi?", o: ["Dolar", "Euro", "Sterlin", "Yen"], c: 0, e: "Amerikan Doları.", kw: "dollar" }
+        ],
+        ig: [ // Igbo (world quiz in Igbo / english mix for clarity)
+            { id: "ig1", q: "Kènye obodo kasị ukwu n'ụwa?", o: ["Rọshịa", "Kanada", "China", "USA"], c: 0, e: "Rọshịa bụ 17.1 nde km².", kw: "russia" },
+            { id: "ig2", q: "Osimiri kacha ogologo?", o: ["Naịl", "Amazon", "Yangtze", "Mississippi"], c: 0, e: "Osimiri Naịl.", kw: "nile" },
+            { id: "ig3", q: "Oké osimiri kachasị ukwu?", o: ["Pacific", "Atlantic", "Indian", "Arctic"], c: 0, e: "Pacific Ocean.", kw: "pacific" },
+            { id: "ig4", q: "Kọntinent kachasị oyi?", o: ["Antarctica", "Arctic", "Asia", "Europe"], c: 0, e: "Antarctica.", kw: "antarctica" },
+            { id: "ig5", q: "Pyramid Giza dị n'ebe?", o: ["Egypt", "Mexico", "Sudan", "Ethiopia"], c: 0, e: "Egypt.", kw: "pyramids" },
+            { id: "ig6", q: "Isi obodo Japan?", o: ["Tokyo", "Osaka", "Kyoto", "Nagoya"], c: 0, e: "Tokyo.", kw: "tokyo" },
+            { id: "ig7", q: "Obodo kacha nta?", o: ["Vatican City", "Monaco", "Nauru", "San Marino"], c: 0, e: "Vatican City.", kw: "vatican" },
+            { id: "ig8", q: "Metal na-eme mmiri na okpomọkụ?", o: ["Mercury", "Gallium", "Lead", "Tin"], c: 0, e: "Mercury.", kw: "mercury" },
+            { id: "ig9", q: "Onye sere Mona Lisa?", o: ["Da Vinci", "Picasso", "Van Gogh", "Rembrandt"], c: 0, e: "Leonardo da Vinci.", kw: "mona lisa" },
+            { id: "ig10", q: "Ego US?", o: ["Dollar", "Euro", "Pound", "Yen"], c: 0, e: "US Dollar.", kw: "dollar" }
+        ]
+    };
 
-            <div id="player-list"></div>
-            <p style="text-align:center; font-size:0.95rem; color:var(--gold-solid); margin: 20px 0; font-weight:800; letter-spacing:1px;">Flagge und Namen aussuchen</p>
-            <button class="btn-apex btn-outline" style="font-size:0.7rem;" onclick="App.addPlayerInput()">+ Warrior hinzufügen</button>
+    const App = {
+        profiles: JSON.parse(localStorage.getItem("crimson_sov")) || {},
+        currentLang: "de",
+        players: [],          // [{ name, flag, sessionScore, profileRef }]
+        currentPlayerIdx: 0,
+        currentQuestions: [],
+        currentQindex: 0,
+        timerInterval: null,
+        timeLeft: 60,
+        activeFlagTarget: null,
 
-            <div style="margin-top: auto;">
-                <button class="btn-apex btn-gold" onclick="App.prepareBattle()">Kampf Starten</button>
-                <button class="btn-back" onclick="App.go('home')">← Hauptmenü</button>
-            </div>
-            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
-        </section>
+        saveProfiles() { localStorage.setItem("crimson_sov", JSON.stringify(this.profiles)); },
+        getProfile(name) { let n = name.trim().toLowerCase(); if(!this.profiles[n]) this.profiles[n] = { name: name.trim(), xp: 0, usedIds: [], flag: "⚔️" }; return this.profiles[n]; },
 
-        <!-- SCREEN: ONLINE HUB -->
-        <section id="s-online-hub" class="screen">
-            <h2 class="title-gold" style="font-size: 2.5rem; margin-top: 0;">Online</h2>
-            <div style="background:rgba(255,255,255,0.05); padding:30px; border-radius:30px; border:1px solid var(--border); margin-top:20px;">
-                <button class="btn-apex btn-gold">Raum Erstellen</button>
-                <input type="text" class="btn-apex btn-outline" placeholder="RAUM-CODE" style="text-align:center; font-family:'Syncopate';">
-                <button class="btn-apex btn-outline">Beitreten</button>
-            </div>
-            <button class="btn-back" onclick="App.go('home')">← Zurück</button>
-            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
-        </section>
-
-        <!-- SCREEN: LOADING -->
-        <section id="s-loading" class="screen" style="justify-content:center; align-items:center;">
-            <div class="spinner"></div>
-            <p style="font-family:'Syncopate'; font-size:0.75rem; letter-spacing:6px; margin-top:35px; text-align:center;">Syncing Visuals...</p>
-        </section>
-
-        <!-- SCREEN: QUIZ -->
-        <section id="s-quiz" class="screen">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span id="q-round" style="font-family:'Syncopate'; font-size:0.7rem; color:var(--gold-solid);">Round 1/10</span>
-                <span id="q-timer" style="font-family:'Syncopate'; font-size:0.85rem; color:var(--blue);">60s</span>
-            </div>
-            <div class="timer-rail"><div id="timer-bar" class="timer-fill"></div></div>
-            
-            <div id="q-frame" class="q-window"><div class="q-overlay"></div><h3 id="q-text" class="q-text-p">Lade...</h3></div>
-            <div id="q-options"></div>
-
-            <div id="q-feedback" style="display:none; margin-top:10px;">
-                <div class="learn-card">
-                    <p style="color:var(--gold-solid); font-family:'Syncopate'; font-size:1.15rem; opacity: 0.9; margin-bottom: 20px; line-height:1.5; font-weight:400;"></p>
-                    <p id="q-expl" style="font-size: 1.15rem; opacity: 0.9; margin-bottom: 20px; line-height:1.5; font-weight:400;"></p>
-                    <button class="btn-apex btn-gold" style="margin:0" onclick="App.nextStep()">Nächste Runde</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- RESULT SCREEN -->
-        <section id="s-result" class="screen">
-            <h1 class="title-gold" style="font-size: 3.2rem; text-align:center;">FINISHED</h1>
-            <div id="res-list" style="margin-top: 40px; flex: 1;"></div>
-            <div style="margin-top: auto;">
-                <button class="btn-apex btn-gold" onclick="App.prepareBattle()">Revanche</button>
-                <button class="btn-apex btn-outline" onclick="location.reload()">Hauptmenü</button>
-            </div>
-            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
-        </section>
-
-        <!-- LEADERBOARD -->
-        <section id="s-leaderboard" class="screen">
-            <h1 class="title-gold" style="font-size: 2.5rem; text-align:center;">Bestenliste</h1>
-            <div id="lb-list" style="margin-top:30px; flex:1;"></div>
-            <button class="btn-apex btn-gold" onclick="App.go('home')">Zurück</button>
-            <footer>Made by Amiar & Wowa Kempf & Alina Frais</footer>
-        </section>
-    </div>
-
-    <script>
-        const DB = {
-            de: [
-                { id: "de1", q: "Welches Land hat die meisten Inseln weltweit?", o: ["Schweden", "Norwegen", "Philippinen", "Indonesien"], c: 0, e: "Schweden besitzt über 267.000 Inseln. Die meisten sind unbewohnt, aber Teil der beeindruckenden Schärenlandschaften.", kw: "sweden island" },
-                { id: "de2", q: "Hauptstadt von Japan?", o: ["Tokio", "Kyoto", "Osaka", "Seoul"], c: 0, e: "Tokio ist die bevölkerungsreichste Metropolregion der Welt und das Herz der japanischen Technologie.", kw: "tokyo" },
-                { id: "de3", q: "Was ist das flächenmäßig kleinste Land der Welt?", o: ["Vatikanstadt", "Monaco", "Nauru", "San Marino"], c: 0, e: "Vatikanstadt ist mit nur 0,44 km² der kleinste souveräne Staat der Erde und Sitz des Papstes.", kw: "vatican" },
-                { id: "de4", q: "Größter Ozean der Erde?", o: ["Pazifik", "Atlantik", "Indik", "Arktik"], c: 0, e: "Der Pazifische Ozean bedeckt fast ein Drittel der Erdoberfläche und ist tiefer als jedes andere Weltmeer.", kw: "ocean" },
-                { id: "de5", q: "In welchem Land stehen die Ruinen von Machu Picchu?", o: ["Peru", "Mexiko", "Chile", "Brasilien"], c: 0, e: "Die Inkastadt Machu Picchu liegt in den Anden Perus auf 2430 Metern Höhe und gehört zum Weltkulturerbe.", kw: "peru" }
-            ],
-            ru: [{ id: "ru1", q: "Столица России?", o: ["Москва", "Питер", "Киев", "Минск"], c: 0, e: "Москва — столица России.", kw: "moscow" }],
-            en: [{ id: "en1", q: "Largest country?", o: ["Russia", "USA", "China", "Canada"], c: 0, e: "Russia is the largest by land area.", kw: "russia" }],
-            ig: [{ id: "ig1", q: "Isi obodo Nigeria?", o: ["Abuja", "Lagos", "Enugu", "Kano"], c: 0, e: "Abuja bụ isi obodo Nigeria.", kw: "nigeria" }],
-            tr: [{ id: "tr1", q: "Türkiye'nin başkenti?", o: ["Ankara", "İstanbul", "İzmir", "Bursa"], c: 0, e: "Ankara başkenttir.", kw: "ankara" }]
-        };
-
-        const App = {
-            profiles: JSON.parse(localStorage.getItem('mk_ethereal_final')) || {},
-            players: [], pIdx: 0, qIdx: 0, timer: null, timeLeft: 60, currentLang: 'de', activeFlagIdx: null, activeQs: [],
-
-            save() { localStorage.setItem('mk_ethereal_final', JSON.stringify(this.profiles)); },
-            getProfile(name) {
-                const k = name.trim().toLowerCase();
-                if(!this.profiles[k]) this.profiles[k] = { name: name.trim(), xp: 0, usedIds: [], flag: '🐲' };
-                return this.profiles[k];
-            },
-
-            go(id) {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById('s-' + id).classList.add('active');
-                if(id === 'setup' && document.getElementById('player-list').children.length === 0) this.addPlayerInput();
-                if(id === 'leaderboard') this.renderLeaderboard();
-                if(id === 'home') this.setGlobalBg("https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000");
-            },
-
-            setGlobalBg(url) { document.getElementById('master-cine-wall').style.backgroundImage = `url('${url}')`; },
-
-            setLang(l) {
-                this.currentLang = l;
-                document.querySelectorAll('.l-chip').forEach(c => c.classList.remove('active'));
-                document.getElementById('ln-' + l).classList.add('active');
-            },
-
-            addPlayerInput() {
-                const cont = document.getElementById('player-list');
-                const id = Date.now() + Math.random();
-                const d = document.createElement('div');
-                d.id = 'pc-' + id;
-                d.innerHTML = `<div class="fighter-slot"><div class="f-select" onclick="App.openFlag('${id}')">+</div><input type="text" class="i-name" placeholder="Warrior Name..."><button onclick="document.getElementById('pc-${id}').remove()" style="background:none; border:none; color:#ff4d4d; font-size:1.5rem; cursor:pointer; opacity:0.6;">🗑️</button></div>`;
-                cont.appendChild(d);
-            },
-
-            openFlag(id) { this.activeFlagIdx = id; document.getElementById('modal').style.display = 'flex'; },
-            confirmFlag(f) { 
-                const card = document.getElementById('pc-' + this.activeFlagIdx);
-                const btn = card.querySelector('.f-select');
-                btn.innerText = f; btn.style.borderStyle = 'solid';
-                document.getElementById('modal').style.display = 'none';
-            },
-
-            async prepareBattle() {
-                const cards = document.querySelectorAll('.player-card');
-                this.players = Array.from(cards).map(c => {
-                    const name = c.querySelector('input').value || "Warrior";
-                    const flag = c.querySelector('.f-select').innerText === '+' ? '🐲' : c.querySelector('.f-select').innerText;
-                    const p = this.getProfile(name); p.flag = flag;
-                    return { ...p, sessionScore: 0 };
-                });
-                if(this.players.length === 0) return;
-                this.pIdx = 0; this.go('loading');
-                
-                const bank = DB[this.currentLang] || DB.de;
-                const p = this.getProfile(this.players[0].name);
-                // Infinity Memory logic
-                let available = bank.filter(q => !p.usedIds.includes(q.id));
-                if(available.length < 3) { p.usedIds = []; available = bank; }
-                this.activeQs = available.sort(() => 0.5 - Math.random()).slice(0, 10);
-                
-                setTimeout(() => { this.qIdx = 0; this.renderQuestion(); this.go('quiz'); }, 1500);
-            },
-
-            renderQuestion() {
-                const q = this.activeQs[this.qIdx];
-                const p = this.players[this.pIdx];
-                const sig = Math.random();
-                
-                document.getElementById('q-round').innerText = `Round ${this.qIdx + 1}/10`;
-                document.getElementById('q-text').innerText = q.q;
-
-                const imgUrl = `https://loremflickr.com/800/450/${encodeURIComponent(q.kw)}?sig=${sig}`;
-                this.setGlobalBg(imgUrl);
-                document.getElementById('q-frame').style.backgroundImage = `url('${imgUrl}')`;
-                
-                const box = document.getElementById('q-options'); box.innerHTML = '';
-                document.getElementById('q-feedback').style.display = 'none';
-                box.style.display = 'block';
-
-                // Answer Shuffling
-                const shuffledOpts = q.o.map((text, index) => ({ text, isCorrect: index === q.c }));
-                shuffledOpts.sort(() => 0.5 - Math.random());
-
-                shuffledOpts.forEach((opt, i) => {
-                    const b = document.createElement('div');
-                    b.className = 'o-item-v';
-                    b.style.backgroundImage = `url('https://loremflickr.com/400/150/${encodeURIComponent(opt.text)},nature?sig=${sig+i}')`;
-                    b.innerHTML = `<div class="o-blur"></div><div class="o-txt">${opt.text}</div>`;
-                    b.onclick = () => this.handleAnswer(opt.isCorrect, b);
-                    box.appendChild(b);
-                });
-                this.startTimer();
-            },
-
-            startTimer() {
-                clearInterval(this.timer); this.timeLeft = 60;
-                const bar = document.getElementById('timer-bar');
-                const txt = document.getElementById('q-timer');
-                this.timer = setInterval(() => {
-                    this.timeLeft -= 0.1;
-                    bar.style.width = (this.timeLeft / 60 * 100) + "%";
-                    txt.innerText = Math.ceil(this.timeLeft) + "s";
-                    if(this.timeLeft <= 0) this.handleAnswer(false, null);
-                }, 100);
-            },
-
-            handleAnswer(isCorrect, b) {
-                clearInterval(this.timer);
-                const q = this.activeQs[this.qIdx];
-                const p = this.players[this.pIdx];
-                const prof = this.getProfile(p.name);
-                const opts = document.querySelectorAll('.o-item-v');
-                opts.forEach(o => o.style.pointerEvents = 'none');
-
-                if(!prof.usedIds.includes(q.id)) prof.usedIds.push(q.id);
-
-                if(isCorrect) {
-                    if(b) b.classList.add('correct');
-                    p.sessionScore++; prof.xp += 100;
-                } else {
-                    if(b) b.classList.add('wrong');
-                    opts.forEach(el => {
-                        if(el.innerText.trim() === q.o[q.c]) el.classList.add('correct');
-                    });
-                }
-                this.save();
-                document.getElementById('q-expl').innerText = q.e;
-                document.getElementById('q-feedback').style.display = 'block';
-                document.getElementById('q-options').style.display = 'none';
-            },
-
-            nextStep() {
-                this.qIdx++;
-                if(this.qIdx < 10 && this.qIdx < this.activeQs.length) this.renderQuestion();
-                else { 
-                    this.pIdx++; 
-                    if(this.pIdx < this.players.length) this.prepareBattle(); 
-                    else this.showResults(); 
-                }
-            },
-
-            renderLeaderboard() {
-                const list = document.getElementById('lb-list');
-                const sorted = Object.values(this.profiles).sort((a,b) => b.xp - a.xp);
-                list.innerHTML = sorted.map(p => `
-                    <div style="background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:20px; display:flex; justify-content:space-between; align-items:center; padding:18px; margin-bottom:12px;">
-                        <div><span style="font-size:1.6rem; margin-right:15px;">${p.flag}</span><b>${p.name}</b></div>
-                        <div style="text-align:right">XP ${p.xp}</div>
-                    </div>`).join('');
-            }
-        };
-
-        App.go('home');
-        App.setLang('de');
-    </script>
+        setLang(lang) { this.currentLang = lang; this.updateUITexts(); },
+        updateUITexts() { /* dynamic UI texts optional */ },
+        goHome() { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById('s-home').classList.add('active'); },
+        goToLeaderboard() { this.renderLeaderboard(); document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById('s-leaderboard').classList.add('active'); },
+        renderLeaderboard() { let sorted = Object.values(this.profiles).sort((a,b)=>b.xp - a.xp); document.getElementById("leaderboardList").innerHTML = sorted.map(p => `<div style="background:#100;border-radius:20px;padding:12px;margin:8px;display:flex;justify-content:space-between;"><span><span style="font-size:1.4rem;">${p.flag || "🏆"}</span> ${p.name}</span><span style="color:gold;">${p.xp} XP</span></div>`).join(""); },
+        
+        addPlayerInput() { let cont = document.getElementById("player-list-container"); let id = "pc_"+Date.now()+Math.random(); let html = `<div id="${id}" class="player-card"><div class="flag-plus" data-pid="${id}" onclick="App.openFlagModal('${id}')">+</div><input type="text" class="input-luxe" placeholder="Kämpfername" value="Krieger"><button class="remove-warrior" onclick="document.getElementById('${id}').remove()">🗑️</button></div>`; cont.insertAdjacentHTML('beforeend', html); },
+        openFlagModal(playerCardId) { this.activeFlagTarget = playerCardId; document.getElementById("modal").style.display = "flex"; },
+        pickFlagForPlayer(flag) { if(this.activeFlagTarget) { let card = document.getElementById(this.activeFlagTarget); let flagDiv = card.querySelector(".flag-plus"); if(flagDiv) flagDiv.innerText = flag; } document.getElementById("modal").style.display = "none"; this.activeFlagTarget = null; },
+        
+        lockPlayersAndStart() { 
+            let cards = document.querySelectorAll("#player-list-container .player-card");
+            if(cards.length === 0) { this.addPlayerInput(); cards = document.querySelectorAll("#player-list-container .player-card"); }
+            this.players = Array.from(cards).map(card => {
+                let flagDiv = card.querySelector(".flag-plus"); let flag = flagDiv.innerText === "+" ? "⚔️" : flagDiv.innerText;
+                let nameInput = card.querySelector("input"); let name = nameInput.value.trim() || "Unnamed";
+                let prof = this.getProfile(name); prof.flag = flag; this.saveProfiles();
+                return { name: name, flag: flag, sessionScore: 0, profile: prof };
+            });
+            if(this.players.length === 0) return;
+            this.currentPlayerIdx = 0;
+            this.startBattleForCurrentPlayer();
+        },
+        
+        startBattleForCurrentPlayer() {
+            if(this.currentPlayerIdx >= this.players.length) { this.showFinalResults(); return; }
+            let p = this.players[this.currentPlayerIdx];
+            let langDB = MASTER_DB[this.currentLang] || MASTER_DB.de;
+            let used = p.profile.usedIds || [];
+            let available = langDB.filter(q => !used.includes(q.id));
+            if(available.length < 5) { p.profile.usedIds = []; used = []; available = langDB; }
+            let shuffled = [...available].sort(() => 0.5 - Math.random());
+            this.currentQuestions = shuffled.slice(0, 10);
+            this.currentQindex = 0;
+            this.showVSandStart();
+        },
+        
+        showVSandStart() {
+            let p = this.players[this.currentPlayerIdx];
+            document.getElementById("vsFlagDisplay").innerText = p.flag;
+            document.getElementById("vsNameDisplay").innerText = p.name.toUpperCase();
+            document.getElementById("vsCountdown").innerText = "3";
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('s-vs').classList.add('active');
+            let count = 3;
+            let counter = setInterval(() => {
+                count--;
+                if(count <= 0) { clearInterval(counter); this.launchQuiz(); }
+                else document.getElementById("vsCountdown").innerText = count;
+            }, 1000);
+        },
+        
+        launchQuiz() { this.renderCurrentQuestion(); document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById('s-quiz').classList.add('active'); },
+        
+        renderCurrentQuestion() {
+            if(this.currentQindex >= this.currentQuestions.length) { this.finishCurrentPlayer(); return; }
+            let q = this.currentQuestions[this.currentQindex];
+            let p = this.players[this.currentPlayerIdx];
+            let lang = this.currentLang;
+            let roundText = `ROUND ${this.currentQindex+1}/10`;
+            document.getElementById("quizRoundLabel").innerText = roundText;
+            document.getElementById("quizQuestionText").innerText = q.q;
+            let imgUrl = `https://source.unsplash.com/featured/800x450?${q.kw},world,landmark`;
+            document.getElementById("crimson-cine-wall").style.backgroundImage = `url('${imgUrl}')`;
+            document.getElementById("quizVisual").style.backgroundImage = `url('${imgUrl}')`;
+            let optsDiv = document.getElementById("quizOptionsContainer"); optsDiv.innerHTML = "";
+            document.getElementById("feedbackPanel").style.display = "none";
+            optsDiv.style.display = "block";
+            let shuffled = q.o.map((text, idx)=>({text, isCorrect: idx===q.c})).sort(()=>Math.random()-0.5);
+            shuffled.forEach(opt => {
+                let optDiv = document.createElement("div"); optDiv.className = "opt-item-v";
+                optDiv.style.backgroundImage = `url('https://source.unsplash.com/featured/400x150?${q.kw},dark,${Math.random()}')`;
+                optDiv.innerHTML = `<div class="opt-shade"></div><div class="opt-label">${opt.text}</div>`;
+                optDiv.onclick = () => this.handleAnswer(opt.isCorrect, optDiv, q);
+                optsDiv.appendChild(optDiv);
+            });
+            this.startTimer(60);
+        },
+        
+        startTimer(sec) { this.timeLeft = sec; if(this.timerInterval) clearInterval(this.timerInterval); let fill = document.getElementById("quizTimerFill"); let label = document.getElementById("quizTimerLabel"); this.timerInterval = setInterval(() => { this.timeLeft -= 0.1; if(this.timeLeft <= 0) { clearInterval(this.timerInterval); this.handleAnswer(false, null, this.currentQuestions[this.currentQindex]); } else { let percent = Math.max(0, (this.timeLeft/60)*100); fill.style.width = percent+"%"; label.innerText = Math.ceil(this.timeLeft)+"s"; } }, 100); },
+        
+        handleAnswer(isCorrect, element, q) {
+            if(this.timerInterval) clearInterval(this.timerInterval);
+            let p = this.players[this.currentPlayerIdx];
+            if(isCorrect) { if(element) element.classList.add("correct"); p.sessionScore++; p.profile.xp += 100; this.saveProfiles(); }
+            else { if(element) element.classList.add("wrong"); let opts = document.querySelectorAll(".opt-item-v"); opts.forEach(opt => { if(opt.innerText.includes(q.o[q.c])) opt.classList.add("correct"); }); }
+            document.getElementById("explanationText").innerText = q.e;
+            document.getElementById("feedbackPanel").style.display = "block";
+            document.getElementById("quizOptionsContainer").style.display = "none";
+        },
+        
+        nextQuestionOrPlayer() {
+            this.currentQindex++;
+            if(this.currentQindex < this.currentQuestions.length) this.renderCurrentQuestion();
+            else this.finishCurrentPlayer();
+        },
+        
+        finishCurrentPlayer() {
+            this.currentPlayerIdx++;
+            if(this.currentPlayerIdx < this.players.length) this.startBattleForCurrentPlayer();
+            else this.showFinalResults();
+        },
+        
+        showFinalResults() {
+            document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+            let container = document.getElementById("finalScoresList");
+            container.innerHTML = this.players.map(p => `<div style="background:#160000; border-radius:30px; padding:15px; margin:8px; display:flex; justify-content:space-between;"><span><span style="font-size:1.8rem;">${p.flag}</span> ${p.name}</span><span style="color:#ffaa33; font-weight:bold;">${p.sessionScore}/10</span></div>`).join("");
+            document.getElementById('s-result').classList.add('active');
+        },
+        
+        revanche() { this.players.forEach(p => { p.sessionScore = 0; }); this.currentPlayerIdx = 0; this.startBattleForCurrentPlayer(); },
+        
+        initGameFromSetup() { this.goHome(); setTimeout(() => { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById('s-setup').classList.add('active'); if(document.querySelectorAll("#player-list-container .player-card").length===0) this.addPlayerInput(); }, 50); }
+    };
+    window.App = App;
+    App.goHome();
+</script>
 </body>
 </html>
+```
