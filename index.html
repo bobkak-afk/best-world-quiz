@@ -360,12 +360,28 @@
             border: 1px solid #ffefe5;
         }
 
+        /* Footer – modern, sichtbar, pulsierend */
         footer {
             text-align: center;
-            font-size: 0.65rem;
-            color: #ccadbb;
             margin-top: 28px;
-            letter-spacing: 1px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #b2809a;
+            text-transform: uppercase;
+            background: rgba(255, 245, 240, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 10px 0;
+            border-radius: 40px;
+            transition: all 0.2s;
+            animation: footerGlow 2s infinite ease-in-out;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        @keyframes footerGlow {
+            0% { text-shadow: 0 0 0 rgba(178,128,154,0); background: rgba(255,245,240,0.5); }
+            50% { text-shadow: 0 0 8px rgba(178,128,154,0.5); background: rgba(255,245,240,0.9); }
+            100% { text-shadow: 0 0 0 rgba(178,128,154,0); background: rgba(255,245,240,0.5); }
         }
 
         /* Modal */
