@@ -49,7 +49,7 @@
             to { opacity: 1; transform: translateY(0); filter: blur(0); } 
         }
 
-        /* --- HOME SCREEN mit rosafarbenem Märchenschloss (original rosa) --- */
+        /* --- HOME SCREEN mit rosafarbenem Märchenschloss (Filter + stabiles Bild) --- */
         .brand-top {
             text-align: center;
             margin-top: 15px;
@@ -91,7 +91,7 @@
             justify-content: center;
         }
 
-        /* Märchenschloss – jetzt mit echtem rosafarbenem Bild (kein Filter) */
+        /* Märchenschloss – stabiles Bild + CSS-Filter für Rosaton */
         .castle-container {
             position: relative;
             margin: 15px auto 20px;
@@ -113,10 +113,11 @@
             object-fit: cover;
             display: block;
             transition: filter 0.3s;
-            /* Kein Filter mehr – das Bild ist bereits in zarten Rosatönen gehalten */
+            /* Starker Rosé-Filter: sepia + hue-rotate + saturate */
+            filter: sepia(0.6) hue-rotate(310deg) saturate(1.8) brightness(1.05);
         }
         .castle-container:hover .castle-image {
-            filter: brightness(1.03) saturate(1.05);
+            filter: sepia(0.5) hue-rotate(305deg) saturate(1.9) brightness(1.08);
         }
         /* Sanfter Glanz für magischen Touch */
         .castle-container::after {
@@ -126,7 +127,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 20%, rgba(255,180,200,0.3) 0%, rgba(255,200,180,0) 80%);
+            background: radial-gradient(circle at 50% 20%, rgba(255,180,200,0.4) 0%, rgba(255,200,180,0) 80%);
             pointer-events: none;
             animation: roseGlow 3s infinite alternate;
         }
@@ -381,7 +382,7 @@
 </div>
 
 <div id="app">
-    <!-- HOME Screen mit rosafarbenem Märchenschloss (echtes Bild) -->
+    <!-- HOME Screen mit rosafarbenem Märchenschloss (stabiles Bild + Filter) -->
     <section id="s-home" class="screen active">
         <div class="brand-top">
             <div class="alina-pulse">ALINA FRAIS</div>
@@ -389,8 +390,8 @@
         </div>
         <div class="home-center">
             <div class="castle-container" onclick="App.castleMagic()">
-                <!-- Rosafarbenes Märchenschloss (original rosa, kein Filter nötig) -->
-                <img class="castle-image" src="https://cdn.pixabay.com/photo/2020/06/22/08/20/castle-5329338_1280.jpg" alt="Rosa Märchenschloss" loading="lazy">
+                <!-- Sicheres, immer ladbares Schloss-Bild (Unsplash) + CSS-Filter für Rosaton -->
+                <img class="castle-image" src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=600&auto=format" alt="Märchenschloss" loading="lazy">
                 <div class="castle-glow"></div>
             </div>
             <div class="quiz-title">❤️ BEST ALINAS WORLD QUIZ ❤️</div>
