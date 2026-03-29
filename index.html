@@ -56,20 +56,21 @@
             }
         }
 
-        /* Typografie – elegant & luxuriös */
+        /* Typografie – modern & luxuriös */
         h1, h2, .brand-headline {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 600;
             letter-spacing: -0.02em;
         }
 
-        /* Header Bereich mit pulsierendem, elegantem Titel */
+        /* Header Bereich mit pulsierendem, modernem Titel */
         .crown-brand {
             text-align: center;
             margin-bottom: 20px;
         }
         .alina-name {
-            font-size: 1.9rem;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 2rem;
             font-weight: 700;
             background: linear-gradient(135deg, #c47b9e, #b45f8b, #e8b0c0);
             background-clip: text;
@@ -81,9 +82,9 @@
             text-shadow: 0 2px 10px rgba(196, 123, 158, 0.3);
         }
         @keyframes softPulse {
-            0% { opacity: 0.85; text-shadow: 0 0 0 rgba(196,123,158,0); }
-            50% { opacity: 1; text-shadow: 0 0 12px rgba(196,123,158,0.5); }
-            100% { opacity: 0.85; text-shadow: 0 0 0 rgba(196,123,158,0); }
+            0% { opacity: 0.85; text-shadow: 0 0 0 rgba(196,123,158,0); transform: scale(1); }
+            50% { opacity: 1; text-shadow: 0 0 12px rgba(196,123,158,0.5); transform: scale(1.02); }
+            100% { opacity: 0.85; text-shadow: 0 0 0 rgba(196,123,158,0); transform: scale(1); }
         }
         .prestige-sub {
             font-size: 0.7rem;
@@ -143,35 +144,24 @@
             mix-blend-mode: overlay;
         }
 
-        /* Haupttitel mit Herz & Puls */
+        /* Haupttitel – größer und pulsierend */
         .main-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
+            font-size: 2.6rem;
+            font-weight: 800;
             text-align: center;
             background: linear-gradient(135deg, #d48cac, #b86f8f, #e3a5bd);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            margin: 12px 0 6px;
+            margin: 12px 0 15px;
             letter-spacing: -0.5px;
-            animation: gentleGlow 2s infinite;
+            animation: titlePulse 1.4s infinite ease-in-out;
         }
-        @keyframes gentleGlow {
-            0% { text-shadow: 0 0 0 rgba(212,140,172,0); }
-            50% { text-shadow: 0 0 12px rgba(212,140,172,0.4); }
-            100% { text-shadow: 0 0 0 rgba(212,140,172,0); }
-        }
-        .sub-quote {
-            font-size: 0.85rem;
-            text-align: center;
-            color: #b17e98;
-            font-weight: 500;
-            letter-spacing: 1px;
-            border-top: 1px solid rgba(200, 140, 170, 0.2);
-            display: inline-block;
-            padding-top: 8px;
-            margin-top: 5px;
+        @keyframes titlePulse {
+            0% { opacity: 0.85; transform: scale(1); text-shadow: 0 0 0 rgba(212,140,172,0); }
+            50% { opacity: 1; transform: scale(1.03); text-shadow: 0 0 18px rgba(212,140,172,0.5); }
+            100% { opacity: 0.85; transform: scale(1); text-shadow: 0 0 0 rgba(212,140,172,0); }
         }
 
         /* Buttons – edel & weich */
@@ -215,7 +205,6 @@
             background: transparent;
             color: #b17e98;
             border: none;
-            font-size: 0.7rem;
             box-shadow: none;
         }
 
@@ -432,13 +421,12 @@
             <div class="castle-glow"></div>
         </div>
         <div class="main-title">❤️ BEST ALINAS WORLD QUIZ ❤️</div>
-        <div class="sub-quote">Princess Knowledge Quest</div>
         <div style="margin-top: 28px;">
             <button class="btn btn-primary" id="startGameBtn">Beginne die Reise</button>
             <button class="btn btn-outline" id="leaderboardBtn">🏆 Hall of Fame</button>
             <button class="btn btn-outline" id="achievementsBtn">✨ Errungenschaften</button>
         </div>
-        <footer>Wowa · Amiar · Alina Frais</footer>
+        <footer>Made By Wowa · Amiar · Alina Frais</footer>
     </div>
 
     <!-- SETUP SCREEN -->
@@ -457,7 +445,7 @@
         <button class="btn btn-outline" id="addPlayerBtn" style="margin-bottom: 20px;">+ Edle Gefährtin hinzufügen</button>
         <button class="btn btn-primary" id="startBattleBtn">⚔️ Abenteuer beginnen</button>
         <button class="btn btn-back" id="backHomeBtn">← zurück</button>
-        <footer>Wowa · Amiar · Alina Frais</footer>
+        <footer>Made By Wowa · Amiar · Alina Frais</footer>
     </div>
 
     <!-- VS / LOADING SCREEN -->
@@ -496,7 +484,7 @@
         <div id="finalScores"></div>
         <button class="btn btn-primary" id="rematchBtn">✨ Neues Abenteuer</button>
         <button class="btn btn-back" id="homeFromResultBtn">→ Hauptmenü</button>
-        <footer>Wowa · Amiar · Alina Frais</footer>
+        <footer>Made By Wowa · Amiar · Alina Frais</footer>
     </div>
 
     <!-- ACHIEVEMENTS SCREEN -->
@@ -546,7 +534,7 @@
             { id: "en9", q: "Who painted the Mona Lisa?", o: ["Leonardo da Vinci", "Michelangelo", "Rembrandt", "Picasso"], c: 0, e: "Leonardo da Vinci created it." },
             { id: "en10", q: "Currency of the USA?", o: ["US Dollar", "Euro", "Pound", "Yen"], c: 0, e: "The US Dollar is the primary reserve currency." }
         ],
-        tr: [], ru: [], ig: [] // Für andere Sprachen kopieren wir deutsche (voll funktionsfähig)
+        tr: [], ru: [], ig: []
     };
     // Andere Sprachen mit deutschen Inhalten füllen (für Spielbarkeit)
     DB.tr = DB.de.map((q,i)=>({...q, id:"tr"+i}));
@@ -555,7 +543,7 @@
 
     // -------------------------------------------------------------
     let currentLang = "de";
-    let players = [];               // { name, flag, sessionScore, profile }
+    let players = [];
     let currentPlayerIdx = 0;
     let currentQuestions = [];
     let currentQIndex = 0;
@@ -576,13 +564,11 @@
         return { class: "rank-princess", label: "🌸 Edle Maid" };
     }
 
-    // UI Navigation
     function showScreen(screenId) {
         document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
         document.getElementById(screenId + "Screen").classList.add("active");
     }
 
-    // Spieler UI rendern
     function renderPlayersUI() {
         const container = document.getElementById("playersContainer");
         container.innerHTML = "";
@@ -624,14 +610,12 @@
         modal.addEventListener("click", (e) => { if(e.target === modal) modal.style.display = "none"; });
     }
 
-    // Sprachauswahl
     function setLanguage(lang) {
         currentLang = lang;
         document.querySelectorAll(".lang-chip").forEach(c => c.classList.remove("active"));
         document.querySelector(`.lang-chip[data-lang="${lang}"]`).classList.add("active");
     }
 
-    // Spielstartlogik
     async function startBattle() {
         if (players.length === 0) {
             alert("Bitte füge mindestens eine Gefährtin hinzu.");
@@ -735,7 +719,6 @@
         }
         saveProfiles();
 
-        // Visuelles Feedback
         const options = document.querySelectorAll(".option");
         options.forEach(opt => {
             if (opt.innerText === q.o[q.c]) opt.classList.add("correct");
